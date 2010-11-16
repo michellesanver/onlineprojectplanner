@@ -158,7 +158,7 @@ class CI_Loader {
 		}
 	
 		$model = strtolower($model);
-		
+		                   
 		if ( ! file_exists(APPPATH.'models/'.$path.$model.EXT))
 		{
 			show_error('Unable to locate the model you have specified: '.$model);
