@@ -22,7 +22,9 @@ class MY_Loader extends CI_Loader {
     
     /**
      * Library Loader (Widget) 
-     *
+	 *
+	 * NOTE; this function is taken from Codeigniter 1.7.2 (Loader Core Library)
+	 *
      * This function lets users load and instantiate classes.
      * It is designed to be called from a user's app controllers.
      *
