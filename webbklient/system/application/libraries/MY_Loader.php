@@ -17,7 +17,7 @@ class MY_Loader extends CI_Loader {
         
         // create widget basepath
         // (constant WIDGET_NAME is set in extended CI core library Router)
-        $this->_widget_base_path = "../widgets/".WIDGET_NAME."/";
+		if ( defined('WIDGET_NAME') ) $this->_widget_base_path = "../widgets/".WIDGET_NAME."/";
     }
     
     /**
@@ -36,6 +36,8 @@ class MY_Loader extends CI_Loader {
      */
     function library_widget($library = '', $params = NULL, $object_name = NULL) 
     {
+		if ( defined('WIDGET_NAME') == false ) return false;
+	
         if ($library == '')
         {
             return FALSE;
@@ -74,6 +76,8 @@ class MY_Loader extends CI_Loader {
      */    
     function model_widget($model, $name = '', $db_conn = FALSE)
     {
+		if ( defined('WIDGET_NAME') == false ) return false;
+	
         // set new path
         $model = $this->_widget_base_path."models/$model";    
               
@@ -101,6 +105,8 @@ class MY_Loader extends CI_Loader {
      */
     function view_widget($view, $vars = array(), $return = FALSE)
     {
+		if ( defined('WIDGET_NAME') == false ) return false;
+		
         // set new path
         $view = $this->_widget_base_path."views/$view";    
               
