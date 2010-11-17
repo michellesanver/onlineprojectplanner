@@ -18,9 +18,6 @@ class Project
 		// load model for library
 		$this->_CI->load->model('project_model');
 	}
-
-	
-	
 }
 
 ?>
