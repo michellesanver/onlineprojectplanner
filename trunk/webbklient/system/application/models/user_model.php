@@ -116,8 +116,6 @@ class User_model extends Model
     
     
     
-    
-    
 	function select_user($userID)
 	{
 		$res = "";
@@ -136,43 +134,53 @@ class User_model extends Model
 		return $res;
 	}
 	
+	/**
+	* Function: select_all_users
+	* This function will return an array of stdClass-objects
+	* that represents the rows in the database. 
+	* 
+	* @return array(stdClass)
+	*/
 	function select_all_users()
 	{
-		$res = "";
 		$query = $this->db->get($this->tableName);
-		foreach ($query->result() as $row)
-		{
-		    $res .= $row->First_name . "<br />";
-		}
-		return $res;
+		return $query->result();
 	}
 	
+	/**
+	* Function: insert_user
+	* Used to send the validated information to the User_model,
+	* which will insert it as a new row in the database.
+	* Insert parameter can be an array or a object of stdClass.
+	* 
+	* @param mixed $insert
+	* @return bool
+	*/
 	function insert_user($insert)
 	{
-		
 		return $this->db->insert($this->tableName, $insert);
-		
 	}
-	function update_user($userID,$fname, $lname, $email, $password, $username, $street, $postalcode, $hometown)
+	
+	/**
+	* Function: update_user
+	* Used to send the validated information to the User_model,
+	* which will update the row in the database.
+	* Update parameter can be an array or a object of stdClass.
+	* 
+	* @param mixed $insert
+	* @return bool
+	*/
+	function update_user($update)
 	{
-		$data = array(
-			'First_name' => $fname,
-			'Last_name' => $lname,
-			'Email' => $email,	
-			'Password' => md5($password),
-			'User_name' => $username,
-			'Streetadress' => $street,
-			'Postalcode' => $postalcode,
-			'Hometown' => $hometown);
-
-		$this->db->where('UserID', $userID);
-		$res = $this->db->update($this->tableName, $data);
-		if($res == false)
-		{
-			return false;
+		if(is_array($update)){
+			$this->db->where('UserID', $update['UserID']);
+		} else {
+			$this->db->where('UserID', $update->UserID);
 		}
-		return true;
+		return $this->db->update($this->tableName, $update);
 	}
+	
+	
 	function delete_user($userID)
 	{
 		$res = $this->db->delete($this->tableName, array('UserID' => $userID)); 

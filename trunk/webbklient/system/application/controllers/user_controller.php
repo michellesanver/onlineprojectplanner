@@ -10,7 +10,7 @@ class User_controller extends Controller {
 	{
 		parent::Controller();	
 		
-		$this->load->library(array('validation'));
+		$this->load->library(array('validation', 'emailsender'));
 	}
 	
     /**
@@ -121,13 +121,11 @@ class User_controller extends Controller {
        $this->load->view('user/reset_password', $formData); 
     }
     
-    
-	/*
-	* Function Register
+	/**
+	* Function: Register
 	* 
-	* Description: 
-	* Will show the user/register.php view and catch the formvalues 
-	* if the submit button is clicked.
+	* Description: Will show the user/register.php view and
+	* catch the formvalues if the submit button is clicked.
 	*/
 	function Register()
 	{
@@ -171,6 +169,13 @@ class User_controller extends Controller {
 		$data = array();
 		
 		if($status) {
+			//Generates a random activation code
+			$key = "";
+			for($i = 0; $i < 5; $i++) {
+				$key .= rand(1,9);
+			}
+			$key = md5($key);
+			
 			$insert = array(
 				"First_name" => $this->validation->first_name,
 				"Last_name" => $this->validation->last_name,
@@ -179,7 +184,8 @@ class User_controller extends Controller {
 				"Password" => $this->validation->password,
 				"Streetadress" => $this->validation->streetadress,
 				"Postalcode" => $this->validation->postalcode,
-				"Hometown" => $this->validation->hometown
+				"Hometown" => $this->validation->hometown,
+				"Activation_code" => $key
 			);
 			
 			/*
@@ -190,6 +196,9 @@ class User_controller extends Controller {
 					"status" => "ok",
 					"status_message" => "Registration was successful!"
 				);
+				
+				// Sends an activationemail
+				$this->emailsender->SendActivationMail($insert['First_name'], $insert['Email'], $insert['Activation_code']);
 			}
 		}
 		
@@ -210,6 +219,25 @@ class User_controller extends Controller {
 		$this->load->view('user/register', $data);
 	}
 	
+	/**
+	* Function: Activate
+	* This function will catch the third section of the uri
+	* and activate the user who has that activationcode.
+	* Will redirect the klient to the homepage if the uri is'nt
+	* valid.
+	*/
+	function Activate()
+	{
+		if($this->uri->segment(3) != "") {
+			if($this->user->ActivateUser(trim($this->uri->segment(3)))) {
+				$this->load->view('user/activated');
+			} else {
+				$this->load->view('user/notactivated');
+			}
+		} else {
+			redirect("","");
+		}
+	}
 }
 
 /* End of file user_controller.php */
