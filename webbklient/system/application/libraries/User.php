@@ -34,6 +34,40 @@ class User
     }
     
     /**
+		* Function: ActivateUser
+    * This function will activate a user by serching for a codematch
+		* and removes the activationcode for that user in the database. 
+    * 
+    * @param string $code
+    * @return bool
+    */
+		function ActivateUser($code)
+		{
+			// Fetches all the users
+			$users = $this->_CI->User_model->select_all_users();
+			
+			// Looping the users to find a match
+			foreach($users as $user) {
+				if($user->Activation_code == $code) {
+					
+					// Assing the matching user
+					$activateUser = $user;
+				}
+			}
+			
+			if(isset($activateUser)) {
+				
+				// Changes the activationcode to null
+				$activateUser->Activation_code = NULL;
+				if($this->_CI->User_model->update_user($activateUser)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
+    /**
+		* Function: Reset_password
     * This function will search if the user exists, create a confirmation code
     * and then send a confirmation email to the user. The confirmation code is
     * also saved to the database. On error false is returned with a message that
@@ -59,7 +93,7 @@ class User
             $this->_last_error = "User was not found";
             return false;  
         }
-                      
+         
         // fetch UserID and name
         $uid = $result->UserID;
         $name = $result->First_name." ".$result->Last_name;
@@ -217,6 +251,13 @@ class User
     }
     
     
+		/**
+		* This function will diliver the validated registration
+		* information to the user_model.
+		* 
+		* @param array $insert
+		* @return bool
+		*/
 	function Register($insert)
 	{
 		return $this->_CI->User_model->insert_user($insert);
