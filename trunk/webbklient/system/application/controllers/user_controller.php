@@ -1,5 +1,9 @@
 <?php
 
+/*
+* Class User_controller
+*/
+
 class User_controller extends Controller {
 
 	function User_controller()
@@ -9,6 +13,13 @@ class User_controller extends Controller {
 		$this->load->library(array('validation'));
 	}
 	
+	/*
+	* Function Register
+	* 
+	* Description: 
+	* Will show the user/register.php view and catch the formvalues 
+	* if the submit button is clicked.
+	*/
 	function Register()
 	{
 		
@@ -55,13 +66,16 @@ class User_controller extends Controller {
 				"First_name" => $this->validation->first_name,
 				"Last_name" => $this->validation->last_name,
 				"Email" => $this->validation->email,
-				"Username" => $this->validation->username,
+				"User_name" => $this->validation->username,
 				"Password" => $this->validation->password,
 				"Streetadress" => $this->validation->streetadress,
 				"Postalcode" => $this->validation->postalcode,
 				"Hometown" => $this->validation->hometown
 			);
 			
+			/*
+			*If validation is ok => send to library
+			*/
 			if($this->user->Register($insert)) {
 				$data = array(
 					"status" => "ok",
@@ -70,7 +84,7 @@ class User_controller extends Controller {
 			}
 		}
 		
-		if(!$status && isset($_POST['register_btn'])) {
+		if($status == false && isset($_POST['register_btn'])) {
 			$data = array(
 				"first_name" => $this->validation->first_name,
 				"last_name" => $this->validation->last_name,
@@ -90,4 +104,4 @@ class User_controller extends Controller {
 }
 
 /* End of file user_controller.php */
-/* Location: ./system/application/controllers/user.php */
+/* Location: ./system/application/controllers/user_controller.php */

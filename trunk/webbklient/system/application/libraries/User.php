@@ -16,12 +16,12 @@ class User
 		$this->_CI = & get_instance();
 		
 		// load model for library
-		$this->_CI->load->model('user_model');
+		$this->_CI->load->model('User_model');
 	}
 	
 	function Register($insert)
 	{
-		return $this->user_model->insert_user($insert);
+		return $this->_CI->User_model->insert_user($insert);
 	}
 
 }
