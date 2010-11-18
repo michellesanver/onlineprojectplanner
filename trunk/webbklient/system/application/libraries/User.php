@@ -21,7 +21,7 @@ class User
 	
 	function Register($insert)
 	{
-		return true;
+		return $this->user_model->insert_user($insert);
 	}
 
 }

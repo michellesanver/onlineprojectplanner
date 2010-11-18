@@ -9,10 +9,13 @@
 
 class User_model extends Model 
 {
+	
+	private $tableName = "User";
+	
 	function select_user($userID)
 	{
 		$res = "";
-		$query = $this->db->get_where('User', array('UserID' => $userID));
+		$query = $this->db->get_where($this->tableName, array('UserID' => $userID));
 		foreach ($query->result() as $row)
 		{
 		    $res['First_name'] = $row->First_name;
@@ -30,7 +33,7 @@ class User_model extends Model
 	function select_all_users()
 	{
 		$res = "";
-		$query = $this->db->get('User');
+		$query = $this->db->get($this->tableName);
 		foreach ($query->result() as $row)
 		{
 		    $res .= $row->First_name . "<br />";
@@ -38,27 +41,11 @@ class User_model extends Model
 		return $res;
 	}
 	
-	function insert_user($fname, $lname, $email, $password, $username, $street, $postalcode, $hometown)
+	function insert_user($insert)
 	{
-		//md5 lösenordet innan det sparas
-		$new_member_insert_data = array(
-			'First_name' => $fname,
-			'Last_name' => $lname,
-			'Email' => $email,	
-			'Password' => md5($password),
-			'User_name' => $username,
-			'Streetadress' => $street,
-			'Postalcode' => $postalcode,
-			'Hometown' => $hometown);
 		
-		$res = $this->db->insert('User', $new_member_insert_data);
+		return $this->db->insert($this->tableName, $insert);
 		
-		//felhantering om problem att prata med db 
-		if($res == false)
-		{
-			return false;
-		}
-		return true;
 	}
 	function update_user($userID,$fname, $lname, $email, $password, $username, $street, $postalcode, $hometown)
 	{
@@ -73,7 +60,7 @@ class User_model extends Model
 			'Hometown' => $hometown);
 
 		$this->db->where('UserID', $userID);
-		$res = $this->db->update('User', $data);
+		$res = $this->db->update($this->tableName, $data);
 		if($res == false)
 		{
 			return false;
@@ -82,7 +69,7 @@ class User_model extends Model
 	}
 	function delete_user($userID)
 	{
-		$res = $this->db->delete('User', array('UserID' => $userID)); 
+		$res = $this->db->delete($this->tableName, array('UserID' => $userID)); 
 		if($res == false)
 		{
 			return false;
