@@ -136,13 +136,13 @@ class User_controller extends Controller {
 		$rules = array(
 			"first_name" => "trim|required|max_length[100]|alpha|xss_clean",
 			"last_name" => "trim|required|max_length[100]|alpha|xss_clean",
-			"email" => "trim|required|max_length[100]|valid_email",
-			"username" => "trim|required|max_length[100]|xss_clean",
+			"email" => "trim|required|max_length[100]|valid_email|callback_email_check",
+			"username" => "trim|required|max_length[100]|xss_clean|callback_username_check",
 			"password" => "trim|required|max_length[32]|matches[password2]|md5",
 			"password2" => "trim|required|max_length[32]|xss_clean",
-			"streetadress" => "trim|required|max_length[100]|xss_clean",
-			"postalcode" => "trim|required|max_length[5]|integer",
-			"hometown" => "trim|required|max_length[130]|xss_clean"
+			"streetadress" => "trim|max_length[100]|xss_clean",
+			"postalcode" => "trim|max_length[5]|integer",
+			"hometown" => "trim|max_length[130]|xss_clean"
 		);
 		
 		$this->validation->set_rules($rules);
@@ -217,6 +217,40 @@ class User_controller extends Controller {
 		}
 		
 		$this->load->view('user/register', $data);
+	}
+	
+	/**
+	* Function: email_check
+	* This function is part of the register validation. It will stop any
+	* registration with an email that already exist
+	* 
+	*@param string $str
+	*@return bool
+	*/
+	function email_check($str)
+	{
+		if($this->user->checkIfExist("Email", $str) == true) {
+			$this->validation->set_message('email_check', 'That emailadress already exist in our database.');
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	* Function: username_check
+	* This function is part of the register validation. It will stop any
+	* registration with an username that already exist
+	* 
+	*@param string $str
+	*@return bool
+	*/
+	function username_check($str)
+	{
+		if($this->user->checkIfExist("User_name", $str)) {
+			$this->validation->set_message('username_check', 'That username already exist in our database.');
+			return false;
+		}
+		return true;
 	}
 	
 	/**

@@ -48,7 +48,7 @@ class User
 			
 			// Looping the users to find a match
 			foreach($users as $user) {
-				if($user->Activation_code == $code) {
+				if($user['Activation_code'] == $code) {
 					
 					// Assing the matching user
 					$activateUser = $user;
@@ -58,7 +58,7 @@ class User
 			if(isset($activateUser)) {
 				
 				// Changes the activationcode to null
-				$activateUser->Activation_code = NULL;
+				$activateUser['Activation_code'] = NULL;
 				if($this->_CI->User_model->update_user($activateUser)) {
 					return true;
 				}
@@ -250,8 +250,8 @@ class User
         return array($password, $encrypted);
     }
     
-    
 		/**
+		* Function: Register
 		* This function will diliver the validated registration
 		* information to the user_model.
 		* 
@@ -261,6 +261,31 @@ class User
 	function Register($insert)
 	{
 		return $this->_CI->User_model->insert_user($insert);
+	}
+	
+		/**
+		* Function: checkIfExist
+		* This function is used in the formvalidation. Searches the 
+		* database for a match and returns the answer as an bool.
+		* 
+		* @param string $column
+		* @param string $value
+		* @return bool
+		*/
+	function checkIfExist($column, $value)
+	{
+		// Fetches all the users
+		$users = $this->_CI->User_model->select_all_users();
+		
+		// Looping the users to find a match
+		foreach($users as $user) {
+		
+			// Search for match
+			if($user[$column] == $value) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

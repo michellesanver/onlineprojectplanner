@@ -136,15 +136,33 @@ class User_model extends Model
 	
 	/**
 	* Function: select_all_users
-	* This function will return an array of stdClass-objects
+	* This function will return an array of arrays
 	* that represents the rows in the database. 
 	* 
-	* @return array(stdClass)
+	* @return array
 	*/
 	function select_all_users()
 	{
 		$query = $this->db->get($this->tableName);
-		return $query->result();
+		$ret = array();
+		
+		// Fetches the data from the rows
+		foreach($query->result() as $row) {
+			$ret[] = array(
+			"UserID" => $row->UserID,
+			"First_name" => $row->First_name,
+			"Last_name" => $row->Last_name,
+			"Email" => $row->Email,
+			"Password" => $row->Password,
+			"User_name" => $row->User_name,
+			"Reset_code" => $row->Reset_code,
+			"Streetadress" => $row->Streetadress,
+			"Postalcode" => $row->Postalcode,
+			"Hometown" => $row->Hometown,
+			"Activation_code" => $row->Activation_code
+			);
+		}
+		return $ret;
 	}
 	
 	/**
@@ -165,18 +183,13 @@ class User_model extends Model
 	* Function: update_user
 	* Used to send the validated information to the User_model,
 	* which will update the row in the database.
-	* Update parameter can be an array or a object of stdClass.
 	* 
-	* @param mixed $insert
+	* @param array $insert
 	* @return bool
 	*/
 	function update_user($update)
 	{
-		if(is_array($update)){
-			$this->db->where('UserID', $update['UserID']);
-		} else {
-			$this->db->where('UserID', $update->UserID);
-		}
+		$this->db->where('UserID', $update['UserID']);
 		return $this->db->update($this->tableName, $update);
 	}
 	
