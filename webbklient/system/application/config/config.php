@@ -81,20 +81,22 @@ if ( function_exists('get_site_base_url')==false )
 	// ------------------------ ------------------------ ------------------------ 
 	function get_site_base_url($index_page='')
 	{
-		// hämta värden
+        global $config;
+        
+		// h?mta v?rden
 		$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']!="") ? 'https://' : 'http://';
 		$server_name = $_SERVER['SERVER_NAME'];
 		$port = ($_SERVER['SERVER_PORT']!=80) ? ':'.$_SERVER['SERVER_PORT'] : '';
 		$uri = $_SERVER['REQUEST_URI'];
-		
+        
 		// klippa bort index? (eller vad den heter)
-		$index_pos = strpos($uri,$index_page);
+		$index_pos = stripos($uri, $index_page);     
 		if ( $index_pos != false )
 			$uri = substr($uri, 0, $index_pos);
 		
 		// bygg ihop resultatet
 		$return_url = $protocol.$server_name.$port.$uri;
-		
+
 		// retunera url
 		return $return_url;
 	}
@@ -345,7 +347,7 @@ $config['cookie_path']		= "/";
 | COOKIE data is encountered
 |
 */
-$config['global_xss_filtering'] = TRUE;
+$config['global_xss_filtering'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------

@@ -12,6 +12,112 @@ class User_model extends Model
 	
 	private $tableName = "User";
 	
+    /**
+    * Query if the user exists by email or username.
+    * Returns false or the row from the database.
+    * 
+    * @param string $email
+    * @param string $username
+    * @return mixed
+    */
+    function query_user($email, $username)
+    {
+        // run query
+        $this->db->where('User_name', $username);     
+        $this->db->or_where('Email', $email);     
+        $this->db->limit(1);
+        $query = $this->db->get($this->tableName);
+       
+        // any result?
+        if ($query->num_rows() > 0)
+            // return row
+            return $query->row(0);
+        else
+            // user not found
+            return false; 
+    }
+    
+    /**
+    * Save confirmation code for a user to
+    * reset password
+    * 
+    * @param int $uid
+    * @param string $code
+    * @return bool
+    */
+    function save_confirmation_code($uid, $code)
+    {
+        $data = array(
+            'Reset_code' => $code
+        );
+        
+        $this->db->where('UserID', $uid);    
+        
+        $res = $this->db->update($this->tableName, $data);
+        
+        if ( $res == false )
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+    * Checks if confirmation code is correct for user. Returns
+    * false or if correct, the row for the user.
+    * 
+    * @param int $uid
+    * @param int $code
+    * @return mixed
+    */
+    function check_confirmation_code($uid, $code)
+    {
+        // run query
+        $this->db->where('UserID', $uid);     
+        $this->db->where('Reset_code', $code);     
+        $this->db->limit(1);
+        $query = $this->db->get($this->tableName);
+       
+        // any result?
+        if ($query->num_rows() > 0)
+            // return row
+            return $query->row(0);
+        else
+            // user not found
+            return false; 
+    }
+    
+    /**
+    * Update a password for a user. Will return true or false.
+    * 
+    * @param int $uid
+    * @param string $password
+    * @param bool $clear_reset_code (optional, default false)
+    * @return bool
+    */
+    function update_password($uid, $password, $clear_reset_code=false)
+    {
+        $data = array(
+            'Password' => $password
+        );
+        
+        if ($clear_reset_code) $data['Reset_code'] = 'NULL';
+        
+        $this->db->where('UserID', $uid);    
+        
+        $res = $this->db->update($this->tableName, $data);
+        
+        if ( $res == false )
+        {
+            return false;
+        }
+        return true; 
+    }
+    
+    
+    
+    
+    
 	function select_user($userID)
 	{
 		$res = "";

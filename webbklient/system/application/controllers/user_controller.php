@@ -13,6 +13,115 @@ class User_controller extends Controller {
 		$this->load->library(array('validation'));
 	}
 	
+    /**
+    * Function: Reset password
+    *
+    * Description: Will begin the process to reset password.
+    * An email will be sent with a confirmation-code first.
+    * 
+    * If $UserID and $code is sent then confirm code and
+    * create a new password.
+    * 
+    * @param int $UserID
+    * @param int $code
+    */
+    function Reset_password($UserID='', $code='')
+    {
+        // show form or reset password?
+        if ( empty($UserID) && empty($code) )
+        {
+            // ---------------------
+            // show form
+        
+            $formData = array(); 
+            
+            /*
+            * Rules for the inputfields
+            */
+            $rules = array(
+                "email" => "trim|max_length[100]|valid_email",
+                "username" => "trim|max_length[100]|xss_clean"
+            );   
+           $this->validation->set_rules($rules);  
+           
+           // do validation
+           $status = $this->validation->run(); 
+            
+            // is validation ok?
+           if ($status)
+           { 
+                //  is username or email set?
+                if ( empty($this->validation->email) && empty($this->validation->username) )
+                {
+                    // no, show error
+                    $formData = array(
+                                    "status" => "error",
+                                    "status_message" => "Please enter email or username"
+                    );
+                }
+                else
+                {
+                    // fetch post data
+                    $email = (isset($this->validation->email) ? $this->validation->email : "");
+                    $username = (isset($this->validation->username) ? $this->validation->username : "");
+                    
+                    // begin reset process in user library    
+                    if( $this->user->Reset_password($email, $username) )
+                    {
+                    
+                        // all ok!    
+                        $formData = array(
+                            "status" => "ok",
+                            "status_message" => "Information has been sent to your email to reset password"
+                         );
+                            
+                    }
+                    else
+                    {
+                        // something went wrong...    
+                        $formData = array(
+                            "status" => "error",
+                            "status_message" => $this->user->GetLastError()
+                         );
+                    }
+                    
+                }
+           }
+        }
+        else
+        {
+            // ---------------------
+            // reset password
+            
+            
+            // reset process in user library    
+            $new_password = $this->user->Confirm_reset_password($UserID, $code);
+            if( $new_password != false )
+            {
+            
+                // all ok!    
+                $formData = array(
+                    "status" => "ok",
+                    "status_message" => "Password reset successful! New password: ".$new_password
+                 );
+                    
+            }
+            else
+            {
+                // something went wrong...    
+                $formData = array(
+                    "status" => "error",
+                    "status_message" => $this->user->GetLastError()
+                 );
+            }
+            
+        }
+       
+       // show view
+       $this->load->view('user/reset_password', $formData); 
+    }
+    
+    
 	/*
 	* Function Register
 	* 
