@@ -30,7 +30,7 @@ CREATE TABLE `User` (
   `First_name` varchar(100) NOT NULL,
   `Last_name` varchar(100) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `Password` varchar(30) NOT NULL,
+  `Password` varchar(32) NOT NULL,
   `User_name` varchar(100) NOT NULL,
   `Reset_code` varchar(8) NULL,
   `Streetadress` varchar(100) NOT NULL,
