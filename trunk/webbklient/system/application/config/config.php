@@ -1,17 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/*
-|--------------------------------------------------------------------------
-| Base Site URL
-|--------------------------------------------------------------------------
-|
-| URL to your CodeIgniter root. Typically this will be your base URL,
-| WITH a trailing slash:
-|
-|	http://example.com/
-|
-*/
-$config['base_url']	= "http://localhost:8888/";
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +11,101 @@ $config['base_url']	= "http://localhost:8888/";
 | variable so that it is blank.
 |
 */
-$config['index_page'] = "index.php";
+$config['index_page'] = "index.php"; // UTAN url rewrite
+//$config['index_page'] = ""; // MED url rewrite
+
+/*
+|--------------------------------------------------------------------------
+| INSTALL PATH
+|--------------------------------------------------------------------------
+|
+| Set the correct path to where the application is installed on the webserver.
+| Base URL will be calculated from this - to be used __WITH__ url rewrite.
+*/
+$config['webserver_path'] = "";
+
+/*
+|--------------------------------------------------------------------------
+| Base Site URL
+|--------------------------------------------------------------------------
+|
+| URL to your CodeIgniter root. Typically this will be your base URL,
+| WITH a trailing slash:
+|
+|	http://example.com/
+|
+*/
+/*if ( function_exists('get_site_base_url')==false )
+{
+	// ------------------------ ------------------------ ------------------------	
+	// MED url rewrite
+	// ------------------------ ------------------------ ------------------------	
+	function get_site_base_url()
+	{	
+		global $config;
+
+		// h?mta v?rden
+		$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']!="") ? 'https://' : 'http://';
+		$server_name = $_SERVER['SERVER_NAME'];
+		$port = ($_SERVER['SERVER_PORT']!=80) ? ':'.$_SERVER['SERVER_PORT'] : '';
+		$uri = $_SERVER['REQUEST_URI'];
+	
+		if ( $config['webserver_path'] != "")
+		{
+                 
+            // klippa bort index? (eller vad den heter)
+            $index_pos = strpos($uri,$config['webserver_path']);
+            if ( $index_pos != false && $index_pos > 0)
+                $uri = substr($uri, 0, $index_pos+strlen($config['webserver_path']));
+            else if ( $index_pos == 0 )
+                $uri = '';              
+                
+		}
+		else
+			$uri = "";
+		
+		// bygg ihop resultatet
+		$return_url = $protocol.$server_name.$port.$uri;
+	
+		// retunera url
+		return $return_url;
+	}
+}
+
+$config['base_url']	= get_site_base_url();*/
+
+if ( function_exists('get_site_base_url')==false )
+{
+	// ------------------------ ------------------------ ------------------------
+    // UTAN url rewrite
+	// ------------------------ ------------------------ ------------------------ 
+	function get_site_base_url($index_page='')
+	{
+		// hämta värden
+		$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']!="") ? 'https://' : 'http://';
+		$server_name = $_SERVER['SERVER_NAME'];
+		$port = ($_SERVER['SERVER_PORT']!=80) ? ':'.$_SERVER['SERVER_PORT'] : '';
+		$uri = $_SERVER['REQUEST_URI'];
+		
+		// klippa bort index? (eller vad den heter)
+		$index_pos = strpos($uri,$index_page);
+		if ( $index_pos != false )
+			$uri = substr($uri, 0, $index_pos);
+		
+		// bygg ihop resultatet
+		$return_url = $protocol.$server_name.$port.$uri;
+		
+		// retunera url
+		return $return_url;
+	}
+}
+
+$config['base_url']	= get_site_base_url($config['index_page']);
+
+
+
+// ------------------------------------------------------------------------------------------
+
 
 /*
 |--------------------------------------------------------------------------
