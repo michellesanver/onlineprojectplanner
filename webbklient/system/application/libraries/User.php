@@ -18,6 +18,11 @@ class User
 		// load model for library
 		$this->_CI->load->model('user_model');
 	}
+	
+	function Register($insert)
+	{
+		return true;
+	}
 
 }
 
