@@ -52,17 +52,17 @@ class User_controller extends Controller {
 		
 		if($status) {
 			$insert = array(
-				"first_name" => $this->validation->first_name,
-				"last_name" => $this->validation->last_name,
-				"email" => $this->validation->email,
-				"username" => $this->validation->username,
-				"password" => $this->validation->password,
-				"streetadress" => $this->validation->streetadress,
-				"postalcode" => $this->validation->postalcode,
-				"hometown" => $this->validation->hometown
+				"First_name" => $this->validation->first_name,
+				"Last_name" => $this->validation->last_name,
+				"Email" => $this->validation->email,
+				"Username" => $this->validation->username,
+				"Password" => $this->validation->password,
+				"Streetadress" => $this->validation->streetadress,
+				"Postalcode" => $this->validation->postalcode,
+				"Hometown" => $this->validation->hometown
 			);
 			
-			if($this->User->Register($insert)) {
+			if($this->user->Register($insert)) {
 				$data = array(
 					"status" => "ok",
 					"status_message" => "Registration was successful!"
