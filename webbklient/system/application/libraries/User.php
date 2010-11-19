@@ -18,7 +18,7 @@ class User
 		$this->_CI = & get_instance();
 		
 		// load model for library
-		$this->_CI->load->model('User_model');
+		$this->_CI->load->model(array('User_model', 'Activation_model'));
 	}
 	
     /**
@@ -43,23 +43,12 @@ class User
     */
 		function ActivateUser($code)
 		{
-			// Fetches all the users
-			$users = $this->_CI->User_model->select_all_users();
+			// Fetches the activation row
+			$activ = $this->_CI->Activation_model->getWithCode($code);
 			
-			// Looping the users to find a match
-			foreach($users as $user) {
-				if($user['Activation_code'] == $code) {
-					
-					// Assing the matching user
-					$activateUser = $user;
-				}
-			}
-			
-			if(isset($activateUser)) {
-				
-				// Changes the activationcode to null
-				$activateUser['Activation_code'] = NULL;
-				if($this->_CI->User_model->update_user($activateUser)) {
+			if(isset($activ) && $activ != null) {
+				// Remove the activation row
+				if($this->_CI->Activation_model->delete($activ['ActivationID'])) {
 					return true;
 				}
 			}
@@ -256,11 +245,24 @@ class User
 		* information to the user_model.
 		* 
 		* @param array $insert
+		* @param string $key
 		* @return bool
 		*/
-	function Register($insert)
+	function Register($insert, $key)
 	{
-		return $this->_CI->User_model->insert_user($insert);
+		$userID = $this->_CI->User_model->insert_user($insert);
+		if($userID > 0) {
+		
+			$insert = array(
+				"ActivationID" => $userID,
+				"Code" => $key,
+				"Timestamp" => time()
+			);
+			if($this->_CI->Activation_model->insert($insert) > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 		/**
