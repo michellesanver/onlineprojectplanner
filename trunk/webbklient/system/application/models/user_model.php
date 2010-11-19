@@ -158,8 +158,7 @@ class User_model extends Model
 			"Reset_code" => $row->Reset_code,
 			"Streetadress" => $row->Streetadress,
 			"Postalcode" => $row->Postalcode,
-			"Hometown" => $row->Hometown,
-			"Activation_code" => $row->Activation_code
+			"Hometown" => $row->Hometown
 			);
 		}
 		return $ret;

@@ -24,11 +24,11 @@ class Activation_model extends Model
 	function getWithCode($code)
 	{
 		$query = $this->db->get_where($this->tableName, array('Code' => $code));
-		foreach ($query->result() as $row)
-		{
-			$ret = $this->toArray($row);
-		}
-		return (count($ret) == 1) ? $ret : false;
+		$res = $query->result();
+		if(count($res) == 1)
+			return $this->toArray($res[0]);
+		else
+			return null;
 	}
 	
 	/**
@@ -88,6 +88,7 @@ class Activation_model extends Model
 	*/
 	function delete($ActivationID)
 	{
+	var_dump($ActivationID);
 		return $this->db->delete($this->tableName, array('ActivationID' => $ActivationID)); 
 	}
 	
@@ -101,8 +102,7 @@ class Activation_model extends Model
 	*/
 	private function toArray($row) {
 			return array(
-			"ActivationID" => $row->UserID,
-			"UserID" => $row->UserID,
+			"ActivationID" => $row->ActivationID,
 			"Code" => $row->Code,
 			"Timestamp" => $row->Timestamp
 			);

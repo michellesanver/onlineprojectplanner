@@ -169,13 +169,6 @@ class User_controller extends Controller {
 		$data = array();
 		
 		if($status) {
-			//Generates a random activation code
-			$key = "";
-			for($i = 0; $i < 5; $i++) {
-				$key .= rand(1,9);
-			}
-			$key = md5($key);
-			
 			$insert = array(
 				"First_name" => $this->validation->first_name,
 				"Last_name" => $this->validation->last_name,
@@ -184,21 +177,27 @@ class User_controller extends Controller {
 				"Password" => $this->validation->password,
 				"Streetadress" => $this->validation->streetadress,
 				"Postalcode" => $this->validation->postalcode,
-				"Hometown" => $this->validation->hometown,
-				"Activation_code" => $key
+				"Hometown" => $this->validation->hometown
 			);
+			
+			//Generates a random activation code
+			$key = "";
+			for($i = 0; $i < 5; $i++) {
+				$key .= rand(1,9);
+			}
+			$key = md5($key);
 			
 			/*
 			*If validation is ok => send to library
 			*/
-			if($this->user->Register($insert)) {
+			if($this->user->Register($insert, $key)) {
 				$data = array(
 					"status" => "ok",
 					"status_message" => "Registration was successful!"
 				);
 				
 				// Sends an activationemail
-				$this->emailsender->SendActivationMail($insert['First_name'], $insert['Email'], $insert['Activation_code']);
+				$this->emailsender->SendActivationMail($insert['First_name'], $insert['Email'], $key);
 			}
 		}
 		
