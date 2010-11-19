@@ -30,6 +30,5 @@ CREATE TABLE IF NOT EXISTS `user` (
   `Streetadress` varchar(100) NOT NULL DEFAULT '',
   `Postalcode` int(5) NOT NULL DEFAULT '0',
   `Hometown` varchar(130) NOT NULL DEFAULT '',
-  `Activation_code` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`UserID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
