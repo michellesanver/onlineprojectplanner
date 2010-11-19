@@ -176,7 +176,8 @@ class User_model extends Model
 	*/
 	function insert_user($insert)
 	{
-		return $this->db->insert($this->tableName, $insert);
+		$this->db->insert($this->tableName, $insert);
+		return $this->db->insert_id();
 	}
 	
 	/**
