@@ -106,7 +106,6 @@ class Activation_model extends Model
 			"Code" => $row->Code,
 			"Timestamp" => $row->Timestamp
 			);
-		
 	}
 	
 }
