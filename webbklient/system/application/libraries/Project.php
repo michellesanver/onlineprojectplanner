@@ -8,16 +8,101 @@
 */
 class Project
 { 
-	private $_CI = null;
+    private $_CI = null;
+    private $_last_error = "";
 
-	function __construct()
-	{
-		// get CI instance
-		$this->_CI = & get_instance();
-		
-		// load model for library
-		$this->_CI->load->model('project_model');
-	}
+    function __construct()
+    {
+        // get CI instance
+
+        $this->_CI = & get_instance();
+
+        // load model for library
+
+        $this->_CI->load->model('Project_model');
+    }
+
+    /**
+    * This function will return the last error
+    * this class has set.
+    */
+
+    function GetLastError()
+    {
+        // save error, clear message and return
+
+        $returnStr = $this->_last_error;
+        $this->_last_error = "";
+        return $returnStr;
+    }
+
+    /**
+    * Function: Register
+    * This function will diliver the validated registration
+    * information to the project_model.
+    *
+    * @param array $insert
+    * @param string $key
+    * @return bool
+    */
+
+    function Register($insert)
+    {
+        $projectID = $this->_CI->Project_model->Insert_project($insert);
+
+        if($projectID > 0) {
+
+            // Insert creator of project (the logged in user) as Admin in ProjectMember table
+            // If false, remove created project (all projects need an Admin?)
+
+            /*$insert = array(
+                            "X" => $x,
+                            "X" => $x
+                    );
+
+            if($this->_CI->ProjectMember_model->insert($insert) > 0) {
+
+                return true;
+
+            }*/
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+    * Function: CheckIfExist
+    * This function is used in the formvalidation. Searches the
+    * database for a match and returns the answer as an bool.
+    *
+    * @param string $column
+    * @param string $value
+    * @return bool
+    */
+
+    function CheckIfExist($column, $value)
+    {
+        // Fetches all the projects
+
+        $projects = $this->_CI->Project_model->Select_all_projects();
+
+        // Looping the projects to find a match
+
+        foreach($projects as $project) {
+
+            // Search for match
+
+            if($project[$column] == $value) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
 
 ?>
