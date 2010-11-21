@@ -23,7 +23,7 @@ class Widgets
         
         if ($dh = opendir($dir)) {
             while (($file = readdir($dh)) !== false) {
-                if ($file != '.' &&  $file != ".." && is_dir("$dir/$file"))    
+                if ($file != '.' &&  $file != ".." && $file != ".svn" && is_dir("$dir/$file"))    
                 {
                     
                     $w = new stdClass();

@@ -40,6 +40,7 @@
   <title>Widget test</title>
   <link href="css/style.css" rel="Stylesheet" type="text/css"/>
   <script type="test/javascript" src="js/jquery-1.4.4.min.js"></script>
+  <script type="test/javascript" src="js/window/jquery.window.js"></script>
   <?php $widgets->printWidgetJavascripts(); ?>
   <?php $widgets->printWidgetStylesheets(); ?>
 </head>
