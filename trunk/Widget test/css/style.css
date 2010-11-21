@@ -1,0 +1,12 @@
+
+body {
+	background: url('icy_mist.jpg') no-repeat;
+}
+
+.icon {
+    margin: 10px;
+}
+
+.icon a img {
+    border: 0;
+}
