@@ -1,0 +1,6 @@
+
+function openBrowser()
+{
+    alert('hey');    
+}
+
