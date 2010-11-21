@@ -129,7 +129,6 @@ class User_controller extends Controller {
 	*/
 	function Register()
 	{
-		
 		/*
 		* Rules for the inputfields
 		*/
@@ -270,6 +269,60 @@ class User_controller extends Controller {
 		} else {
 			redirect("","");
 		}
+	}
+	
+	function RecommendNewUser()
+	{
+		//TODO: Check if user is authorized
+		
+		/*
+		* Rules for the inputfields
+		*/
+		$rules = array(
+			"recEmail" => "trim|required|valid_email"
+		);
+		$this->validation->set_rules($rules);
+		
+		/*
+		* Human names for the inputfields
+		*/
+		$field = array(
+			"recEmail" => "Email"
+		);
+		$this->validation->set_fields($field);
+		
+		$status = $this->validation->run();
+		
+		$data = array();
+		
+		if($status) {
+			$insert = array(
+				"recEmail" => $this->validation->recEmail
+			);
+			
+			// TODO: Catch userinformation who sends the recomendation
+			$firstName = "Not";
+			$lastName = "Implemented";
+			$name = $firstName . " " . $lastName;
+			
+			// Sends an activationemail
+			if($this->emailsender->SendRecommendationMail($name, $insert['recEmail'])) {
+				$data = array(
+					"status" => "ok",
+					"status_message" => "The recommendation was sent!"
+				);
+			}
+		}
+		
+		if($status == false && isset($_POST['recSubmit'])) {
+			$data = array(
+				"recEmail" => $this->validation->recEmail,
+				"status" => "error",
+				"status_message" => "Failed to send!"
+			);
+		}
+		
+		$this->load->view('user/recommend', $data);
 	}
 }
 
