@@ -60,6 +60,13 @@ class Project_controller extends Controller {
                         "status_message" => "Registration was successful!"
                 );
             }
+            else {
+
+                $data = array(
+                        "status" => "error",
+                        "status_message" => "Registration failed!"
+                );
+            }
         }
 
         if($status == false && isset($_POST['register_btn'])) {
