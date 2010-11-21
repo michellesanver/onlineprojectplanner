@@ -43,6 +43,30 @@ class Project_model extends Model
     }
 
     /**
+    * Function: Select_project
+    * This function will return an array
+    * that represents the selected row in the database.
+    *
+    * @return array
+    */
+
+    function Select_project($projectID)
+    {
+        $res = "";
+        $query = $this->db->get_where($this->_table, array('ProjectID' => $projectID));
+
+        foreach ($query->result() as $row)
+        {
+            $res['ProjectID'] = $row->ProjectID;
+            $res['Title'] = $row->Title;
+            $res['Description'] = $row->Description;
+            $res['Created'] = $row->Created;
+        }
+
+        return $res;
+    }
+
+    /**
     * Function: Select_all_projects
     * This function will return an array of arrays
     * that represents the rows in the database.
@@ -84,6 +108,21 @@ class Project_model extends Model
     {
         $this->db->insert($this->_table, $insert);
         return $this->db->insert_id();
+    }
+
+    /**
+    * Function: Update_project
+    * Used to send the validated information to the Project_model,
+    * which will update the row in the database.
+    *
+    * @param array $insert
+    * @return bool
+    */
+
+    function Update_project($update)
+    {
+        $this->db->where('ProjectID', $update['ProjectID']);
+        return $this->db->update($this->_table, $update);
     }
 
 }
