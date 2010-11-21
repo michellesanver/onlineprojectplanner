@@ -37,12 +37,32 @@ class Project
     }
 
     /**
+    * Function: Select
+    * This function will diliver the old registrated
+    * information to from the project_model.
+    *
+    * @param array $id
+    * @return bool
+    */
+
+    function Select($id)
+    {
+        $projectID = $this->_CI->Project_model->Select_project($id);
+
+        if($projectID > 0) {
+
+            return $projectID;
+        }
+
+        return false;
+    }
+
+    /**
     * Function: Register
     * This function will diliver the validated registration
     * information to the project_model.
     *
     * @param array $insert
-    * @param string $key
     * @return bool
     */
 
@@ -65,6 +85,27 @@ class Project
                 return true;
 
             }*/
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+    * Function: Update
+    * This function will diliver the validated update
+    * information to the project_model.
+    *
+    * @param array $update
+    * @return bool
+    */
+
+    function Update($update)
+    {
+        $projectID = $this->_CI->Project_model->Update_project($update);
+
+        if($projectID > 0) {
 
             return true;
         }

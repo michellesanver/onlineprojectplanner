@@ -76,6 +76,84 @@ class Project_controller extends Controller {
 
     }
 
+    function Update($projectID = NULL)
+    {
+
+        // Get saved data
+
+        $savedData = $this->project->Select($projectID);
+
+        // If saved data exists
+
+        if($savedData) {
+
+            // Rules for the inputfields
+
+            $rules = array (
+                "projectID" => "required|integer",
+                "description" => "required|max_length[300]|xss_clean"
+            );
+
+            $this->validation->set_rules($rules);
+
+            // Human names for the inputfields
+
+            $field = array(
+                "projectID" => "ProjectID",
+                "description" => "Description"
+            );
+
+            $this->validation->set_fields($field);
+
+            $status = $this->validation->run();
+
+            $data = array();
+
+            if($status) {
+
+                $update = array(
+                        "ProjectID" => $this->validation->projectID,
+                        "Description" => $this->validation->description
+                );
+
+                // If validation is ok => send to library
+
+                if($this->project->Update($update)) {
+
+                    $data = array(
+                            "projectID" => $this->validation->projectID,
+                            "title" => $savedData['Title'],
+                            "description" => $this->validation->description,
+                            "status" => "ok",
+                            "status_message" => "Update was successful!"
+                    );
+                }
+            }
+            else if($status == false && isset($_POST['update_btn'])) {
+
+                $data = array(
+                    "projectID" => $this->validation->projectID,
+                    "title" => $savedData['Title'],
+                    "description" => $this->validation->description,
+                    "status" => "error",
+                    "status_message" => "Update failed!"
+                );
+            }
+            else {
+
+                $data = array(
+                    "projectID" => $savedData['ProjectID'],
+                    "title" => $savedData['Title'],
+                    "description" => $savedData['Description'],
+                );
+            }
+
+        }
+
+        $this->load->view('project/update', $data);
+
+    }
+
     /**
     * Function: title_check
     * This function is part of the register validation. It will stop any
