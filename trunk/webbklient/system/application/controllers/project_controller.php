@@ -92,6 +92,13 @@ class Project_controller extends Controller {
 
     }
 
+    /**
+    * Function: Update
+    *
+    * Description: Will show the project/update.php view and
+    * catch the formvalues if the submit button is clicked.
+    */
+
     function Update($projectID = NULL)
     {
 
