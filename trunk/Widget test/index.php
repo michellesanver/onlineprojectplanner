@@ -36,11 +36,16 @@
 
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <title>Widget test</title>
-  <link href="css/style.css" rel="Stylesheet" type="text/css"/>
-  <script type="test/javascript" src="js/jquery-1.4.4.min.js"></script>
-  <script type="test/javascript" src="js/window/jquery.window.js"></script>
+  <link href="css/style.css" rel="Stylesheet" type="text/css" />
+  
+  <link href="js/window/css/jquery.window.css" rel="Stylesheet" type="text/css" />  
+  
+  <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.8.6.custom.min.js"></script>
+  <script type="text/javascript" src="js/window/jquery.window.js"></script>
+  
   <?php $widgets->printWidgetJavascripts(); ?>
   <?php $widgets->printWidgetStylesheets(); ?>
 </head>
