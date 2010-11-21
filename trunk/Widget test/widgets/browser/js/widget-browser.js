@@ -1,6 +1,12 @@
 
 function openBrowser()
 {
-    alert('hey');    
+   
+    $.window({
+       title: "Simple browser",
+       url: "widgets/browser/controllers/main.php"
+    });    
+   
+       
 }
 
