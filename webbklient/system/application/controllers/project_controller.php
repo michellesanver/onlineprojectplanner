@@ -44,7 +44,11 @@ class Project_controller extends Controller {
 
         $data = array();
 
+        // If have status
+
         if($status) {
+
+            // Set inserts
 
             $insert = array(
                     "Title" => $this->validation->title,
@@ -60,6 +64,9 @@ class Project_controller extends Controller {
                         "status_message" => "Registration was successful!"
                 );
             }
+
+            // Else, if something went wrong
+
             else {
 
                 $data = array(
@@ -68,6 +75,8 @@ class Project_controller extends Controller {
                 );
             }
         }
+
+        // If no status but post
 
         if($status == false && isset($_POST['register_btn'])) {
 
@@ -116,7 +125,11 @@ class Project_controller extends Controller {
 
             $data = array();
 
+            // If have status
+
             if($status) {
+
+                // Set updates
 
                 $update = array(
                         "ProjectID" => $this->validation->projectID,
@@ -135,7 +148,24 @@ class Project_controller extends Controller {
                             "status_message" => "Update was successful!"
                     );
                 }
+
+                // Else, if something went wrong
+
+                else {
+
+                    $data = array(
+                            "projectID" => $this->validation->projectID,
+                            "title" => $savedData['Title'],
+                            "description" => $this->validation->description,
+                            "status" => "error",
+                            "status_message" => "Update failed!"
+                    );
+                }
+
             }
+
+            // If no status but post
+
             else if($status == false && isset($_POST['update_btn'])) {
 
                 $data = array(
@@ -146,6 +176,9 @@ class Project_controller extends Controller {
                     "status_message" => "Update failed!"
                 );
             }
+
+            // Else, present saved data
+
             else {
 
                 $data = array(
