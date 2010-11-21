@@ -51,6 +51,25 @@ class Emailsender
 
 		return $this->_CI->email->send();
 	}
+	
+	/**
+	* Function: SendRecommendationMail
+	* This function will send a recommendation mail
+	* 
+	* @param string $senderName
+	* @param string $email
+	* @return bool
+	*/
+	function SendRecommendationMail($senderName, $email)
+	{
+		$this->_CI->email->from('info@example.com', 'Superwiki');
+		$this->_CI->email->to($email); 
+
+		$this->_CI->email->subject('Recommendation email from '. $senderName);
+		$this->_CI->email->message("Hello<br />Your friend " . $senderName . " would like you to join this awesome applikation \"Superwiki\".<br /> You can find more information here, <a href='" . site_url() . "'>" . site_url() . "</a>");
+
+		return $this->_CI->email->send();
+	}
 }
 
 ?>
