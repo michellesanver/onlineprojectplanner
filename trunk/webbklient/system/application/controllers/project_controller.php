@@ -102,6 +102,8 @@ class Project_controller extends Controller {
     function Update($projectID = NULL)
     {
 
+        $data = array();
+
         // Get saved data
 
         $savedData = $this->project->Select($projectID);
@@ -129,8 +131,6 @@ class Project_controller extends Controller {
             $this->validation->set_fields($field);
 
             $status = $this->validation->run();
-
-            $data = array();
 
             // If have status
 
