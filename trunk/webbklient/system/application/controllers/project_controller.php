@@ -88,7 +88,7 @@ class Project_controller extends Controller {
             );
         }
 
-        $this->load->view('project/register', $data);
+        $this->theme->view('project/register', $data);
 
     }
 
@@ -197,7 +197,7 @@ class Project_controller extends Controller {
 
         }
 
-        $this->load->view('project/update', $data);
+        $this->theme->view('project/update', $data);
 
     }
 
