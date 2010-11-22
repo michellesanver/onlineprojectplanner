@@ -70,6 +70,92 @@ class Emailsender
 
 		return $this->_CI->email->send();
 	}
+    
+    
+    
+    /**
+    * This will send the reset password email
+    * with the initial confirmation code.
+    * 
+    * @param string $name
+    * @param string $email
+    * @param int $code
+    * $param int $uid
+    * @return bool
+    */
+    function SendResetPasswordMail($name, $email, $code, $uid)
+    {
+        
+        // prepare email to send
+        $system_email = $this->_CI->config->item('system_email', 'webclient');
+        $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
+        $email_template = $this->_CI->config->item('reset_password_template', 'webclient');
+        $confirm_url = $this->_CI->config->item('confirm_reset_url', 'webclient');
+        $subject = $this->_CI->config->item('reset_password_template_subject', 'webclient');
+        
+        $confirm_url = sprintf(site_url().$confirm_url, $uid, $code);
+        $email_template = sprintf($email_template, $name, $confirm_url, $system_email_name);
+
+        // user CI library email
+        $this->_CI->load->library('email');
+        
+        $this->_CI->email->from($system_email, $system_email_name);
+        $this->_CI->email->to($email); 
+        $this->_CI->email->subject($subject);
+        $this->_CI->email->message($email_template); 
+        
+        // send
+        if ( $this->_CI->email->send() == false )
+        {
+            // failed to send..
+            return false;
+        }     
+        
+        
+        // all ok
+        return true;
+    }
+    
+    
+    /**
+    * This function will send an email with the newly
+    * generated password.
+    * 
+    * @param string $name
+    * @param string $email
+    * @param string $new_password
+    * @return bool
+    */
+    function SendNewPasswordEmail($name, $email, $new_password)
+    {
+        
+        // email new password to user
+        $system_email = $this->_CI->config->item('system_email', 'webclient');
+        $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
+        $email_template = $this->_CI->config->item('new_password_template', 'webclient');
+        $subject = $this->_CI->config->item('new_password_template_subject', 'webclient');
+        
+        $email_template = sprintf($email_template, $name, $new_password, $system_email_name);
+
+        // user CI library email
+        $this->_CI->load->library('email');
+        
+        $this->_CI->email->from($system_email, $system_email_name);
+        $this->_CI->email->to($email); 
+        $this->_CI->email->subject($subject);
+        $this->_CI->email->message($email_template); 
+        
+        // send
+        if ( $this->_CI->email->send() == false )
+        {
+            // failed to send..
+            return false;
+        }  
+        
+        // all ok
+        return true;
+    }
+    
 }
 
 ?>

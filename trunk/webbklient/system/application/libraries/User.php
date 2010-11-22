@@ -99,31 +99,13 @@ class User
             return false;  
         }
         
-        // prepare email to send
-        $system_email = $this->_CI->config->item('system_email', 'webclient');
-        $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
-        $email_template = $this->_CI->config->item('reset_password_template', 'webclient');
-        $confirm_url = $this->_CI->config->item('confirm_reset_url', 'webclient');
-        $subject = $this->_CI->config->item('reset_password_template_subject', 'webclient');
-        
-        $confirm_url = sprintf(site_url().$confirm_url, $uid,$code);
-        $email_template = sprintf($email_template, $name, $confirm_url, $system_email_name);
-
-        // user CI library email
-        $this->_CI->load->library('email');
-        
-        $this->_CI->email->from($system_email, $system_email_name);
-        $this->_CI->email->to($email); 
-        $this->_CI->email->subject($subject);
-        $this->_CI->email->message($email_template); 
-        
-        // send
-        if ( $this->_CI->email->send() == false )
+        // Send an email with confirmation code
+        if( $this->_CI->emailsender->SendResetPasswordMail($name, $email, $code, $uid) == false )
         {
-            // failed to send..
-            $this->_last_error = "Unable to send email with confirmation";
-            return false;
+            $this->_last_error = "Unable to send email with confirmation code";
+            return false; 
         }
+
         
         // else; all ok!
         return true;
@@ -166,33 +148,17 @@ class User
             return false;
         }
         
-        // fetch name
+        // fetch name and email
         $name = $result->First_name." ".$result->Last_name;
         $email = $result->Email;
         
-        // email new password to user
-        $system_email = $this->_CI->config->item('system_email', 'webclient');
-        $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
-        $email_template = $this->_CI->config->item('new_password_template', 'webclient');
-        $subject = $this->_CI->config->item('new_password_template_subject', 'webclient');
-        
-        $email_template = sprintf($email_template, $name, $new_password_plaintext, $system_email_name);
-
-        // user CI library email
-        $this->_CI->load->library('email');
-        
-        $this->_CI->email->from($system_email, $system_email_name);
-        $this->_CI->email->to($email); 
-        $this->_CI->email->subject($subject);
-        $this->_CI->email->message($email_template); 
-        
-        // send
-        if ( $this->_CI->email->send() == false )
+        // Send an email with new password
+        if( $this->_CI->emailsender->SendNewPasswordEmail($name, $email, $new_password_plaintext) == false )
         {
-            // failed to send..
             $this->_last_error = "Unable to send email with new password";
-            return false;
+            return false; 
         }
+        
         
         // all ok! return password as plaintext so that it can be displayed
         return $new_password_plaintext;
