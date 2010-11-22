@@ -18,7 +18,7 @@ class User
 		$this->_CI = & get_instance();
 		
 		// load model for library
-		$this->_CI->load->model(array('User_model', 'Activation_model'));
+		$this->_CI->load->model(array('User_model', 'Activation_model', 'Reset_model'));
 	}
 	
     /**
@@ -56,7 +56,7 @@ class User
 		}
 		
     /**
-		* Function: Reset_password
+	* Function: Reset_password
     * This function will search if the user exists, create a confirmation code
     * and then send a confirmation email to the user. The confirmation code is
     * also saved to the database. On error false is returned with a message that
@@ -66,7 +66,7 @@ class User
     * @param string $username
     * @return bool
     */
-    function Reset_password($email, $username)
+    function ResetPassword($email, $username)
     {
         // error in parameters  ?
         if ($email == "" && $username == "" )
@@ -76,36 +76,39 @@ class User
         }
         
         // does the user exist?
-        $result = $this->_CI->User_model->query_user($email, $username);
+        $result = $this->_CI->User_model->QueryUser($email, $username);
         if ( $result == false )
         {
             $this->_last_error = "User was not found";
             return false;  
         }
-         
-        // fetch UserID and name
-        $uid = $result->UserID;
-        $name = $result->First_name." ".$result->Last_name;
-        $email = $result->Email;
         
         // generate confirmation code
         $code = "";
         for($n=0; $n<8; $n++) $code .= rand(1,9);
         
-        // save confirmation code
-        if ( $this->_CI->User_model->save_confirmation_code($uid, $code) == false )
+        // save confirmation code (will also move the user to another table)
+        if ( $this->_CI->Reset_model->SaveConfirmationCode($result, $code) == false )
         {
             $this->_last_error = "Unable to save confirmation code";
             return false;  
         }
         
+        // fetch values for email
+        $uid = $result->UserID;
+        $name = $result->First_name." ".$result->Last_name;
+        $email = $result->Email;
+        
         // Send an email with confirmation code
         if( $this->_CI->emailsender->SendResetPasswordMail($name, $email, $code, $uid) == false )
         {
+            // re-insert user into correct table
+            $this->_CI->Reset_model->RollbackUser($result);
+            
+            // set message
             $this->_last_error = "Unable to send email with confirmation code";
             return false; 
         }
-
         
         // else; all ok!
         return true;
@@ -121,7 +124,7 @@ class User
     * @param int $code
     * @return mixed
     */
-    function Confirm_reset_password($uid, $code)
+    function ConfirmResetPassword($uid, $code)
     {
         // error in parameters  ?
         if ($uid == "" && $code == "" )
@@ -131,7 +134,7 @@ class User
         }  
        
         // query if user id and code is correct
-        $result = $this->_CI->User_model->check_confirmation_code($uid, $code);
+        $result = $this->_CI->Reset_model->CheckConfirmationCode($uid, $code);
         if ( $result == false )
         {
             $this->_last_error = "Unable to verify confirmation";
@@ -141,13 +144,13 @@ class User
         // generate new password
         list($new_password_plaintext, $new_password_encrypted) = $this->_createPassword();
         
-        // save new password
-        if ( $this->_CI->User_model->update_password($uid, $new_password_encrypted, true) == false )
+        // save new password and move user to correct table
+        if ( $this->_CI->Reset_model->MoveAndUpdateUser($result, $new_password_encrypted) == false )
         {
             $this->_last_error = "Unable to save new password";
             return false;
         }
-        
+
         // fetch name and email
         $name = $result->First_name." ".$result->Last_name;
         $email = $result->Email;
@@ -155,7 +158,7 @@ class User
         // Send an email with new password
         if( $this->_CI->emailsender->SendNewPasswordEmail($name, $email, $new_password_plaintext) == false )
         {
-            $this->_last_error = "Unable to send email with new password";
+            $this->_last_error = "Unable to send email with new password, make sure you save the new password: $new_password_plaintext";
             return false; 
         }
         

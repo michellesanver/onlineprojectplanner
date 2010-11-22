@@ -39,34 +39,34 @@ class User_controller extends Controller {
             * Rules for the inputfields
             */
             $rules = array(
-                "email" => "trim|max_length[100]|valid_email",
+                "email" => "trim|max_length[100]|valid_email|xss_clean",
                 "username" => "trim|max_length[100]|xss_clean"
             );   
            $this->validation->set_rules($rules);  
            
            // do validation
            $status = $this->validation->run(); 
-            
+          
             // is validation ok?
            if ($status)
            { 
+                // fetch post data and filter with xss_clean
+                $email = (isset($this->validation->email) ? $this->validation->email : '');
+                $username = (isset($this->validation->username) ? $this->validation->username : '');
+                
                 //  is username or email set?
-                if ( empty($this->validation->email) && empty($this->validation->username) )
+                if ( empty($email) && empty($username) )
                 {
                     // no, show error
                     $formData = array(
                                     "status" => "error",
-                                    "status_message" => "Please enter email or username"
+                                    "status_message" => "Error(s): Please enter email or username"
                     );
                 }
                 else
                 {
-                    // fetch post data
-                    $email = (isset($this->validation->email) ? $this->validation->email : "");
-                    $username = (isset($this->validation->username) ? $this->validation->username : "");
-                    
                     // begin reset process in user library    
-                    if( $this->user->Reset_password($email, $username) )
+                    if( $this->user->ResetPassword($email, $username) )
                     {
                     
                         // all ok!    
@@ -78,15 +78,40 @@ class User_controller extends Controller {
                     }
                     else
                     {
+                        
                         // something went wrong...    
                         $formData = array(
                             "status" => "error",
-                            "status_message" => $this->user->GetLastError()
+                            "status_message" => "Error(s): ".$this->user->GetLastError()
                          );
+                         
                     }
                     
                 }
            }
+           else
+           {
+               // any validation error?
+               $errors = validation_errors();
+               if ( empty($errors) == false || empty($this->validation->error_string) == false )
+               {
+                   
+                    // set error
+                    $formData = array(
+                        "status" => "error",
+                        "status_message" => 'Error(s): '.strip_tags($errors.$this->validation->error_string)
+                     );
+                           
+               }
+           }
+           
+           // should we re-populate form?
+           if ( isset($formData['status']) && $formData['status'] == 'error')
+           {
+                if (isset($this->validation->email)) $formData['email'] = $this->validation->email;
+                if (isset($this->validation->username)) $formData['username'] = $this->validation->username;
+           }
+           
         }
         else
         {
@@ -95,14 +120,15 @@ class User_controller extends Controller {
             
             
             // reset process in user library    
-            $new_password = $this->user->Confirm_reset_password($UserID, $code);
+            $new_password = $this->user->ConfirmResetPassword($UserID, $code);
             if( $new_password != false )
             {
             
                 // all ok!    
                 $formData = array(
                     "status" => "ok",
-                    "status_message" => "Password reset successful! New password: ".$new_password
+                    "status_message" => "Password reset successful! New password: ".$new_password,
+                    "hideForm" => true
                  );
                     
             }
@@ -111,7 +137,7 @@ class User_controller extends Controller {
                 // something went wrong...    
                 $formData = array(
                     "status" => "error",
-                    "status_message" => $this->user->GetLastError()
+                    "status_message" => "Error(s): ".$this->user->GetLastError()
                  );
             }
             
@@ -135,9 +161,9 @@ class User_controller extends Controller {
 		$rules = array(
 			"first_name" => "trim|required|max_length[100]|alpha|xss_clean",
 			"last_name" => "trim|required|max_length[100]|alpha|xss_clean",
-			"email" => "trim|required|max_length[100]|valid_email|callback_email_check",
+			"email" => "trim|required|max_length[100]|xss_clean|valid_email|callback_email_check",
 			"username" => "trim|required|max_length[100]|xss_clean|callback_username_check",
-			"password" => "trim|required|max_length[32]|matches[password2]|md5",
+			"password" => "trim|required|max_length[32]|xss_clean|matches[password2]|md5",
 			"password2" => "trim|required|max_length[32]|xss_clean",
 			"streetadress" => "trim|max_length[100]|xss_clean",
 			"postalcode" => "trim|max_length[5]|integer",
@@ -161,7 +187,7 @@ class User_controller extends Controller {
 			"hometown" => "Hometown"
 		);
 		
-		$this->validation->set_fields($field);
+		$this->validation->set_fields($field);    
 		
 		$status = $this->validation->run();
 		
@@ -189,17 +215,33 @@ class User_controller extends Controller {
 			/*
 			*If validation is ok => send to library
 			*/
-			if($this->user->Register($insert, $key)) {
-				$data = array(
-					"status" => "ok",
-					"status_message" => "Registration was successful!"
-				);
-				
+			if($this->user->Register($insert, $key))
+            {	
 				// Sends an activationemail
-				$this->emailsender->SendActivationMail($insert['First_name'], $insert['Email'], $key);
+				if ( $this->emailsender->SendActivationMail($insert['First_name'], $insert['Email'], $key) == false)
+                {
+                    $data = array(
+                        "status" => "error",
+                        "status_message" => "Failed to send activation email"
+                    );
+                }
+                else
+                {
+                    // all ok
+                    $data = array(
+                        "status" => "ok",
+                        "status_message" => "Registration was successful!"
+                    );
+                }
 			}
+            else
+            {
+                // registration failed
+                $status = false;   
+            }
 		}
 		
+        // re-populate form if error
 		if($status == false && isset($_POST['register_btn'])) {
 			$data = array(
 				"first_name" => $this->validation->first_name,
@@ -243,7 +285,7 @@ class User_controller extends Controller {
 	*@return bool
 	*/
 	function username_check($str)
-	{
+	{   
 		if($this->user->checkIfExist("User_name", $str)) {
 			$this->validation->set_message('username_check', 'That username already exist in our database.');
 			return false;
@@ -251,6 +293,7 @@ class User_controller extends Controller {
 		return true;
 	}
 	
+    
 	/**
 	* Function: Activate
 	* This function will catch the third section of the uri
@@ -279,7 +322,7 @@ class User_controller extends Controller {
 		* Rules for the inputfields
 		*/
 		$rules = array(
-			"recEmail" => "trim|required|valid_email"
+			"recEmail" => "trim|required|xss_clean|valid_email"
 		);
 		$this->validation->set_rules($rules);
 		
@@ -312,6 +355,10 @@ class User_controller extends Controller {
 					"status_message" => "The recommendation was sent!"
 				);
 			}
+            else {
+                // failed
+                $status = false;
+            }
 		}
 		
 		if($status == false && isset($_POST['recSubmit'])) {

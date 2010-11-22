@@ -10,7 +10,7 @@
 class Activation_model extends Model 
 {
 	
-	private $tableName = "User_activation";
+	private $tableName = "UserActivation";
 	
 	/**
 	* Function: getWithCode
