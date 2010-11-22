@@ -97,11 +97,9 @@ class MY_Loader extends CI_Loader {
      * some cases it's advantageous to be able to return data so that
      * a developer can process it in some way.
      *
-     * @access    public
-     * @param    string
-     * @param    array
-     * @param    bool
-     * @return    void
+     * @param    string $view
+     * @param    array $vars (optional)
+     * @param    bool  $return (optional, default false)
      */
     function view_widget($view, $vars = array(), $return = FALSE)
     {
