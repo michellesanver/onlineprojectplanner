@@ -1180,7 +1180,7 @@
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{475.231, 258.169}, {9.20684, 9.20684}}</string>
+											<string>{{461.193, 258.234}, {9.20684, 9.20684}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -1213,7 +1213,7 @@
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{472.143, 255.079}, {15.385, 15.3851}}</string>
+											<string>{{458.105, 255.144}, {15.385, 15.3851}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -1292,7 +1292,7 @@
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{500.34, 258.179}, {2.45352, 9.30078}}</string>
+											<string>{{486.302, 258.244}, {2.45352, 9.30078}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -1317,7 +1317,7 @@
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{493.9, 255.079}, {15.385, 15.3851}}</string>
+											<string>{{479.862, 255.144}, {15.385, 15.3851}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -1407,8 +1407,8 @@
 							<integer>47177</integer>
 							<key>Points</key>
 							<array>
-								<string>{267.478, 278.181}</string>
-								<string>{520.695, 278.181}</string>
+								<string>{253.441, 278.246}</string>
+								<string>{506.658, 278.246}</string>
 							</array>
 							<key>Style</key>
 							<dict>
@@ -1438,7 +1438,7 @@
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{267.478, 245.097}, {253, 198.964}}</string>
+							<string>{{253.441, 245.162}, {253, 198.964}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
@@ -4487,8 +4487,6 @@ OFF}</string>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
 			<integer>46837</integer>
-			<key>ImageID</key>
-			<integer>18</integer>
 			<key>Shape</key>
 			<string>Rectangle</string>
 			<key>Style</key>
@@ -8063,7 +8061,7 @@ OFF}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2010-11-22 10:58:39 +0100</string>
+	<string>2010-11-22 11:10:28 +0100</string>
 	<key>Modifier</key>
 	<string>Michelle Sanver</string>
 	<key>NotesVisible</key>
@@ -8148,7 +8146,7 @@ OFF}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{29, 183}, {1025, 551}}</string>
+		<string>{{30, 0}, {1025, 551}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>
