@@ -14447,7 +14447,7 @@ Supercoolprojectname}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{121.203, 20.8205}, {876, 15}}</string>
+							<string>{{122.537, 20.8205}, {876, 15}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FitText</key>
@@ -14533,7 +14533,7 @@ Supercoolprojectname}</string>
 											<array>
 												<dict>
 													<key>Bounds</key>
-													<string>{{155.689, 56.418}, {6.14423, 1.0069}}</string>
+													<string>{{157.023, 56.418}, {6.14423, 1.0069}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -14573,7 +14573,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{155.689, 54.417}, {6.14423, 1.0069}}</string>
+													<string>{{157.023, 54.417}, {6.14423, 1.0069}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -14613,7 +14613,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{155.689, 56.852}, {0, 0}}</string>
+													<string>{{157.023, 56.852}, {0, 0}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -14669,7 +14669,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{155.689, 54.82}, {0, 0}}</string>
+													<string>{{157.023, 54.82}, {0, 0}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -14732,10 +14732,10 @@ Supercoolprojectname}</string>
 													<integer>46991</integer>
 													<key>Points</key>
 													<array>
-														<string>{154.157, 54.323}</string>
-														<string>{154.166, 58.875}</string>
-														<string>{163.109, 58.875}</string>
-														<string>{163.1, 54.323}</string>
+														<string>{155.491, 54.323}</string>
+														<string>{155.5, 58.875}</string>
+														<string>{164.443, 58.875}</string>
+														<string>{164.434, 54.323}</string>
 													</array>
 													<key>Style</key>
 													<dict>
@@ -14763,7 +14763,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{154.126, 54.292}, {9.00506, 4.58295}}</string>
+													<string>{{155.46, 54.292}, {9.00506, 4.58295}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -14815,7 +14815,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{152.822, 53.718}, {11.6138, 1.84464}}</string>
+													<string>{{154.156, 53.718}, {11.6138, 1.84464}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -14868,7 +14868,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{154.532, 51.094}, {0.913815, 0.913815}}</string>
+													<string>{{155.866, 51.094}, {0.913815, 0.913815}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -14921,7 +14921,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{152.818, 51.094}, {0.913842, 0.913815}}</string>
+													<string>{{154.152, 51.094}, {0.913842, 0.913815}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -14974,7 +14974,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{151.49, 49.789}, {14.2774, 6.81559}}</string>
+													<string>{{152.824, 49.789}, {14.2774, 6.81559}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -15034,10 +15034,10 @@ Supercoolprojectname}</string>
 													<integer>46997</integer>
 													<key>Points</key>
 													<array>
-														<string>{154.157, 51.076}</string>
-														<string>{154.157, 46.125}</string>
-														<string>{163.1, 46.125}</string>
-														<string>{163.1, 51.076}</string>
+														<string>{155.491, 51.076}</string>
+														<string>{155.491, 46.125}</string>
+														<string>{164.434, 46.125}</string>
+														<string>{164.434, 51.076}</string>
 													</array>
 													<key>Style</key>
 													<dict>
@@ -15065,7 +15065,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{154.157, 46.125}, {8.94298, 4.13947}}</string>
+													<string>{{155.491, 46.125}, {8.94298, 4.13947}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -15121,7 +15121,7 @@ Supercoolprojectname}</string>
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{146.629, 42}, {24, 21}}</string>
+											<string>{{147.963, 42}, {24, 21}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -15203,7 +15203,7 @@ Supercoolprojectname}</string>
 											<array>
 												<dict>
 													<key>Bounds</key>
-													<string>{{127.313, 55.013}, {2.36017, 3.48718}}</string>
+													<string>{{128.647, 55.013}, {2.36017, 3.48718}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -15258,7 +15258,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{122.005, 46.5}, {12.7, 12}}</string>
+													<string>{{123.339, 46.5}, {12.7, 12}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -15350,7 +15350,7 @@ Supercoolprojectname}</string>
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{116.356, 42}, {24, 21}}</string>
+											<string>{{117.689, 42}, {24, 21}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -15427,7 +15427,7 @@ Supercoolprojectname}</string>
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{66.5502, 46.5}, {9.20684, 12}}</string>
+											<string>{{67.8835, 46.5}, {9.20684, 12}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>FontInfo</key>
@@ -15507,7 +15507,7 @@ Supercoolprojectname}</string>
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{93.0989, 46.5}, {9.20684, 12}}</string>
+											<string>{{94.4322, 46.5}, {9.20684, 12}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>FontInfo</key>
@@ -15599,8 +15599,8 @@ Supercoolprojectname}</string>
 													<real>-1</real>
 													<key>Points</key>
 													<array>
-														<string>{84.3073, 42.1837}</string>
-														<string>{84.3073, 62.816}</string>
+														<string>{85.6406, 42.1837}</string>
+														<string>{85.6406, 62.816}</string>
 													</array>
 													<key>Style</key>
 													<dict>
@@ -15626,7 +15626,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{58.0843, 42}, {51.998, 21}}</string>
+													<string>{{59.4176, 42}, {51.998, 21}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>FontInfo</key>
@@ -15730,7 +15730,7 @@ Supercoolprojectname}</string>
 											<array>
 												<dict>
 													<key>Bounds</key>
-													<string>{{184.16, 46.5}, {12, 12}}</string>
+													<string>{{185.494, 46.5}, {12, 12}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -15770,7 +15770,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{176.902, 42}, {25.6331, 21}}</string>
+													<string>{{178.236, 42}, {25.6331, 21}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -15882,7 +15882,7 @@ Supercoolprojectname}</string>
 															<array>
 																<dict>
 																	<key>Bounds</key>
-																	<string>{{211.3, 45.8752}, {8.44725, 10.9816}}</string>
+																	<string>{{212.634, 45.8752}, {8.44725, 10.9816}}</string>
 																	<key>Class</key>
 																	<string>ShapedGraphic</string>
 																	<key>ID</key>
@@ -15948,7 +15948,7 @@ Supercoolprojectname}</string>
 																</dict>
 																<dict>
 																	<key>Bounds</key>
-																	<string>{{211.296, 48.116}, {2.33977, 1.69636}}</string>
+																	<string>{{212.63, 48.116}, {2.33977, 1.69636}}</string>
 																	<key>Class</key>
 																	<string>ShapedGraphic</string>
 																	<key>FontInfo</key>
@@ -16047,7 +16047,7 @@ Supercoolprojectname}</string>
 																</dict>
 																<dict>
 																	<key>Bounds</key>
-																	<string>{{204.131, 49.461}, {12.5719, 6.1706}}</string>
+																	<string>{{205.465, 49.461}, {12.5719, 6.1706}}</string>
 																	<key>Class</key>
 																	<string>ShapedGraphic</string>
 																	<key>FontInfo</key>
@@ -16210,7 +16210,7 @@ Supercoolprojectname}</string>
 														</dict>
 														<dict>
 															<key>Bounds</key>
-															<string>{{206.574, 45.8125}, {13.0964, 13.375}}</string>
+															<string>{{207.908, 45.8125}, {13.0964, 13.375}}</string>
 															<key>Class</key>
 															<string>ShapedGraphic</string>
 															<key>FontInfo</key>
@@ -16271,7 +16271,7 @@ Supercoolprojectname}</string>
 												</dict>
 												<dict>
 													<key>Bounds</key>
-													<string>{{196.16, 42}, {650.457, 21}}</string>
+													<string>{{197.494, 42}, {650.457, 21}}</string>
 													<key>Class</key>
 													<string>ShapedGraphic</string>
 													<key>ID</key>
@@ -16336,7 +16336,7 @@ Supercoolprojectname}</string>
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{827.708, 46.5}, {6.89028, 7.95096}}</string>
+											<string>{{829.042, 46.5}, {6.89028, 7.95096}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -16404,11 +16404,11 @@ Supercoolprojectname}</string>
 											<integer>47025</integer>
 											<key>Points</key>
 											<array>
-												<string>{830.304, 49.398}</string>
-												<string>{835.101, 46.87}</string>
-												<string>{840.916, 52.686}</string>
-												<string>{835.101, 58.5}</string>
-												<string>{830.49, 56.231}</string>
+												<string>{831.638, 49.398}</string>
+												<string>{836.435, 46.87}</string>
+												<string>{842.25, 52.686}</string>
+												<string>{836.435, 58.5}</string>
+												<string>{831.824, 56.231}</string>
 											</array>
 											<key>Style</key>
 											<dict>
@@ -16447,7 +16447,7 @@ Supercoolprojectname}</string>
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{1042.83, 23.5002}, {15.625, 3.89126}}</string>
+											<string>{{1044.17, 23.5002}, {15.625, 3.89126}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -16499,7 +16499,7 @@ Supercoolprojectname}</string>
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{1040.83, 22.5631}, {19.4929, 9.03328}}</string>
+											<string>{{1042.17, 22.5631}, {19.4929, 9.03328}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -16587,7 +16587,7 @@ Supercoolprojectname}</string>
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{99.2007, 21.5567}, {9.24443, 5.39258}}</string>
+											<string>{{100.534, 21.5567}, {9.24443, 5.39258}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -16639,7 +16639,7 @@ Supercoolprojectname}</string>
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{97.5639, 20.8205}, {12.5185, 12.5185}}</string>
+											<string>{{98.8972, 20.8205}, {12.5185, 12.5185}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -16709,7 +16709,7 @@ Supercoolprojectname}</string>
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{79.4608, 21.5567}, {9.24443, 5.39258}}</string>
+											<string>{{80.7942, 21.5567}, {9.24443, 5.39258}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -16761,7 +16761,7 @@ Supercoolprojectname}</string>
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{77.8241, 20.8205}, {12.5185, 12.5185}}</string>
+											<string>{{79.1574, 20.8205}, {12.5185, 12.5185}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -16831,7 +16831,7 @@ Supercoolprojectname}</string>
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{59.7212, 21.5567}, {9.24443, 5.39258}}</string>
+											<string>{{61.0545, 21.5567}, {9.24443, 5.39258}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -16883,7 +16883,7 @@ Supercoolprojectname}</string>
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{58.0843, 20.8205}, {12.5185, 12.5185}}</string>
+											<string>{{59.4176, 20.8205}, {12.5185, 12.5185}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -16948,7 +16948,7 @@ Supercoolprojectname}</string>
 								</dict>
 								<dict>
 									<key>Bounds</key>
-									<string>{{853.833, 42}, {205.5, 21}}</string>
+									<string>{{855.167, 42}, {205.5, 21}}</string>
 									<key>Class</key>
 									<string>ShapedGraphic</string>
 									<key>ID</key>
@@ -17035,8 +17035,8 @@ Supercoolprojectname}</string>
 											<integer>46967</integer>
 											<key>Points</key>
 											<array>
-												<string>{1064.4, 780.91}</string>
-												<string>{1066.7, 778.634}</string>
+												<string>{1065.74, 780.91}</string>
+												<string>{1068.04, 778.634}</string>
 											</array>
 											<key>Style</key>
 											<dict>
@@ -17072,8 +17072,8 @@ Supercoolprojectname}</string>
 											<integer>46968</integer>
 											<key>Points</key>
 											<array>
-												<string>{1060.92, 780.91}</string>
-												<string>{1066.69, 775.184}</string>
+												<string>{1062.26, 780.91}</string>
+												<string>{1068.03, 775.184}</string>
 											</array>
 											<key>Style</key>
 											<dict>
@@ -17109,8 +17109,8 @@ Supercoolprojectname}</string>
 											<integer>46969</integer>
 											<key>Points</key>
 											<array>
-												<string>{1057.33, 780.91}</string>
-												<string>{1066.7, 771.625}</string>
+												<string>{1058.67, 780.91}</string>
+												<string>{1068.04, 771.625}</string>
 											</array>
 											<key>Style</key>
 											<dict>
@@ -17138,7 +17138,7 @@ Supercoolprojectname}</string>
 								</dict>
 								<dict>
 									<key>Bounds</key>
-									<string>{{44.8334, 764}, {1024, 19}}</string>
+									<string>{{46.1667, 764}, {1024, 19}}</string>
 									<key>Class</key>
 									<string>ShapedGraphic</string>
 									<key>ID</key>
@@ -17197,7 +17197,7 @@ Supercoolprojectname}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{44.8334, 15}, {1024, 55}}</string>
+							<string>{{46.1667, 15}, {1024, 55}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
@@ -17262,7 +17262,7 @@ Supercoolprojectname}</string>
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{1059.15, 755}, {6.50006, 6.0003}}</string>
+											<string>{{1060.49, 755}, {6.50006, 6.0003}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>HFlip</key>
@@ -17313,7 +17313,7 @@ Supercoolprojectname}</string>
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{1055.83, 751}, {13, 13.0005}}</string>
+											<string>{{1057.17, 751}, {13, 13.0005}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>HFlip</key>
@@ -17383,7 +17383,7 @@ Supercoolprojectname}</string>
 									<array>
 										<dict>
 											<key>Bounds</key>
-											<string>{{1059.17, 742.682}, {6.5, 6.00031}}</string>
+											<string>{{1060.51, 742.682}, {6.5, 6.00031}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -17434,7 +17434,7 @@ Supercoolprojectname}</string>
 										</dict>
 										<dict>
 											<key>Bounds</key>
-											<string>{{1055.83, 739.432}, {13, 13.0006}}</string>
+											<string>{{1057.17, 739.432}, {13, 13.0006}}</string>
 											<key>Class</key>
 											<string>ShapedGraphic</string>
 											<key>ID</key>
@@ -17499,7 +17499,7 @@ Supercoolprojectname}</string>
 								</dict>
 								<dict>
 									<key>Bounds</key>
-									<string>{{1057.09, 75}, {10.8054, 99.3436}}</string>
+									<string>{{1058.43, 75}, {10.8054, 99.3436}}</string>
 									<key>Class</key>
 									<string>ShapedGraphic</string>
 									<key>HFlip</key>
@@ -17567,7 +17567,7 @@ Supercoolprojectname}</string>
 								</dict>
 								<dict>
 									<key>Bounds</key>
-									<string>{{1055.83, 69.9999}, {13, 694}}</string>
+									<string>{{1057.17, 69.9999}, {13, 694}}</string>
 									<key>Class</key>
 									<string>ShapedGraphic</string>
 									<key>HFlip</key>
@@ -17643,7 +17643,7 @@ Supercoolprojectname}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{44.8334, 15}, {1024, 768}}</string>
+							<string>{{46.1667, 15}, {1024, 768}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
@@ -17930,7 +17930,7 @@ Supercoolprojectname}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2010-11-22 12:03:09 +0100</string>
+	<string>2010-11-22 12:04:26 +0100</string>
 	<key>Modifier</key>
 	<string>Michelle Sanver</string>
 	<key>NotesVisible</key>
@@ -18001,7 +18001,7 @@ Supercoolprojectname}</string>
 			</dict>
 		</array>
 		<key>Frame</key>
-		<string>{{-254, 58}, {1237, 720}}</string>
+		<string>{{-65, 50}, {1237, 720}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
@@ -18015,15 +18015,15 @@ Supercoolprojectname}</string>
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-166, 0}, {1450.67, 754.667}}</string>
+		<string>{{0, 31}, {1088, 551}}</string>
 		<key>Zoom</key>
-		<real>0.75</real>
+		<real>1</real>
 		<key>ZoomValues</key>
 		<array>
 			<array>
 				<string>Canvas 1</string>
-				<real>0.75</real>
 				<real>1</real>
+				<real>0.75</real>
 			</array>
 		</array>
 	</dict>
