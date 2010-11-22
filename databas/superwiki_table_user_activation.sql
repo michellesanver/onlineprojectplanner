@@ -2,7 +2,7 @@
 -- version 3.2.0.1
 -- http://www.phpmyadmin.net
 --
--- Värd: localhost
+-- V?rd: localhost
 -- Skapad: 19 november 2010 kl 11:12
 -- Serverversion: 5.1.36
 -- PHP-version: 5.3.0
@@ -16,7 +16,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
--- Struktur för tabell `user_activation`
+-- Struktur f?r tabell `user_activation`
 --
 
 CREATE TABLE IF NOT EXISTS `user_activation` (
@@ -24,4 +24,4 @@ CREATE TABLE IF NOT EXISTS `user_activation` (
   `Code` varchar(32) NOT NULL,
   `Timestamp` int(11) NOT NULL,
   PRIMARY KEY (`ActivationID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
