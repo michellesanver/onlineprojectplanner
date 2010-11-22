@@ -39,7 +39,7 @@ class Theme
         $preContentData = array(
             'site_title' => $this->_site_title,
             'theme_folder' => $this->_theme,
-            'base_url' => $this->_site_url
+            'base_url' => $this->_base_url
         );
         $this->_CI->load->view($this->_theme.'/common/pre_content', $preContentData);
 
