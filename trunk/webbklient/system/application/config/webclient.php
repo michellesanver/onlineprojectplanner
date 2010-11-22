@@ -15,6 +15,14 @@ $config['webclient']['password_salt'] = "21j757d73I";
 
 
 /* ---------------------------------------
+* Theme name (folder in css/.. and views/..)
+* - NO ending slash, just the folder name
+* --------------------------------------- */
+
+$config['webclient']['theme'] = "default";
+
+
+/* ---------------------------------------
 * System email (reset password etc)
 * - will be used as a "from-address"
 * --------------------------------------- */
