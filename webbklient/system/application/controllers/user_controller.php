@@ -214,7 +214,7 @@ class User_controller extends Controller {
 			);
 		}
 		
-		$this->load->view('user/register', $data);
+		$this->theme->view('user/register', $data);
 	}
 	
 	/**
@@ -262,9 +262,9 @@ class User_controller extends Controller {
 	{
 		if($this->uri->segment(3) != "") {
 			if($this->user->ActivateUser(trim($this->uri->segment(3)))) {
-				$this->load->view('user/activated');
+				$this->theme->view('user/activated');
 			} else {
-				$this->load->view('user/notactivated');
+				$this->theme->view('user/notactivated');
 			}
 		} else {
 			redirect("","");
@@ -322,7 +322,7 @@ class User_controller extends Controller {
 			);
 		}
 		
-		$this->load->view('user/recommend', $data);
+		$this->theme->view('user/recommend', $data);
 	}
 }
 
