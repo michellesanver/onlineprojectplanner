@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `User` (
   `Lastname` varchar(100) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Password` varchar(32) NOT NULL,
-  `User_name` varchar(100) NOT NULL,
+  `Username` varchar(100) NOT NULL,
   `Streetadress` varchar(100) NOT NULL DEFAULT '',
   `Postalcode` int(5) NOT NULL DEFAULT '0',
   `Hometown` varchar(130) NOT NULL DEFAULT '',
@@ -98,7 +98,7 @@ CREATE  TABLE IF NOT EXISTS `Project_Invitation` (
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_ProjectInvitation_ProjectRole`
     FOREIGN KEY (`Project_role_id` )
-    REFERENCES `ProjectRole` (`Project_role_id` )
+    REFERENCES `Project_Role` (`Project_role_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
@@ -128,7 +128,7 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_ProjectMember_ProjectRole`
     FOREIGN KEY (`Project_role_id` )
-    REFERENCES `ProjectRole` (`Project_role_id` )
+    REFERENCES `Project_Role` (`Project_role_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
