@@ -195,8 +195,8 @@ class User_controller extends Controller {
 		
 		if($status) {
 			$insert = array(
-				"Firstname" => $this->validation->first_name,
-				"Lastname" => $this->validation->last_name,
+				"Firstname" => $this->validation->firstname,
+				"Lastname" => $this->validation->lastname,
 				"Email" => $this->validation->email,
 				"Username" => $this->validation->username,
 				"Password" => $this->validation->password,
@@ -242,7 +242,7 @@ class User_controller extends Controller {
 		}
 		
         // re-populate form if error
-		if($status == false && isset($_POST['register_btn'])) {
+		if($status === false && isset($_POST['register_btn'])) {
 			$data = array(
 				"firstname" => $this->validation->firstname,
 				"lastname" => $this->validation->lastname,

@@ -50,12 +50,11 @@ class Activation_model extends Model
 	* Insert parameter can be an array or a object of stdClass.
 	* 
 	* @param mixed $insert
-	* @return int
+	* @return bool
 	*/
 	function insert($insert)
 	{
-		$this->db->insert($this->tableName, $insert);
-		return $this->db->insert_id();
+		return $this->db->insert($this->tableName, $insert);
 	}
 	
 	/**
@@ -67,7 +66,7 @@ class Activation_model extends Model
 	*/
 	function update($update)
 	{
-		$this->db->where('UserID', $update['UserID']);
+		$this->db->where('Activation_id', $update['Activation_id']);
 		return $this->db->update($this->tableName, $update);
 	}
 	
@@ -81,6 +80,6 @@ class Activation_model extends Model
 	*/
 	function delete($ActivationID)
 	{
-		return $this->db->delete($this->tableName, array('ActivationID' => $ActivationID)); 
+		return $this->db->delete($this->tableName, array('Activation_id' => $ActivationID)); 
 	}
 }

@@ -30,7 +30,12 @@ CREATE TABLE IF NOT EXISTS `User_Activation` (
   `Activation_id` int NOT NULL,
   `Code` varchar(32) NOT NULL,
   `Timestamp` int(11) NOT NULL,
-  PRIMARY KEY (`Activation_id`)
+  PRIMARY KEY (`Activation_id`),
+  CONSTRAINT `user_activation_ibfk_1` 
+    FOREIGN KEY (`Activation_id`)
+    REFERENCES `user` (`User_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
