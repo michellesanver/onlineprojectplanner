@@ -159,8 +159,8 @@ class User_controller extends Controller {
 		* Rules for the inputfields
 		*/
 		$rules = array(
-			"first_name" => "trim|required|max_length[100]|alpha|xss_clean",
-			"last_name" => "trim|required|max_length[100]|alpha|xss_clean",
+			"firstname" => "trim|required|max_length[100]|alpha|xss_clean",
+			"lastname" => "trim|required|max_length[100]|alpha|xss_clean",
 			"email" => "trim|required|max_length[100]|xss_clean|valid_email|callback_email_check",
 			"username" => "trim|required|max_length[100]|xss_clean|callback_username_check",
 			"password" => "trim|required|max_length[32]|xss_clean|matches[password2]|md5",
@@ -176,8 +176,8 @@ class User_controller extends Controller {
 		* Human names for the inputfields
 		*/
 		$field = array(
-			"first_name" => "Firstname",
-			"last_name" => "Lastname",
+			"firstname" => "Firstname",
+			"lastname" => "Lastname",
 			"email" => "Email",
 			"username" => "Username",
 			"password" => "Password",
@@ -195,10 +195,10 @@ class User_controller extends Controller {
 		
 		if($status) {
 			$insert = array(
-				"First_name" => $this->validation->first_name,
-				"Last_name" => $this->validation->last_name,
+				"Firstname" => $this->validation->first_name,
+				"Lastname" => $this->validation->last_name,
 				"Email" => $this->validation->email,
-				"User_name" => $this->validation->username,
+				"Username" => $this->validation->username,
 				"Password" => $this->validation->password,
 				"Streetadress" => $this->validation->streetadress,
 				"Postalcode" => $this->validation->postalcode,
@@ -218,7 +218,7 @@ class User_controller extends Controller {
 			if($this->user->Register($insert, $key))
             {	
 				// Sends an activationemail
-				if ( $this->emailsender->SendActivationMail($insert['First_name'], $insert['Email'], $key) == false)
+				if ( $this->emailsender->SendActivationMail($insert['Firstname'], $insert['Email'], $key) == false)
                 {
                     $data = array(
                         "status" => "error",
@@ -244,8 +244,8 @@ class User_controller extends Controller {
         // re-populate form if error
 		if($status == false && isset($_POST['register_btn'])) {
 			$data = array(
-				"first_name" => $this->validation->first_name,
-				"last_name" => $this->validation->last_name,
+				"firstname" => $this->validation->firstname,
+				"lastname" => $this->validation->lastname,
 				"email" => $this->validation->email,
 				"username" => $this->validation->username,
 				"streetadress" => $this->validation->streetadress,
@@ -286,7 +286,7 @@ class User_controller extends Controller {
 	*/
 	function username_check($str)
 	{   
-		if($this->user->checkIfExist("User_name", $str)) {
+		if($this->user->checkIfExist("Username", $str)) {
 			$this->validation->set_message('username_check', 'That username already exist in our database.');
 			return false;
 		}

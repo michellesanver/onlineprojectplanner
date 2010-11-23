@@ -139,7 +139,7 @@ class Project_controller extends Controller {
                 // Set updates
 
                 $update = array(
-                        "ProjectID" => $this->validation->projectID,
+                        "Project_id" => $this->validation->projectID,
                         "Description" => $this->validation->description
                 );
 

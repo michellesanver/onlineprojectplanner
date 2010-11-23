@@ -43,75 +43,55 @@ class Project_model extends Model
     }
 
     /**
-    * Function: Select_project
+    * Function: getById
     * This function will return an array
     * that represents the selected row in the database.
     *
     * @return array
     */
 
-    function Select_project($projectID)
+    function getById($projectID)
     {
-        $res = "";
-        $query = $this->db->get_where($this->_table, array('ProjectID' => $projectID));
-
-        foreach ($query->result() as $row)
-        {
-            $res['ProjectID'] = $row->ProjectID;
-            $res['Title'] = $row->Title;
-            $res['Description'] = $row->Description;
-            $res['Created'] = $row->Created;
-        }
-
-        return $res;
+        $query = $this->db->get_where($this->_table, array('Project_id' => $projectID));
+        $res = $query->result_array();
+				
+				if(count($res) == 1)
+					return $res[0];
+				else
+					return null;
     }
 
     /**
-    * Function: Select_all_projects
+    * Function: getAll
     * This function will return an array of arrays
     * that represents the rows in the database.
     *
     * @return array
     */
 
-    function Select_all_projects()
+    function getAll()
     {
         $query = $this->db->get($this->_table);
-        $ret = array();
-
-        // Fetches the data from the rows
-
-        foreach($query->result() as $row) {
-
-            $ret[] = array(
-            "ProjectID" => $row->ProjectID,
-            "Title" => $row->Title,
-            "Description" => $row->Description,
-            "Created" => $row->Created
-            );
-        }
-
-        return $ret;
+        return $query->result_array();
     }
 
     /**
     * Function: Insert_project
-    * Used to send the validated information to the Project_model,
-    * which will insert it as a new row in the database.
+    * This will insert the information to the database
     * Insert parameter can be an array or a object of stdClass.
     *
     * @param mixed $insert
-    * @return bool
+    * @return int
     */
 
-    function Insert_project($insert)
+    function insert($insert)
     {
         $this->db->insert($this->_table, $insert);
         return $this->db->insert_id();
     }
 
     /**
-    * Function: Update_project
+    * Function: update
     * Used to send the validated information to the Project_model,
     * which will update the row in the database.
     *
@@ -119,9 +99,9 @@ class Project_model extends Model
     * @return bool
     */
 
-    function Update_project($update)
+    function update($update)
     {
-        $this->db->where('ProjectID', $update['ProjectID']);
+        $this->db->where('Project_id', $update['Project_id']);
         return $this->db->update($this->_table, $update);
     }
 

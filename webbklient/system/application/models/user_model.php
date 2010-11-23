@@ -23,7 +23,7 @@ class User_model extends Model
     function QueryUser($email, $username)
     {
         // run query
-        $this->db->where('User_name', $username);     
+        $this->db->where('Username', $username);     
         $this->db->or_where('Email', $email);     
         $this->db->limit(1);
         $query = $this->db->get($this->tableName);
@@ -35,96 +35,77 @@ class User_model extends Model
         else
             // user not found
             return false; 
-    }
-    
-    
-    
-    
-	function select_user($userID)
-	{
-		$res = "";
-		$query = $this->db->get_where($this->tableName, array('UserID' => $userID));
-		foreach ($query->result() as $row)
-		{
-		    $res['First_name'] = $row->First_name;
-			$res['Last_name'] = $row->Last_name;
-			$res['Email'] = $row->Email;
-			$res['Password'] = $row->Password;
-			$res['User_name'] = $row->User_name;
-			$res['Streetadress'] = $row->Streetadress;
-			$res['Postalcode'] = $row->Postalcode;
-			$res['Hometown'] = $row->Hometown;
-		}
-		return $res;
 	}
 	
 	/**
-	* Function: select_all_users
+		* Function: getById
+		* This function will return an array representing
+		* the user of the $userID
+		* 
+		* @param int $userID
+		* @return mixed
+		*/
+	function getById($userID)
+	{
+		$query = $this->db->get_where($this->tableName, array('User_id' => $userID));
+		$res = $query->result_array();
+		if(count($res) == 1)
+			return $res[0];
+		else
+			return null;
+	}
+	
+	/**
+	* Function: getAll
 	* This function will return an array of arrays
 	* that represents the rows in the database. 
 	* 
 	* @return array
 	*/
-	function select_all_users()
+	function getAll()
 	{
 		$query = $this->db->get($this->tableName);
-		$ret = array();
-		
-		// Fetches the data from the rows
-		foreach($query->result() as $row) {
-			$ret[] = array(
-			"UserID" => $row->UserID,
-			"First_name" => $row->First_name,
-			"Last_name" => $row->Last_name,
-			"Email" => $row->Email,
-			"Password" => $row->Password,
-			"User_name" => $row->User_name,
-			"Streetadress" => $row->Streetadress,
-			"Postalcode" => $row->Postalcode,
-			"Hometown" => $row->Hometown
-			);
-		}
-		return $ret;
+		return $query->result_array();
 	}
 	
 	/**
-	* Function: insert_user
-	* Used to send the validated information to the User_model,
-	* which will insert it as a new row in the database.
+	* Function: insert
+	* Used to send the validated information to the database,
 	* Insert parameter can be an array or a object of stdClass.
 	* 
 	* @param mixed $insert
-	* @return bool
+	* @return int
 	*/
-	function insert_user($insert)
+	function insert($insert)
 	{
 		$this->db->insert($this->tableName, $insert);
 		return $this->db->insert_id();
 	}
 	
 	/**
-	* Function: update_user
-	* Used to send the validated information to the User_model,
-	* which will update the row in the database.
+	* Function: update
+	* Used to send the validated information to the Database,
 	* 
 	* @param array $insert
 	* @return bool
 	*/
-	function update_user($update)
+	function update($update)
 	{
-		$this->db->where('UserID', $update['UserID']);
+		$this->db->where('User_id', $update['User_id']);
 		return $this->db->update($this->tableName, $update);
 	}
 	
-	
-	function delete_user($userID)
+	/**
+		* Function: update
+		* Used to send the validated information to the User_model,
+		* which will update the row in the database.
+		* 
+		* @param int $userID
+		* @return bool
+		*/
+	function delete($userID)
 	{
-		$res = $this->db->delete($this->tableName, array('UserID' => $userID)); 
-		if($res == false)
-		{
-			return false;
-		}
-		return true;
+		return $this->db->delete($this->tableName, array('User_id' => $userID)); 
 	}
 	
 	function Test()
@@ -139,11 +120,11 @@ class User_model extends Model
 			$xhtml .= "<H4>Select med id test</H4><br />";
 			//plocka ut user med känt id
 			$x = $this->select_user(4);
-			$xhtml .= $x['First_name'] . "<br />";
-			$xhtml .= $x['Last_name'] . "<br />";
+			$xhtml .= $x['Firstname'] . "<br />";
+			$xhtml .= $x['Lastname'] . "<br />";
 			$xhtml .= $x['Email'] . "<br />";
 			$xhtml .= $x['Password'] . "<br />";
-			$xhtml .= $x['User_name'] . "<br />";
+			$xhtml .= $x['Username'] . "<br />";
 			$xhtml .= $x['Streetadress'] . "<br />";
 			$xhtml .= $x['Postalcode'] . "<br />";
 			$xhtml .= $x['Hometown'] . "<br />";
