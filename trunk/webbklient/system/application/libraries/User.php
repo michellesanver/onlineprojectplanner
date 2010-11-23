@@ -48,7 +48,7 @@ class User
 			
 			if(isset($activ) && $activ != null) {
 				// Remove the activation row
-				if($this->_CI->Activation_model->delete($activ['ActivationID'])) {
+				if($this->_CI->Activation_model->delete($activ['Activation_id'])) {
 					return true;
 				}
 			}
@@ -227,7 +227,7 @@ class User
 				"Code" => $key,
 				"Timestamp" => time()
 			);
-			if($this->_CI->Activation_model->insert($insert) > 0) {
+			if($this->_CI->Activation_model->insert($insert)) {
 				return true;
 			}
 		}
