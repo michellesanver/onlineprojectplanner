@@ -207,7 +207,16 @@ class User
         // return result
         return array($password, $encrypted);
     }
-    
+
+    function transformPassword($pass)
+	{
+		$ret = $this->_createPassword($pass);
+		return $ret[1];
+	}
+
+
+
+
 		/**
 		* Function: Register
 		* This function will diliver the validated registration
