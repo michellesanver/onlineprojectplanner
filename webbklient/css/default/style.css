@@ -1,0 +1,17 @@
+/* @override http://localhost/~Geekie/OPP/webbklient/default/css/style.css */
+
+/* @group Default */
+body {
+	margin: 0px;
+}
+
+#topbar {
+	width: 100%;
+	height: 50px;
+	background-color: #000;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* @end */
+
