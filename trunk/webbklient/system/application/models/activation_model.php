@@ -10,7 +10,7 @@
 class Activation_model extends Model 
 {
 	
-	private $tableName = "UserActivation";
+	private $tableName = "user_activation";
 	
 	/**
 	* Function: getWithCode
@@ -26,7 +26,7 @@ class Activation_model extends Model
 		$query = $this->db->get_where($this->tableName, array('Code' => $code));
 		$res = $query->result_array();
 		if(count($res) == 1)
-			return $$res[0];
+			return $res[0];
 		else
 			return null;
 	}
