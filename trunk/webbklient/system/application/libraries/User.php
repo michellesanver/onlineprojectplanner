@@ -219,11 +219,11 @@ class User
 		*/
 	function Register($insert, $key)
 	{
-		$userID = $this->_CI->User_model->insert_user($insert);
+		$userID = $this->_CI->User_model->insert($insert);
 		if($userID > 0) {
 		
 			$insert = array(
-				"ActivationID" => $userID,
+				"Activation_id" => $userID,
 				"Code" => $key,
 				"Timestamp" => time()
 			);
@@ -246,7 +246,7 @@ class User
 	function checkIfExist($column, $value)
 	{
 		// Fetches all the users
-		$users = $this->_CI->User_model->select_all_users();
+		$users = $this->_CI->User_model->getAll();
 		
 		// Looping the users to find a match
 		foreach($users as $user) {

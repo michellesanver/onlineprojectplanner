@@ -47,7 +47,7 @@ class Project
 
     function Select($id)
     {
-        $projectID = $this->_CI->Project_model->Select_project($id);
+        $projectID = $this->_CI->Project_model->getById($id);
 
         if($projectID > 0) {
 
@@ -68,7 +68,7 @@ class Project
 
     function Register($insert)
     {
-        $projectID = $this->_CI->Project_model->Insert_project($insert);
+        $projectID = $this->_CI->Project_model->insert($insert);
 
         if($projectID > 0) {
 
@@ -103,7 +103,7 @@ class Project
 
     function Update($update)
     {
-        $projectID = $this->_CI->Project_model->Update_project($update);
+        $projectID = $this->_CI->Project_model->update($update);
 
         if($projectID > 0) {
 
@@ -127,7 +127,7 @@ class Project
     {
         // Fetches all the projects
 
-        $projects = $this->_CI->Project_model->Select_all_projects();
+        $projects = $this->_CI->Project_model->getAll();
 
         // Looping the projects to find a match
 

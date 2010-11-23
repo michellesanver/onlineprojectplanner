@@ -7,8 +7,8 @@
 				}
 			?>
 			<form action="<?php echo site_url('user_controller/register'); ?>" method="POST">
-				<p><label for="first_name">Firstname: </label><input type="text" name="first_name" value="<?php echo (isset($first_name)) ? $first_name : ""; ?>" />*</p>
-				<p><label for="last_name">Lastname: </label><input type="text" name="last_name" value="<?php echo (isset($last_name)) ? $last_name : ""; ?>" />*</p>
+				<p><label for="firstname">Firstname: </label><input type="text" name="firstname" value="<?php echo (isset($firstname)) ? $first_name : ""; ?>" />*</p>
+				<p><label for="lastname">Lastname: </label><input type="text" name="lastname" value="<?php echo (isset($lastname)) ? $last_name : ""; ?>" />*</p>
 				<p><label for="email">Email: </label><input type="text" name="email" value="<?php echo (isset($email)) ? $email : ""; ?>" />*</p>
 				<p><label for="username">Username: </label><input type="text" name="username" value="<?php echo (isset($username)) ? $username : ""; ?>" />*</p>
 				<p><label for="password">Password: </label><input type="password" name="password" />*</p>

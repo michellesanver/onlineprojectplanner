@@ -10,7 +10,7 @@
 class Reset_model extends Model 
 {
     
-    private $tableName2 = "UserResetPassword";
+    private $tableName2 = "User_ResetPassword";
     private $tableName = "User"; 
     
     /**
@@ -28,12 +28,12 @@ class Reset_model extends Model
         
         // create data to be inserted
         $data = array(
-            'Reset_code' => $code,
-            'UserID' => $result->UserID,
-            'First_name' => $result->First_name,
-            'Last_name' => $result->Last_name,
+            'Resetcode' => $code,
+            'User_id' => $result->User_id,
+            'Firstname' => $result->Firstname,
+            'Lastname' => $result->Lastname,
             'Email' => $result->Email,
-            'User_name' => $result->User_name,
+            'Username' => $result->Username,
             'Streetadress' => $result->Streetadress,
             'Postalcode' => $result->Postalcode,
             'Hometown' => $result->Hometown
@@ -51,7 +51,7 @@ class Reset_model extends Model
         }
          
         // delete old row in table User
-        $res = $this->db->delete($this->tableName, array('UserID' => $result->UserID));
+        $res = $this->db->delete($this->tableName, array('User_id' => $result->User_id));
         
         // was row deleted?
         if ( $res == false )
@@ -96,11 +96,11 @@ class Reset_model extends Model
         // create data to be inserted
         $data = array(
             'Password' => $new_password,
-            'UserID' => $result->UserID,
-            'First_name' => $result->First_name,
-            'Last_name' => $result->Last_name,
+            'User_id' => $result->User_id,
+            'Firstname' => $result->Firstname,
+            'Lastname' => $result->Lastname,
             'Email' => $result->Email,
-            'User_name' => $result->User_name,
+            'Username' => $result->Username,
             'Streetadress' => $result->Streetadress,
             'Postalcode' => $result->Postalcode,
             'Hometown' => $result->Hometown
@@ -118,7 +118,7 @@ class Reset_model extends Model
         }
          
         // delete old row in table User
-        $res = $this->db->delete($this->tableName2, array('UserID' => $result->UserID));
+        $res = $this->db->delete($this->tableName2, array('User_id' => $result->User_id));
         
         // was row deleted?
         if ( $res == false )
@@ -145,8 +145,8 @@ class Reset_model extends Model
     function CheckConfirmationCode($uid, $code)
     {
         // run query
-        $this->db->where('UserID', $uid);     
-        $this->db->where('Reset_code', $code);     
+        $this->db->where('User_id', $uid);     
+        $this->db->where('Resetcode', $code);     
         $this->db->limit(1);
         $query = $this->db->get($this->tableName2);
        

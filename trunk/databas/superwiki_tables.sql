@@ -3,123 +3,132 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
 -- table`User`
---
+-- updated to our standards!
+-- 
 
 CREATE TABLE IF NOT EXISTS `User` (
-  `UserID` int NOT NULL AUTO_INCREMENT,
-  `First_name` varchar(100) NOT NULL,
-  `Last_name` varchar(100) NOT NULL,
+  `User_id` int NOT NULL AUTO_INCREMENT,
+  `Firstname` varchar(100) NOT NULL,
+  `Lastname` varchar(100) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Password` varchar(32) NOT NULL,
   `User_name` varchar(100) NOT NULL,
   `Streetadress` varchar(100) NOT NULL DEFAULT '',
   `Postalcode` int(5) NOT NULL DEFAULT '0',
   `Hometown` varchar(130) NOT NULL DEFAULT '',
-  PRIMARY KEY (`UserID`)
+  PRIMARY KEY (`User_id`) ,
+  UNIQUE INDEX `Unique_Email` (`Email` ASC) ,
+  UNIQUE INDEX `Unique_Username` (`Username` ASC)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 --
--- table`UserActivation`
+-- table`User_Activation`
+-- updated to our standards!
 --
 
-CREATE TABLE IF NOT EXISTS `UserActivation` (
-  `ActivationID` int NOT NULL,
+CREATE TABLE IF NOT EXISTS `User_Activation` (
+  `Activation_id` int NOT NULL,
   `Code` varchar(32) NOT NULL,
   `Timestamp` int(11) NOT NULL,
-  PRIMARY KEY (`ActivationID`)
+  PRIMARY KEY (`Activation_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
 --
--- table `UserResetPassword`
+-- table `User_ResetPassword`
+-- updated to our standards!
 --
 
-CREATE TABLE IF NOT EXISTS `UserResetPassword` (
-  `UserID` int NOT NULL AUTO_INCREMENT,
-  `First_name` varchar(100) NOT NULL,
-  `Last_name` varchar(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `User_ResetPassword` (
+  `User_id` int NOT NULL AUTO_INCREMENT,
+  `Firstname` varchar(100) NOT NULL,
+  `Lastname` varchar(100) NOT NULL,
   `Email` varchar(100) NOT NULL,
-  `Reset_code` varchar(10) NOT NULL,
-  `User_name` varchar(100) NOT NULL,
+  `Resetcode` varchar(10) NOT NULL,
+  `Username` varchar(100) NOT NULL,
   `Streetadress` varchar(100) NOT NULL DEFAULT '',
   `Postalcode` int(5) NOT NULL DEFAULT '0',
   `Hometown` varchar(130) NOT NULL DEFAULT '',
-  PRIMARY KEY (`UserID`)
+  PRIMARY KEY (`User_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
 --
--- table `ProjectRole`
+-- table `Project_Role`
+-- updated to our standards!
 -- 
-CREATE  TABLE IF NOT EXISTS `ProjectRole` (
-  `ProjectRoleID` INT NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `Project_Role` (
+  `Project_role_id` INT NOT NULL AUTO_INCREMENT ,
   `Role` VARCHAR(25) NOT NULL ,
-  PRIMARY KEY (`ProjectRoleID`) ,
+  PRIMARY KEY (`Project_role_id`) ,
   UNIQUE INDEX `Unique_Project_Role` (`Role` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
 -- 
 -- table `Project`
+-- updated to our standards!
 -- 
 CREATE  TABLE IF NOT EXISTS `Project` (
-  `ProjectID` INT NOT NULL AUTO_INCREMENT ,
+  `Project_id` INT NOT NULL AUTO_INCREMENT ,
   `Title` VARCHAR(100) NOT NULL ,
   `Description` VARCHAR(300) NOT NULL ,
   `Created` TIMESTAMP NULL DEFAULT NOW() ,
-  PRIMARY KEY (`ProjectID`) ,
+  PRIMARY KEY (`Project_id`) ,
   UNIQUE INDEX `Unique_Project_Title` (`Title` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 -- 
--- table `ProjectInvitation`
+-- table `Project_Invitation`
+-- updated to our standards!
 -- 
-CREATE  TABLE IF NOT EXISTS `ProjectInvitation` (
-  `ProjectInvitationID` INT NOT NULL AUTO_INCREMENT ,
-  `ProjectInvitationCode` CHAR(32) NOT NULL ,
-  `ProjectID` INT NOT NULL ,
-  `ProjectRoleID` INT NOT NULL ,
-  PRIMARY KEY (`ProjectInvitationID`) ,
-  UNIQUE INDEX `Unique_ProjectInvitation_ProjectInvitationCode` (`ProjectInvitationCode` ASC) ,
-  INDEX `FK_ProjectInvitation_Project` (`ProjectID` ASC) ,
-  INDEX `FK_ProjectInvitation_ProjectRole` (`ProjectRoleID` ASC) ,
+CREATE  TABLE IF NOT EXISTS `Project_Invitation` (
+  `Project_invitation_id` INT NOT NULL AUTO_INCREMENT ,
+  `Code` CHAR(32) NOT NULL ,
+  `Project_id` INT NOT NULL ,
+  `Project_role_id` INT NOT NULL ,
+  PRIMARY KEY (`Project_invitation_id`) ,
+  UNIQUE INDEX `Unique_ProjectInvitation_Code` (`Code` ASC) ,
+  INDEX `FK_ProjectInvitation_Project` (`Project_id` ASC) ,
+  INDEX `FK_ProjectInvitation_ProjectRole` (`Project_role_id` ASC) ,
   CONSTRAINT `FK_ProjectInvitation_Project`
-    FOREIGN KEY (`ProjectID` )
-    REFERENCES `Project` (`ProjectID` )
+    FOREIGN KEY (`Project_id` )
+    REFERENCES `Project` (`Project_id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_ProjectInvitation_ProjectRole`
-    FOREIGN KEY (`ProjectRoleID` )
-    REFERENCES `ProjectRole` (`ProjectRoleID` )
+    FOREIGN KEY (`Project_role_id` )
+    REFERENCES `ProjectRole` (`Project_role_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 -- 
--- table `ProjectMember`
+-- table `Project_Member`
+-- updated to our standards!
 -- 
-CREATE  TABLE IF NOT EXISTS `ProjectMember` (
-  `ProjectMemberID` INT NOT NULL AUTO_INCREMENT ,
-  `UserID` INT NOT NULL ,
-  `ProjectID` INT NOT NULL ,
-  `ProjectRoleID` INT NOT NULL ,
-  PRIMARY KEY (`ProjectMemberID`) ,
-  INDEX `FK_ProjectMember_User` (`UserID` ASC) ,
-  INDEX `FK_ProjectMember_Project` (`ProjectID` ASC) ,
-  INDEX `FK_ProjectMember_ProjectRole` (`ProjectRoleID` ASC) ,
+CREATE  TABLE IF NOT EXISTS `Project_Member` (
+  `Project_member_id` INT NOT NULL AUTO_INCREMENT ,
+  `User_id` INT NOT NULL ,
+  `Project_id` INT NOT NULL ,
+  `Project_role_id` INT NOT NULL ,
+  PRIMARY KEY (`Project_member_id`) ,
+  INDEX `FK_ProjectMember_User` (`User_id` ASC) ,
+  INDEX `FK_ProjectMember_Project` (`Project_id` ASC) ,
+  INDEX `FK_ProjectMember_ProjectRole` (`Project_role_id` ASC) ,
   CONSTRAINT `FK_ProjectMember_User`
-    FOREIGN KEY (`UserID` )
-    REFERENCES `User` (`UserID` )
+    FOREIGN KEY (`User_id` )
+    REFERENCES `User` (`User_id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_ProjectMember_Project`
-    FOREIGN KEY (`ProjectID` )
-    REFERENCES `Project` (`ProjectID` )
+    FOREIGN KEY (`Project_id` )
+    REFERENCES `Project` (`Project_id` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_ProjectMember_ProjectRole`
-    FOREIGN KEY (`ProjectRoleID` )
-    REFERENCES `ProjectRole` (`ProjectRoleID` )
+    FOREIGN KEY (`Project_role_id` )
+    REFERENCES `ProjectRole` (`Project_role_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
