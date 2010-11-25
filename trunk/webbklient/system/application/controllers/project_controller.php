@@ -124,7 +124,7 @@ class Project_controller extends Controller {
             // Human names for the inputfields
 
             $field = array(
-                "projectID" => "ProjectID",
+                "projectID" => "Project_id",
                 "description" => "Description"
             );
 
@@ -189,7 +189,7 @@ class Project_controller extends Controller {
             else {
 
                 $data = array(
-                    "projectID" => $savedData['ProjectID'],
+                    "projectID" => $savedData['Project_id'],
                     "title" => $savedData['Title'],
                     "description" => $savedData['Description'],
                 );
