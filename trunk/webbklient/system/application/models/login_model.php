@@ -24,7 +24,7 @@ class Login_model extends Model
 	{
 		$this->load->library('user');
 		$passwordForm = $this->user->transformPassword($password);
-		$query = $this->db->get_where('User', array('User_name' => $username,'Password' => $passwordForm));
+		$query = $this->db->get_where('User', array('Username' => $username,'Password' => $passwordForm));
 
 		if($query->num_rows() > 0)
 		{
