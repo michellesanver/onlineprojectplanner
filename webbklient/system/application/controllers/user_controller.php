@@ -152,11 +152,16 @@ class User_controller extends Controller {
      */
      function Login()
      {
-     	if($this->user->Login("Michelle", "lolbarn1337") == true) {
-     		echo("Inloggad!");
-     	} else {
-     		echo("Inte inloggad");
+     	if(isset($_POST)) {
+     		if($this->user->Login($_POST["username"], $_POST["password"]) == true) {
+     			echo("Inloggad!");
+     		} else {
+     			echo("Inte inloggad");
+     		}
      	}
+     	
+     	$this->theme->view('user/login');
+     	
      }
 	/**
 	* Function: Register
