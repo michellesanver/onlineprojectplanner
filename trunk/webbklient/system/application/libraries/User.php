@@ -234,7 +234,7 @@ class User
 			$insert = array(
 				"Activation_id" => $userID,
 				"Code" => $key,
-				"Timestamp" => time()
+				"Created" => time()
 			);
 			if($this->_CI->Activation_model->insert($insert)) {
 				return true;
