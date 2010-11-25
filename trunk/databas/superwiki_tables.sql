@@ -29,13 +29,13 @@ CREATE TABLE IF NOT EXISTS `User` (
 CREATE TABLE IF NOT EXISTS `User_Activation` (
   `Activation_id` int NOT NULL,
   `Code` varchar(32) NOT NULL,
-  `Timestamp` int(11) NOT NULL,
+  `Created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (`Activation_id`),
   CONSTRAINT `user_activation_ibfk_1` 
     FOREIGN KEY (`Activation_id`)
-    REFERENCES `user` (`User_id`)
+    REFERENCES `User` (`User_id`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE
+    ON UPDATE NO ACTION
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
@@ -54,7 +54,12 @@ CREATE TABLE IF NOT EXISTS `User_ResetPassword` (
   `Streetadress` varchar(100) NOT NULL DEFAULT '',
   `Postalcode` int(5) NOT NULL DEFAULT '0',
   `Hometown` varchar(130) NOT NULL DEFAULT '',
-  PRIMARY KEY (`User_id`)
+  PRIMARY KEY (`User_id`),
+  CONSTRAINT `user_reset_ibfk_1` 
+    FOREIGN KEY (`User_id`)
+    REFERENCES `User` (`User_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
@@ -78,7 +83,7 @@ CREATE  TABLE IF NOT EXISTS `Project` (
   `Project_id` INT NOT NULL AUTO_INCREMENT ,
   `Title` VARCHAR(100) NOT NULL ,
   `Description` VARCHAR(300) NOT NULL ,
-  `Created` TIMESTAMP NULL DEFAULT NOW() ,
+  `Created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (`Project_id`) ,
   UNIQUE INDEX `Unique_Project_Title` (`Title` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
