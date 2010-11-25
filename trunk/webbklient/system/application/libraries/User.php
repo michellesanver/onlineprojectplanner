@@ -229,7 +229,7 @@ class User
 	function Register($insert, $key)
 	{
 		// encrypt password (sent from crontroller)
-		list($encrypted, $plain) = $this->_createPassword($insert['Password']);
+		list($plain, $encrypted) = $this->_createPassword($insert['Password']);
 		$insert['Password'] = $encrypted;
 		
 		// insert
