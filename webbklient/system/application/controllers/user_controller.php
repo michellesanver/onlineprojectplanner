@@ -147,6 +147,17 @@ class User_controller extends Controller {
        $this->theme->view('user/reset_password', $formData); 
     }
     
+    /**
+     *
+     */
+     function Login()
+     {
+     	if($this->user->Login("Michelle", "lolbarn1337") == true) {
+     		echo("Inloggad!");
+     	} else {
+     		echo("Inte inloggad");
+     	}
+     }
 	/**
 	* Function: Register
 	* 

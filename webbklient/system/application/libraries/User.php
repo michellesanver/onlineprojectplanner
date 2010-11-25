@@ -18,7 +18,7 @@ class User
 		$this->_CI = & get_instance();
 		
 		// load model for library
-		$this->_CI->load->model(array('User_model', 'Activation_model', 'Reset_model'));
+		$this->_CI->load->model(array('User_model', 'Login_model', 'Activation_model', 'Reset_model'));
 	}
 	
     /**
@@ -266,6 +266,11 @@ class User
 			}
 		}
 		return false;
+	}
+	
+	function login($username, $password) {
+		$login = $this->_CI->Login_model->Login($username, $password);
+		return($login);
 	}
 
 }
