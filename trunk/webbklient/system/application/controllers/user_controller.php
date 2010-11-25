@@ -152,7 +152,8 @@ class User_controller extends Controller {
      */
      function Login()
      {
-     	if(isset($_POST)) {
+     	if(!empty($_POST)) {
+
      		if($this->user->Login($_POST["username"], $_POST["password"]) == true) {
      			echo("Inloggad!");
      		} else {
@@ -160,7 +161,7 @@ class User_controller extends Controller {
      		}
      	}
      	
-     	$this->theme->view('user/login');
+     	$this->theme->view('user/login_view');
      	
      }
 	/**
