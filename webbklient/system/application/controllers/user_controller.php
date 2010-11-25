@@ -180,7 +180,7 @@ class User_controller extends Controller {
 			"lastname" => "trim|required|max_length[100]|alpha|xss_clean",
 			"email" => "trim|required|max_length[100]|xss_clean|valid_email|callback_email_check",
 			"username" => "trim|required|max_length[100]|xss_clean|callback_username_check",
-			"password" => "trim|required|max_length[32]|xss_clean|matches[password2]|md5",
+			"password" => "trim|required|max_length[32]|xss_clean|matches[password2]",
 			"password2" => "trim|required|max_length[32]|xss_clean",
 			"streetadress" => "trim|max_length[100]|xss_clean",
 			"postalcode" => "trim|max_length[5]|integer",
