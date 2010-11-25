@@ -16,7 +16,7 @@ INSERT INTO `Project_Role` (`Project_role_id`, `Role`) VALUES ('2', 'Member');
 -- Data for table `Project`
 -- -----------------------------------------------------
 
-INSERT INTO `Project` (`Project_id`, `Title`, `Description`, `Created`) VALUES ('1', 'Test Project', 'Description for Test Project...', '9999-12-31 23:59:59');
+INSERT INTO `Project` (`Project_id`, `Title`, `Description`) VALUES ('1', 'Test Project', 'Description for Test Project...');
 
 -- -----------------------------------------------------
 -- Data for table `Project_Invitation`
