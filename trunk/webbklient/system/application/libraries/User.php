@@ -228,6 +228,10 @@ class User
 		*/
 	function Register($insert, $key)
 	{
+		// encrypt password (sent from crontroller)
+		$insert['Password'] = $this->_createPassword($insert['Password']);
+		
+		// insert
 		$userID = $this->_CI->User_model->insert($insert);
 		if($userID > 0) {
 		
