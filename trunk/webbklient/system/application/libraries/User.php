@@ -21,7 +21,7 @@ class User
 		$this->_CI->load->model(array('User_model', 'Activation_model', 'Reset_model'));
 	}
 	
-    /**
+   /**
     * This function will return the last error
     * this class has set.
     */
@@ -33,14 +33,14 @@ class User
         return $returnStr;
     }
     
-    /**
+	   /**
 		* Function: ActivateUser
-    * This function will activate a user by serching for a codematch
+	    * This function will activate a user by serching for a codematch
 		* and removes the activationcode for that user in the database. 
-    * 
-    * @param string $code
-    * @return bool
-    */
+	    * 
+	    * @param string $code
+	    * @return bool
+	    */
 		function ActivateUser($code)
 		{
 			// Fetches the activation row
@@ -207,25 +207,27 @@ class User
         // return result
         return array($password, $encrypted);
     }
-
-    function transformPassword($pass)
+	
+	/**
+	 * Transforms a password into the encrypted version.
+	 * @param $pass
+	 * @return string
+	 */
+    function TransformPassword($pass)
 	{
 		$ret = $this->_createPassword($pass);
 		return $ret[1];
 	}
 
-
-
-
-		/**
-		* Function: Register
-		* This function will diliver the validated registration
-		* information to the user_model.
-		* 
-		* @param array $insert
-		* @param string $key
-		* @return bool
-		*/
+	/**
+	* Function: Register
+	* This function will diliver the validated registration
+	* information to the user_model.
+	* 
+	* @param array $insert
+	* @param string $key
+	* @return bool
+	*/
 	function Register($insert, $key)
 	{
 		// encrypt password (sent from crontroller)
@@ -254,12 +256,11 @@ class User
     * 
     * @return bool
     */
-	
 	function IsLoggedIn()
 	{
-		$isloggedin = $this->session->userdata('login_status');
+		$isloggedin = $this->_CI->session->userdata('login_status');
 		if(!isset($isloggedin) ){	
-				$this->session->set_userdata('login_status', 'offline'); 
+				$this->_CI->session->set_userdata('login_status', 'offline'); 
 			return false;
 		}
 		if($isloggedin == "online"){	
@@ -280,8 +281,8 @@ class User
 	function Logout()
 	{	
 		//$uid = $this->session->userdata('userid');
-		$this->session->set_userdata('login_status', 'offline');
-		$this->session->sess_destroy();
+		$this->_CI->session->set_userdata('login_status', 'offline');
+		$this->_CI->session->sess_destroy();
 		return true;
 	}
 	
@@ -317,8 +318,8 @@ class User
 	 * @param string $password
 	 * @return bool
 	 */
-	function login($username, $password) {
-		$encryptedpassword = $this->transformPassword($password);
+	function Login($username, $password) {
+		$encryptedpassword = $this->TransformPassword($password);
 		$login = $this->_CI->User_model->checkLogin($username, $encryptedpassword);
 		if($login != false) {
 			$this->_CI->session->set_userdata($login);
