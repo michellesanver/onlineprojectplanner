@@ -154,4 +154,23 @@ class User_model extends Model
 	
 	}
 	
+	/**
+	 * This function checks against the database if the login is true or false.
+	 * @return boolean 
+	 */
+	function checkLogin($username,$encryptedpassword)
+	{
+		$query = $this->db->get_where('User', array('Username' => $username,'Password' => $encryptedpassword));
+
+		if($query->num_rows() > 0)
+		{
+			foreach ($query->result() as $row)
+	        {
+				$pers = array('UserID' => $row->User_id, 'login_status' => "online");
+				return $pers;
+	        }
+		}  
+		return false;
+	}
+	
 }
