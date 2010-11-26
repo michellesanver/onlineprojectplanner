@@ -18,7 +18,7 @@ class User
 		$this->_CI = & get_instance();
 		
 		// load model for library
-		$this->_CI->load->model(array('User_model', 'Login_model', 'Activation_model', 'Reset_model'));
+		$this->_CI->load->model(array('User_model', 'Activation_model', 'Reset_model'));
 	}
 	
     /**
@@ -248,15 +248,52 @@ class User
 		return false;
 	}
 	
-		/**
-		* Function: checkIfExist
-		* This function is used in the formvalidation. Searches the 
-		* database for a match and returns the answer as an bool.
-		* 
-		* @param string $column
-		* @param string $value
-		* @return bool
-		*/
+	/**
+    * 
+    * Check if a user is online or offline
+    * 
+    * @return bool
+    */
+	
+	function IsLoggedIn()
+	{
+		$isloggedin = $this->session->userdata('login_status');
+		if(!isset($isloggedin) ){	
+				$this->session->set_userdata('login_status', 'offline'); 
+			return false;
+		}
+		if($isloggedin == "online"){	
+				return true;
+		}
+		if($isloggedin != "online"){
+			return false;
+		}
+		return false;
+	}
+	
+	/**
+    * 
+    * Do logout and kill session
+    * 
+    * @return bool
+    */
+	function Logout()
+	{	
+		//$uid = $this->session->userdata('userid');
+		$this->session->set_userdata('login_status', 'offline');
+		$this->session->sess_destroy();
+		return true;
+	}
+	
+	/**
+	* Function: checkIfExist
+	* This function is used in the formvalidation. Searches the 
+	* database for a match and returns the answer as an bool.
+	* 
+	* @param string $column
+	* @param string $value
+	* @return bool
+	*/
 	function checkIfExist($column, $value)
 	{
 		// Fetches all the users
@@ -273,9 +310,23 @@ class User
 		return false;
 	}
 	
+	/**
+	 * Logs in a user if credentials is correct.
+	 * 
+	 * @param string $username
+	 * @param string $password
+	 * @return bool
+	 */
 	function login($username, $password) {
-		$login = $this->_CI->Login_model->Login($username, $password);
-		return($login);
+		$encryptedpassword = $this->transformPassword($password);
+		$login = $this->_CI->User_model->checkLogin($username, $encryptedpassword);
+		if($login != false) {
+			$this->_CI->session->set_userdata($login);
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 
 }
