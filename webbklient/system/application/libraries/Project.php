@@ -19,7 +19,7 @@ class Project
 
         // load model for library
 
-        $this->_CI->load->model('Project_model');
+        $this->_CI->load->model(array('Project_model', 'Project_member_model'));
     }
 
     /**
@@ -69,27 +69,27 @@ class Project
     function Register($insert)
     {
         $projectID = $this->_CI->Project_model->insert($insert);
+        $userID = $this->_CI->session->userdata('UserID');
 
-        if($projectID > 0) {
+        // Insert creator of project (the logged in user) as Admin in ProjectMember table
 
-            // Insert creator of project (the logged in user) as Admin in ProjectMember table
-            // If false, remove created project (all projects need an Admin?)
+        if($userID > 0) {
 
-            /*$insert = array(
-                            "X" => $x,
-                            "X" => $x
-                    );
+            $insert = array(
+                    "User_id" => $userID,
+                    "Project_id" => $projectID,
+                    "Project_role_id" => 1
+            );
 
-            if($this->_CI->ProjectMember_model->insert($insert) > 0) {
+            if($this->_CI->Project_member_model->insert($insert)) {
 
                 return true;
 
-            }*/
-
-            return true;
+            }
         }
 
         return false;
+
     }
 
     /**
