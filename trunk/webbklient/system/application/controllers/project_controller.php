@@ -10,7 +10,7 @@ class Project_controller extends Controller {
     {
         parent::Controller();
 
-        $this->load->library(array('validation'));
+        $this->load->library(array('validation', 'user'));
     }
 
     /**
@@ -22,74 +22,87 @@ class Project_controller extends Controller {
 
     function Register()
     {
-        // Rules for the inputfields
+        // If user is logged in
 
-        $rules = array (
-            "title" => "required|max_length[100]|xss_clean|callback_title_check",
-            "description" => "required|max_length[300]|xss_clean"
-        );
+        if($this->user->IsLoggedIn()) {
 
-        $this->validation->set_rules($rules);
+            // Rules for the inputfields
 
-        // Human names for the inputfields
-
-        $field = array(
-            "title" => "Title",
-            "description" => "Description"
-        );
-
-        $this->validation->set_fields($field);
-
-        $status = $this->validation->run();
-
-        $data = array();
-
-        // If have status
-
-        if($status) {
-
-            // Set inserts
-
-            $insert = array(
-                    "Title" => $this->validation->title,
-                    "Description" => $this->validation->description
+            $rules = array (
+                "title" => "required|max_length[100]|xss_clean|callback_title_check",
+                "description" => "required|max_length[300]|xss_clean"
             );
 
-            // If validation is ok => send to library
+            $this->validation->set_rules($rules);
 
-            if($this->project->Register($insert)) {
+            // Human names for the inputfields
+
+            $field = array(
+                "title" => "Title",
+                "description" => "Description"
+            );
+
+            $this->validation->set_fields($field);
+
+            $status = $this->validation->run();
+
+            $data = array();
+
+            // If have status
+
+            if($status) {
+
+                // Set inserts
+
+                $insert = array(
+                        "Title" => $this->validation->title,
+                        "Description" => $this->validation->description
+                );
+
+                // If validation is ok => send to library
+
+                if($this->project->Register($insert)) {
+
+                    $data = array(
+                            "status" => "ok",
+                            "status_message" => "Registration was successful!"
+                    );
+                }
+
+                // Else, if something went wrong
+
+                else {
+
+                    $data = array(
+                            "status" => "error",
+                            "status_message" => "Registration failed!"
+                    );
+                }
+            }
+
+            // If no status but post
+
+            if($status == false && isset($_POST['register_btn'])) {
 
                 $data = array(
-                        "status" => "ok",
-                        "status_message" => "Registration was successful!"
+                    "title" => $this->validation->title,
+                    "description" => $this->validation->description,
+                    "status" => "error",
+                    "status_message" => "Registration failed!"
                 );
             }
 
-            // Else, if something went wrong
+            $this->theme->view('project/register', $data);
 
-            else {
-
-                $data = array(
-                        "status" => "error",
-                        "status_message" => "Registration failed!"
-                );
-            }
         }
 
-        // If no status but post
+        // Else, redirect to login page
 
-        if($status == false && isset($_POST['register_btn'])) {
+        else {
 
-            $data = array(
-                "title" => $this->validation->title,
-                "description" => $this->validation->description,
-                "status" => "error",
-                "status_message" => "Registration failed!"
-            );
+            redirect('user_controller/login', 'refresh');
+
         }
-
-        $this->theme->view('project/register', $data);
-
     }
 
     /**
@@ -101,104 +114,116 @@ class Project_controller extends Controller {
 
     function Update($projectID = NULL)
     {
+        // If user is logged in
 
-        $data = array();
+        if($this->user->IsLoggedIn()) {
 
-        // Get saved data
+            $data = array();
 
-        $savedData = $this->project->Select($projectID);
+            // Get saved data
 
-        // If saved data exists
+            $savedData = $this->project->Select($projectID);
 
-        if($savedData) {
+            // If saved data exists
 
-            // Rules for the inputfields
+            if($savedData) {
 
-            $rules = array (
-                "projectID" => "required|integer",
-                "description" => "required|max_length[300]|xss_clean"
-            );
+                // Rules for the inputfields
 
-            $this->validation->set_rules($rules);
-
-            // Human names for the inputfields
-
-            $field = array(
-                "projectID" => "Project_id",
-                "description" => "Description"
-            );
-
-            $this->validation->set_fields($field);
-
-            $status = $this->validation->run();
-
-            // If have status
-
-            if($status) {
-
-                // Set updates
-
-                $update = array(
-                        "Project_id" => $this->validation->projectID,
-                        "Description" => $this->validation->description
+                $rules = array (
+                    "projectID" => "required|integer",
+                    "description" => "required|max_length[300]|xss_clean"
                 );
 
-                // If validation is ok => send to library
+                $this->validation->set_rules($rules);
 
-                if($this->project->Update($update)) {
+                // Human names for the inputfields
+
+                $field = array(
+                    "projectID" => "Project_id",
+                    "description" => "Description"
+                );
+
+                $this->validation->set_fields($field);
+
+                $status = $this->validation->run();
+
+                // If have status
+
+                if($status) {
+
+                    // Set updates
+
+                    $update = array(
+                            "Project_id" => $this->validation->projectID,
+                            "Description" => $this->validation->description
+                    );
+
+                    // If validation is ok => send to library
+
+                    if($this->project->Update($update)) {
+
+                        $data = array(
+                                "projectID" => $this->validation->projectID,
+                                "title" => $savedData['Title'],
+                                "description" => $this->validation->description,
+                                "status" => "ok",
+                                "status_message" => "Update was successful!"
+                        );
+                    }
+
+                    // Else, if something went wrong
+
+                    else {
+
+                        $data = array(
+                                "projectID" => $this->validation->projectID,
+                                "title" => $savedData['Title'],
+                                "description" => $this->validation->description,
+                                "status" => "error",
+                                "status_message" => "Update failed!"
+                        );
+                    }
+
+                }
+
+                // If no status but post
+
+                else if($status == false && isset($_POST['update_btn'])) {
 
                     $data = array(
-                            "projectID" => $this->validation->projectID,
-                            "title" => $savedData['Title'],
-                            "description" => $this->validation->description,
-                            "status" => "ok",
-                            "status_message" => "Update was successful!"
+                        "projectID" => $this->validation->projectID,
+                        "title" => $savedData['Title'],
+                        "description" => $this->validation->description,
+                        "status" => "error",
+                        "status_message" => "Update failed!"
                     );
                 }
 
-                // Else, if something went wrong
+                // Else, present saved data
 
                 else {
 
                     $data = array(
-                            "projectID" => $this->validation->projectID,
-                            "title" => $savedData['Title'],
-                            "description" => $this->validation->description,
-                            "status" => "error",
-                            "status_message" => "Update failed!"
+                        "projectID" => $savedData['Project_id'],
+                        "title" => $savedData['Title'],
+                        "description" => $savedData['Description'],
                     );
                 }
 
             }
 
-            // If no status but post
-
-            else if($status == false && isset($_POST['update_btn'])) {
-
-                $data = array(
-                    "projectID" => $this->validation->projectID,
-                    "title" => $savedData['Title'],
-                    "description" => $this->validation->description,
-                    "status" => "error",
-                    "status_message" => "Update failed!"
-                );
-            }
-
-            // Else, present saved data
-
-            else {
-
-                $data = array(
-                    "projectID" => $savedData['Project_id'],
-                    "title" => $savedData['Title'],
-                    "description" => $savedData['Description'],
-                );
-            }
+            $this->theme->view('project/update', $data);
 
         }
 
-        $this->theme->view('project/update', $data);
+        // Else, redirect to login page
 
+        else {
+
+            redirect('user_controller/login', 'refresh');
+
+        }
     }
 
     /**
