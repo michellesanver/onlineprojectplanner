@@ -43,7 +43,12 @@ class Emailsender
 	*/
 	function SendActivationMail($name, $email, $code)
 	{
-		$this->_CI->email->from('info@example.com', 'Superwiki');
+        // fetch settings from config
+        $system_email = $this->_CI->config->item('system_email', 'webclient');
+        $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
+        
+        // setup CI email library
+        $this->_CI->email->from($system_email, $system_email_name);
 		$this->_CI->email->to($email); 
 
 		$this->_CI->email->subject('Activation email');
@@ -62,12 +67,25 @@ class Emailsender
 	*/
 	function SendRecommendationMail($senderName, $email)
 	{
-		$this->_CI->email->from('info@example.com', 'Superwiki');
+        // fetch settings from config
+        $system_email = $this->_CI->config->item('system_email', 'webclient');
+        $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
+        $email_template = $this->_CI->config->item('activation_template', 'webclient');  
+        $email_subject = $this->_CI->config->item('activation_template_subject', 'webclient');  
+        
+        // insert data
+        $url = site_url();
+        $email_subject = sprintf($email_subject, $senderName);
+        $email_template = sprintf($email_template, $senderName, $url, $url);
+        
+        // setup CI email library
+		$this->_CI->email->from($system_email, $system_email_name);
 		$this->_CI->email->to($email); 
 
-		$this->_CI->email->subject('Recommendation email from '. $senderName);
-		$this->_CI->email->message("Hello<br />Your friend " . $senderName . " would like you to join this awesome applikation \"Superwiki\".<br /> You can find more information here, <a href='" . site_url() . "'>" . site_url() . "</a>");
+		$this->_CI->email->subject($email_subject);
+		$this->_CI->email->message($email_template);
 
+        // send
 		return $this->_CI->email->send();
 	}
     
