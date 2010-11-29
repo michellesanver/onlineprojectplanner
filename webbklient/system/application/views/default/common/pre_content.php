@@ -11,4 +11,10 @@
 </head>
 
 <body>
-	<div id="topbar"></div>
+	<div id="topbar">
+	<?php
+		if($this->user->isLoggedIn()) {
+			echo("<a href=\"" . site_url('user_controller/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a>");
+		}
+	?>
+	</div>

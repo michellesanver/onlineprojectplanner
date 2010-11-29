@@ -12,8 +12,15 @@ class Main_controller extends Controller
 	
 	function index()
 	{
-		$this->theme->view('user/login_view');		
+		
+			
+		if($this->user->isLoggedIn()) {
+			$this->theme->view('project/index');
+		} else {
+			$this->theme->view('user/login_view');	
+		}
 	}
+	
 	function register()
 	{
 		$this->theme->view('user/register');	

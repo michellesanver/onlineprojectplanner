@@ -28,7 +28,7 @@ class Widgets
     function _readWidgets()
     {
         // set folder
-        $dir = BASEPATH."/".$this->_widget_dir;
+        $dir = BASEPATH . $this->_widget_dir;
         
         // open folder
         if ($dh = opendir($dir)) {
