@@ -36,7 +36,7 @@ $config['webclient']['system_email_name'] = "Online Project Planner";
 * --------------------------------------- */
 
 // url to confirm (first %s is UserID and second %s is confirmation code)
-$config['webclient']['confirm_reset_url'] = "/user_controller/reset_password/%s/%s";
+$config['webclient']['confirm_reset_url'] = "/user_controller/resetpassword/%s/%s";
 
 // email template for reset password
 $config['webclient']['reset_password_template_subject'] = "Reset password";
@@ -45,4 +45,16 @@ $config['webclient']['reset_password_template'] = "Hi %s, "."\n\n"."Please follo
 // email template for new password
 $config['webclient']['new_password_template_subject'] = "New password";
 $config['webclient']['new_password_template'] = "Hi %s, "."\n\n"."Here is your new password: %s"."\n\n"."Regards, "."\n"."%s";
+
+/* ---------------------------------------
+* Settings for activation mail
+* --------------------------------------- */
+$config['webclient']['activation_template_subject'] = "Recommendation email from %s";
+$config['webclient']['activation_template'] = "Hello<br />Your friend %s would like you to join this awesome applikation \"Superwiki\".<br /> You can find more information here, <a href=\"%s\">%s</a>";
+
+
+/* ---------------------------------------
+* Settings for recommendation mail
+* --------------------------------------- */
+
 
