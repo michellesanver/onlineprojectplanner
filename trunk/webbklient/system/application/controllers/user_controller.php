@@ -152,18 +152,31 @@ class User_controller extends Controller {
      */
      function Login()
      {
-     	if(!empty($_POST)) {
+     	//If we're already logged in
+     	if($this->user->isLoggedIn()) {
+     		$this->theme->view('project/index');
+     	} else {
+     		if(!empty($_POST)) {
 
-     		if($this->user->Login($_POST["username"], $_POST["password"]) == true) {
-     			echo("Inloggad!");
-     		} else {
-     			echo("Inte inloggad");
-     		}
+	     		if($this->user->Login($_POST["username"], $_POST["password"]) == true) {
+	     			$this->theme->view('project/index');
+	     		} else {
+	     			$this->theme->view('user/login_view');
+	     		}
+	     	}
      	}
      	
-     	$this->theme->view('user/login_view');
+     	
+     	
+     	
      	
      }
+     
+   function Logout()
+   {
+   		$this->user->logout();
+   		$this->theme->view('user/login_view');
+   }
 	/**
 	* Function: Register
 	* 
