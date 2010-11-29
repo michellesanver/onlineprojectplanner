@@ -227,6 +227,46 @@ class Project_controller extends Controller {
     }
 
     /**
+    * Function: Delete
+    *
+    * Description: Will show the project/delete.php view and
+    * catch the Project_id from get.
+    * In order to delete a project the logged user need to be
+    * a member of the selected project
+    */
+
+    function Delete($projectID = NULL)
+    {
+        if($this->user->IsLoggedIn()) {
+
+            // Get logged in users memberships
+
+            $memberships = $this->project_member->SelectByUserId($projectID);
+
+            $data = array();
+
+            // If user have membership in selected project
+
+            /*if() {
+
+                //
+
+            }*/
+
+            $this->theme->view('project/delete', $data);
+
+        }
+
+        // Else, redirect to login page
+
+        else {
+
+            redirect('user_controller/login', 'refresh');
+
+        }
+    }
+
+    /**
     * Function: title_check
     * This function is part of the register validation. It will stop any
     * registration with an title that already exist
