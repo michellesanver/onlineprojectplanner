@@ -10,7 +10,7 @@ class Project_controller extends Controller {
     {
         parent::Controller();
 
-        $this->load->library(array('validation', 'user'));
+        $this->load->library(array('validation'));
     }
 
     /**
