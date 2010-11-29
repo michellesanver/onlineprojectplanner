@@ -176,8 +176,8 @@ class User_controller extends Controller {
 		* Rules for the inputfields
 		*/
 		$rules = array(
-			"firstname" => "trim|required|max_length[100]|alpha|xss_clean",
-			"lastname" => "trim|required|max_length[100]|alpha|xss_clean",
+			"firstname" => "trim|required|max_length[100]|callback_validate_alpha_swe|xss_clean",
+			"lastname" => "trim|required|max_length[100]|callback_validate_alpha_swe|xss_clean",
 			"email" => "trim|required|max_length[100]|xss_clean|valid_email|callback_email_check",
 			"username" => "trim|required|max_length[100]|xss_clean|callback_username_check",
 			"password" => "trim|required|max_length[32]|xss_clean|matches[password2]",
@@ -276,6 +276,24 @@ class User_controller extends Controller {
 		$this->theme->view('user/register', $data);
 	}
 	
+    
+    /**
+    * Custom validation function so that swedish
+    * characters is supported; no spaces or numbers
+    * or other special characters
+    * 
+    * @param string $str
+    * @return bool
+    */
+    function validate_alpha_swe($str)
+    {
+        $regex = '/[a-z]|å|ä|ö/';    
+        if ( preg_match($regex, $str) )
+            return true;
+        else
+            return false;
+    }
+    
 	/**
 	* Function: email_check
 	* This function is part of the register validation. It will stop any
