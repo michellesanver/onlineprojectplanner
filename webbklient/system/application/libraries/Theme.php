@@ -23,6 +23,9 @@ class Theme
        $this->_site_title = $this->_CI->config->item('site_title', 'webclient');  
        $this->_theme = $this->_CI->config->item('theme', 'webclient');  
        $this->_base_url = $this->_CI->config->item('base_url');
+       
+       // load library widgets
+       $this->_CI->load->library('widgets');
     }
     
     /**

@@ -143,5 +143,13 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
-
-
+-- 
+-- table `Project_Widgets`
+-- 
+ CREATE TABLE IF NOT EXISTS `Project_Widgets` (
+	`Project_widgets_id` INT( 11 ) NOT NULL AUTO_INCREMENT,
+	`Project_id` INT( 11 ) NOT NULL ,
+	`Widget_name` VARCHAR( 50 ) NOT NULL ,
+	`Is_active` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
+	PRIMARY KEY ( `Project_Widgets_id` )
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
