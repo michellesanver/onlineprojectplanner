@@ -226,7 +226,7 @@ class User
 	* 
 	* @param array $insert
 	* @param string $key
-	* @return bool
+	* @return mixed
 	*/
 	function Register($insert, $key)
 	{
@@ -239,9 +239,9 @@ class User
 		// insert
 		$userID = $this->_CI->User_model->insert($insert);
 		
-		if($userID <= 0 || $this->db->affected_rows() == 0) {
+		if($userID <= 0 || $this->_CI->db->affected_rows() == 0) {
 			// Rollback transaction and return false
-			$this->db->trans_rollback();
+			$this->_CI->db->trans_rollback();
 			return false;
 		}
 		
@@ -254,12 +254,12 @@ class User
 		
 		if($res == false) {
 			// Rollback transaction and return false
-			$this->db->trans_rollback();
+			$this->_CI->db->trans_rollback();
 			return false;
 		}
 		
-		$this->db->trans_commit();
-		return true;
+		$this->_CI->db->trans_commit();
+		return $userID;
 	}
 	
 	/**
@@ -403,7 +403,7 @@ class User
     {
         if ( $this->IsLoggedIn() )
             // UserID is set in user_model->checkLogin
-            return $this->_CI->user_model->getById($this->_CI->session->userdata('UserID'));
+            return $this->_CI->User_model->getById($this->_CI->session->userdata('UserID'));
         else
             return false;
     }
@@ -416,12 +416,7 @@ class User
     */
 		function removeUser($userid)
 		{
-			$res = $this->_CI->user_model->delete($userid);
-			
-			if($res == true) {
-				return true;
-			}
-			return false;
+			return $this->_CI->User_model->delete($userid);
 		}
 }
 

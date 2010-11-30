@@ -53,7 +53,7 @@ class Emailsender
         // insert data
         $url = site_url();
         $activation_url = site_url($activation_url)."/$code";
-        $email_subject = sprintf($email_subject, $senderName);
+        $email_subject = sprintf($email_subject, $name);
         $email_template = sprintf($email_template, $name, $url, $activation_url, $activation_url);
         
         // setup CI email library
