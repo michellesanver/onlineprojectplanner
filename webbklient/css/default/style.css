@@ -9,6 +9,9 @@ body {
 	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
+a img {
+	border: 0;
+}
 img.topbuttons {
 	float: right;
 	padding: 7px;	
