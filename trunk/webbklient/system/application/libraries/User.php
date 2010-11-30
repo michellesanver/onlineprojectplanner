@@ -248,7 +248,6 @@ class User
 		$insert = array(
 			"Activation_id" => $userID,
 			"Code" => $key,
-			"Created" => time()
 		);
 		
 		$res = $this->_CI->Activation_model->insert($insert);
