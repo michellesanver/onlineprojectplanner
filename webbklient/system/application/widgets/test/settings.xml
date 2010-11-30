@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<settings>
+	<about>test</about>
+	<version>1.0</version>
+	<link>none</link>
+	<author>Fredrik Johansson</author>
+	<icon/>
+    <icon_title>Simple browser</icon_title>
+    <icon_startfunction></icon_startfunction>
+	<load/>
+</settings>

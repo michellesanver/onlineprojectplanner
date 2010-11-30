@@ -13,7 +13,7 @@ class Widgets
     
     private $_widgets = array();
 
-    private $_widget_dir = "widgets";
+    private $_widget_dir = "application/widgets/";
     private $_icon_height = 48;
     private $_icon_width = 48;
     
