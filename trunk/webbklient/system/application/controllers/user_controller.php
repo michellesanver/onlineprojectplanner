@@ -154,15 +154,16 @@ class User_controller extends Controller {
      {
      	//If we're already logged in
      	if($this->user->isLoggedIn()) {
-     		$this->theme->view('project/index');
+     		redirect('/project/index');
      	} else {
      		if(!empty($_POST)) {
-
 	     		if($this->user->Login($_POST["username"], $_POST["password"]) == true) {
-	     			$this->theme->view('project/index');
+	     			redirect('/project_controller/index');
 	     		} else {
 	     			$this->theme->view('user/login_view');
 	     		}
+	     	} else {
+	     		$this->theme->view('user/login_view');
 	     	}
      	}
      	
@@ -175,7 +176,7 @@ class User_controller extends Controller {
    function Logout()
    {
    		$this->user->logout();
-   		$this->theme->view('user/login_view');
+   		redirect('/user_controller/login');
    }
 	/**
 	* Function: Register

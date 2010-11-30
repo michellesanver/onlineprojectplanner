@@ -285,6 +285,11 @@ class Project_controller extends Controller {
 
         return true;
     }
+    
+    function index()
+    {
+    	$this->theme->view('project/index');
+    }
 
 }
 
