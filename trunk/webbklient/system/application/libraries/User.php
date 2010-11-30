@@ -234,20 +234,33 @@ class User
 		list($plain, $encrypted) = $this->_createPassword($insert['Password']);
 		$insert['Password'] = $encrypted;
 		
+		$this->_CI->db->trans_begin();
+		
 		// insert
 		$userID = $this->_CI->User_model->insert($insert);
-		if($userID > 0) {
 		
-			$insert = array(
-				"Activation_id" => $userID,
-				"Code" => $key,
-				"Created" => time()
-			);
-			if($this->_CI->Activation_model->insert($insert)) {
-				return true;
-			}
+		if($userID <= 0 || $this->db->affected_rows() == 0) {
+			// Rollback transaction and return false
+			$this->db->trans_rollback();
+			return false;
 		}
-		return false;
+		
+		$insert = array(
+			"Activation_id" => $userID,
+			"Code" => $key,
+			"Created" => time()
+		);
+		
+		$res = $this->_CI->Activation_model->insert($insert);
+		
+		if($res == false) {
+			// Rollback transaction and return false
+			$this->db->trans_rollback();
+			return false;
+		}
+		
+		$this->db->trans_commit();
+		return true;
 	}
 	
 	/**
@@ -381,7 +394,36 @@ class User
         else
             return false;
     }
-
+		
+    /**
+    * Returns the authorized user.
+    * 
+    * @return mixed
+    */
+    function getLoggedInUser()
+    {
+        if ( $this->IsLoggedIn() )
+            // UserID is set in user_model->checkLogin
+            return $this->_CI->user_model->getById($this->_CI->session->userdata('UserID'));
+        else
+            return false;
+    }
+		
+    /**
+    * Deletes a user from the database
+    * 
+		* @param int $userid
+    * @return bool
+    */
+		function removeUser($userid)
+		{
+			$res = $this->_CI->user_model->delete($userid);
+			
+			if($res == true) {
+				return true;
+			}
+			return false;
+		}
 }
 
 ?>

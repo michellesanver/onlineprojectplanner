@@ -250,20 +250,21 @@ class User_controller extends Controller {
             {	
 				// Sends an activationemail
 				if ( $this->emailsender->SendActivationMail($insert['Firstname'], $insert['Email'], $key) == false)
-                {
-                    $data = array(
-                        "status" => "error",
-                        "status_message" => "Failed to send activation email"
-                    );
-                }
-                else
-                {
-                    // all ok
-                    $data = array(
-                        "status" => "ok",
-                        "status_message" => "Registration was successful!"
-                    );
-                }
+				{
+					$data = array(
+							"status" => "error",
+							"status_message" => "Failed to send activation email"
+					);
+					$this->user->removeUser($insert['User_id']);
+				}
+				else
+				{
+						// all ok
+						$data = array(
+								"status" => "ok",
+								"status_message" => "Registration was successful!"
+						);
+				}
 			}
             else
             {
@@ -345,9 +346,16 @@ class User_controller extends Controller {
 		}
 	}
 	
+	/**
+		* This function will send an recommendation email
+		* to the emailadress in the inputfield.
+		* 
+		*/
 	function RecommendNewUser()
 	{
-		//TODO: Check if user is authorized
+		if($this->user->IsLoggedIn() === false) {
+			redirect("","");
+		}
 		
 		/*
 		* Rules for the inputfields
@@ -374,10 +382,9 @@ class User_controller extends Controller {
 				"recEmail" => $this->validation->recEmail
 			);
 			
-			// TODO: Catch userinformation who sends the recomendation
-			$firstName = "Not";
-			$lastName = "Implemented";
-			$name = $firstName . " " . $lastName;
+			// Gets the autherized userinformation
+			$user = $this->user->getLoggedInUser();
+			$name = $user['Firstname'] . " " . $user['Lastname'];
 			
 			// Sends an activationemail
 			if($this->emailsender->SendRecommendationMail($name, $insert['recEmail'])) {
