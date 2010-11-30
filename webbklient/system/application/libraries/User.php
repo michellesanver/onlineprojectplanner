@@ -274,6 +274,44 @@ class User
 	
 	/**
     * 
+    * Check if a user has activated his account by cklicking the
+		* link in the activation email. The $input can either be 
+		* User_id or Username.
+    * 
+		* @param mixed $input
+    * @return bool
+    */
+	function IsActivated($input)
+	{
+		$user = null;
+		
+		// Gets the user.
+		if(is_int($input)) {
+			$user = $this->_CI->user_model->getById($input);
+		} else if(is_string($input)) {
+			$user = $this->_CI->user_model->getByUsername($input);
+		}
+		
+		// If the person is not registered yet
+		if($user == null) {
+			$this->_last_error = "Could not find the user in our database!";
+			return false;
+		}
+		
+		// Gets the activation row.
+		$activation = $this->_CI->Activation_model->getById($user['User_id']);
+		
+		// If the user has clicked the activationlink it has then been removed from the database 
+		if($activation == null) {
+			return true;
+		} else {
+			$this->_last_error = "User is not yet activated!";
+			return false;
+		}
+	}
+	
+	/**
+    * 
     * Do logout and kill session
     * 
     * @return bool

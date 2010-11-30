@@ -32,6 +32,25 @@ class Activation_model extends Model
 	}
 	
 	/**
+	* Function: getByUser_Id
+	* This function will return an array that represents the
+	* rows in the database. Returns the row if there is only
+	*1 match, else false;
+	* 
+	* @param int $id
+	* @return mixed
+	*/
+	function getByUser_Id($id)
+	{
+		$query = $this->db->get_where($this->tableName, array('Activation_id' => $id));
+		$res = $query->result_array();
+		if(count($res) == 1)
+			return $res[0];
+		else
+			return null;
+	}
+	
+	/**
 	* Function: getAll
 	* This function will return an array of arrays
 	* that represents the rows in the database. 

@@ -56,6 +56,24 @@ class User_model extends Model
 	}
 	
 	/**
+		* Function: getByUsername
+		* This function will return an array representing
+		* the user of the $username
+		* 
+		* @param string $username
+		* @return mixed
+		*/
+	function getByUsername($username)
+	{
+		$query = $this->db->get_where($this->tableName, array('Username' => $username));
+		$res = $query->result_array();
+		if(count($res) == 1)
+			return $res[0];
+		else
+			return null;
+	}
+	
+	/**
 	* Function: getAll
 	* This function will return an array of arrays
 	* that represents the rows in the database. 
