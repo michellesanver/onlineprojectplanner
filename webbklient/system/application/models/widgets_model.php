@@ -9,16 +9,28 @@
 
 class Widgets_model extends Model  {
     
-     private $_table = "Project_widgets";
+     private $_table = "Project_Widgets";
     
-     function GetProjectWidgets($userID, $projectID)
+    /**
+    * Get all widgets for a specific project
+    * 
+    * @param string $projectID
+    * @param bool active (optional, default true)
+    * @return mixed
+    */
+     function GetProjectWidgets($projectID, $active=true)
      {
+         // prepare
+         $active = ($active === true ? 1 : 0);
          
+         // run query
+         $query = $this->db->get_where($this->_table, array('Is_active' => $active, 'Project_id' => $projectID));
          
-         
-         
-         
-         
+         // any result?
+         if ($query && $query->num_rows() > 0)
+            return $query->result_array();
+         else
+            return false;
      }
     
     

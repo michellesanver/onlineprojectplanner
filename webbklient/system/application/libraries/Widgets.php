@@ -148,8 +148,7 @@ class Widgets
    
     /**
     * This function will return html with icons for
-    * logged in user and project. userID is fetched from
-    * the class user.
+    * a project. 
     * 
     * @param int $projectID
     * @return string
@@ -158,20 +157,38 @@ class Widgets
     {
         // fetch all for user 
         $user_widgets = $this->_GetProjectWidgets($projectID);
-        if ( empty($user_widgets) ) return "ERROR";
+        
+        // any widgets for current project?
+        if ( empty($user_widgets) )
+            return ""; // return just empty then
        
         // prepare data to be returned
         $returnSTR = "";
         
         $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
         
-        // scan through all widgets that was found
-        foreach ($this->_widgets as $row)
+        // loop trough all widgets for the project
+        $found_count = 0;
+        foreach ($user_widgets as $row)
         {
-            // print and replace %s with the real value 
-            $returnSTR .= sprintf($divSTR, $row->icon_startfunction.'();', site_url().$this->_widget_dir.'/'.$row->name.'/'.$row->icon, $row->icon_title);   
-            
-        } 
+            // match current widget for project with all widgets
+            foreach ($this->_widgets as $row2)      
+            {
+                if ( $row2->name == $row->Widget_name)    
+                {
+                    // replace %s with the real value
+                    $returnSTR .= sprintf($divSTR, $row->icon_startfunction.'();', site_url().$this->_widget_dir.'/'.$row->name.'/'.$row->icon, $row->icon_title);       
+                    
+                    // add one widget found
+                    $found_count++;
+                    break;
+                }
+            }
+        }
+
+        // any mismatch with added widgets and widgets in project (=error in data, problably widget name)
+        if ( count($user_widgets) != $found_count)
+            return "ERROR IN WIDGET DATA; all was not added";
         
         // return the result
         return $returnSTR; 
@@ -184,7 +201,7 @@ class Widgets
        $this->_CI->load->model('Widgets_model');
        
        // get from model
-       return $this->_CI->Widgets_model->GetProjectWidgets($this->_current_userID , $projectID); 
+       return $this->_CI->Widgets_model->GetProjectWidgets($projectID); 
    }
    
 }
