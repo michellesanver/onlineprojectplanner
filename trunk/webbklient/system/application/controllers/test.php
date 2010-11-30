@@ -14,4 +14,19 @@ class Test extends Controller
 		$this->load->view('test_view', $data);
 	}
 	
+    
+    function widget_test1()
+    {
+        echo "Loading widgets for project id 1...";
+        $widgets = $this->widgets->GetAllProjectIcons(1);
+        if (empty($widgets))
+        {
+            echo " NONE found.";
+            return;
+        }
+        
+        echo "<br/><hr/><br/>";
+        echo $widgets;
+    }
+    
 }
