@@ -5,7 +5,9 @@
 	<link>none</link>
 	<author>Fredrik Johansson</author>
 	<icon/>
-    <icon_title>Simple browser</icon_title>
+    <icon_title>test</icon_title>
     <icon_startfunction></icon_startfunction>
-	<load/>
+	<load>
+        <file type="javascript">js/test_widget.js</file>
+    </load>
 </settings>

@@ -17,8 +17,10 @@ class Test extends Controller
     
     function widget_test1()
     {
+        echo $this->widgets->GetProjectJavascripts(6);
+        
         echo "Loading widgets for project id 6...";
-        $widgets = $this->widgets->GetAllProjectIcons(6);
+        $widgets = $this->widgets->GetProjectIcons(6);
         if (empty($widgets))
         {
             echo " NONE found.";
@@ -27,6 +29,10 @@ class Test extends Controller
         
         echo "<br/><hr/><br/>";
         echo $widgets;
+        
+        echo "<br/><hr/><br/>";
+        echo "Loading ALL widgets.."; 
+        echo $this->widgets->GetAllIcons();
     }
     
 }
