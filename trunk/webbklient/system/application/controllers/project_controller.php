@@ -100,7 +100,7 @@ class Project_controller extends Controller {
 
         else {
 
-            redirect('user_controller/login', 'refresh');
+            redirect('user_controller/login');
 
         }
     }
@@ -221,7 +221,7 @@ class Project_controller extends Controller {
 
         else {
 
-            redirect('user_controller/login', 'refresh');
+            redirect('user_controller/login');
 
         }
     }
@@ -261,7 +261,7 @@ class Project_controller extends Controller {
 
         else {
 
-            redirect('user_controller/login', 'refresh');
+            redirect('user_controller/login');
 
         }
     }
