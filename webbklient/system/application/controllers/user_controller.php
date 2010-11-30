@@ -154,7 +154,7 @@ class User_controller extends Controller {
      {
      	//If we're already logged in
      	if($this->user->isLoggedIn()) {
-     		redirect('/project/index');
+     		redirect('/project_controller/index');
      	} else {
      		if(!empty($_POST)) {
 	     		if($this->user->Login($_POST["username"], $_POST["password"]) == true) {
