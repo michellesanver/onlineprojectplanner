@@ -33,9 +33,8 @@ class Project_member_model extends Model
         $this->db->join($table2, "$table1.Project_role_id = $table2.Project_role_id");
 		$query = $this->db->get();
         
-		$res = $query->result_array();
-		if(count($res) == 1)
-			return $res[0];
+		if($query && $query->num_rows() > 0 )
+			return $query->result_array();
 		else
 			return null;
 	}
