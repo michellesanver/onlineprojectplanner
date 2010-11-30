@@ -259,8 +259,9 @@ class User
 	function IsLoggedIn()
 	{
 		$isloggedin = $this->_CI->session->userdata('login_status');
-		if(!isset($isloggedin) ){	
-				$this->_CI->session->set_userdata('login_status', 'offline'); 
+		if( $isloggedin === false )
+        {	
+		    $this->_CI->session->set_userdata('login_status', 'offline'); 
 			return false;
 		}
 		if($isloggedin == "online"){	
@@ -318,8 +319,6 @@ class User
     */
 	function Logout()
 	{	
-		//$uid = $this->session->userdata('userid');
-		$this->_CI->session->set_userdata('login_status', 'offline');
 		$this->_CI->session->sess_destroy();
 		return true;
 	}
