@@ -286,6 +286,9 @@ class Project_controller extends Controller {
         return true;
     }
     
+    /**
+     * Lists all the users projects so that they can choose one.
+     */
     function index()
     {	
     	$this->load->model('project_member_model');
@@ -296,14 +299,21 @@ class Project_controller extends Controller {
     	
     	if(!is_null($allProjects)) {
     		foreach($allProjects as $project) {
-    				$projects[] = $this->project_model->getById($project["Project_id"]);
+    			$projects[] = $this->project_model->getById($project["Project_id"]);
     		}
     	}
     
     	$data["projects"] = $projects;
     	$this->theme->view('project/index', $data);
     }
-
+    
+    /**
+     * Shows a certain project.
+     */
+	function project()
+	{
+		// TODO: Implement this function
+	}
 }
 
 /* End of file project_controller.php */
