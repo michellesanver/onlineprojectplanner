@@ -17,8 +17,8 @@ class Test extends Controller
     
     function widget_test1()
     {
-        echo "Loading widgets for project id 1...";
-        $widgets = $this->widgets->GetAllProjectIcons(1);
+        echo "Loading widgets for project id 6...";
+        $widgets = $this->widgets->GetAllProjectIcons(6);
         if (empty($widgets))
         {
             echo " NONE found.";
