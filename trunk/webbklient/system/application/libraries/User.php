@@ -329,6 +329,21 @@ class User
 		}
 		
 	}
+    
+    /**
+    * Returns userID for the logged in user.
+    * If not logged in false is returned.
+    * 
+    * @return mixed
+    */
+    function getUserID()
+    {
+        if ( $this->IsLoggedIn() )
+            // UserID is set in user_model->checkLogin
+            return $this->_CI->session->userdata('UserID');
+        else
+            return false;
+    }
 
 }
 

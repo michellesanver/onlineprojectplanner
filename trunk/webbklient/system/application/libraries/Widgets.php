@@ -8,7 +8,9 @@
 */
 class Widgets
 {
-
+    private $_CI = null; 
+    private $_current_userID = null;
+    
     private $_widgets = array();
 
     private $_widget_dir = "widgets";
@@ -17,6 +19,12 @@ class Widgets
     
 	function __construct()
 	{
+        // get CI instance
+        $this->_CI = & get_instance();
+        
+        // get current userID for logged in user
+        $this->_current_userID = $this->_CI->user->getUserID();
+        
         // read all folders with widgets at start
 	    $this->_readWidgets();
 	}
@@ -80,7 +88,7 @@ class Widgets
     * 
     * @return string
     */
-    function printWidgetJavascripts()
+    function GetWidgetJavascripts()
     {
         $returnSTR = "";
         $jsSTR = '<script type="text/javascript" src="%s"></script>'."\n";
@@ -109,7 +117,7 @@ class Widgets
         
     }
     
-    function printWidgetStylesheets()
+    function GetWidgetStylesheets()
     {
         
     }
@@ -120,7 +128,7 @@ class Widgets
     * 
     * @return string
     */
-    function printIcons()
+    function GetAllIcons()
     {
         $returnSTR = "";
         
@@ -137,5 +145,46 @@ class Widgets
         // return the result
         return $returnSTR; 
     }
-    
+   
+    /**
+    * This function will return html with icons for
+    * logged in user and project. userID is fetched from
+    * the class user.
+    * 
+    * @param int $projectID
+    * @return string
+    */
+    function GetAllProjectIcons($projectID)
+    {
+        // fetch all for user 
+        $user_widgets = $this->_GetProjectWidgets($projectID);
+        if ( empty($user_widgets) ) return "ERROR";
+       
+        // prepare data to be returned
+        $returnSTR = "";
+        
+        $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
+        
+        // scan through all widgets that was found
+        foreach ($this->_widgets as $row)
+        {
+            // print and replace %s with the real value 
+            $returnSTR .= sprintf($divSTR, $row->icon_startfunction.'();', site_url().$this->_widget_dir.'/'.$row->name.'/'.$row->icon, $row->icon_title);   
+            
+        } 
+        
+        // return the result
+        return $returnSTR; 
+    }
+   
+   
+   private function _GetProjectWidgets($projectID)
+   {
+       // load database model
+       $this->_CI->load->model('Widgets_model');
+       
+       // get from model
+       return $this->_CI->Widgets_model->GetProjectWidgets($this->_current_userID , $projectID); 
+   }
+   
 }
