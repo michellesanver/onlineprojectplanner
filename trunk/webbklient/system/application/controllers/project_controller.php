@@ -292,17 +292,14 @@ class Project_controller extends Controller {
     	$this->load->model('project_model');
     	
     	$allProjects = $this->project_member_model->getByUserId($this->session->userdata('UserID'));
-    	//var_dump($allProjects);
     	$projects = array();
     	
-    	foreach($allProjects as $key => $project) {
-    		if($key === "Project_id") {
-    			$projects[] = $this->project_model->getById($project);
+    	if(!is_null($allProjects)) {
+    		foreach($allProjects as $project) {
+    				$projects[] = $this->project_model->getById($project["Project_id"]);
     		}
     	}
-    	
-    	//$projects[] = $this->project_model->getById(6);
-    	
+    
     	$data["projects"] = $projects;
     	$this->theme->view('project/index', $data);
     }
