@@ -13,7 +13,7 @@ class Widgets
     
     private $_widgets = array();
 
-    private $_widget_dir = "application/widgets/";
+    private $_widget_dir = "application/widgets";
     private $_icon_height = 48;
     private $_icon_width = 48;
     
@@ -166,18 +166,18 @@ class Widgets
         $returnSTR = "";
         
         $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
-        
+     
         // loop trough all widgets for the project
         $found_count = 0;
         foreach ($user_widgets as $row)
-        {
+        {   
             // match current widget for project with all widgets
             foreach ($this->_widgets as $row2)      
-            {
-                if ( $row2->name == $row->Widget_name)    
+            {   
+                if ( (string)$row2->name == (string)$row->Widget_name )    
                 {
                     // replace %s with the real value
-                    $returnSTR .= sprintf($divSTR, $row->icon_startfunction.'();', site_url().$this->_widget_dir.'/'.$row->name.'/'.$row->icon, $row->icon_title);       
+                    $returnSTR .= sprintf($divSTR, $row2->icon_startfunction.'();', site_url().$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon, $row2->icon_title);       
                     
                     // add one widget found
                     $found_count++;
@@ -194,7 +194,12 @@ class Widgets
         return $returnSTR; 
     }
    
-   
+   /**
+   * load all widgets from database for a project
+   * 
+   * @param int $projectID
+   * @return mixed
+   */
    private function _GetProjectWidgets($projectID)
    {
        // load database model
