@@ -144,7 +144,7 @@ class User_controller extends Controller {
         }
        
        // show view with pre and post content
-       $this->theme->view('user/resetpassword', $formData); 
+       $this->theme->view('user/reset_password', $formData); 
     }
     
     /**

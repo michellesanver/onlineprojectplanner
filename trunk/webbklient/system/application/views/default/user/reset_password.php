@@ -9,7 +9,7 @@
         ?>
         
         <?php if (isset($hideForm) == false || $hideForm == false) { ?>
-            <form action="<?php echo site_url('user_controller/reset_password'); ?>" method="POST">
+            <form action="<?php echo site_url('user_controller/resetpassword'); ?>" method="POST">
 
                 <p><label for="email">Email: </label><input type="text" name="email" value="<?php echo (isset($email)) ? $email : ""; ?>" /></p>
                 

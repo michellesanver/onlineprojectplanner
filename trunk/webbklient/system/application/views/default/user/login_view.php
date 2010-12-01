@@ -11,7 +11,7 @@
 		<p><label for="password">Password: </label><input type="password" name="password" />*</p>
 		<p><input type="submit" value="Sign in" name="login_btn" /></p>
 		<p><a href="<?php echo site_url('user_controller/register'); ?>">Click here to register</a></p>
-		<p><a href="<?php echo site_url('user_controller/forgot_password'); ?>">Forgot password?</a></p>
+		<p><a href="<?php echo site_url('user_controller/resetpassword'); ?>">Forgot password?</a></p>
 	</form>
 </div>
 
