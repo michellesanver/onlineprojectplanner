@@ -6,7 +6,7 @@
 *
 * @link https://code.google.com/p/onlineprojectplanner/
 */
-class Project
+class Project_lib
 { 
     private $_CI = null;
     private $_last_error = "";

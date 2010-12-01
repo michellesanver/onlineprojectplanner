@@ -1,16 +1,17 @@
 <?php
 
 /*
-* Class Project_controller
+* Class Project
 */
 
-class Project_controller extends Controller {
+class Project extends Controller {
 
-    function Project_controller()
+    function __construct()
     {
         parent::Controller();
 
         $this->load->library(array('validation'));
+        $this->load->library('project_lib', null, 'project');
     }
 
     /**
@@ -100,7 +101,7 @@ class Project_controller extends Controller {
 
         else {
 
-            redirect('user_controller/login');
+            redirect('account/login');
 
         }
     }
@@ -221,7 +222,7 @@ class Project_controller extends Controller {
 
         else {
 
-            redirect('user_controller/login');
+            redirect('account/login');
 
         }
     }
@@ -261,7 +262,7 @@ class Project_controller extends Controller {
 
         else {
 
-            redirect('user_controller/login');
+            redirect('account/login');
 
         }
     }

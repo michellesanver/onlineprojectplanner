@@ -1,9 +1,9 @@
 <?php
 
-class Main_controller extends Controller 
+class Main extends Controller 
 {
 	
-	function Main_controller()
+	function __construct()
 	{
 		parent::Controller();	
 		

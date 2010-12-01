@@ -1,2 +1,2 @@
 
-<H2>You are now logged in!</H2>
+<h3>You are now logged in!</h3>
