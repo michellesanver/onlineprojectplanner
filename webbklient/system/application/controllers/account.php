@@ -1,12 +1,12 @@
 <?php
 
 /*
-* Class User_controller
+* Class Account
 */
 
-class User_controller extends Controller {
+class Account extends Controller {
 
-	function User_controller()
+	function __construct()
 	{
 		parent::Controller();	
 		
@@ -154,11 +154,11 @@ class User_controller extends Controller {
      {
      	//If we're already logged in
      	if($this->user->isLoggedIn()) {
-     		redirect('/project_controller/index');
+     		redirect('project/index');
      	} else {
      		if(!empty($_POST)) {
 	     		if($this->user->Login($_POST["username"], $_POST["password"]) == true) {
-	     			redirect('/project_controller/index');
+	     			redirect('project/index');
 	     		} else {
 	     			$this->theme->view('user/login_view');
 	     		}
@@ -176,7 +176,7 @@ class User_controller extends Controller {
    function Logout()
    {
    		$this->user->logout();
-   		redirect('/user_controller/login');
+   		redirect('account/login');
    }
 	/**
 	* Function: Register

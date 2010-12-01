@@ -43,7 +43,8 @@ class Theme
         $preContentData = array(
             'site_title' => $this->_site_title,
             'theme_folder' => $this->_theme,
-            'base_url' => $this->_base_url
+            'base_url' => $this->_base_url,
+            'is_logged_in' => $this->_CI->user->isLoggedIn()
         );
         
         if (empty($page_title)==false) $preContentData['page_title'] = $page_title;

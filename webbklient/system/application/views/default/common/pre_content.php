@@ -12,9 +12,15 @@
 
 <body>
 	<div id="topbar">
-	<?php
-		if($this->user->isLoggedIn()) {
-			echo("<a href=\"" . site_url('user_controller/logout') . "\"><img class=\"topbuttons\" src=\"{$base_url}images/buttons/logout.png\"/></a>");
-		}
-	?>
+        <span class="sitetitle"><?php echo $site_title; ?></span>
+	    <?php
+		    if($is_logged_in) {
+			    echo "<span class=\"topbuttons\">";
+                echo("<a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a>");
+                echo "</span>";
+		    }
+	    ?>
 	</div>
+    
+    <div id="content">
+    

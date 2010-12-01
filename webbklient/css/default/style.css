@@ -12,9 +12,30 @@ body {
 a img {
 	border: 0;
 }
-img.topbuttons {
+span.topbuttons {
 	float: right;
 	padding: 7px;	
+}
+
+span.sitetitle {
+    float:left;
+    color:#fafafa;
+    font-size:18pt;
+    font-weight:bold;    
+    padding: 7px;
+}
+
+h1 {
+    font-size:16pt;
+}
+
+h2, h3 {
+    font-size:14pt;
+}
+
+h3 {
+    font-size:12pt; 
+    font-weight:bold;
 }
 
 h1.blackheader {
@@ -31,6 +52,9 @@ h1.blackheader {
 	margin-top:30px;
 }
 
+#content {
+    padding:15px;    
+}
 
 #topbar {
 	width: 100%;
