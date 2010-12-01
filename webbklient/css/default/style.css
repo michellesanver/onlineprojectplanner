@@ -47,17 +47,13 @@ h1.blackheader {
 #projectlisting {
 	margin-left: auto;
 	margin-right: auto;
-	width: 920px;
-}
-
-.project_description {
-	font-size: 1em;
-	margin: 0px;
+	width: 870px;
+	height: 200px;
 }
 
 .newprojectbox {
 	padding: 5px;
-	height: 89px;
+	height: 84px;
 	float: left;
 	margin-left: 15px;
 	margin-right: 10px;
@@ -69,19 +65,23 @@ h1.blackheader {
 	border-radius:5px;
 	border: 1px solid #000;
 	text-align: center;
-	text-decoration: none;
-	color: #212121;
-	vertical-align: middle;
 	font-size: 0.9em;
+	padding-top:10px;
+	color: #000;
+	text-decoration: none;
+}
+
+img.projectplus {
+	position: relative;
+	bottom: 28px;
+	right: 52px;
 }
 
 b.new_project_title {
-	text-align: center;
-	position:relative;
-	top: 35%;
-	font-size: 1em;
+	position: relative;
+	right: 25px;
+	bottom: 7px;
 }
-
 
 .projectbox {
 	padding: 5px;
