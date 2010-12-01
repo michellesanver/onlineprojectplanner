@@ -13,11 +13,7 @@ function openBrowser()
         maxWidth: maxwidth,
         maxHeight: maxheight,
         x: 30,
-        y: 15,
-        draggable: true,
-        resizable: true,
-        minimizable: true,
-        maximizable: true              
+        y: 15             
     });    
    
        
