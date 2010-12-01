@@ -12,6 +12,8 @@
 </head>
 
 <body>
+<div id="wrapper">
+
     <div id="topbar">
         <span class="sitetitle"><?php echo "<a href=\"$base_url\" class=\"home_link\">$site_title</a>"; ?></span>
         <?php
@@ -26,3 +28,4 @@
     <div id="widget_bar"><?php echo $widget_bar; ?> </div>
     
     <div id="content">
+        <div id="innercontent">

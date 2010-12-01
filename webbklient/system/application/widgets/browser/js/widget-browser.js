@@ -1,15 +1,19 @@
 
 function openBrowser()
 {
-    var t = "";
+    var maxheight =  $('#content').height();
+    var maxwidth =  $('#content').width();
     
-    $.window({
+    $('#content').window({
        title: "Simple browser",
        url: SITE_URL+"/widget/browser/main",
-       draggable: true,
-       resizable: true,
-       maximizable: true,
-       minimizable: true
+       checkBoundary: true,
+        width: 600,
+        height: 400,
+        maxWidth: maxwidth,
+        maxHeight: maxheight,
+        x: 30,
+        y: 15              
     });    
    
        
