@@ -68,24 +68,14 @@ class Project_lib
 
     function Register($insert)
     {
-        $projectID = $this->_CI->Project_model->insert($insert);
         $userID = $this->_CI->session->userdata('UserID');
 
-        // Insert creator of project (the logged in user) as Admin in ProjectMember table
+        $result = $this->_CI->Project_model->insert($insert, $userID);
 
-        if($userID > 0) {
+        if($result) {
 
-            $insert = array(
-                    "User_id" => $userID,
-                    "Project_id" => $projectID,
-                    "Project_role_id" => 1
-            );
+            return true;
 
-            if($this->_CI->Project_member_model->insert($insert)) {
-
-                return true;
-
-            }
         }
 
         return false;

@@ -12,6 +12,8 @@ class Project extends Controller {
 
         $this->load->library(array('validation'));
         $this->load->library('project_lib', null, 'project');
+        $this->load->library('project_member');
+        $this->load->model('project_model');
     }
 
     /**
@@ -240,19 +242,54 @@ class Project extends Controller {
     {
         if($this->user->IsLoggedIn()) {
 
-            // Get logged in users memberships
-
-            $memberships = $this->project_member->SelectByUserId($projectID);
-
             $data = array();
 
             // If user have membership in selected project
 
-            /*if() {
+            if($this->project_member->IsMember($projectID)) {
 
-                //
+                // And if user have the Admin-role in selected project
 
-            }*/
+                if($this->project_member->HaveRole('Admin')) {
+
+                    // If validation is ok => send to library
+
+                    if($this->project_model->Delete($projectID)) {
+
+                        $data = array(
+                                "status" => "ok",
+                                "status_message" => "Delete was successful!"
+                        );
+                    }
+
+                    // Else, if something went wrong
+
+                    else {
+
+                        $data = array(
+                                "status" => "error",
+                                "status_message" => "Delete failed!"
+                        );
+                    }
+
+                }
+                else {
+
+                    $data = array(
+                            "status" => "error",
+                            "status_message" => "You need to be an Admin for this action!"
+                            );
+                }
+
+
+            }
+            else {
+
+                $data = array(
+                        "status" => "error",
+                        "status_message" => "You are not a member of this project!"
+                        );
+            }
 
             $this->theme->view('project/delete', $data);
 

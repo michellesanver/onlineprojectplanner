@@ -7,9 +7,3 @@
                     }
                 ?>
 
-                <?php if(isset($title)) { ?>
-                    
-                <?php } else { ?>
-                    <p><b>No project was found...</b></p>
-                <?php } ?>
-
