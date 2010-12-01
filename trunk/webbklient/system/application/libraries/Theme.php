@@ -29,6 +29,16 @@ class Theme
     }
     
     /**
+    * Will return the name (and folder) of the current theme.
+    * 
+    * @return string
+    */
+    function GetThemeFolder()
+    {
+        return $this->_theme;
+    }
+    
+    /**
     * Wrapper-function for CI's load->view. Also
     * initialies pre and post content parts of the view.
     * Theme-folder name is applied to $view
@@ -39,6 +49,9 @@ class Theme
     */
     function view($view, $vars = array(), $page_title = "")
     {
+        // any project set as current?
+        $current_project_id = $this->_CI->session->userdata('current_project_id');
+        
         // pre content
         $preContentData = array(
             'site_title' => $this->_site_title,
@@ -47,20 +60,50 @@ class Theme
             'is_logged_in' => $this->_CI->user->isLoggedIn()
         );
         
+        // add page title?
         if (empty($page_title)==false) $preContentData['page_title'] = $page_title;
         
-        $this->_CI->load->view($this->_theme.'/common/pre_content', $preContentData);
-
+        // which pre_content to load?
+        if ( $current_project_id != false )
+        {
+           // load widgets javascript and css
+           $preContentData['widget_javascript']  = $this->_CI->widgets->GetProjectJavascripts($current_project_id);
+           $preContentData['widget_css']  = $this->_CI->widgets->GetProjectStylesheets($current_project_id);
+           $preContentData['widget_bar'] = $this->_CI->widgets->GetProjectIcons($current_project_id);  
+         
+           // use project pre_content
+           $this->_CI->load->view($this->_theme.'/common/project_pre_content', $preContentData); 
+        }
+        else
+        {
+            // no project set
+            $this->_CI->load->view($this->_theme.'/common/pre_content', $preContentData);
+        }
         
         // check if theme-folder is applied (shouldn't be)
         if ( preg_match('/'.$this->_theme.'/', $view) == false) $view = $this->_theme.'/'.$view;
         
+        // add any data for project to main content?
+        if ( $current_project_id != false )
+        {
+
+            
+        }
+        
         // content
         $this->_CI->load->view($view, $vars);
-        
 
-        // post content
-       $this->_CI->load->view($this->_theme.'/common/post_content');
+        // which post_content to load?
+        if ( $current_project_id != false )
+        {
+            // use project post_content
+           $this->_CI->load->view($this->_theme.'/common/project_post_content', $preContentData);  
+        }
+        else
+        {
+            // no project set
+            $this->_CI->load->view($this->_theme.'/common/post_content');
+        }
     }
     
     

@@ -25,6 +25,21 @@ span.sitetitle {
     padding: 7px;
 }
 
+span.sitetitle a {
+    color:#fafafa;
+    text-decoration:none;    
+}
+
+span.sitetitle a:visited, span.sitetitle a:active {
+    text-decoration:none;
+    color:#fafafa;    
+}
+
+span.sitetitle a:hover {
+    text-decoration:underline;    
+}
+
+
 h1 {
     font-size:16pt;
 }
@@ -107,7 +122,7 @@ b.new_project_title {
 	bottom: 7px;
 }
 
-.projectbox {
+a.projectbox {
 	padding: 5px;
 	height: 84px;
 	float: left;
@@ -123,7 +138,26 @@ b.new_project_title {
 	text-align: center;
 	font-size: 0.9em;
 	padding-top:10px;
+    text-decoration: none;
+    color:#000;
+}
+
+a.projectbox:active, a.projectbox:visited,a.projectbox:hover {
+    color:#000;    
+    text-decoration: none;
 }
 
 /* @end */
 
+div#widget_bar {
+    padding: 5px;
+    height: 85px;
+    background: url(../../images/backgrounds/widget-bar-background.png) repeat-x;
+}
+
+div#widget_bar div.icon {
+    margin:0px 15px 0px 15px;
+    float:left;
+    font-size:10pt;
+    font-weight:bold;
+}

@@ -77,7 +77,7 @@ class MY_Router extends CI_Router {
            return $segments;
 		}
         
-	
+	  
 		// Does the requested controller exist in the root folder?
 		if (file_exists(APPPATH.'controllers/'.$segments[0].EXT))
 		{
@@ -112,7 +112,7 @@ class MY_Router extends CI_Router {
 				}
 			
 			}
-
+          
 			return $segments;
 		}
 		

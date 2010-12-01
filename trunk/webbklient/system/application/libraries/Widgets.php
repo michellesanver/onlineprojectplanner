@@ -10,7 +10,7 @@ class Widgets
 {
     private $_CI = null; 
    
-    private $_debug = false; // log debug messages for this class
+    private $_debug = true; // log debug messages for this class
     
     private $_widgets = array();
 
