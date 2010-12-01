@@ -189,7 +189,7 @@ div#fullpage_overlay {
     top:0;
     background-color:#777;
     display: none;
-    z-index: 98;
+    z-index: 3998; /* jquery window has z-index 2000 */
     opacity: .5;
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50);
@@ -204,7 +204,7 @@ div#message {
     width: 500px;
     height: 100px;
     display: none;
-    z-index: 99;
+    z-index: 3999;
     border:2px solid #b9b9b9;
 }
 
