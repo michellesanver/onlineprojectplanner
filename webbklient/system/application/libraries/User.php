@@ -270,6 +270,8 @@ class User
     */
 	function IsLoggedIn()
 	{
+        if (session_id() == "") return false;
+        
 		$isloggedin = $this->_CI->session->userdata('login_status');
 		if( $isloggedin === false )
         {	
