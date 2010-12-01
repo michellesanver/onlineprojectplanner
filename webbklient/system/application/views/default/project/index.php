@@ -5,7 +5,7 @@
 		<b class="new_project_title">New project</b>
 	</a>
 <?php foreach($projects as $project): ?>
-	<a class="projectbox">
+	<a class="projectbox" href="<?php echo site_url('project/'.$project['Project_id']); ?>">
 		<b class="project_title"><?php echo($project['Title']);?></b><br/>
 		<?php echo($project['Description']);?>
 	</a>

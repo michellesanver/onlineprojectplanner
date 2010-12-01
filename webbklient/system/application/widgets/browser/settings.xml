@@ -9,5 +9,7 @@
     <icon_startfunction>openBrowser</icon_startfunction>
 	<load>
 		<file type="javascript">js/widget-browser.js</file>
+        <file type="javascript">js/window/jquery.window.js</file>
+        <file type="css">js/window/css/jquery.window.css</file>
 	</load>
 </settings>

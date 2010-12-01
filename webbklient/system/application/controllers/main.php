@@ -15,7 +15,7 @@ class Main extends Controller
 		
 			
 		if($this->user->isLoggedIn()) {
-			redirect('/project_controller/index');
+			redirect('/project/index');
 		} else {
 			$this->theme->view('user/login_view');	
 		}

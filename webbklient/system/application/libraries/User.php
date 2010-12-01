@@ -152,7 +152,7 @@ class User
         }
 
         // fetch name and email
-        $name = $result->First_name." ".$result->Last_name;
+        $name = $result->Firstname." ".$result->Lastname;
         $email = $result->Email;
         
         // Send an email with new password

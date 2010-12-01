@@ -1,10 +1,11 @@
 
 function openBrowser()
 {
-   
+    var t = "";
+    
     $.window({
        title: "Simple browser",
-       url: "widgets/browser/controllers/main.php",
+       url: SITE_URL+"/widget/browser/main",
        draggable: true,
        resizable: true,
        maximizable: true,

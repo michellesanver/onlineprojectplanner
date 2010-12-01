@@ -43,6 +43,11 @@
 $route['default_controller'] = "main";
 $route['scaffolding_trigger'] = "";
 
+/*
+* custom route for viewing a project
+*/
+$route['project/(:num)'] = "project/view/$1";
+
 
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */
