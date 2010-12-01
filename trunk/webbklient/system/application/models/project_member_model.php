@@ -10,7 +10,7 @@
 class Project_member_model extends Model
 {
 	
-	private $_table = "Project_Member";
+    private $_table = "Project_Member";
     private $_table_role = "Project_Role";
     
     /**

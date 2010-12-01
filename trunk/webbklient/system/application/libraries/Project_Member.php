@@ -19,7 +19,7 @@ class Project_Member
 
         // load model for library
 
-        $this->_CI->load->model(array('Project_member_model'));
+        $this->_CI->load->model(array('Project_model', 'Project_member_model'));
     }
 
     /**
@@ -54,6 +54,105 @@ class Project_Member
         if($projectMemberID > 0) {
 
             return $projectMemberID;
+        }
+
+        return false;
+    }
+
+    /**
+    * Function: CheckIfExist
+    * This function is used in the formvalidation. Searches the
+    * database for a match and returns the answer as an bool.
+    *
+    * @param string $column
+    * @param string $value
+    * @return bool
+    */
+
+    function CheckIfExist($column, $value)
+    {
+        // Fetches all the projects
+
+        $projects = $this->_CI->Project_model->getAll();
+
+        // Looping the projects to find a match
+
+        foreach($projects as $project) {
+
+            // Search for match
+
+            if($project[$column] == $value) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+    * Function: IsMember
+    * This function is used in order to see if logged in user
+    * is a member in selected project. Searches the
+    * database for a match and returns the answer as an bool.
+    *
+    * @param string $projectID
+    * @return bool
+    */
+
+    function IsMember($projectID)
+    {
+        $userID = $this->_CI->session->userdata('UserID');
+
+        // Fetch memberships
+
+        $memberships = $this->_CI->Project_member_model->getByUserId($userID);
+
+        if($memberships != NULL)
+        {
+            foreach($memberships as $membership) {
+
+                // Search for match
+
+                if($membership['Project_id'] == $projectID) {
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+    * Function: HaveRole
+    * This function is used in order to see if logged in user
+    * have a certain role in selected project. Searches the
+    * database for a match and returns the answer as an bool.
+    *
+    * @param string $role
+    * @return bool
+    */
+
+    function HaveRole($role)
+    {
+        $userID = $this->_CI->session->userdata('UserID');
+
+        // Fetch memerships
+
+        $memberships = $this->_CI->Project_member_model->getByUserId($userID);
+
+        if($memberships != NULL)
+        {
+            foreach($memberships as $membership) {
+
+                // Search for match
+
+                if($membership['Role'] == $role) {
+
+                    return true;
+                }
+            }
         }
 
         return false;

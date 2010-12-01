@@ -10,6 +10,7 @@ class Project_model extends Model
 {
 
     private $_table = "Project";
+    private $_table2 = "Project_Member";
 
     /**
     * Function: Query_project
@@ -84,10 +85,43 @@ class Project_model extends Model
     * @return int
     */
 
-    function insert($insert)
+    function insert($insert, $userID)
     {
+        $res = false;
+
+        // start a transaction; all or nothing
+
+        $this->db->trans_begin();
+
+        // insert new project
+
         $this->db->insert($this->_table, $insert);
-        return $this->db->insert_id();
+
+        // nothing changed?
+
+        if ( $this->db->affected_rows() == 0 )
+        {
+            // roll back transaction and return false
+            $this->db->trans_rollback();
+            return false;
+        }
+
+        $projectID = $this->db->insert_id();
+
+        $res = $this->db->insert($this->_table2, array('User_id' => $userID, 'Project_id' => $projectID, 'Project_role_id' => 1));
+
+        // was row inserted?
+
+        if ( $res == false )
+        {
+            // roll back transaction and return false
+            $this->db->trans_rollback();
+            return false;
+        }
+
+        // else; all ok! commit transaction and return true
+        $this->db->trans_commit();
+        return true;
     }
 
     /**
@@ -103,6 +137,19 @@ class Project_model extends Model
     {
         $this->db->where('Project_id', $update['Project_id']);
         return $this->db->update($this->_table, $update);
+    }
+
+    /**
+    * Function: delete
+    * Used to send the validated information
+    * which will delete the row in the database.
+    *
+    * @param int $projectID
+    * @return bool
+    */
+    function delete($projectID)
+    {
+            return $this->db->delete($this->_table, array('Project_id' => $projectID));
     }
 
 }
