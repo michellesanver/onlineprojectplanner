@@ -1,0 +1,76 @@
+
+message_current_position = -100;
+message_start_position = -100; // message_current_position will be set to this value after completion
+message_timer = null;
+message_speed = 100;
+message_tick = 20;
+message_width = 500; // also in css
+
+// function for widgets to display an ok-message (green)
+function show_message(message)
+{
+    $('#message').html('<p>'+message+'</p>'+'<p>Klicka någonstans för att stänga</p>');
+    $('#message').css('top',message_current_position+'px');
+    $('#message').addClass('ok');
+    
+    $('#fullpage_overlay').click(function(){ close_message(); $('#message').removeClass('ok'); });
+    $('#message').click(function(){ close_message(); $('#message').removeClass('ok'); }); 
+    
+    start_message_animate();
+}
+
+// function for widgets to display an error-message (red)
+function show_errormessage(message)
+{
+    $('#message').html('<p>'+message+'</p>'+'<p>Klicka någonstans för att stänga</p>');
+    $('#message').css('top',message_current_position+'px');
+    $('#message').addClass('error');
+    
+    $('#fullpage_overlay').click(function(){ close_message(); $('#message').removeClass('error'); });
+    $('#message').click(function(){ close_message(); $('#message').removeClass('error'); }); 
+    
+    start_message_animate();
+}
+
+// common function to set timer and start animate
+function start_message_animate()
+{
+    var maxWidth = $('#content').width();
+    var centerPosition = (maxWidth/2)-(message_width/2);
+    $('#message').css('left',centerPosition+'px');
+    $('#message').css('top',message_start_position+'px');
+    
+    $('#fullpage_overlay').show(); 
+    
+    message_timer = setInterval('message_animate()', message_speed);
+    $('#message').fadeIn(message_speed);
+}
+
+// callback function for timer
+function message_animate()
+{
+    if (message_current_position<0)
+    {
+        message_current_position += message_tick;
+        $('#message').css('top',message_current_position+'px');    
+    }
+    else
+    {
+        reset_message();
+    }
+}
+
+// hide div for message and overlay
+function close_message()
+{
+    $('#fullpage_overlay').hide();
+    $('#message').hide();    
+}
+
+// reset timer and position for a new round
+function reset_message()
+{
+    clearInterval(message_timer);    
+    message_timer = null;
+    message_current_position = message_start_position;  
+}

@@ -10,9 +10,8 @@ class Project extends Controller {
     {
         parent::Controller();
 
-        $this->load->library(array('validation'));
+        $this->load->library(array('validation', 'project_member'));
         $this->load->library('project_lib', null, 'project');
-        $this->load->library('project_member');
         $this->load->model('project_model');
     }
 
@@ -25,8 +24,10 @@ class Project extends Controller {
 
     function Register()
     {
+        // if any project is set; clear variable
+        $this->project->clearCurrentProject();
+        
         // If user is logged in
-
         if($this->user->IsLoggedIn()) {
 
             // Rules for the inputfields
@@ -117,8 +118,11 @@ class Project extends Controller {
 
     function Update($projectID = NULL)
     {
-        // If user is logged in
+        // if any project is set; clear variable
+        $this->project->clearCurrentProject();
 
+        
+        // If user is logged in
         if($this->user->IsLoggedIn()) {
 
             $data = array();
@@ -240,6 +244,10 @@ class Project extends Controller {
 
     function Delete($projectID = NULL)
     {
+        // if any project is set; clear variable
+        $this->project->clearCurrentProject();
+        
+        // continue...
         if($this->user->IsLoggedIn()) {
 
             $data = array();
@@ -329,7 +337,10 @@ class Project extends Controller {
      */
     function index()
     {	
+        // if any project is set; clear variable
+        $this->project->clearCurrentProject();
         
+        // continue...
     	$this->load->model('project_member_model');
     	$this->load->model('project_model');
     	
@@ -351,9 +362,9 @@ class Project extends Controller {
      */
 	function view($projectID)
 	{
-		
+        
         // save current projectID (will be catched in class theme)
-        $this->session->set_userdata('current_project_id', $projectID);    
+        $this->project->setCurrentProject($projectID);    
         
         // proceed to view
         $this->theme->view('project/start');
@@ -369,8 +380,16 @@ class Project extends Controller {
         // package data
         $data = array(
             'base_url' => $this->config->item('base_url'),
-            'site_url' => site_url()
+            'site_url' => site_url(),
+            'current_project_id' => $this->project->checkCurrentProject()
         );
+        
+        // no project set? (fallback and will prevent a javascript-error)
+        if ($data['current_project_id'] == false)
+        {
+            echo "// ERROR; no project set";
+            return;
+        }
         
         // load and output view (NO theme needed)
         $this->load->view($this->theme->GetThemeFolder().'/common/js_variables', $data);    

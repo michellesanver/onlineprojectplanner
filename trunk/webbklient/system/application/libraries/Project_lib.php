@@ -37,6 +37,38 @@ class Project_lib
     }
 
     /**
+    * Will check if any project is set
+    * as current. If not false is returned
+    * or else the Project_Id
+    * 
+    * @return mixed
+    */
+    function checkCurrentProject()
+    {
+        // if not set false will be returned
+        return $this->_CI->session->userdata('current_project_id');    
+    }
+    
+    /**
+    * This will set current project (trigger
+    * for the class theme for example)
+    * 
+    * @param int $projectID
+    */
+    function setCurrentProject($projectID)
+    {
+        $this->_CI->session->set_userdata('current_project_id', $projectID);    
+    }
+    
+    /**
+    * Clear the current set project
+    */
+    function clearCurrentProject()
+    {
+        $this->_CI->session->unset_userdata('current_project_id');     
+    }
+    
+    /**
     * Function: Select
     * This function will diliver the old registrated
     * information to from the project_model.

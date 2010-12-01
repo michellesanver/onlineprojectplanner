@@ -6,7 +6,7 @@
 	<author>Fredrik Johansson</author>
 	<icon/>
     <icon_title>test</icon_title>
-    <icon_startfunction></icon_startfunction>
+    <icon_startfunction>open_test_messages</icon_startfunction>
 	<load>
         <file type="javascript">js/test_widget.js</file>
     </load>
