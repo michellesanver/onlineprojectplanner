@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>File Source for webclient.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+						<h1>Source for file webclient.php</h1>
+<p>Documentation is available at <a href="../phpDocumentor/_config---webclient.php.html">webclient.php</a></p>
+<div class="src-code">
+<div class="src-code"><ol><li><div class="src-line"><a name="a1"></a><span class="src-php">&lt;?php&nbsp;&nbsp;</span><span class="src-key">if&nbsp;</span><span class="src-sym">(&nbsp;</span><span class="src-sym">!&nbsp;</span><a href="http://www.php.net/defined">defined</a><span class="src-sym">(</span><span class="src-str">'BASEPATH'</span><span class="src-sym">))&nbsp;</span><span class="src-key">exit</span><span class="src-sym">(</span><span class="src-str">'No&nbsp;direct&nbsp;script&nbsp;access&nbsp;allowed'</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;&nbsp;&nbsp;</span></div></li>
+<li><div class="src-line"><a name="a2"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a3"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a4"></a><span class="src-comm">/*&nbsp;---------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a5"></a><span class="src-comm">*&nbsp;Site&nbsp;title</span></div></li>
+<li><div class="src-line"><a name="a6"></a><span class="src-comm">*&nbsp;---------------------------------------&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a7"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a8"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'site_title'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;Online&nbsp;Project&nbsp;Planner&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a9"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a10"></a><span class="src-comm">/*&nbsp;---------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a11"></a><span class="src-comm">*&nbsp;Password&nbsp;salt</span></div></li>
+<li><div class="src-line"><a name="a12"></a><span class="src-comm">*&nbsp;---------------------------------------&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a13"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a14"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'password_salt'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;21j757d73I&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a15"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a16"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a17"></a><span class="src-comm">/*&nbsp;---------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a18"></a><span class="src-comm">*&nbsp;Theme&nbsp;name&nbsp;(folder&nbsp;in&nbsp;css/..&nbsp;and&nbsp;views/..)</span></div></li>
+<li><div class="src-line"><a name="a19"></a><span class="src-comm">*&nbsp;-&nbsp;NO&nbsp;ending&nbsp;slash,&nbsp;just&nbsp;the&nbsp;folder&nbsp;name</span></div></li>
+<li><div class="src-line"><a name="a20"></a><span class="src-comm">*&nbsp;---------------------------------------&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a21"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a22"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'theme'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;default&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a23"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a24"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a25"></a><span class="src-comm">/*&nbsp;---------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a26"></a><span class="src-comm">*&nbsp;System&nbsp;email&nbsp;(reset&nbsp;password&nbsp;etc)</span></div></li>
+<li><div class="src-line"><a name="a27"></a><span class="src-comm">*&nbsp;-&nbsp;will&nbsp;be&nbsp;used&nbsp;as&nbsp;a&nbsp;&quot;from-address&quot;</span></div></li>
+<li><div class="src-line"><a name="a28"></a><span class="src-comm">*&nbsp;---------------------------------------&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a29"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a30"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'system_email'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;noreply@&quot;</span>.<span class="src-sym">(</span><span class="src-var">$_SERVER</span><span class="src-sym">[</span><span class="src-str">'SERVER_NAME'</span><span class="src-sym">]</span>==<span class="src-str">'localhost'&nbsp;</span>?&nbsp;<span class="src-str">'mydomain.com'&nbsp;</span>:&nbsp;<span class="src-var">$_SERVER</span><span class="src-sym">[</span><span class="src-str">'SERVER_NAME'</span><span class="src-sym">]</span><span class="src-sym">)</span><span class="src-sym">;&nbsp;</span><span class="src-comm">//&nbsp;only&nbsp;localhost&nbsp;will&nbsp;be&nbsp;marked&nbsp;a&nbsp;spam</span></div></li>
+<li><div class="src-line"><a name="a31"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'system_email_name'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;Online&nbsp;Project&nbsp;Planner&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a32"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a33"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a34"></a><span class="src-comm">/*&nbsp;---------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a35"></a><span class="src-comm">*&nbsp;Settings&nbsp;for&nbsp;reset&nbsp;password</span></div></li>
+<li><div class="src-line"><a name="a36"></a><span class="src-comm">*&nbsp;---------------------------------------&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a37"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a38"></a><span class="src-comm">//&nbsp;url&nbsp;to&nbsp;confirm&nbsp;(first&nbsp;%s&nbsp;is&nbsp;UserID&nbsp;and&nbsp;second&nbsp;%s&nbsp;is&nbsp;confirmation&nbsp;code)</span></div></li>
+<li><div class="src-line"><a name="a39"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'confirm_reset_url'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;user_controller/resetpassword&quot;</span><span class="src-sym">;&nbsp;</span><span class="src-comm">//&nbsp;parameters&nbsp;added&nbsp;in&nbsp;library&nbsp;Emailsender</span></div></li>
+<li><div class="src-line"><a name="a40"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a41"></a><span class="src-comm">//&nbsp;email&nbsp;template&nbsp;for&nbsp;reset&nbsp;password</span></div></li>
+<li><div class="src-line"><a name="a42"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'reset_password_template_subject'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;Reset&nbsp;password&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a43"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'reset_password_template'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;Hi&nbsp;%s,&nbsp;&quot;</span>.<span class="src-str">&quot;\n\n&quot;</span>.<span class="src-str">&quot;Please&nbsp;follow&nbsp;this&nbsp;link&nbsp;to&nbsp;confirm&nbsp;password&nbsp;reset&nbsp;and&nbsp;to&nbsp;generate&nbsp;a&nbsp;new&nbsp;password&quot;</span>.<span class="src-str">&quot;\n&quot;</span>.<span class="src-str">&quot;%s&quot;</span>.<span class="src-str">&quot;\n\n&quot;</span>.<span class="src-str">&quot;Regards,&nbsp;&quot;</span>.<span class="src-str">&quot;\n&quot;</span>.<span class="src-str">&quot;%s&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a44"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a45"></a><span class="src-comm">//&nbsp;email&nbsp;template&nbsp;for&nbsp;new&nbsp;password</span></div></li>
+<li><div class="src-line"><a name="a46"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'new_password_template_subject'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;New&nbsp;password&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a47"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'new_password_template'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;Hi&nbsp;%s,&nbsp;&quot;</span>.<span class="src-str">&quot;\n\n&quot;</span>.<span class="src-str">&quot;Here&nbsp;is&nbsp;your&nbsp;new&nbsp;password:&nbsp;%s&quot;</span>.<span class="src-str">&quot;\n\n&quot;</span>.<span class="src-str">&quot;Regards,&nbsp;&quot;</span>.<span class="src-str">&quot;\n&quot;</span>.<span class="src-str">&quot;%s&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a48"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a49"></a><span class="src-comm">/*&nbsp;---------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a50"></a><span class="src-comm">*&nbsp;Settings&nbsp;for&nbsp;activation&nbsp;mail</span></div></li>
+<li><div class="src-line"><a name="a51"></a><span class="src-comm">*&nbsp;---------------------------------------&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a52"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'activation_template_subject'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;Activation&nbsp;email&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a53"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'activation_url'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;user_controller/activate&quot;</span><span class="src-sym">;&nbsp;</span><span class="src-comm">//&nbsp;parameters&nbsp;added&nbsp;in&nbsp;library&nbsp;Emailsender</span></div></li>
+<li><div class="src-line"><a name="a54"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'activation_template'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;Dear&nbsp;%s&lt;br&nbsp;/&gt;This&nbsp;email&nbsp;is&nbsp;autogenerated&nbsp;because&nbsp;you&nbsp;have&nbsp;tried&nbsp;to&nbsp;register&nbsp;at&nbsp;%s.&lt;br&nbsp;/&gt;&lt;br&nbsp;/&gt;Click&nbsp;on&nbsp;the&nbsp;link&nbsp;below&nbsp;to&nbsp;activate:&lt;br&nbsp;/&gt;&lt;a&nbsp;href=\&quot;%s\&quot;&gt;%s&lt;/a&gt;&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a55"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a56"></a>&nbsp;</div></li>
+<li><div class="src-line"><a name="a57"></a><span class="src-comm">/*&nbsp;---------------------------------------</span></div></li>
+<li><div class="src-line"><a name="a58"></a><span class="src-comm">*&nbsp;Settings&nbsp;for&nbsp;recommendation&nbsp;mail</span></div></li>
+<li><div class="src-line"><a name="a59"></a><span class="src-comm">*&nbsp;---------------------------------------&nbsp;*/</span></div></li>
+<li><div class="src-line"><a name="a60"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'recommendation_template_subject'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;Recommendation&nbsp;email&nbsp;from&nbsp;%s&quot;</span><span class="src-sym">;</span></div></li>
+<li><div class="src-line"><a name="a61"></a><span class="src-var">$config</span><span class="src-sym">[</span><span class="src-str">'webclient'</span><span class="src-sym">]</span><span class="src-sym">[</span><span class="src-str">'recommendation_template'</span><span class="src-sym">]&nbsp;</span>=&nbsp;<span class="src-str">&quot;Hello&lt;br&nbsp;/&gt;Your&nbsp;friend&nbsp;%s&nbsp;would&nbsp;like&nbsp;you&nbsp;to&nbsp;join&nbsp;this&nbsp;awesome&nbsp;applikation&nbsp;\&quot;Superwiki\&quot;.&lt;br&nbsp;/&gt;&nbsp;You&nbsp;can&nbsp;find&nbsp;more&nbsp;information&nbsp;here,&nbsp;&lt;a&nbsp;href=\&quot;%s\&quot;&gt;%s&lt;/a&gt;&quot;</span><span class="src-sym">;</span></div></li>
+</ol></div>
+</div>
+	<p class="notes" id="credit">
+		Documentation generated on Wed, 01 Dec 2010 09:14:02 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</body>
+</html>

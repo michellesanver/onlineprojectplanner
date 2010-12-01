@@ -1,0 +1,5 @@
+
+1. se till så ini-filen finns i undermappen user\ till där phpdocumentor-filerna finns
+2. öppna en command-prompt
+3. cd till där phpdocumenter finns
+4. kör "phpdoc" (phpdoc.bat) och välj "online_project_planner" som ini-fil
