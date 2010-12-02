@@ -5,7 +5,7 @@
 */
 
 class Project extends Controller {
-
+    
     function __construct()
     {
         parent::Controller();
@@ -24,89 +24,91 @@ class Project extends Controller {
 
     function Register()
     {
+        // is user logged in?
+        if($this->user->IsLoggedIn()==false)
+        {
+            // set errormessage (will be catched in login)
+            $this->session->set_userdata('errormessage', 'Authentication error! You must be logged in.');
+            
+            // no, redirect   
+            redirect('account/login');
+            return;
+        }
+        
+        
+        // ----------------------------------
+        // continue
+        
+        
         // if any project is set; clear variable
         $this->project->clearCurrentProject();
         
-        // If user is logged in
-        if($this->user->IsLoggedIn()) {
 
-            // Rules for the inputfields
+        // Rules for the inputfields
 
-            $rules = array (
-                "title" => "required|max_length[100]|xss_clean|callback_title_check",
-                "description" => "required|max_length[300]|xss_clean"
+        $rules = array (
+            "title" => "required|max_length[100]|xss_clean|callback_title_check",
+            "description" => "required|max_length[300]|xss_clean"
+        );
+
+        $this->validation->set_rules($rules);
+
+        // Human names for the inputfields
+
+        $field = array(
+            "title" => "Title",
+            "description" => "Description"
+        );
+
+        $this->validation->set_fields($field);
+
+        $status = $this->validation->run();
+
+        $data = array();
+
+        // If have status
+        if($status) {
+
+            // Set inserts
+
+            $insert = array(
+                    "Title" => $this->validation->title,
+                    "Description" => $this->validation->description
             );
 
-            $this->validation->set_rules($rules);
+            // If validation is ok => send to library
 
-            // Human names for the inputfields
-
-            $field = array(
-                "title" => "Title",
-                "description" => "Description"
-            );
-
-            $this->validation->set_fields($field);
-
-            $status = $this->validation->run();
-
-            $data = array();
-
-            // If have status
-
-            if($status) {
-
-                // Set inserts
-
-                $insert = array(
-                        "Title" => $this->validation->title,
-                        "Description" => $this->validation->description
-                );
-
-                // If validation is ok => send to library
-
-                if($this->project->Register($insert)) {
-
-                    $data = array(
-                            "status" => "ok",
-                            "status_message" => "Registration was successful!"
-                    );
-                }
-
-                // Else, if something went wrong
-
-                else {
-
-                    $data = array(
-                            "status" => "error",
-                            "status_message" => "Registration failed!"
-                    );
-                }
-            }
-
-            // If no status but post
-
-            if($status == false && isset($_POST['register_btn'])) {
+            if($this->project->Register($insert)) {
 
                 $data = array(
-                    "title" => $this->validation->title,
-                    "description" => $this->validation->description,
-                    "status" => "error",
-                    "status_message" => "Registration failed!"
+                        "status" => "ok",
+                        "status_message" => "Registration was successful!"
                 );
             }
+            // Else, if something went wrong
+            else {
 
-            $this->theme->view('project/register', $data);
-
+                $data = array(
+                        "status" => "error",
+                        "status_message" => "Registration failed!"
+                );
+            }
         }
 
-        // Else, redirect to login page
+        // If no status but post
 
-        else {
+        if($status == false && isset($_POST['register_btn'])) {
 
-            redirect('account/login');
-
+            $data = array(
+                "title" => $this->validation->title,
+                "description" => $this->validation->description,
+                "status" => "error",
+                "status_message" => "Registration failed!"
+            );
         }
+
+        $this->theme->view('project/register', $data);
+
     }
 
     /**
@@ -116,121 +118,139 @@ class Project extends Controller {
     * catch the formvalues if the submit button is clicked.
     */
 
-    function Update($projectID = NULL)
+    function Update($projectID)
     {
-        // if any project is set; clear variable
-        //$this->project->clearCurrentProject();
-
+        // is user logged in?
+        if($this->user->IsLoggedIn()==false)
+        {
+            // set errormessage (will be catched in login)
+            $this->session->set_userdata('errormessage', 'Authentication error! You must be logged in.');
+            
+            // no, redirect   
+            redirect('account/login');
+            return;
+        }
+        // is user member in the project?
+        if($this->project_member->IsMember($projectID)==false)
+        {
+            // set errormessage (will be catched in view)
+            $this->session->set_userdata('errormessage', 'Authentication error! You are not a member of this project.');
+   
+            // show project start
+            redirect("project/view/$projectID"); 
+            return;
+        }
+        // is user admin?
+        if ($this->project_member->HaveRole('admin')==false) 
+        {
+            // set errormessage (will be catched in view)
+            $this->session->set_userdata('errormessage', 'Authentication You are not an administrator.');    
+            
+            // show project start
+            redirect("project/view/$projectID"); 
+            return; 
+        }
         
-        // If user is logged in
-        if($this->user->IsLoggedIn()) {
+        
+        // ----------------------------------
+        // continue
 
-            $data = array();
+        $data = array();
 
-            // Get saved data
+        // Get saved data
 
-            $savedData = $this->project->Select($projectID);
+        $savedData = $this->project->Select($projectID);
 
-            // If saved data exists
+        // If saved data exists
 
-            if($savedData) {
+        if($savedData) {
 
-                // Rules for the inputfields
+            // Rules for the inputfields
 
-                $rules = array (
-                    "projectID" => "required|integer",
-                    "description" => "required|max_length[300]|xss_clean"
+            $rules = array (
+                "projectID" => "required|integer",
+                "description" => "required|max_length[300]|xss_clean"
+            );
+
+            $this->validation->set_rules($rules);
+
+            // Human names for the inputfields
+
+            $field = array(
+                "projectID" => "Project_id",
+                "description" => "Description"
+            );
+
+            $this->validation->set_fields($field);
+
+            $status = $this->validation->run();
+
+            // If have status
+
+            if($status) {
+
+                // Set updates
+
+                $update = array(
+                        "Project_id" => $this->validation->projectID,
+                        "Description" => $this->validation->description
                 );
 
-                $this->validation->set_rules($rules);
+                // If validation is ok => send to library
 
-                // Human names for the inputfields
-
-                $field = array(
-                    "projectID" => "Project_id",
-                    "description" => "Description"
-                );
-
-                $this->validation->set_fields($field);
-
-                $status = $this->validation->run();
-
-                // If have status
-
-                if($status) {
-
-                    // Set updates
-
-                    $update = array(
-                            "Project_id" => $this->validation->projectID,
-                            "Description" => $this->validation->description
-                    );
-
-                    // If validation is ok => send to library
-
-                    if($this->project->Update($update)) {
-
-                        $data = array(
-                                "projectID" => $this->validation->projectID,
-                                "title" => $savedData['Title'],
-                                "description" => $this->validation->description,
-                                "status" => "ok",
-                                "status_message" => "Update was successful!"
-                        );
-                    }
-
-                    // Else, if something went wrong
-
-                    else {
-
-                        $data = array(
-                                "projectID" => $this->validation->projectID,
-                                "title" => $savedData['Title'],
-                                "description" => $this->validation->description,
-                                "status" => "error",
-                                "status_message" => "Update failed!"
-                        );
-                    }
-
-                }
-
-                // If no status but post
-
-                else if($status == false && isset($_POST['update_btn'])) {
+                if($this->project->Update($update)) {
 
                     $data = array(
-                        "projectID" => $this->validation->projectID,
-                        "title" => $savedData['Title'],
-                        "description" => $this->validation->description,
-                        "status" => "error",
-                        "status_message" => "Update failed!"
+                            "projectID" => $this->validation->projectID,
+                            "title" => $savedData['Title'],
+                            "description" => $this->validation->description,
+                            "status" => "ok",
+                            "status_message" => "Update was successful!"
                     );
                 }
 
-                // Else, present saved data
+                // Else, if something went wrong
 
                 else {
 
                     $data = array(
-                        "projectID" => $savedData['Project_id'],
-                        "title" => $savedData['Title'],
-                        "description" => $savedData['Description'],
+                            "projectID" => $this->validation->projectID,
+                            "title" => $savedData['Title'],
+                            "description" => $this->validation->description,
+                            "status" => "error",
+                            "status_message" => "Update failed!"
                     );
                 }
 
             }
 
-            $this->theme->view('project/update', $data);
+            // If no status but post
+
+            else if($status == false && isset($_POST['update_btn'])) {
+
+                $data = array(
+                    "projectID" => $this->validation->projectID,
+                    "title" => $savedData['Title'],
+                    "description" => $this->validation->description,
+                    "status" => "error",
+                    "status_message" => "Update failed!"
+                );
+            }
+
+            // Else, present saved data
+
+            else {
+
+                $data = array(
+                    "projectID" => $savedData['Project_id'],
+                    "title" => $savedData['Title'],
+                    "description" => $savedData['Description'],
+                );
+            }
 
         }
 
-        // Else, redirect to login page
-
-        else {
-
-            redirect('account/login');
-
-        }
+        $this->theme->view('project/update', $data);
     }
 
     /**
@@ -242,74 +262,68 @@ class Project extends Controller {
     * a member of the selected project
     */
 
-    function Delete($projectID = NULL)
-    {
-        // if any project is set; clear variable
+    function Delete($projectID)
+    {              
+        // is user logged in?
+        if($this->user->IsLoggedIn()==false)
+        {
+            // set errormessage (will be catched in login)
+            $this->session->set_userdata('errormessage', 'Authentication error! You must be logged in.');
+            
+            // no, redirect   
+            redirect('account/login');
+            return;
+        }
+        // is user member in the project?
+        if($this->project_member->IsMember($projectID)==false)
+        {
+            // set errormessage (will be catched in view)
+            $this->session->set_userdata('errormessage', 'Authentication error! You are not a member of this project.');
+   
+            // show project start
+            redirect("project/view/$projectID");
+            return;
+        }
+        // is user admin?
+        if ($this->project_member->HaveRole('admin')==false) 
+        {
+            // set errormessage (will be catched in view)
+            $this->session->set_userdata('errormessage', 'Authentication You are not an administrator.');    
+            
+            // show project start
+            redirect("project/view/$projectID");
+            return; 
+        }
+        
+        
+        // ----------------------------------
+        // continue
+        
+        
+        // if any project is set; clear variable (project will not exist after this function)
         $this->project->clearCurrentProject();
         
-        // continue...
-        if($this->user->IsLoggedIn()) {
 
-            $data = array();
+        $data = array();
 
-            // If user have membership in selected project
+        // If validation is ok => send to library
+        if($this->project_model->Delete($projectID)) {
 
-            if($this->project_member->IsMember($projectID)) {
-
-                // And if user have the Admin-role in selected project
-
-                if($this->project_member->HaveRole('Admin')) {
-
-                    // If validation is ok => send to library
-
-                    if($this->project_model->Delete($projectID)) {
-
-                        $data = array(
-                                "status" => "ok",
-                                "status_message" => "Delete was successful!"
-                        );
-                    }
-
-                    // Else, if something went wrong
-
-                    else {
-
-                        $data = array(
-                                "status" => "error",
-                                "status_message" => "Delete failed!"
-                        );
-                    }
-
-                }
-                else {
-
-                    $data = array(
-                            "status" => "error",
-                            "status_message" => "You need to be an Admin for this action!"
-                            );
-                }
-
-
-            }
-            else {
-
-                $data = array(
-                        "status" => "error",
-                        "status_message" => "You are not a member of this project!"
-                        );
-            }
-
-            $this->theme->view('project/delete', $data);
-
+            $data = array(
+                    "status" => "ok",
+                    "status_message" => "Delete was successful!"
+            );
         }
-
-        // Else, redirect to login page
-
+        // Else, if something went wrong
         else {
 
-            redirect('account/login');
-
+            $data = array(
+                    "status" => "error",
+                    "status_message" => "Delete failed!"
+            );
         }
+
+       $this->theme->view('project/delete', $data);
     }
 
     /**
@@ -337,6 +351,20 @@ class Project extends Controller {
      */
     function index()
     {	
+        // is user logged in?
+        if($this->user->IsLoggedIn()==false)
+        {
+            // set errormessage (will be catched in login)
+            $this->session->set_userdata('errormessage', 'Authentication error! You must be logged in.');
+            
+            // no, redirect   
+            redirect('account/login');
+            return;
+        }
+        
+        // ----------------------------------
+        // continue
+        
         // if any project is set; clear variable
         $this->project->clearCurrentProject();
         
@@ -353,6 +381,24 @@ class Project extends Controller {
     		}
     	}
     
+        // any error message from authentication error?
+        $error_message = $this->session->userdata('errormessage');
+        if ($error_message!=false && $error_message != "")
+        {
+            $data['status'] = 'error';
+            $data['status_message'] = $error_message;
+            $this->session->unset_userdata('errormessage');
+        }
+        // any other message?
+        $ok_message = $this->session->userdata('message');
+        if ($ok_message!=false && $ok_message != "")
+        {
+            $data['status'] = 'ok';
+            $data['status_message'] = $ok_message;
+            $this->session->unset_userdata('message');
+        }
+        
+        // proceed and show view
     	$data["projects"] = $projects;
     	$this->theme->view('project/index', $data);
     }
@@ -362,12 +408,54 @@ class Project extends Controller {
      */
 	function view($projectID)
 	{
+        // is user logged in?
+        if($this->user->IsLoggedIn()==false)
+        {
+            // set errormessage (will be catched in login)
+            $this->session->set_userdata('errormessage', 'Authentication error! You must be logged in.');
+            
+            // no, redirect   
+            redirect('account/login');
+            return;
+        }
+        // is user member in the project?
+        if($this->project_member->IsMember($projectID)==false)
+        {
+            // set errormessage (will be catched in view)
+            $this->session->set_userdata('errormessage', 'Authentication error! You are not a member of this project.');
+   
+            // show project list
+            redirect("project");
+            return;
+        }
+        
+        // ----------------------------------
+        // continue
+        
+        $data = array();
+        
+        // any error message from authentication error?
+        $error_message = $this->session->userdata('errormessage');
+        if ($error_message!=false && $error_message != "")
+        {
+            $data['status'] = 'error';
+            $data['status_message'] = $error_message;
+            $this->session->unset_userdata('errormessage');
+        }
+        // any other message?
+        $ok_message = $this->session->userdata('message');
+        if ($ok_message!=false && $ok_message != "")
+        {
+            $data['status'] = 'ok';
+            $data['status_message'] = $ok_message;
+            $this->session->unset_userdata('message');
+        }
         
         // save current projectID (will be catched in class theme)
         $this->project->setCurrentProject($projectID);    
         
         // proceed to view
-        $this->theme->view('project/start');
+        $this->theme->view('project/start', $data);
         
 	}
     

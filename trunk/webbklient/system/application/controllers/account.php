@@ -152,46 +152,64 @@ class Account extends Controller {
      */
 	 function Login()
 	 {
-			$data = array();
+		$data = array();
+		
+		$username = (isset($_POST["username"])) ? trim($_POST["username"]) : null;
+		$password = (isset($_POST["password"])) ? trim($_POST["password"]) : null;
+		
+		//If we're already logged in
+		if($this->user->IsLoggedIn()) {
+			redirect('project/index');
+		}
+		
+		if(isset($_POST['login_btn'])) {
 			
-			$username = (isset($_POST["username"])) ? trim($_POST["username"]) : null;
-			$password = (isset($_POST["password"])) ? trim($_POST["password"]) : null;
-			
-			//If we're already logged in
-			if($this->user->IsLoggedIn()) {
-				redirect('project/index');
-			}
-			
-			if(isset($_POST['login_btn'])) {
+			if(($username == null || $password == null)) {
+				$data = array(
+						"status" => "error",
+						"status_message" => "Please fill the form."
+				);
+			} else {
 				
-				if(($username == null || $password == null)) {
+				if($this->user->IsActivated($username) == false && isset($_POST['login_btn'])) {
 					$data = array(
 							"status" => "error",
-							"status_message" => "Please fill the form."
+							"status_message" => "Your account ais not activated yet! "
 					);
-				} else {
-					
-					if($this->user->IsActivated($username) == false && isset($_POST['login_btn'])) {
+				}
+				
+				if(isset($data['status']) == false) {
+					if($this->user->Login($username, $password) == true) {
+						redirect('project/index');
+					} else {
 						$data = array(
 								"status" => "error",
-								"status_message" => "Your account are not activated yet! ". $this->user->GetLastError()
+								"status_message" => "Failed to login, Wrong username or password."
 						);
-					}
-					
-					if(isset($data['status']) == false) {
-						if($this->user->Login($username, $password) == true) {
-							redirect('project/index');
-						} else {
-							$data = array(
-									"status" => "error",
-									"status_message" => "Failed to login, Wrong username or password."
-							);
-						}
 					}
 				}
 			}
+		}
 			
-			$this->theme->view('user/login_view', $data);
+        // any error message from authentication error?
+        $error_message = $this->session->userdata('errormessage');
+        if ($error_message!=false && $error_message != "")
+        {
+            $data['status'] = 'error';
+            $data['status_message'] = $error_message;
+            $this->session->unset_userdata('errormessage');
+        }
+        // any other message?
+        $ok_message = $this->session->userdata('message');
+        if ($ok_message!=false && $ok_message != "")
+        {
+            $data['status'] = 'ok';
+            $data['status_message'] = $ok_message;
+            $this->session->unset_userdata('message');
+        }
+        
+        // show view    
+		$this->theme->view('user/login_view', $data);
 	 }
 	 
 		/**
