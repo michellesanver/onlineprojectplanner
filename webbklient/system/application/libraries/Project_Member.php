@@ -136,7 +136,7 @@ class Project_Member
     * @return bool
     */
 
-    function HaveRole($role)
+    function HaveRoleInCurrentProject($role)
     {
         // make name of role case-insensitive
         $role = ucfirst( strtolower($role) );
@@ -148,13 +148,17 @@ class Project_Member
 
         $memberships = $this->_CI->Project_member_model->getByUserId($userID);
 
+        // Fetch currentProjectID
+
+        $currentProjectID = $this->_CI->session->userdata('current_project_id');
+
         if($memberships != NULL)
         {
             foreach($memberships as $membership) {
 
                 // Search for match
 
-                if($membership['Role'] == $role) {
+                if($membership['Role'] == $role && $membership['Project_id'] == $currentProjectID) {
 
                     return true;
                 }
