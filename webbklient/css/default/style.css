@@ -30,6 +30,10 @@ a:hover {
 	text-decoration: none;
 }
 
+.small_links {
+	font-size: 13px;
+}
+
 /* @end */
 
 /* @group Forms */
