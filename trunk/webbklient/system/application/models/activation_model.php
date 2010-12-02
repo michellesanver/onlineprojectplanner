@@ -40,7 +40,7 @@ class Activation_model extends Model
 	* @param int $id
 	* @return mixed
 	*/
-	function getByUser_Id($id)
+	function getById($id)
 	{
 		$query = $this->db->get_where($this->tableName, array('Activation_id' => $id));
 		$res = $query->result_array();
