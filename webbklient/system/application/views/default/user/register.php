@@ -8,7 +8,7 @@
 				}
 			?>
             <h1>Register</h1>
-			<form action="<?php echo site_url('account/register'); ?>" method="POST">
+			<form id="registerform" action="<?php echo site_url('account/register'); ?>" method="POST">
 				<p><label for="firstname">Firstname: </label><input type="text" name="firstname" value="<?php echo (isset($firstname)) ? $firstname : ""; ?>" />*</p>
 				<p><label for="lastname">Lastname: </label><input type="text" name="lastname" value="<?php echo (isset($lastname)) ? $lastname : ""; ?>" />*</p>
 				<p><label for="email">Email: </label><input type="text" name="email" value="<?php echo (isset($email)) ? $email : ""; ?>" />*</p>
