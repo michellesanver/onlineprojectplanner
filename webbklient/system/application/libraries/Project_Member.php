@@ -129,13 +129,19 @@ class Project_Member
     * This function is used in order to see if logged in user
     * have a certain role in selected project. Searches the
     * database for a match and returns the answer as an bool.
-    *
+    * The parameter $role is case-insensitive but must have
+    * the correct spelling.
+    * 
     * @param string $role
     * @return bool
     */
 
     function HaveRole($role)
     {
+        // make name of role case-insensitive
+        $role = ucfirst( strtolower($role) );
+        
+        // fetch userID
         $userID = $this->_CI->session->userdata('UserID');
 
         // Fetch memerships

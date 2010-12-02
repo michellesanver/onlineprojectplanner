@@ -1,3 +1,10 @@
+
+<?php
+    if(isset($status)) {
+            echo "<div class='" . $status . "'><b>" . $status_message . "</b></div>";
+    }
+?>
+                
 <h1 class="blackheader">Projects</h1>
 <div id="projectlisting">
 	<a class="newprojectbox" href="<?php echo site_url('project/register'); ?>">
