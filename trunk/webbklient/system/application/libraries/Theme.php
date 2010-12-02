@@ -57,7 +57,8 @@ class Theme
             'site_title' => $this->_site_title,
             'theme_folder' => $this->_theme,
             'base_url' => $this->_base_url,
-            'is_logged_in' => $this->_CI->user->isLoggedIn()
+            'is_logged_in' => $this->_CI->user->isLoggedIn(),
+            'current_project_id' => $current_project_id
         );
         
         // add page title?
@@ -94,7 +95,7 @@ class Theme
         $this->_CI->load->view($view, $vars);
 
         // which post_content to load?
-        if ( $current_project_id != false )
+        if ($current_project_id != false )
         {
             // use project post_content
            $this->_CI->load->view($this->_theme.'/common/project_post_content', $preContentData);  

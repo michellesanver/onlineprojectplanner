@@ -18,14 +18,18 @@
 <div id="wrapper">
     
     <div id="fullpage_overlay"></div><div id="message"></div> 
-    
+  
     <div id="topbar">
         <span class="sitetitle"><?php echo "<a href=\"$base_url\" class=\"home_link\">$site_title</a>"; ?></span>
         <?php
             if($is_logged_in) {
-                echo "<span class=\"topbuttons\">";
-                echo("<a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a>");
-                echo "</span>";
+                echo "<div class=\"topbuttons\">";
+               		echo("<a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a>");
+               		echo("<a href=\"" . site_url("project/update/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/Settings.png\"/></a>");
+                	echo("<a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/contacts.png\"/></a>");
+                	echo("<a href=\"" . site_url('project/index') . "\"><img src=\"{$base_url}images/buttons/home.png\"/></a>");
+                	
+                echo "</div>";
             }
         ?>
     </div>
