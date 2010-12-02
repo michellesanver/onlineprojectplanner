@@ -27,9 +27,17 @@ body, html {
 	float: left;
 }
 
+#leftboxwide {
+	margin-left: 10px;
+	width: 370px;
+	border-right: 1px solid #5e5e5e;
+	float: left;
+}
+
 #rightbox {
 	margin-left: 20px;
 	float: left;
+	width: 510px;	
 }
 
 
@@ -126,6 +134,8 @@ div.error {
 	padding: 10px;
 	min-width:50px;
 	max-width: 400px;
+	margin-left:auto;
+	margin-right:auto;
 	background-color: #f9fde1;
 	border: 2px solid #e61913;
 }
