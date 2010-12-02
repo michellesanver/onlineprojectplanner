@@ -21,7 +21,7 @@ body, html {
 }
 
 #leftbox {
-	margin-left: 60px;
+	margin-left: 10px;
 	width: 300px;
 	border-right: 1px solid #5e5e5e;
 	float: left;
@@ -29,7 +29,6 @@ body, html {
 
 #rightbox {
 	margin-left: 20px;
-	width: 570px;
 	float: left;
 }
 
@@ -97,6 +96,12 @@ form label {
 p.forgotpassword {
 	margin-top: 10px;
 	margin-left: 0px;
+}
+
+#contentboxwrapper {
+	margin-left:auto;
+	margin-right:auto;
+	width: 920px;
 }
 
 /* @end */
