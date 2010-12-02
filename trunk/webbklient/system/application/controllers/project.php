@@ -119,7 +119,7 @@ class Project extends Controller {
     function Update($projectID = NULL)
     {
         // if any project is set; clear variable
-        $this->project->clearCurrentProject();
+        //$this->project->clearCurrentProject();
 
         
         // If user is logged in
