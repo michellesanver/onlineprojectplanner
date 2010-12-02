@@ -19,7 +19,7 @@ class Project_lib
 
         // load model for library
 
-        $this->_CI->load->model(array('Project_model', 'Project_member_model'));
+        $this->_CI->load->model(array('Project_model', 'Project_member_model', 'Project_role_model'));
     }
 
     /**
@@ -102,7 +102,9 @@ class Project_lib
     {
         $userID = $this->_CI->session->userdata('UserID');
 
-        $result = $this->_CI->Project_model->insert($insert, $userID);
+        $role = $this->_CI->Project_role_model->getByRole(ucfirst(strtolower('Admin')));
+
+        $result = $this->_CI->Project_model->insert($insert, $userID, $role);
 
         if($result) {
 

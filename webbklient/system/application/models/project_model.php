@@ -85,7 +85,7 @@ class Project_model extends Model
     * @return int
     */
 
-    function insert($insert, $userID)
+    function insert($insert, $userID, $role)
     {
         $res = false;
 
@@ -108,7 +108,7 @@ class Project_model extends Model
 
         $projectID = $this->db->insert_id();
 
-        $res = $this->db->insert($this->_table2, array('User_id' => $userID, 'Project_id' => $projectID, 'Project_role_id' => 1));
+        $res = $this->db->insert($this->_table2, array('User_id' => $userID, 'Project_id' => $projectID, 'Project_role_id' => $role->Project_role_id));
 
         // was row inserted?
 

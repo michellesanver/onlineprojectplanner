@@ -139,7 +139,7 @@ class Project_Member
     function HaveRoleInCurrentProject($role)
     {
         // make name of role case-insensitive
-        $role = ucfirst( strtolower($role) );
+        $role = ucfirst(strtolower($role));
         
         // fetch userID
 
