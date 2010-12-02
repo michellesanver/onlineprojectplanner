@@ -128,15 +128,16 @@ div.error b {
 }
 
 div.error {
-	background: #f8fdda url(../../images/backgrounds/erroricon.png) no-repeat 6px 3px;
+	background: #f8fdda url(../../images/backgrounds/erroricon.png) no-repeat;
 	padding-left: 40px;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
 	border-radius:5px;
 	padding-top: 10px;
 	min-width:50px;
-	max-width: 400px;
-
+	max-width: 700px;
+	margin-left:auto;
+	margin-right:auto;
 	border: 2px solid #e61913;
 }
 
