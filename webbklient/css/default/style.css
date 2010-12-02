@@ -83,6 +83,25 @@ body {
 	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
+div.error p {
+	
+}
+
+div.error b {
+	
+}
+
+div.error {
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	border-radius:10px;
+	padding: 10px;
+	min-width:50px;
+	max-width: 400px;
+	background-color: #f9fde1;
+	border: 2px solid #e61913;
+}
+
 span.topbuttons {
 	float: right;
 	padding: 7px;	
