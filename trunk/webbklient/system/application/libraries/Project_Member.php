@@ -142,6 +142,7 @@ class Project_Member
         $role = ucfirst( strtolower($role) );
         
         // fetch userID
+
         $userID = $this->_CI->session->userdata('UserID');
 
         // Fetch memerships
