@@ -6,17 +6,67 @@
 body, html {
     height: 100%;
     width: 100%;
+	font-size: 14px;
 }
 
+/* @group User */
+
+
+/* @end */
+
 /* @group Default */
+
+/* @group Links */
+
+a img {
+	border: 0;
+}
+
+a {
+	color: #008e29;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+/* @end */
+
+/* @group Forms */
+
+input[type=text] {
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	height: 20px;
+	border: 1px solid #797979;
+}
+
+input[type=password] {
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	height: 20px;
+	border: 1px solid #797979;
+}
+
+input[type=submit] {
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	border: 1px solid #797979;
+	padding: 5px;
+	background-color: #d5d5d5;
+	font-weight: bold;
+}
+
+/* @end */
+
 body {
 	margin: 0px;
 	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
-a img {
-	border: 0;
-}
 span.topbuttons {
 	float: right;
 	padding: 7px;	
@@ -135,12 +185,22 @@ img.projectplus {
 }
 
 b.new_project_title {
+	text-align: center;
 	position: relative;
-	right: 25px;
-	bottom: 7px;
+	bottom: 37px;
+}
+
+.projectplus {
+	min-height: 40px;
+	width:40px;
+	background: url(../../images/backgrounds/plus.png) repeat-x;
+	position: relative;
+	right: 30px;
+	bottom: 43px;
 }
 
 a.projectbox {
+	
 	padding: 5px;
 	height: 84px;
 	float: left;
@@ -158,6 +218,7 @@ a.projectbox {
 	padding-top:10px;
     text-decoration: none;
     color:#000;
+	display: block;
 }
 
 a.projectbox:active, a.projectbox:visited,a.projectbox:hover {

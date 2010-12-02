@@ -1,7 +1,7 @@
 <h1 class="blackheader">Projects</h1>
 <div id="projectlisting">
 	<a class="newprojectbox" href="<?php echo site_url('project/register'); ?>">
-		<img class="projectplus" src="<?php echo($base_url);?>images/backgrounds/plus.png"/>
+		<p class="projectplus">&nbsp;</p>
 		<b class="new_project_title">New project</b>
 	</a>
 <?php foreach($projects as $project): ?>
