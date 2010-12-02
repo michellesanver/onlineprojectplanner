@@ -141,7 +141,7 @@ class Project extends Controller {
             return;
         }
         // is user admin?
-        if ($this->project_member->HaveRole('admin')==false) 
+        if ($this->project_member->HaveRoleInCurrentProject('admin')==false)
         {
             // set errormessage (will be catched in view)
             $this->session->set_userdata('errormessage', 'Authentication You are not an administrator.');    
@@ -285,7 +285,7 @@ class Project extends Controller {
             return;
         }
         // is user admin?
-        if ($this->project_member->HaveRole('admin')==false) 
+        if ($this->project_member->HaveRoleInCurrentProject('admin')==false)
         {
             // set errormessage (will be catched in view)
             $this->session->set_userdata('errormessage', 'Authentication You are not an administrator.');    
