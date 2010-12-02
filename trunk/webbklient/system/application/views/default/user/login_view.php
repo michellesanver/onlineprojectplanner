@@ -10,7 +10,7 @@
 		<label for="username">Username: </label> <input type="text" name="username" value="<?php echo (isset($username)) ? $username : ""; ?>" />*<br/>
 		<label for="password">Password: </label> <input type="password" name="password" />*<br/>
 		<label>&nbsp; </label> <input type="submit" class="button" value="Sign in" name="login_btn" /><br/>
-		<p class="small_links"><label>&nbsp; </label><a href="<?php echo site_url('account/register'); ?>">Click here to register</a> | <a href="<?php echo site_url('account/resetpassword'); ?>">Forgot password?</a></p>
+		<p class="small_links"><a href="<?php echo site_url('account/register'); ?>">Click here to register</a> | <a href="<?php echo site_url('account/resetpassword'); ?>">Forgot password?</a></p>
 	</form>
 
 </div>
