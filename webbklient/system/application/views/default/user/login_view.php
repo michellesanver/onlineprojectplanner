@@ -4,15 +4,16 @@
 		}
 	?>
 	<h1 class="blackheader">Authenticate</h1>
-	
-	<form id="leftbox" action="<?php echo site_url('account/login'); ?>" method="POST">
-		<label for="username">Username: </label> <input type="text" name="username" value="<?php echo (isset($username)) ? $username : ""; ?>" />*<br/>
-		<label for="password">Password: </label> <input type="password" name="password" />*<br/>
-		
-		<label>&nbsp; </label><input type="submit" class="button" value="Sign in" name="login_btn" /><br/>
-		<p class="forgotpassword"><a href="<?php echo site_url('account/resetpassword'); ?>">Forgot password?</a></p>
-	</form>
-	
+	<div id="leftbox">
+		<h2>Login</h2>
+		<form action="<?php echo site_url('account/login'); ?>" method="POST">
+			<label for="username">Username: </label> <input type="text" name="username" value="<?php echo (isset($username)) ? $username : ""; ?>" />*<br/>
+			<label for="password">Password: </label> <input type="password" name="password" />*<br/>
+			
+			<label>&nbsp; </label><input type="submit" class="button" value="Sign in" name="login_btn" /><br/>
+			<p class="forgotpassword"><a href="<?php echo site_url('account/resetpassword'); ?>">Forgot password?</a></p>
+		</form>
+	</div>
 	<div id="rightbox">
 		<h2>Don't have an account? Register!</h2>
 		<ul>
