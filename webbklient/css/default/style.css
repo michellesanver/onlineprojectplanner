@@ -128,15 +128,15 @@ div.error b {
 }
 
 div.error {
-	-webkit-border-radius:10px;
-	-moz-border-radius:10px;
-	border-radius:10px;
-	padding: 10px;
+	background: #f8fdda url(../../images/backgrounds/erroricon.png) no-repeat 6px 3px;
+	padding-left: 40px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	padding-top: 10px;
 	min-width:50px;
 	max-width: 400px;
-	margin-left:auto;
-	margin-right:auto;
-	background-color: #f9fde1;
+
 	border: 2px solid #e61913;
 }
 
@@ -258,7 +258,8 @@ h1.blackheader {
 	float: left;
 	margin-left: 15px;
 	margin-right: 10px;
-	margin-bottom: 25px;
+	margin-top: 10px;
+	margin-bottom:10px;
 	width: 180px;
 	background: url(../../images/backgrounds/new-project-listing-background.png) repeat-x;
 	-webkit-border-radius:5px;
@@ -293,14 +294,15 @@ b.new_project_title {
 	bottom: 43px;
 }
 
-a.projectbox {
+.projectbox {
 	
 	padding: 5px;
 	height: 84px;
 	float: left;
 	margin-left: 15px;
 	margin-right: 10px;
-	margin-bottom: 25px;
+	margin-top: 10px;
+	margin-bottom:10px;
 	width: 180px;
 	background: url(../../images/backgrounds/project-listing-background.png) repeat-x;
 	-webkit-border-radius:5px;
