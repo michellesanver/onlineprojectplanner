@@ -148,36 +148,58 @@ class Account extends Controller {
     }
     
     /**
-     *
+     * Autenticating the user.
      */
-     function Login()
-     {
-     	//If we're already logged in
-     	if($this->user->isLoggedIn()) {
-     		redirect('project/index');
-     	} else {
-     		if(!empty($_POST)) {
-	     		if($this->user->Login($_POST["username"], $_POST["password"]) == true) {
-	     			redirect('project/index');
-	     		} else {
-	     			$this->theme->view('user/login_view');
-	     		}
-	     	} else {
-	     		$this->theme->view('user/login_view');
-	     	}
-     	}
-     	
-     	
-     	
-     	
-     	
-     }
-     
+	 function Login()
+	 {
+			$data = array();
+			
+			$username = (isset($_POST["username"])) ? trim($_POST["username"]) : null;
+			$password = (isset($_POST["password"])) ? trim($_POST["password"]) : null;
+			
+			//If we're already logged in
+			if($this->user->IsLoggedIn()) {
+				redirect('project/index');
+			}
+			
+			if(($username == null || $password == null) && isset($_POST['login_btn'])) {
+				$data = array(
+						"status" => "error",
+						"status_message" => "Please fill the form."
+				);
+			} else {
+				
+				if($this->user->IsActivated($username) == false && isset($_POST['login_btn'])) {
+					$data = array(
+							"status" => "error",
+							"status_message" => "Your account are not activated yet! ". $this->user->GetLastError()
+					);
+				}
+				
+				if(isset($data['status']) == false) {
+					if($this->user->Login($username, $password) == true) {
+						redirect('project/index');
+					} else {
+						$data = array(
+								"status" => "error",
+								"status_message" => "Failed to login, Wrong username or password."
+						);
+					}
+				}
+			
+			}
+			$this->theme->view('user/login_view', $data);
+	 }
+	 
+		/**
+			* Logging the user out.
+			*/
    function Logout()
    {
    		$this->user->logout();
    		redirect('account/login');
    }
+	 
 	/**
 	* Function: Register
 	* 

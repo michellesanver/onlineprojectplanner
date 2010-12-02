@@ -263,7 +263,6 @@ class User
 	}
 	
 	/**
-    * 
     * Check if a user is online or offline
     * 
     * @return bool
@@ -301,14 +300,14 @@ class User
 		
 		// Gets the user.
 		if(is_int($input)) {
-			$user = $this->_CI->user_model->getById($input);
+			$user = $this->_CI->User_model->getById($input);
 		} else if(is_string($input)) {
-			$user = $this->_CI->user_model->getByUsername($input);
+			$user = $this->_CI->User_model->getByUsername($input);
 		}
 		
 		// If the person is not registered yet
 		if($user == null) {
-			$this->_last_error = "Could not find the user in our database!";
+			$this->_last_error = "You are not registered!";
 			return false;
 		}
 		
@@ -319,7 +318,7 @@ class User
 		if($activation == null) {
 			return true;
 		} else {
-			$this->_last_error = "User is not yet activated!";
+			$this->_last_error = "You are not yet activated!";
 			return false;
 		}
 	}
