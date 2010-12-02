@@ -162,32 +162,35 @@ class Account extends Controller {
 				redirect('project/index');
 			}
 			
-			if(($username == null || $password == null) && isset($_POST['login_btn'])) {
-				$data = array(
-						"status" => "error",
-						"status_message" => "Please fill the form."
-				);
-			} else {
+			if(isset($_POST['login_btn'])) {
 				
-				if($this->user->IsActivated($username) == false && isset($_POST['login_btn'])) {
+				if(($username == null || $password == null)) {
 					$data = array(
 							"status" => "error",
-							"status_message" => "Your account are not activated yet! ". $this->user->GetLastError()
+							"status_message" => "Please fill the form."
 					);
-				}
-				
-				if(isset($data['status']) == false) {
-					if($this->user->Login($username, $password) == true) {
-						redirect('project/index');
-					} else {
+				} else {
+					
+					if($this->user->IsActivated($username) == false && isset($_POST['login_btn'])) {
 						$data = array(
 								"status" => "error",
-								"status_message" => "Failed to login, Wrong username or password."
+								"status_message" => "Your account are not activated yet! ". $this->user->GetLastError()
 						);
 					}
+					
+					if(isset($data['status']) == false) {
+						if($this->user->Login($username, $password) == true) {
+							redirect('project/index');
+						} else {
+							$data = array(
+									"status" => "error",
+									"status_message" => "Failed to login, Wrong username or password."
+							);
+						}
+					}
 				}
-			
 			}
+			
 			$this->theme->view('user/login_view', $data);
 	 }
 	 
