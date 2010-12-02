@@ -16,6 +16,24 @@ body, html {
 
 /* @group Default */
 
+.left {
+	
+}
+
+#leftbox {
+	margin-left: 60px;
+	width: 300px;
+	border-right: 1px solid #5e5e5e;
+	float: left;
+}
+
+#rightbox {
+	margin-left: 20px;
+	width: 570px;
+	float: left;
+}
+
+
 /* @group Links */
 
 a img {
@@ -76,6 +94,11 @@ form label {
     text-align: left;
 }
 
+p.forgotpassword {
+	margin-top: 10px;
+	margin-left: 0px;
+}
+
 /* @end */
 
 body {
@@ -132,10 +155,31 @@ span.sitetitle a:hover {
 
 h1 {
     font-size:16pt;
+    margin-top: 5px;
 }
 
 h2, h3 {
+	margin-top: 0px;
     font-size:14pt;
+}
+
+a.register {
+	margin-left: 20px;
+	color: #eaeaea;
+	text-decoration: none;
+	background-color: #008e29;
+	font-weight: bold;
+	font-size: 12px;
+	padding: 5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	border: 1px solid #797979;
+}
+
+a.register:hover {
+	background-color: #eaeaea;
+	color: #008d29;
 }
 
 h3 {
