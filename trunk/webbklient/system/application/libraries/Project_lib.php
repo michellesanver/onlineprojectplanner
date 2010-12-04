@@ -141,6 +141,38 @@ class Project_lib
     }
 
     /**
+    * Function: Accept
+    * This function will diliver the validated registration
+    * information to the project_member_model.
+    *
+    * @param $projectID, $projectRoleID
+    * @return bool
+    */
+
+    function Accept($projectID, $projectRoleID, $invitationID)
+    {
+        $userID = $this->_CI->session->userdata('UserID');
+
+
+        $insert = array(
+                    "User_id" => $userID,
+                    "Project_id" => $projectID,
+                    "Project_role_id" => $projectRoleID
+            );
+
+        $result = $this->_CI->Project_member_model->accept($insert, $invitationID);
+
+        if($result) {
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    /**
     * Function: Update
     * This function will diliver the validated update
     * information to the project_model.

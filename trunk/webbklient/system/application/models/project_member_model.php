@@ -13,6 +13,7 @@ class Project_member_model extends Model
     private $_table = "Project_Member";
     private $_table_role = "Project_Role";
     private $_table_user = "User";
+    private $_table_invitation = "Project_Invitation";
     
     /**
     * Function: getByUserId
@@ -69,10 +70,58 @@ class Project_member_model extends Model
 	}
 
 	/**
-	* Function: insert
+	* Function: accept
 	* This will insert it as a new row in the database.
 	* Insert parameter can be an array or a object of stdClass.
 	* 
+	* @param mixed $insert
+        * @param int $InvitationID
+	* @return bool
+	*/
+
+	function accept($insert, $InvitationID)
+	{
+            $res = false;
+
+            // start a transaction; all or nothing
+
+            $this->db->trans_begin();
+
+            // insert new project
+
+            $this->db->insert($this->_table, $insert);
+
+            // nothing changed?
+
+            if ( $this->db->affected_rows() == 0 )
+            {
+                // roll back transaction and return false
+                $this->db->trans_rollback();
+                return false;
+            }
+
+            $res = $this->db->delete($this->_table_invitation, array('Project_invitation_id' => $InvitationID));;
+
+            // was row deleted?
+
+            if ( $res == false )
+            {
+                // roll back transaction and return false
+                $this->db->trans_rollback();
+                return false;
+            }
+
+            // else; all ok! commit transaction and return true
+
+            $this->db->trans_commit();
+            return true;
+	}
+
+        /**
+	* Function: insert
+	* This will insert it as a new row in the database.
+	* Insert parameter can be an array or a object of stdClass.
+	*
 	* @param mixed $insert
 	* @return bool
 	*/
