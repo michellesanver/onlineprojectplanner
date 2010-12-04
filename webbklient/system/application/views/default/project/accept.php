@@ -1,4 +1,7 @@
 
+<h1 class="blackheader">Register new project</h1>
+<div id="contentboxwrapper">
+	<div id="leftboxwide">
 	
             
                 <?php
@@ -11,3 +14,10 @@
                         <label>&nbsp;</label><input type="submit" value="Accept" name="accept_btn" /><br/>
                 </form>
 
+	</div>
+	<div id="rightbox">
+		<h2>What is this?</h2>
+		<p>If you have recieved an invitecode from someone you can type it in here to join their project.</p>
+		<p>Your invitecode should be in your mail.</p>
+	</div>
+</div>
