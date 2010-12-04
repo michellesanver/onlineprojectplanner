@@ -1,5 +1,5 @@
 
-<h1 class="blackheader">Register new project</h1>
+<h1 class="blackheader">Accept project invitation</h1>
 <div id="contentboxwrapper">
 	<div id="leftboxwide">
 	

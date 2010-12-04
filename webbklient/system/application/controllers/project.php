@@ -10,7 +10,7 @@ class Project extends Controller {
     {
         parent::Controller();
 
-        $this->load->library(array('validation', 'project_member', 'emailsender'));
+        $this->load->library(array('validation', 'project_member', 'emailsender', 'invitation'));
         $this->load->library('project_lib', null, 'project');
         $this->load->model('project_model');
         $this->load->model('project_member_model');
@@ -665,67 +665,92 @@ class Project extends Controller {
         // Rules for the inputfields
 
         $rules = array (
-            "title" => "required|max_length[100]|xss_clean|callback_title_check",
-            "description" => "required|max_length[300]|xss_clean"
+            "code" => "required|max_length[32]|xss_clean|callback_invite_check"
         );
 
-        $this->validation->set_rules($rules);
 
+        $this->validation->set_rules($rules);
+        
         // Human names for the inputfields
 
         $field = array(
-            "title" => "Title",
-            "description" => "Description"
+            "code" => "Code"
         );
 
         $this->validation->set_fields($field);
-
+        
         $status = $this->validation->run();
 
         $data = array();
 
         // If have status
+
         if($status) {
 
-            // Set inserts
+            $invitation = $this->invitation_model->getWithCode($this->validation->code);
 
-            $insert = array(
-                    "Title" => $this->validation->title,
-                    "Description" => $this->validation->description
-            );
+            // If user not already is a member in selected project
 
-            // If validation is ok => send to library
+            if($this->project_member->IsMember($invitation['Project_id']) == false)
+            {
+                // If validation is ok => send to library
 
-            if($this->project->Register($insert)) {
+                if($this->project->Accept($invitation['Project_id'], $invitation['Project_role_id'], $invitation['Project_invitation_id'])) {
 
-                $data = array(
-                        "status" => "ok",
-                        "status_message" => "Registration was successful!"
-                );
+                    $data = array(
+                            "status" => "ok",
+                            "status_message" => "Invitation accepted!"
+                    );
+                }
+                // Else, if something went wrong
+                else {
+
+                    $data = array(
+                            "status" => "error",
+                            "status_message" => "Acceptance process failed!"
+                    );
+                }
             }
-            // Else, if something went wrong
-            else {
-
+            else
+            {
                 $data = array(
-                        "status" => "error",
-                        "status_message" => "Registration failed!"
-                );
+                            "status" => "error",
+                            "status_message" => "You are already a member of this project!"
+                    );
             }
         }
 
         // If no status but post
 
-        if($status == false && isset($_POST['register_btn'])) {
+        if($status == false && isset($_POST['accept_btn'])) {
 
             $data = array(
-                "title" => $this->validation->title,
-                "description" => $this->validation->description,
                 "status" => "error",
-                "status_message" => "Registration failed!"
+                "status_message" => "Acceptance process failed!"
             );
         }
 
         $this->theme->view('project/accept', $data);
+    }
+
+    /**
+    * Function: invite_check
+    * This function is part of the accept invitation validation. It will stop any
+    * none invited try
+    *
+    *@param string $str
+    *@return bool
+    */
+
+    function invite_check($str)
+    {
+        if($this->invitation->CheckIfExist("Code", $str) == false) {
+
+            $this->validation->set_message('invite_check', 'This invitation does not exist in our database.');
+            return false;
+        }
+
+        return true;
     }
 
     /**

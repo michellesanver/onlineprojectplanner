@@ -23,7 +23,7 @@ class Invitation_model extends Model
 	*/
 	function getWithCode($code)
 	{
-		$query = $this->db->get_where($this->$_table, array('Code' => $code));
+		$query = $this->db->get_where($this->_table, array('Code' => $code));
 		$res = $query->result_array();
 		if(count($res) == 1)
 			return $res[0];
