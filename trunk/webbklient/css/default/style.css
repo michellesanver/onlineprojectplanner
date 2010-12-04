@@ -38,8 +38,28 @@
 	text-decoration: none;
 }
 
+.acceptinvitationbox {
+	padding: 5px;
+	height: 84px;
+	float: left;
+	margin-left: 15px;
+	margin-right: 10px;
+	margin-top: 10px;
+	margin-bottom:10px;
+	width: 180px;
+	background: url(../../images/backgrounds/new-project-listing-background.png) repeat-x;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	border: 1px solid #000;
+	text-align: center;
+	font-size: 0.9em;
+	padding-top:10px;
+	color: #000;
+	text-decoration: none;
+}
+
 .projectbox {
-	
 	padding: 5px;
 	height: 84px;
 	float: left;
@@ -56,12 +76,18 @@
 	text-align: center;
 	font-size: 0.9em;
 	padding-top:10px;
-    text-decoration: none;
-    color:#000;
+        text-decoration: none;
+        color:#000;
 	display: block;
 }
 
 b.new_project_title {
+	text-align: center;
+	position: relative;
+	bottom: 37px;
+}
+
+b.accept_project_title {
 	text-align: center;
 	position: relative;
 	bottom: 37px;

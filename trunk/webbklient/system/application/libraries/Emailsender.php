@@ -175,14 +175,12 @@ class Emailsender
         $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
         $email_template = $this->_CI->config->item('invitation_template', 'webclient');
         $email_subject = $this->_CI->config->item('invitation_template_subject', 'webclient');
-        $invitation_url =  $this->_CI->config->item('invitation_url', 'webclient');
 
         // Insert data
 
         $url = site_url();
-        $invitation_url = site_url($invitation_url)."/$code";
         $email_subject = sprintf($email_subject);
-        $email_template = sprintf($email_template, $url, $invitation_url, $invitation_url);
+        $email_template = sprintf($email_template, $url, $code);
 
         // Setup CI email library
 
