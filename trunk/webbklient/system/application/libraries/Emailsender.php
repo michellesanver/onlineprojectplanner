@@ -165,7 +165,39 @@ class Emailsender
         // send
         return $this->_CI->email->send();
     }
-    
+
+    function SendInvitationMail($email, $code)
+    {
+
+        // Fetch settings from config
+
+        $system_email = $this->_CI->config->item('system_email', 'webclient');
+        $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
+        $email_template = $this->_CI->config->item('invitation_template', 'webclient');
+        $email_subject = $this->_CI->config->item('invitation_template_subject', 'webclient');
+        $invitation_url =  $this->_CI->config->item('invitation_url', 'webclient');
+
+        // Insert data
+
+        $url = site_url();
+        $invitation_url = site_url($invitation_url)."/$code";
+        $email_subject = sprintf($email_subject);
+        $email_template = sprintf($email_template, $url, $invitation_url, $invitation_url);
+
+        // Setup CI email library
+
+        $this->_CI->email->from($system_email, $system_email_name);
+        $this->_CI->email->to($email);
+
+        $this->_CI->email->subject($email_subject);
+        $this->_CI->email->message($email_template);
+
+        // Send
+
+        return $this->_CI->email->send();
+
+    }
+
 }
 
 ?>
