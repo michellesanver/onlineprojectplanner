@@ -1,52 +1,53 @@
 #labels Backlog
-Product backlog - Antal timmar till projekt: 2400 h
-Användarhantering
-Registrering
-Login och logout
-Editera konto
-Återställa lösenord
+= Product backlog = 
+- Antal timmar till projekt: 2400 h
+ * Användarhantering
+  * Registrering
+  * Login och logout
+  * Editera konto
+  * Återställa lösenord
 
 
 
-Alla felmeddelanden loggade och/eller mailade.
-Motor för placering av widgets
+ * Alla felmeddelanden loggade och/eller mailade.
+ * Motor för placering av widgets
 
-Projekthantering
-Skapa projekt
-Ta bort projekt
-Editera projekt
-Widgethantering
-Användarrollhantering
-Bjuda in medlem
-Ta bort medlem
-Ändra medlemsbehörighet
-Skapare
-Hanterare
-Medlem
-
-
-
-Widgets
-Widgethantering
-Minimera / Maximera
-Flytta / Ändra storlek
-Lägga till / ta bort
-Wiki
-Kalender
-Chatt
-Videochatt
-Blogg / log
-Forum / Diskussion
-Dokumentdelning i mappar
-Gemensam livekodning
-Gemensam livedokumentation
-SVN Hantering? (En projektgrupp kan starta egen SVN)
-Dropbox; filer för projektet.. drag'n'drop via html5 eller javascript?
+ * Projekthantering
+  * Skapa projekt
+  * Ta bort projekt
+  * Editera projekt
+  * Widgethantering
+  * Användarrollhantering
+   * Bjuda in medlem
+   * Ta bort medlem
+   * Ändra medlemsbehörighet
+    * Skapare
+    * Hanterare
+    * Medlem
 
 
 
-Webbklient
-Mobilklient
-Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.
-Filhanterare där det går att hantera uppladdade filer.
-Projekthantering (skapa nya etc)
+ * Widgets
+ * Widgethantering
+  * Minimera / Maximera
+  * Flytta / Ändra storlek
+  * Lägga till / ta bort
+  * Wiki
+  * Kalender
+  * Chatt
+  * Videochatt
+  * Blogg / log
+  * Forum / Diskussion
+  * Dokumentdelning i mappar
+  * Gemensam livekodning
+  * Gemensam livedokumentation
+  * SVN Hantering? (En projektgrupp kan starta egen SVN)
+  * Dropbox; filer för projektet.. drag'n'drop via html5 eller javascript?
+
+
+
+ * Webbklient
+ * Mobilklient
+ * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.
+ * Filhanterare där det går att hantera uppladdade filer.
+ * Projekthantering (skapa nya etc)
