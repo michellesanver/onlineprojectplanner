@@ -19,7 +19,7 @@ class Project_lib
 
         // load model for library
 
-        $this->_CI->load->model(array('Project_model', 'Project_member_model', 'Project_role_model'));
+        $this->_CI->load->model(array('Project_model', 'Project_member_model', 'Project_role_model', 'Invitation_model'));
     }
 
     /**
@@ -109,6 +109,30 @@ class Project_lib
         if($result) {
 
             return true;
+
+        }
+
+        return false;
+
+    }
+
+    /**
+    * Function: Invite
+    * This function will diliver the validated invitation
+    * information to the invitation_model.
+    *
+    * @param array $invitation
+    * @return bool
+    */
+
+    function Invite($invitation)
+    {
+
+        $result = $this->_CI->Invitation_model->insert($invitation);
+
+        if($result) {
+
+            return $this->_CI->db->insert_id();
 
         }
 

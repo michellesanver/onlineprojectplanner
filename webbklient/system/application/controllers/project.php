@@ -10,10 +10,12 @@ class Project extends Controller {
     {
         parent::Controller();
 
-        $this->load->library(array('validation', 'project_member'));
+        $this->load->library(array('validation', 'project_member', 'emailsender'));
         $this->load->library('project_lib', null, 'project');
         $this->load->model('project_model');
         $this->load->model('project_member_model');
+        $this->load->model('project_role_model');
+        $this->load->model('invitation_model');
     }
 
     /**
@@ -499,30 +501,124 @@ class Project extends Controller {
 
         $this->project->clearCurrentProject();
 
+        // Get project information
+
     	$project = $this->project_model->getById($projectID);
+
+        // Get project members information
 
         $projectMembers = $this->project_member_model->getByProjectId($projectID);
 
-        // Any error message from authentication error?
+        // Get project roles
 
-        $error_message = $this->session->userdata('errormessage');
+    	$projectRoles = $this->project_role_model->getAll();
 
-        if ($error_message!=false && $error_message != "")
-        {
-            $data['status'] = 'error';
-            $data['status_message'] = $error_message;
-            $this->session->unset_userdata('errormessage');
+        // Rules for the inputfields
+
+        $rules = array (
+            "email" => "trim|required|max_length[100]|xss_clean|valid_email",
+            "projectID" => "required|integer",
+            "projectRoleID" => "required|integer",
+        );
+
+        $this->validation->set_rules($rules);
+
+        // Human names for the inputfields
+
+        $field = array(
+            "email" => "Email",
+            "projectID" => "Project_id",
+            "projectRoleID" => "Project_role_id"
+        );
+
+        $this->validation->set_fields($field);
+
+        $status = $this->validation->run();
+
+        $data = array();
+
+        // If have status
+
+        if($status) {
+
+            // Set invitation
+
+            // Create invitation code
+
+            $code = "";
+
+            for($n = 0; $n < 10; $n++)
+            {
+                switch (rand(1,3))
+                {
+                    // numbers
+                    case 1: $code .= chr( rand(49,57) ); break;
+
+                    // lowercase letter
+                    case 2: $code .= chr( rand(65,90) ); break;
+
+                    // uppercase letter
+                    case 3: $code .= chr( rand(97,122) ); break;
+                }
+            }
+
+            // encrypt (hash) code
+
+            $encryptedCode = md5('myinvitation'.$code);
+
+            $invitation = array(
+                    "Code" => $encryptedCode,
+                    "Project_id" => $this->validation->projectID,
+                    "Project_role_id" => $this->validation->projectRoleID
+            );
+
+            // If validation is ok => send to library
+
+            $invitationId = $this->project->Invite($invitation);
+
+            if($invitationId > 0)
+            {
+                // Send an invitation by email
+
+                if($this->emailsender->SendInvitationMail($this->validation->email, $encryptedCode) == false)
+                {
+                    $data = array(
+                            "status" => "error",
+                            "status_message" => "Failed to send invitation email"
+                    );
+
+                    $status = false;
+
+                    $this->invitation_model->delete($invitationId);
+                }
+                else
+                {
+                    $data = array(
+                            "status" => "ok",
+                            "status_message" => "Invite was successful!"
+                    );
+                }
+            }
+
+            // Else, if something went wrong
+
+            else {
+
+                $data = array(
+                        "status" => "error",
+                        "status_message" => "Invite failed!"
+                );
+            }
         }
 
-        // Any other message?
+        // If no status but post
 
-        $ok_message = $this->session->userdata('message');
+        else if($status == false && isset($_POST['invite_btn'])) {
 
-        if ($ok_message!=false && $ok_message != "")
-        {
-            $data['status'] = 'ok';
-            $data['status_message'] = $ok_message;
-            $this->session->unset_userdata('message');
+            $data = array(
+                "status" => "error",
+                "status_message" => "Invite failed!"
+            );
         }
 
         // Set current projectID (will be catched in class theme)
@@ -534,6 +630,8 @@ class Project extends Controller {
         $data["projectID"] = $project['Project_id'];
         $data["title"] = $project['Title'];
     	$data["members"] = $projectMembers;
+        $data["roles"] = $projectRoles;
+
     	$this->theme->view('project/members', $data);
     }
 

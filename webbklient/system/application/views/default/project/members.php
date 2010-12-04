@@ -14,7 +14,20 @@
         <h3>Invite a new member</h3>
 
         <form action="<?php echo site_url('project/members/'.$projectID.''); ?>" method="POST">
+            <input type="hidden" name="projectID" value="<?php echo (isset($projectID)) ? $projectID : ""; ?>" />
             <label for="email">E-mail: </label><input type="text" name="email" value="" />*<br/>
+            <label for="projectRoleID">Role in project: </label>
+            <select name="projectRoleID">
+
+                <?php foreach($roles as $role): ?>
+
+                    <option value="<?php echo($role['Project_role_id']);?>"><?php echo($role['Role']);?></option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+            <br/>
             <label>&nbsp;</label><input type="submit" value="Invite" name="invite_btn" />
         </form>
 

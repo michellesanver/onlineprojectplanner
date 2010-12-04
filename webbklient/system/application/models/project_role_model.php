@@ -10,7 +10,20 @@
 class Project_role_model extends Model
 {
     private $_table = "Project_Role";
-    
+
+    /**
+    * Function: getAll
+    * This function will return an array of arrays
+    * that represents the rows in the database.
+    *
+    * @return array
+    */
+    function getAll()
+    {
+            $query = $this->db->get($this->_table);
+            return $query->result_array();
+    }
+
     /**
     * Function: getByRole
     * This function will return an array representing
