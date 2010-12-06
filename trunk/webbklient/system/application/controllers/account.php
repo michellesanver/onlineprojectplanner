@@ -174,7 +174,7 @@ class Account extends Controller {
 				if($this->user->IsActivated($username) == false && isset($_POST['login_btn'])) {
 					$data = array(
 							"status" => "error",
-							"status_message" => "Your account ais not activated yet! "
+							"status_message" => "Your account is not activated yet! "
 					);
 				}
 				
