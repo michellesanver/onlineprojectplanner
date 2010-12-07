@@ -27,6 +27,9 @@ class Project extends Controller {
 
     function Register()
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Project->Register');
+        
         // is user logged in?
         if($this->user->IsLoggedIn()==false)
         {
@@ -123,6 +126,9 @@ class Project extends Controller {
 
     function Update($projectID)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Project->Update');
+        
         // is user logged in?
         if($this->user->IsLoggedIn()==false)
         {
@@ -266,7 +272,10 @@ class Project extends Controller {
     */
 
     function Delete($projectID)
-    {              
+    {   
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Project->Delete');
+        
         // is user logged in?
         if($this->user->IsLoggedIn()==false)
         {
@@ -354,6 +363,9 @@ class Project extends Controller {
      */
     function index()
     {	
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Project->index');
+        
         // is user logged in?
         if($this->user->IsLoggedIn()==false)
         {
@@ -411,6 +423,9 @@ class Project extends Controller {
      */
 	function view($projectID)
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Project->view');
+        
         // is user logged in?
         if($this->user->IsLoggedIn()==false)
         {
@@ -469,8 +484,10 @@ class Project extends Controller {
 
     function Members($projectID)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Project->Members');
+        
         // If User is not logged in
-
         if($this->user->IsLoggedIn()==false)
         {
             // Set errormessage (will be catched in account/login)
@@ -644,8 +661,10 @@ class Project extends Controller {
 
     function Accept()
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Project->Accept');
+        
         // If User is not logged in
-
         if($this->user->IsLoggedIn()==false)
         {
             // Set errormessage (will be catched in account/login)
@@ -759,6 +778,9 @@ class Project extends Controller {
     */
     function common_variables()
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Project->common_variables');
+        
         // package data
         $data = array(
             'base_url' => $this->config->item('base_url'),

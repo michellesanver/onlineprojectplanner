@@ -49,6 +49,9 @@ class Theme
     */
     function view($view, $vars = array(), $page_title = "")
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Theme->view');
+        
         // any project set as current?
         $current_project_id = $this->_CI->session->userdata('current_project_id');
         

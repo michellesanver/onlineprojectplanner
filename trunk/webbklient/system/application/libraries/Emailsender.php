@@ -43,6 +43,9 @@ class Emailsender
 	*/
 	function SendActivationMail($name, $email, $code)
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Library Emailsender->SendActivationMail');
+        
         // fetch settings from config
         $system_email = $this->_CI->config->item('system_email', 'webclient');
         $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
@@ -76,6 +79,9 @@ class Emailsender
 	*/
 	function SendRecommendationMail($senderName, $email)
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Library Emailsender->SendRecommendationMail');
+        
         // fetch settings from config
         $system_email = $this->_CI->config->item('system_email', 'webclient');
         $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
@@ -112,6 +118,8 @@ class Emailsender
     */
     function SendResetPasswordMail($name, $email, $code, $uid)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Emailsender->SendResetPasswordMail');
         
         // prepare email to send
         $system_email = $this->_CI->config->item('system_email', 'webclient');
@@ -146,6 +154,8 @@ class Emailsender
     */
     function SendNewPasswordEmail($name, $email, $new_password)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Emailsender->SendNewPasswordEmail');
         
         // email new password to user
         $system_email = $this->_CI->config->item('system_email', 'webclient');
@@ -168,9 +178,10 @@ class Emailsender
 
     function SendInvitationMail($email, $code)
     {
-
+        // add a tracemessage to log
+        log_message('debug','#### => Library Emailsender->SendInvitationMail');
+        
         // Fetch settings from config
-
         $system_email = $this->_CI->config->item('system_email', 'webclient');
         $system_email_name = $this->_CI->config->item('system_email_name', 'webclient');
         $email_template = $this->_CI->config->item('invitation_template', 'webclient');

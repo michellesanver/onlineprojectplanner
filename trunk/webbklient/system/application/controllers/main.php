@@ -12,7 +12,11 @@ class Main extends Controller
 	
 	function index()
 	{
-		
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Main->index');
+        
+        // add a tracemessage to log
+        log_message('debug','Controller Account->RecommendNewUser');
 			
 		if($this->user->isLoggedIn()) {
 			redirect('/project/index');
@@ -23,6 +27,9 @@ class Main extends Controller
 	
 	function register()
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Main->register');
+        
 		$this->theme->view('user/register');	
 	}
 	

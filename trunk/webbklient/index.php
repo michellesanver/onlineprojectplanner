@@ -114,5 +114,18 @@ else
 */
 require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
 
+
+/*
+|---------------------------------------------------------------
+| Mod Online Project Planner: Append an empty row at the end
+| of the log
+|---------------------------------------------------------------
+|
+*/
+
+$fn = BASEPATH.'logs/log-'.date('Y-m-d').'.php';
+@file_put_contents($fn, "\n", FILE_APPEND);
+
+
 /* End of file index.php */
 /* Location: ./index.php */

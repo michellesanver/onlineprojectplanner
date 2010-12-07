@@ -33,27 +33,30 @@ class User
         return $returnStr;
     }
     
-	   /**
-		* Function: ActivateUser
-	    * This function will activate a user by serching for a codematch
-		* and removes the activationcode for that user in the database. 
-	    * 
-	    * @param string $code
-	    * @return bool
-	    */
-		function ActivateUser($code)
-		{
-			// Fetches the activation row
-			$activ = $this->_CI->Activation_model->getWithCode($code);
-			
-			if(isset($activ) && $activ != null) {
-				// Remove the activation row
-				if($this->_CI->Activation_model->delete($activ['Activation_id'])) {
-					return true;
-				}
+   /**
+	* Function: ActivateUser
+	* This function will activate a user by serching for a codematch
+	* and removes the activationcode for that user in the database. 
+	* 
+	* @param string $code
+	* @return bool
+	*/
+	function ActivateUser($code)
+	{
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->ActivateUser');
+        
+		// Fetches the activation row
+		$activ = $this->_CI->Activation_model->getWithCode($code);
+		
+		if(isset($activ) && $activ != null) {
+			// Remove the activation row
+			if($this->_CI->Activation_model->delete($activ['Activation_id'])) {
+				return true;
 			}
-			return false;
 		}
+		return false;
+	}
 		
     /**
 	* Function: Reset_password
@@ -68,6 +71,9 @@ class User
     */
     function ResetPassword($email, $username)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->ResetPassword');
+        
         // error in parameters  ?
         if ($email == "" && $username == "" )
         {
@@ -126,6 +132,9 @@ class User
     */
     function ConfirmResetPassword($uid, $code)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->ConfirmResetPassword');
+        
         // error in parameters  ?
         if ($uid == "" && $code == "" )
         {
@@ -230,6 +239,9 @@ class User
 	*/
 	function Register($insert, $key)
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->Register');
+        
 		// encrypt password (sent from crontroller)
 		list($plain, $encrypted) = $this->_createPassword($insert['Password']);
 		$insert['Password'] = $encrypted;
@@ -269,6 +281,9 @@ class User
     */
 	function IsLoggedIn()
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->IsLoggedIn');
+        
         $isloggedin = $this->_CI->session->userdata('login_status');
 
         if( $isloggedin === false )
@@ -296,6 +311,9 @@ class User
     */
 	function IsActivated($input)
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->IsActivated');
+        
 		$user = null;
 		
 		// Gets the user.
@@ -331,6 +349,9 @@ class User
     */
 	function Logout()
 	{	
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->Logout');
+        
 		$this->_CI->session->sess_destroy();
 		return true;
 	}
@@ -367,7 +388,11 @@ class User
 	 * @param string $password
 	 * @return bool
 	 */
-	function Login($username, $password) {
+	function Login($username, $password)
+    {
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->Login');
+        
 		$encryptedpassword = $this->TransformPassword($password);
 		$login = $this->_CI->User_model->checkLogin($username, $encryptedpassword);
 		if($login != false) {
@@ -411,13 +436,16 @@ class User
     /**
     * Deletes a user from the database
     * 
-		* @param int $userid
+	* @param int $userid
     * @return bool
     */
-		function removeUser($userid)
-		{
-			return $this->_CI->User_model->delete($userid);
-		}
+	function removeUser($userid)
+	{
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->removeUser');
+        
+		return $this->_CI->User_model->delete($userid);
+	}
 }
 
 ?>

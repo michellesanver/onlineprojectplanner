@@ -91,6 +91,9 @@ class Widgets
     */
     function GetProjectJavascripts($projectID)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Widgets->GetProjectJavascripts');
+        
         $type = "javascript";
         $jsSTR = '<script type="text/javascript" src="%s"></script>'."\n";
         
@@ -109,6 +112,9 @@ class Widgets
     */
     function GetProjectStylesheets($projectID, $for_inline=false)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Widgets->GetProjectStylesheets');
+        
         $type = "css";
         $cssSTR = "";
         if ($for_inline == false)
@@ -187,21 +193,37 @@ class Widgets
     */
     function GetAllIcons()
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Widgets->GetAllIcons');
+        
         $returnSTR = "";
         
         $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
         
         // scan through all widgets that was found
+        $pos = 0;
         foreach ($this->_widgets as $row)
         {
+            $widget_object = $row2->widget_object;
+            $icon_div = "widget_icon".($pos+1);
+            $function = "open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."')"; // open_widget is a global function in common.js
+            $title = ($row2->icon_title != "" ? $row2->icon_title : "");
+            $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
+            
+            // replace %s with the real value
+            $returnSTR .= sprintf($divSTR, ($pos+1), $function, $icon, $title);
+            
+            // add one position
+            $pos++;
+            
             // prepare data
-            $function = ($row->icon_startfunction != "" ? $row->icon_startfunction.'();' : "");
+            /*$function = ($row->icon_startfunction != "" ? $row->icon_startfunction.'();' : "");
             $title = ($row->icon_title != "" ? $row->icon_title : "");
             $icon = ($row->icon != "" ? $base_url.$this->_widget_dir.'/'.$row->name.'/'.$row->icon : $base_url."../".$this->_generic_icon_image);
             
              // print and replace %s with the real value
-            $returnSTR .= sprintf($divSTR, $function, $icon, $title);   
+            $returnSTR .= sprintf($divSTR, $function, $icon, $title);   */
             
         } 
         
@@ -218,6 +240,9 @@ class Widgets
     */
     function GetProjectIcons($projectID)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Widgets->GetProjectIcons');
+        
         // fetch all for project 
         $project_widgets = $this->_GetProjectWidgets($projectID);
         
