@@ -27,6 +27,9 @@ class Account extends Controller {
     */
     function ResetPassword($UserID='', $code='')
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Account->ResetPassword');
+        
         // show form or reset password?
         if ( empty($UserID) && empty($code) )
         {
@@ -152,6 +155,9 @@ class Account extends Controller {
      */
 	 function Login()
 	 {
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Account->Login');
+        
 		$data = array();
 		
 		$username = (isset($_POST["username"])) ? trim($_POST["username"]) : null;
@@ -217,6 +223,9 @@ class Account extends Controller {
 			*/
    function Logout()
    {
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Account->Logout');
+        
    		$this->user->logout();
    		redirect('account/login');
    }
@@ -229,6 +238,9 @@ class Account extends Controller {
 	*/
 	function Register()
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Account->Register');
+        
 		/*
 		* Rules for the inputfields
 		*/
@@ -380,6 +392,9 @@ class Account extends Controller {
 	*/
 	function Activate()
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Account->Activate');
+        
 		if($this->uri->segment(3) != "") {
 			if($this->user->ActivateUser(trim($this->uri->segment(3)))) {
 				$this->theme->view('user/activated');
@@ -398,6 +413,9 @@ class Account extends Controller {
 		*/
 	function RecommendNewUser()
 	{
+        // add a tracemessage to log
+        log_message('debug','#### => Controller Account->RecommendNewUser');
+        
 		if($this->user->IsLoggedIn() === false) {
 			redirect("","");
 		}

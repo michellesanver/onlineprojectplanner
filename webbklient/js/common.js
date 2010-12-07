@@ -81,8 +81,8 @@ function open_widget(widgetCallback, widgetIconId, wObject)
     var state = $('#'+widgetIconId).attr('state');
     if ( state == "" )
     {
-        eval(wObject+'.onMinimize = function(){ close_widget("'+widgetIconId+'"); }');
-        eval(wObject+'.onClose = function(){ close_widget("'+widgetIconId+'"); }'); 
+        eval(wObject+'.onMinimize = function(){ close_widget("'+widgetIconId+'", "'+wObject+'"); }');
+        eval(wObject+'.onClose = function(){ reset_widget("'+widgetIconId+'"); }'); 
         
         eval(wObject+'.'+widgetCallback+'()');
         $('#'+widgetIconId).attr('state', 'open');
@@ -94,8 +94,13 @@ function open_widget(widgetCallback, widgetIconId, wObject)
     
 }
 
+function close_widget(widgetIconId, wObject)
+{
+    eval(wObject+'.wnd.close()');
+    reset_widget(widgetIconId);    
+}
 
-function close_widget(widgetIconId)
+function reset_widget(widgetIconId)
 {
     $('#'+widgetIconId).attr('state', '');
     $('#'+widgetIconId).css({ 'opacity':'1.0', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"', 'filter':'alpha(opacity=100)' });

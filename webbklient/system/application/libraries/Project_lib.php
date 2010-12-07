@@ -79,6 +79,9 @@ class Project_lib
 
     function Select($id)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Project_lib->Select');
+        
         $projectID = $this->_CI->Project_model->getById($id);
 
         if($projectID > 0) {
@@ -100,6 +103,9 @@ class Project_lib
 
     function Register($insert)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Project_lib->Register');
+        
         $userID = $this->_CI->session->userdata('UserID');
 
         $role = $this->_CI->Project_role_model->getByRole(ucfirst(strtolower('Admin')));
@@ -127,7 +133,9 @@ class Project_lib
 
     function Invite($invitation)
     {
-
+        // add a tracemessage to log
+        log_message('debug','#### => Library Project_lib->Invite');
+        
         $result = $this->_CI->Invitation_model->insert($invitation);
 
         if($result) {
@@ -151,8 +159,10 @@ class Project_lib
 
     function Accept($projectID, $projectRoleID, $invitationID)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Project_lib->Accept');
+        
         $userID = $this->_CI->session->userdata('UserID');
-
 
         $insert = array(
                     "User_id" => $userID,
@@ -183,6 +193,9 @@ class Project_lib
 
     function Update($update)
     {
+        // add a tracemessage to log
+        log_message('debug','#### => Library Project_lib->Update');
+        
         $projectID = $this->_CI->Project_model->update($update);
 
         if($projectID > 0) {
