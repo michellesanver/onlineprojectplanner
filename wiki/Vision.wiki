@@ -1,0 +1,33 @@
+#labels Vision
+=Vision=
+_2010-11-12 Version 1.0_
+==Bakgrund och problem-beskrivning==
+För att lättare kunna driva och administrera projekt över internet så skall vi skapa en webbaserad projekthanterare. En projekthanterare där det inte spelar någon roll var användarna är lokaliserade geografisk.
+
+Webbaplikationen skall vara moduluppbyggd där en modul är en funktionallitet i hanteraren (ex. Wiki, gemensam kalender, m.m). Om någon som startar ett nytt projekt finner att hanterarens grundmoduler inte räcker till så kommer det att finnas möjlighet för denne att implementera egna moduler. Eller att installera någon annans "hemmagjorda" moduler. 
+
+Skillnaden från liknande applikationer är att vi kommer att ha stort fokus på användargränssnittet. Användaren skall få de olika aktiverade modulerna presenterade som en grafisk widget och inte ett menyval i en lista. Detta kommer vi att lösa med hjälp av HTML5, CSS3 och javascript vilket kan resultera i att det kan uppstå en del krav hos användarna, mer specifikt deras webbläsare.
+
+==Bestämda språk==
+ * PHP / Codeigniter
+ * MySql
+ * Javascript / Jquery
+ * Ajax
+ * HTML5 / CSS 3
+
+==Grundkrav==
+ * Användarregistrering
+ * Inloggning
+ * Starta nya projekt
+ * Projektledaren skall kunna bjuda in användare till projekt
+ * Modul-baserad
+
+==Grundmoduler==
+Kan skilja sig från slutresultat
+ * "Wiki"
+ * Kalender
+ * Chatt
+ * Blogg / log
+ * Forum / Diskussion
+ * Dokumentdelning i mappar
+ * Gemensam livekodning
