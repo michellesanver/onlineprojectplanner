@@ -13,7 +13,7 @@ templateWidget = {
     open: function() {
         
                     // create a new jquery window
-                    templateWidget.wnd = $('#content').window({
+                    this.wnd = $('#content').window({
                         // change theese as needed
                        title: "Widget template 1.0",
                        url: SITE_URL+"/widget/widget_template/main",
@@ -22,11 +22,9 @@ templateWidget = {
                        x: 30,
                        y: 15,
                        
-                       // set namespace as needed
-                       onMinimize:  templateWidget.onMinimize, 
-                       onClose:  templateWidget.onClose,
-                       
                        // do NOT change theese
+                       onMinimize:  this.onMinimize, 
+                       onClose:  this.onClose,
                        checkBoundary: true,
                        maxWidth: $('#content').width(),
                        maxHeight: $('#content').height(),
@@ -35,15 +33,10 @@ templateWidget = {
         
                 },
                 
-    example_setContent: function() {
-        // example function that will set content
-        // in a opened window    
+    example_showMessage: function(message) {
         
-        var html = "<h1>View hardcoded in javascript</h1>"+
-                    "<p>Lorem ipsum etc etc :P</p>"+
-                    "<p><a href=\"javascript:void(0);\" onclick=\"window.back(-1);\"></p>";
-                    
-        this.wnd.setContent(html);
+        // call to a common global function
+        show_message(message);
     }
     
 };
