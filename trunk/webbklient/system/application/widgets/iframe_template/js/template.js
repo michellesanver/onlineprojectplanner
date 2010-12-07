@@ -1,6 +1,6 @@
 
 // place widget in a namespace (javascript object simulates a namespace)
-templateWidget = {
+iframeTemplateWidget = {
 
     // variable for window (DO NOT CHANGE - REQUIRED)
     wnd: null, 
@@ -15,8 +15,8 @@ templateWidget = {
                     // create a new jquery window
                     this.wnd = $('#content').window({
                         // change theese as needed
-                       title: "Widget template 1.0",
-                       url: SITE_URL+"/widget/widget_template/main",
+                       title: "Iframe Template 1.0",
+                       url: SITE_URL+"/widget/iframe_template/main",
                        width: 600,
                        height: 400,
                        x: 30,
@@ -30,7 +30,7 @@ templateWidget = {
                        maxHeight: $('#content').height(),
                        bookmarkable: false
                     });
-        
+                    
                 },
                 
     example_showMessage: function(message) {
