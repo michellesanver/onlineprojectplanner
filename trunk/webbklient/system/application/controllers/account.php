@@ -311,7 +311,6 @@ class Account extends Controller {
 							"status" => "error",
 							"status_message" => "Failed to send activation email"
 					);
-					$status = false;
 					$this->user->removeUser($userid);
 				}
 				else
