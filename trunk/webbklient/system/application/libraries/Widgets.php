@@ -42,39 +42,43 @@ class Widgets
             while (($file = readdir($dh)) !== false) {
                 if ($file != '.' &&  $file != ".." && $file != ".svn" && is_dir("$dir/$file"))    
                 {
-                    
-                    // create a datastructure to save data like widget config xml-file
-                    $w = new stdClass();
-                    
-                    $w->name = $file;
-                    
-                    $settings = simplexml_load_file("$dir/$file/settings.xml");
-                    
-                    $w->about = (string)$settings->about;
-                    $w->version = (string)$settings->version;
-                    $w->link = (string)$settings->link;
-                    $w->author = (string)$settings->author;
-                    
-                    $w->icon = (string)$settings->icon;
-                    $w->icon_title = (string)$settings->icon_title;
-                    $w->widget_startfunction = (string)$settings->widget_startfunction;
-                    $w->widget_object = (string)$settings->widget_object;
-                    
-                    $w->files = array();
-                    
-                    // save which files to load on appliation init
-                    foreach ($settings->load->file as $row)
+                    // only load if settings-file exist
+                    if (file_exists("$dir/$file/settings.xml"))
                     {
-                        $ws = new stdClass();
-                        
-                        $ws->type = (string)$row->attributes()->type;
-                        $ws->filename = (string)$row;
-                        
-                        array_push($w->files, $ws);
-                    }
                     
-                    // save to private array for the class
-                    array_push($this->_widgets, $w);    
+                        // create a datastructure to save data like widget config xml-file
+                        $w = new stdClass();
+                        
+                        $w->name = $file;
+                        
+                        $settings = simplexml_load_file("$dir/$file/settings.xml");
+                        
+                        $w->about = (string)$settings->about;
+                        $w->version = (string)$settings->version;
+                        $w->link = (string)$settings->link;
+                        $w->author = (string)$settings->author;
+                        
+                        $w->icon = (string)$settings->icon;
+                        $w->icon_title = (string)$settings->icon_title;
+                        $w->widget_startfunction = (string)$settings->widget_startfunction;
+                        $w->widget_object = (string)$settings->widget_object;
+                        
+                        $w->files = array();
+                        
+                        // save which files to load on appliation init
+                        foreach ($settings->load->file as $row)
+                        {
+                            $ws = new stdClass();
+                            
+                            $ws->type = (string)$row->attributes()->type;
+                            $ws->filename = (string)$row;
+                            
+                            array_push($w->files, $ws);
+                        }
+                        
+                        // save to private array for the class
+                        array_push($this->_widgets, $w);    
+                    }
                 }
             }
             closedir($dh);

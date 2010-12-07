@@ -50,10 +50,22 @@ class Testlib {
         $CI = & get_instance();
        
        // fetch all users (no function to get by id)  
-       $users = $this->user->getAll();  
+       $CI->load->model('User_model');
+       $users = $CI->User_model->getAll();  
        
-       var_dump($users);
+       // get the correct user
+       $returnUser = null;
+       foreach($users as $row)
+       {
+            if ((int)$row['User_id'] == (int)$userID)    
+            {
+                $returnUser = $row;
+                break;    
+            }
+       }
         
+        // return the data
+        return $returnUser;
     }
 }
 

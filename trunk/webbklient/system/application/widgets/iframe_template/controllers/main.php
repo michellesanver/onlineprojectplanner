@@ -13,7 +13,7 @@ class Main extends Controller {
     // first function to be called if not specified in URL (Codeigniter)
     function index()
     {
-        $widget_name = "widget_template";
+        $widget_name = "iframe_template";
   
         // package some data for the view
         $base_url = $this->config->item('base_url');
@@ -38,7 +38,7 @@ class Main extends Controller {
   
     function show_documentation()
     {
-        $widget_name = "widget_template";
+        $widget_name = "iframe_template";
   
         // package some data for the view
         $base_url = $this->config->item('base_url');
@@ -59,9 +59,21 @@ class Main extends Controller {
   
   function help()
   {
+        $widget_name = "iframe_template";
+  
+        // package some data for the view
+        $base_url = $this->config->item('base_url');
+        $data = array(
+            'base_url' => $base_url,
+            'widget_url' => site_url("/widget/$widget_name").'/',
+            'widget_base_url' => $base_url."system/application/widgets/$widget_name/"
+        );
       
-      
-      
+        // load a view for the widget
+        // file is located in subfolder 'views'
+        // for the widget
+       $this->load->view_widget('widget_help', $data); // view is loaded into an iframe (jquery plugin window)
+         
   }
   
   function model_test()
@@ -114,18 +126,34 @@ class Main extends Controller {
   
   function edit_user($userID)
   {
-        // load a library
-        $this->load->library_widget('Testlib'); 
+      $widget_name = "iframe_template";  
       
-       // note; the function library_widget
-       // is an extended function in Codeigniter
+      // load a library
+      $this->load->library_widget('Testlib'); 
+      
+      // note; the function library_widget
+      // is an extended function in Codeigniter
       
       
       // get user
       $user = $this->testlib->getUser($userID);
       
-      // show view
+      // package some data for the view
+      $base_url = $this->config->item('base_url');
+      $data = array(
+            'base_url' => $base_url,
+            'widget_url' => site_url("/widget/$widget_name").'/',
+            'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
+            
+            // used in view
+            'user' => $user,  
+            'query' => $_SERVER['REQUEST_URI']
+      );
       
+      // load a view for the widget
+      // file is located in subfolder 'views'
+      // for the widget
+      $this->load->view_widget('edit_user', $data); // view is loaded into an iframe (jquery plugin window)
   }
   
   
