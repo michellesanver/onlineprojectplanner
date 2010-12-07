@@ -1,4 +1,7 @@
 
+// -----------------------------------------------------------------------------------------------------------
+// common functions and variables for messages
+
 message_current_position = -100;
 message_start_position = -100; // message_current_position will be set to this value after completion
 message_timer = null;
@@ -76,32 +79,47 @@ function reset_message()
 }
 
 
+// -----------------------------------------------------------------------------------------------------------
+// common functions for widgets
+
+
+// function to open a widget
 function open_widget(widgetCallback, widgetIconId, wObject)
 {
+    // which state?
     var state = $('#'+widgetIconId).attr('state');
     if ( state == "" )
     {
+        // no state!
+        
+        // set callbacks for minimize and close
         eval(wObject+'.onMinimize = function(){ close_widget("'+widgetIconId+'", "'+wObject+'"); }');
         eval(wObject+'.onClose = function(){ reset_widget("'+widgetIconId+'"); }'); 
         
-        eval(wObject+'.'+widgetCallback+'()');
+        // run callback to open widget
+        eval(wObject+'.open()');
+        
+        // set state as open and transparency for icon to 20%
         $('#'+widgetIconId).attr('state', 'open');
-        
         $('#'+widgetIconId).css({ 'opacity':'0.2', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"', 'filter':'alpha(opacity=20)' });
-
-        
     }
     
 }
 
+// callback for minimize
 function close_widget(widgetIconId, wObject)
 {
+    // close widget
     eval(wObject+'.wnd.close()');
+    
+    // reset icon
     reset_widget(widgetIconId);    
 }
 
+// callback for close
 function reset_widget(widgetIconId)
 {
+    // set state to none and set transparency to 100%
     $('#'+widgetIconId).attr('state', '');
     $('#'+widgetIconId).css({ 'opacity':'1.0', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"', 'filter':'alpha(opacity=100)' });
 }
