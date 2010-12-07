@@ -9,9 +9,11 @@
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery-1.4.4.min.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery-ui-1.8.6.complete.min.js"></script>
   <script type="text/javascript" src="<?php echo site_url('project/common_variables'); ?>"></script>
-  <script type="text/javascript" src="?php echo $base_url; ?>js/window/jquery.window.js"></script>
+  <script type="text/javascript" src="<?php echo $base_url; ?>js/window/jquery.window.js"></script>
   <link href="<?php echo $base_url; ?>js/window/css/jquery.window.css" rel="Stylesheet" type="text/css" />
   <link href="<?php echo $base_url; ?>js/window/css/jquery.window-opp.css" rel="Stylesheet" type="text/css" />
+  
+  <!-- widgets -->
   <?php echo $widget_javascript; ?>
   <?php echo $widget_css; ?>
 </head>

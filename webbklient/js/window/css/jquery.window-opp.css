@@ -1,0 +1,14 @@
+
+
+.window_panel .window_header .minimizeImg {
+	background: url(../img/minimize.png) no-repeat;
+}
+
+.window_panel .window_header .maximizeImg {
+	background: url(../img/maximize.png) no-repeat;
+}
+
+
+.window_panel .window_header .closeImg {
+	background: url(../img/close.png) no-repeat;
+}
