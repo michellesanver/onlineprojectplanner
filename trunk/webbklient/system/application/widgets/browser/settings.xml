@@ -6,7 +6,8 @@
 	<author>Fredrik Johansson</author>
 	<icon>internet-browser-icon.png</icon>
     <icon_title>Simple browser</icon_title>
-    <icon_startfunction>openBrowser</icon_startfunction>
+    <widget_object>browserWidget</widget_object>
+    <widget_startfunction>openBrowser</widget_startfunction>
 	<load>
 		<file type="javascript">js/widget-browser.js</file>
 	</load>

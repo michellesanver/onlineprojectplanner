@@ -74,3 +74,29 @@ function reset_message()
     message_timer = null;
     message_current_position = message_start_position;  
 }
+
+
+function open_widget(widgetCallback, widgetIconId, wObject)
+{
+    var state = $('#'+widgetIconId).attr('state');
+    if ( state == "" )
+    {
+        eval(wObject+'.onMinimize = function(){ close_widget("'+widgetIconId+'"); }');
+        eval(wObject+'.onClose = function(){ close_widget("'+widgetIconId+'"); }'); 
+        
+        eval(wObject+'.'+widgetCallback+'()');
+        $('#'+widgetIconId).attr('state', 'open');
+        
+        $('#'+widgetIconId).css({ 'opacity':'0.2', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"', 'filter':'alpha(opacity=20)' });
+
+        
+    }
+    
+}
+
+
+function close_widget(widgetIconId)
+{
+    $('#'+widgetIconId).attr('state', '');
+    $('#'+widgetIconId).css({ 'opacity':'1.0', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"', 'filter':'alpha(opacity=100)' });
+}
