@@ -26,4 +26,3 @@
 	</div>
     
     <div id="content">
-		<div id="innercontent">

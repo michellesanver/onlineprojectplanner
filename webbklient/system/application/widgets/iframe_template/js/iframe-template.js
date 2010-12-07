@@ -17,7 +17,7 @@ iframeTemplateWidget = {
                         // change theese as needed
                        title: "Iframe Template 1.0",
                        url: SITE_URL+"/widget/iframe_template/main",
-                       width: 600,
+                       width: 680,
                        height: 400,
                        x: 30,
                        y: 15,

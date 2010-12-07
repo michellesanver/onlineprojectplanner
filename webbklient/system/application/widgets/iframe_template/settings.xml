@@ -22,6 +22,6 @@
         valid types are; javascript, css
     -->
 	<load>
-		<file type="javascript">js/template.js</file>
+		<file type="javascript">js/iframe-template.js</file>
 	</load>
 </settings>
