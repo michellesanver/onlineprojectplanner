@@ -8,29 +8,30 @@
 }
 
 .window_panel .window_header .maximizeImg {
-	background-image: url(../../../css/smoothness/images/ui-icons_222222_256x240.png);
-	background-position: -32px -128px; 
+	background-image: url(../../../css/smoothness/images/ui-icons_454545_256x240.png);
+	background-position: 0px -192px; 
 	width: 16px;
 	height:16px;
 }
 
 .window_panel .window_header .cascadeImg {
-	background-image: url(../img/cascade.png);
+	background-image: url(../../../css/smoothness/images/ui-icons_454545_256x240.png);
+	background-position: -128px -192px; 
 	width: 16px;
 	height:16px;
 }
 
 .window_panel .window_header .minimizeImg {
-	background-image: url(../../../css/smoothness/images/ui-icons_222222_256x240.png);
-	background-position: -64px -128px;
+	background-image: url(../../../css/smoothness/images/ui-icons_454545_256x240.png);
+	background-position: -16px -192px;
 	width: 16px;
 	height:16px;
 }
 
 
 .window_panel .window_header .closeImg {
-	background-image: url(../../../css/smoothness/images/ui-icons_222222_256x240.png);
-	background-position: -96px -128px;
+	background-image: url(../../../css/smoothness/images/ui-icons_454545_256x240.png);
+	background-position: -32px -192px;
 	width: 16px;
 	height:16px;
 }
