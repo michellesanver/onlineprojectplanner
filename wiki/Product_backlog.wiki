@@ -6,7 +6,7 @@
  * Login och logout
  * Editera konto
  * Återställa lösenord
-
+ * Ta bort användare
 
 
  * Alla felmeddelanden loggade och/eller mailade.
