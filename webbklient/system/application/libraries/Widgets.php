@@ -57,7 +57,8 @@ class Widgets
                     
                     $w->icon = (string)$settings->icon;
                     $w->icon_title = (string)$settings->icon_title;
-                    $w->icon_startfunction = (string)$settings->icon_startfunction;
+                    $w->widget_startfunction = (string)$settings->widget_startfunction;
+                    $w->widget_object = (string)$settings->widget_object;
                     
                     $w->files = array();
                     
@@ -225,7 +226,7 @@ class Widgets
        
         // prepare data
         $returnSTR = "";
-        $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
+        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
      
         // loop trough all widgets for the project
@@ -238,12 +239,14 @@ class Widgets
                 if ( (string)$row2->name == (string)$row->Widget_name )    
                 {
                     // prepare data
-                    $function = ($row2->icon_startfunction != "" ? $row2->icon_startfunction.'();' : "");
+                    $widget_object = $row2->widget_object;
+                    $icon_div = "widget_icon".($found_count+1);
+                    $function = "open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."')"; // open_widget is a global function in common.js
                     $title = ($row2->icon_title != "" ? $row2->icon_title : "");
                     $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
                     
                     // replace %s with the real value
-                    $returnSTR .= sprintf($divSTR, $function, $icon, $title);
+                    $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $icon, $title);
 
                     // add one widget found
                     $found_count++;
