@@ -16,8 +16,16 @@ function openBrowser()
         maxHeight: maxheight,
         x: 30,
         y: 15,
-		bookmarkable: false
+		bookmarkable: false,
+		onMinimize: onMinimizeCallback
     });    
        
 }
 
+
+function onMinimizeCallback()
+{
+	browserWnd.close();
+	browserWnd = null;
+	alert('TEST: onMinimze');
+}
