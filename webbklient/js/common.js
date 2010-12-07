@@ -12,7 +12,7 @@ message_width = 500; // also in css
 // function for widgets to display an ok-message (green)
 function show_message(message)
 {
-    $('#message').html('<p>'+message+'</p>'+'<p>Klicka någonstans för att stänga</p>');
+    $('#message').html('<p>'+message+'</p>'+'<p>Click anywhere to close this message</p>');
     $('#message').css('top',message_current_position+'px');
     $('#message').addClass('ok');
     
@@ -25,7 +25,7 @@ function show_message(message)
 // function for widgets to display an error-message (red)
 function show_errormessage(message)
 {
-    $('#message').html('<p>'+message+'</p>'+'<p>Klicka någonstans för att stänga</p>');
+    $('#message').html('<p>'+message+'</p>'+'<p>Click anywhere to close this message</p>'); 
     $('#message').css('top',message_current_position+'px');
     $('#message').addClass('error');
     
