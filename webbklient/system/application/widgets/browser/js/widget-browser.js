@@ -2,8 +2,8 @@
 // place widget in a namespace (javascript object simulates a namespace)
 browserWidget = {
 
-    contentDivClass: '',
-    widgetTitle: '',
+    contentDivClass: 'browserContent',
+    widgetTitle: 'Simple browser',
     widgetName: 'browser', // also name of folder
     errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
     
@@ -23,7 +23,7 @@ browserWidget = {
                     // create a new jquery window
                     this.wnd = $('#content').window({
                         // change theese as needed
-                       title: "Simple browser",
+                       title: browserWidget.widgetTitle,
                        content: initialContent,
                        width: 800,
                        height: 450,
@@ -42,6 +42,12 @@ browserWidget = {
                 } ,
                 
     // --------------------------------------------------------------------------------------- 
+     
+    // set content in widgets div
+    setContent: function(data)  
+        {
+            $('.'+browserWidget.contentDivClass).html(data);
+        },
       
     iframeHTML: "<iframe id=\"browserIFrame\" width=\"775\" height=\"375\" border=\"0\" frameborder=\"0\"></iframe>",
                 
@@ -59,7 +65,7 @@ browserWidget = {
         }
         
         // show ajax spinner
-        browserWidget.showAjaxLoader();
+        show_ajax_loader(null, browserWidget.contentDivClass);
         
         // load with ajax
         var loadURL = SITE_URL+"/widget/browser/main/get";
@@ -79,22 +85,10 @@ browserWidget = {
           },
               error: function(xhr, statusSTR, errorSTR) {
                     // display an error (jquery ui)
-                    var errorMessage = "<p class=\"ajaxTemplateWidget_Error\"><img src=\""+browserWidget.errorIcon+"\" width=\"35\" height=\"35\" />"+
-                                       "Error: Unable to load the page at<br/><br/><small>"+loadURL+"</small></p>";
-
-                    $('.browserContent').html(errorMessage);      
+                    show_ajax_error(null, browserWidget.contentDivClass, loadURL, browserWidget.errorIcon);         
               }
        });
         
-    },
-    
-    showAjaxLoader: function()
-    {   
-         // class frame_loading is from jquery.window 
-         var container = $('.browserContent');
-         container.html("<div class='frame_loading'>Loading...</div>");
-         var loading = container.children(".frame_loading");
-         loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
     }
     
 };

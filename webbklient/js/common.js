@@ -160,9 +160,50 @@ function show_ajax_loader(divID, divClass)
      {
          container = $('#'+divID);
      }
-     container.html("<div class='frame_loading'>Loading...</div>");
-     var loading = container.children(".frame_loading");
-     loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
+     
+       
+     if ( container.html() == "" )
+     {
+         var loadingHTML = "<div class='frame_loading'>Loading...</div>"; 
+         container.html(loadingHTML);
+         var loading = container.children(".frame_loading");
+         loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
+     }
+     else
+     {
+        var loadingHTML = "<div class='frame_loading-black'>Loading...</div>"; 
+        var overlayOptions = {  
+                                'z-index': 2000,
+                                'background-color': '#333',
+                                'height':container.parent().parent().css('height'),
+                                'width':container.parent().parent().css('width'),
+                                'opacity':'0.5',
+                                '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"',
+                                'filter':'alpha(opacity=50)',
+                                'position': 'absolute',
+                                'top': 0,
+                                'left': 0
+                            }; 
+         
+        var overlay = "";
+            
+        if (divClass != undefined || divClass != "" || divClass != null)
+        {
+            overlay = "<div class=\""+divClass+"_Overlay\"></div>";
+            container.append(overlay);
+            $('.'+divClass+'_Overlay').css(overlayOptions);
+        }
+        else
+        {
+            overlay = "<div id=\""+divID+"_Overlay\"></div>";
+            container.append(overlay);
+            $('#'+divID+'_Overlay').css(overlayOptions);
+        }
+        
+        container.append(loadingHTML);
+        var loading = container.children(".frame_loading-black");
+        loading.css({"marginLeft": '-' + (loading.outerWidth() / 2) -20 + 'px', 'z-index': 2001});  
+     }
 }
 
 // display an error (jquery ui)

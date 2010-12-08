@@ -37,3 +37,34 @@
 	height:16px;
 }
 
+.window_panel .frame_loading {
+    background: url('../img/spinner-white.gif') no-repeat;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 50%;
+    top: 50%;  
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    padding-left: 20px;
+    text-align: left;
+    text-decoration: none;
+    clear: both;
+}
+
+.window_panel .frame_loading-black {
+    background: url('../img/spinner-black.gif') no-repeat;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 50%;
+    top: 50%;  
+    font-size: 14px;
+    font-weight: bold;
+    color: #eee;
+    padding-left: 20px;
+    text-align: left;
+    text-decoration: none;
+    clear: both;
+}

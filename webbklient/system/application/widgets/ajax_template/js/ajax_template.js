@@ -66,7 +66,7 @@ ajaxTemplateWidget = {
             // show ajax spinner
             show_ajax_loader(null, ajaxTemplateWidget.contentDivClass);
             
-            // load with ajaxv
+            // load with ajax
             var loadURL = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
             $.ajax({
               type: 'GET',
@@ -80,8 +80,49 @@ ajaxTemplateWidget = {
                     show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL, ajaxTemplateWidget.errorIcon);
               }
            });      
-            
+           
+           return false; 
         },
+    
+    // post data
+    post: function(formID, url)
+    {
+        var postdata = $('#'+formID ).serialize();
+      
+        // empty url?
+        if (url == "")
+        {
+            show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
+            return;
+        }
+        // empty postdata?
+        else if (postdata == "")
+        {
+            show_errormessage('Hey! :\'( No data found to submit? *confused*');
+            return;
+        }
+        
+        // show ajax spinner
+        show_ajax_loader(null, ajaxTemplateWidget.contentDivClass);
+                 
+        // post with ajax
+        var loadURL = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        $.ajax({
+          type: 'POST',
+          data: postdata,
+          url: loadURL,
+          success: function(data){
+                // set new content
+                ajaxTemplateWidget.setContent(data);
+          },
+          error: function(xhr, statusSTR, errorSTR) {
+                // display an error
+                show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL, ajaxTemplateWidget.errorIcon);
+          }
+       });
+       
+       return false;   
+    },
     
     // shows a message (example in start.php)
     example_showMessage: function(message)
