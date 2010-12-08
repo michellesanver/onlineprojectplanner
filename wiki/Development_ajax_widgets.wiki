@@ -1,2 +1,55 @@
 #labels Docs
-TODO...
+=AJAX template; Widget help=
+
+The jquery plugin window can be used in two modes; Iframe och content/AJAX. Observe that the two modes cannot be switched if a window is created with one mode. For example: if a window is created with calling an URL then it is not possible to use setContent.
+
+
+==Folders==
+See this [Development_iframe_widgets#Folders link]
+
+    
+==Common Javascript==
+    
+Online Project Planner provides a number of common global functions and variables that can be used:
+    
+===Variables===
+ * _*BASE_URL*_ base_url from CI (no index.php)
+ * _*SITE_URL*_ site_url from CI (WITH index.php)
+ * _*CURRENT_PROJECT_ID*_ ID to current project
+
+===Functions===
+
+_*show_message(message)*_ <br>
+_Explanation:_ this function will display an ok-message<br>
+_Parameters:_
+ * message is a string with the message to be displayed
+
+_*show_errormessage(message)*_<br>
+_Explanation:_ this function will display an error-message<br>
+_Parameters:_
+ * message is a string with the message to be displayed
+
+
+==URL's==
+See this [Development_iframe_widgets#URL's link].
+    
+
+==Settings.xml==
+See this [Development_iframe_widgets#Settings.xmls link].
+    
+
+==Setup (javascript)==
+Set the name for the namespace of the widget in settings.xml and then create a javascript-file with the initial code to start a widget. Here is an example with comments:
+   
+
+*Example:*
+   
+{{{
+  
+}}}
+   
+   <p><strong><em>Note 1:</em></strong> the jquery extended function $.window is a plugin that is loaded globally.<br/>
+   <strong><em>Note 2:</em></strong> make sure that the function open is present in the namespace because that is the function
+   that called when a user clicks on the icon.<br/>
+   <strong><em>Note 3:</em></strong> also make sure that the namespace has the following variables: <em>wnd</em>, <em>onMinimize</em> and <em>onClose</em>.<br/>
+   <strong><em>Note 4:</em></strong> and last.. make sure not to change the parameters after the comment "// do NOT change theese"
