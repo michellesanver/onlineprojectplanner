@@ -1,0 +1,19 @@
+
+.ajaxTemplateContent {
+    padding: 10px;
+}
+
+.ajaxTemplateWidget_Error {
+    color: red;
+    font-weight:bold;
+}
+
+.ajaxTemplateWidget_Error img {
+    float:left;
+    margin:5px;
+    margin-top:-10px;
+}
+
+.ajaxTemplateWidget_Error small {
+    margin-left:45px;    
+}

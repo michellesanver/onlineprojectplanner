@@ -3,13 +3,24 @@
 // set height of #content on load so maximize will work properly
 
 $(document).ready(function() {
+    // set size on load
+    setContentSize();
+    
+    // browser resize
+    $(window).resize(function() {
+        setContentSize();
+    });
+});
+
+function setContentSize()
+{
     var docHeight = $(document).height();
     var topBarHeight = $('#topbar').height();
     var wBarHeight = $('#widget_bar').height();
     var contentHeight = docHeight - topBarHeight - wBarHeight - 20; // 20 is for margins
     
-    $('#content').css('height',contentHeight+'px');
-});
+    $('#content').css('height',contentHeight+'px');  
+}
 
 // -----------------------------------------------------------------------------------------------------------
 // common functions and variables for messages

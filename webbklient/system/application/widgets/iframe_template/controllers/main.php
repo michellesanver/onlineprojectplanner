@@ -57,25 +57,6 @@ class Main extends Controller {
     }
   
   
-  function help()
-  {
-        $widget_name = "iframe_template";
-  
-        // package some data for the view
-        $base_url = $this->config->item('base_url');
-        $data = array(
-            'base_url' => $base_url,
-            'widget_url' => site_url("/widget/$widget_name").'/',
-            'widget_base_url' => $base_url."system/application/widgets/$widget_name/"
-        );
-      
-        // load a view for the widget
-        // file is located in subfolder 'views'
-        // for the widget
-       $this->load->view_widget('widget_help', $data); // view is loaded into an iframe (jquery plugin window)
-         
-  }
-  
   function model_test()
   {
       // load a model inside subfolder 'mdel'

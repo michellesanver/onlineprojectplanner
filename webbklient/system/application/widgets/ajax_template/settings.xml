@@ -2,7 +2,7 @@
 <!-- root -->
 <settings>
     <!--  short description of the widget -->
-	<about>A template and help for developing widgets with Iframe-style</about>
+	<about>A template and help for developing widgets with AJAX-style</about>
     <!-- version of widget-->
 	<version>1.0</version>
     <!-- link to website -->
@@ -10,16 +10,19 @@
     <!-- name of author -->
 	<author>Fredrik Johansson</author>
     <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
-	<icon>help-desk-icon.png</icon>
+	<icon>help-desk-icon2.png</icon>
     <!-- title of widget; will be placed under icon (can be left empty) -->
-    <icon_title>Iframe Template</icon_title>
+    <icon_title>AJAX Template</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
-    <widget_object>iframeTemplateWidget</widget_object>
+    <widget_object>ajaxTemplateWidget</widget_object>
     <!--
         list of files to be loaded relative to main folder of widgets
         (theese files will be loaded upon project start)
         
         valid types are; javascript, css
     -->
-	<load/>
+	<load>
+        <file type="javascript">js/ajax_template.js</file>
+        <file type="css">css/ajaxtpl.css</file>
+    </load>
 </settings>

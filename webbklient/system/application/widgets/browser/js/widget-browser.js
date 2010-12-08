@@ -2,6 +2,11 @@
 // place widget in a namespace (javascript object simulates a namespace)
 browserWidget = {
 
+    contentDivClass: '',
+    widgetTitle: '',
+    widgetName: 'browser', // also name of folder
+    errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
+    
     // variable for window (DO NOT CHANGE - REQUIRED)
     wnd: null, 
     
@@ -71,7 +76,14 @@ browserWidget = {
                 doc.open();
                 doc.write(data);
                 doc.close();
-          }
+          },
+              error: function(xhr, statusSTR, errorSTR) {
+                    // display an error (jquery ui)
+                    var errorMessage = "<p class=\"ajaxTemplateWidget_Error\"><img src=\""+browserWidget.errorIcon+"\" width=\"35\" height=\"35\" />"+
+                                       "Error: Unable to load the page at<br/><br/><small>"+loadURL+"</small></p>";
+
+                    $('.browserContent').html(errorMessage);      
+              }
        });
         
     },
