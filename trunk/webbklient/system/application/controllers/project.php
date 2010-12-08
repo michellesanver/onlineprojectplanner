@@ -19,8 +19,6 @@ class Project extends Controller {
     }
 
     /**
-    * Function: Register
-    *
     * Description: Will show the project/register.php view and
     * catch the formvalues if the submit button is clicked.
     */
@@ -98,6 +96,7 @@ class Project extends Controller {
                         "status" => "error",
                         "status_message" => "Registration failed!"
                 );
+								$this->error->log('Project registration failed.', $_SERVER['REMOTE_ADDR'], 'Project/Register', 'project/Register', $insert);
             }
         }
 
@@ -118,8 +117,6 @@ class Project extends Controller {
     }
 
     /**
-    * Function: Update
-    *
     * Description: Will show the project/update.php view and
     * catch the formvalues if the submit button is clicked.
     */
@@ -229,6 +226,7 @@ class Project extends Controller {
                             "status" => "error",
                             "status_message" => "Update failed!"
                     );
+										$this->error->log('Project update failed.', $_SERVER['REMOTE_ADDR'], 'Project/Update', 'project/Update', $update);
                 }
 
             }
@@ -263,8 +261,6 @@ class Project extends Controller {
     }
 
     /**
-    * Function: Delete
-    *
     * Description: Will show the project/delete.php view and
     * catch the Project_id from get.
     * In order to delete a project the logged user need to be
@@ -333,13 +329,13 @@ class Project extends Controller {
                     "status" => "error",
                     "status_message" => "Delete failed!"
             );
+						$this->error->log('Project delete failed.', $_SERVER['REMOTE_ADDR'], 'Project/Delete', 'project_model/Delete', array('Project_id' => $projectID));
         }
 
        $this->theme->view('project/delete', $data);
     }
 
     /**
-    * Function: title_check
     * This function is part of the register validation. It will stop any
     * registration with an title that already exist
     *
@@ -625,6 +621,7 @@ class Project extends Controller {
                         "status" => "error",
                         "status_message" => "Invite failed!"
                 );
+								$this->error->log('Project invitation failed.', $_SERVER['REMOTE_ADDR'], 'Project/Members', 'project/Invite', $invitation);
             }
         }
 
@@ -653,8 +650,6 @@ class Project extends Controller {
     }
 
     /**
-    * Function: Accept
-    *
     * Description: Will show the project/accept.php view and
     * catch the formvalues if the submit button is clicked.
     */
@@ -753,7 +748,6 @@ class Project extends Controller {
     }
 
     /**
-    * Function: invite_check
     * This function is part of the accept invitation validation. It will stop any
     * none invited try
     *
