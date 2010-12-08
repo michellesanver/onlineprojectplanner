@@ -33,16 +33,13 @@ Online Project Planner provides a number of common global functions and variable
  * _*CURRENT_PROJECT_ID*_ ID to current project
 
 ===Functions===
-_*show_message(message)*_
-_Explanation:_ this function will display an ok-message
-
+_*show_message(message)*_ <br>
+_Explanation:_ this function will display an ok-message<br>
 _Parameters:_
  * message is a string with the message to be displayed
 
-
-_*show_errormessage(message)*_
-_Explation:_ this function will display an error-message
-
+_*show_errormessage(message)*_<br>
+_Explanation:_ this function will display an error-message<br>
 _Parameters:_
  * message is a string with the message to be displayed    
 
