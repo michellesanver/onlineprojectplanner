@@ -1,0 +1,13 @@
+=Error handling=
+==Library Class Error==
+===Info===
+Call the log function if a database-request fails. Only if a database-request fails!
+
+===Example===
+$this->error->log(*MESSAGE*, *IP*, *FUNCTION*, *CALLING FUNCTION*, *VARIABLES*);
+
+ # *MESSAGE* _string_: The errormessage.
+ # *IP* _string_: Ip-adress of the user... $_SERVER['REMOTE_ADDR'].
+ # *FUNCTION* _string_: Name of the class and function. "account/Register".
+ # *CALLING FUNCTION* _string_: Name of the Class and function thats been called. "user/register".
+ # *VARIABLES* _array (optional)_: An array of the variables involved. "array('Firstname' => 'Dennis').
