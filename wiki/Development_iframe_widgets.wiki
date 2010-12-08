@@ -8,16 +8,16 @@
  * Setup (javascript)
 
 ==Folders==
-<p>Each widget is placed in <strong><em>system/application/widgets/[name]</em></strong> where <strong><em>[name]</em></strong> is the name
-    of the widget without the brackets []. Inside the folder for the widget the structure is just like Codeigniter:</p>
+<p>Each widget is placed in <strong><em>system/application/widgets/(name)</em></strong> where <strong><em>(name)</em></strong> is the name
+    of the widget without (). Inside the folder for the widget the structure is just like Codeigniter:</p>
     
     <p>
-        <strong><em>[name]/controllers</em></strong>; controller-classes (inherit from CI Controller)<br/>
-        <strong><em>[name]/js</em></strong>; external javascript (recommended, not an requirement)<br/>
-        <strong><em>[name]/css</em></strong>; external stylesheets (recommended, not an requirement)<br/>
-        <strong><em>[name]/libraries</em></strong>; libraries<br/>
-        <strong><em>[name]/models</em></strong>; models (database, inherit from CI model)<br/>
-        <strong><em>[name]/views</em></strong>; views (Iframe requires full html-pages for each view)
+        <strong><em>(name)/controllers</em></strong>; controller-classes (inherit from CI Controller)<br/>
+        <strong><em>(name)/js</em></strong>; external javascript (recommended, not an requirement)<br/>
+        <strong><em>(name)/css</em></strong>; external stylesheets (recommended, not an requirement)<br/>
+        <strong><em>(name)/libraries</em></strong>; libraries<br/>
+        <strong><em>(name)/models</em></strong>; models (database, inherit from CI model)<br/>
+        <strong><em>(name)/views</em></strong>; views (Iframe requires full html-pages for each view)
     </p>
     
     <h2>Common Javascript</h2>
@@ -41,8 +41,8 @@
     <p>Codeigniter has an extension in the library Router to make it possible to have another folder-structure and URL's. When calling for 
     a controller for a widget, use this syntax:</p>
     
-    <p><em><strong>SITE_URL + "/widget/[name]/[controller]"</strong></em>; where <strong><em>[name]</em></strong> is the name
-    of the widget and <strong><em>[controller]</em></strong> is the name of the controller (see folders.)</p>
+    <p><em><strong>SITE_URL + "/widget/(name)/(controller)"</strong></em>; where <strong><em>(name)</em></strong> is the name
+    of the widget and <strong><em>(controller)</em></strong> is the name of the controller (see folders.)</p>
     
     <p><strong>Example:</strong><br/>
     <strong><em>SITE_URL + "/widget/iframe_template/main"</em></strong>; this will call the controller main for the widget iframe_template.
