@@ -5,13 +5,6 @@
 
 The jquery plugin window can be used in two modes; Iframe och content/AJAX. Observe that the two modes cannot be switched if a window is created with one mode. For example: if a window is created with calling an URL then it is not possible to use setContent.
 
-===Contents===
- * Folders
- * Common Javascript
- * URL's
- * Settings.xml 
- * Setup (javascript)
-
 
 ==Folders==
 Each widget is placed in _*system/application/widgets/(name)*_ where _*(name)*_ is the name of the widget without (). Inside the folder for the widget the structure is just like Codeigniter:
