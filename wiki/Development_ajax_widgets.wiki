@@ -5,7 +5,7 @@ The jquery plugin window can be used in two modes; Iframe och content/AJAX. Obse
 
 
 ==Folders==
-See this [https://code.google.com/p/onlineprojectplanner/Development_iframe_widgets#Folders link]
+See this [https://code.google.com/p/onlineprojectplanner/wiki/Development_iframe_widgets#Folders link]
 
     
 ==Common Javascript==
@@ -31,11 +31,11 @@ _Parameters:_
 
 
 ==URL's==
-See this [https://code.google.com/p/onlineprojectplanner/Development_iframe_widgets#URL's link].
+See this [https://code.google.com/p/onlineprojectplanner/wiki/Development_iframe_widgets#URL's link].
     
 
 ==Settings.xml==
-See this [https://code.google.com/p/onlineprojectplanner/Development_iframe_widgets#Settings.xmls link].
+See this [https://code.google.com/p/onlineprojectplanner/wiki/Development_iframe_widgets#Settings.xmls link].
     
 
 ==Setup (javascript)==
