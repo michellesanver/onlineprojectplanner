@@ -3,6 +3,8 @@
 ===Info===
 Call the log function if a database-request fails. Only if a database-request fails! This library is autoloaded!
 
+This function will save the error in the database.
+
 ===Example===
 $this->error->log(*MESSAGE*, *IP*, *FUNCTION*, *CALLING FUNCTION*, *VARIABLES*);
 
