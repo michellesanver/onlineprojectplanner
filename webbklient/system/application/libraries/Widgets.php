@@ -9,8 +9,6 @@
 class Widgets
 {
     private $_CI = null; 
-   
-    private $_debug = true; // log debug messages for this class
     
     private $_widgets = array();
 
@@ -47,6 +45,8 @@ class Widgets
     */
     function _readWidgets()
     {
+        $folder_widget_names = array(); // save names here for delete-search in db
+        
         // set folder
         $dir = BASEPATH . $this->_widget_dir;
       
@@ -91,6 +91,9 @@ class Widgets
                         
                         // save to private array for the class
                         array_push($this->_widgets, $w);    
+                        
+                        // just save the name for delete-search in db
+                        array_push($folder_widget_names, $w->name);
                     }
                 }
             }
@@ -100,50 +103,127 @@ class Widgets
             $stored_widgets = $this->_CI->Widgets_model->GetStoredWidgets();
             if (count($stored_widgets) != count($this->_widgets))
             {
+                // -------------------------------
                 // update database
+                // -------------------------------
                 
-                $widget_delete = array();
+                
+                // storage for widgets to delete or add
+                $widget_delete = array(); 
                 $widget_add = array();
                 
-                // loop thru array that was read from folders
-                foreach($this->_widgets as $row)
+                // add all folders?
+                if ($stored_widgets!=false)
                 {
-                    // does the name from folders exist in the database?
-                    if ($stored_widgets==false || in_array($row->name, $stored_widgets)==false)
-                    {
-                        // push to array for addition to db
-                        array_push($widget_add, $row->name);    
-                    }
-                }
-                
-                // add new widget-names to db
-                if ( $this->_CI->Widgets_model->AddStoredWidgets($widget_add) == false )
-                {
-                    // failed to add
-                    log_message('Error','#### => Panic! Failed to add new widget-names to database.');
-                    
-                    // logout user if logged in
-                    if ( $this->_CI->user->IsLoggedIn() )
-                    {
-                        $this->_CI->user->logout();
+                    // store just names of widgets from the db here
+                    // in the first loop so we can compare for add
+                    $db_widget_names = array();
                         
-                        // create a new session since it is destroyed in logout
-                        @session_start();    
+                    //--------------------------------------- 
+                    // loop thru db results
+                    foreach ($stored_widgets as $row)
+                    {
+                    
+                        // does the name from database exist in folders?
+                        if (in_array($row->Widget_name, $folder_widget_names)==false)
+                        {
+                            // push to array for delete from db
+                            array_push($widget_delete, $row->Widget_name);    
+                        }
+                        else
+                        {
+                            // store name from db
+                            array_push($db_widget_names, $row->Widget_name);
+                        }
                     }
                     
-                    // set error
-                    $this->_CI->session->set_userdata('widget_save_error', true); // skip next call to readwidgets
-                    $this->_CI->session->set_userdata('errormessage','Panic! Unable to update widgets in database.');   
-              
-                    // redirect and exit
-                    redirect('account/login');
-                    return;
+                    //---------------------------------------
+                    // loop thru folder results
+                    foreach ($folder_widget_names as $row)
+                    {
+                    
+                        // does the name from database exist in folders?
+                        if (in_array($row, $db_widget_names)==false)
+                        {
+                            // push to array for add to db
+                            array_push($widget_add, $row);    
+                        }
+                    }
                 }
                 else
                 {
-                    log_message('debug','#### => Notice: Class Widgets added '.count($widget_add).' new widgets to database.');
+                     //--------------------------------------- 
+                     // add ALL folders     
+                     
+                     $widget_add = $folder_widget_names;
                 }
                 
+                
+                //---------------------------------------
+                // delete from db?    
+                if ( empty($widget_delete) == false)
+                {
+                    if ($this->_CI->Widgets_model->DeleteStoredWidgets($widget_delete) == false )
+                    {
+                        // failed to add
+                        log_message('Error','#### => Panic! Failed to delete old widget-names from database.');
+                        
+                        // logout user if logged in
+                        if ( $this->_CI->user->IsLoggedIn() )
+                        {
+                            $this->_CI->user->logout();
+                            
+                            // create a new session since it is destroyed in logout
+                            @session_start();    
+                        }
+                        
+                        // set error
+                        $this->_CI->session->set_userdata('widget_save_error', true); // skip next call to readwidgets
+                        $this->_CI->session->set_userdata('errormessage','Panic! Unable to update widgets in database.');   
+                  
+                        // redirect and exit
+                        redirect('account/login');
+                        return;
+                    }
+                    else
+                    {
+                        log_message('debug','#### => Notice: Class Widgets deleted '.count($widget_delete).' widgets from database.');
+                    }
+                }
+                
+                //---------------------------------------
+                // add new widget-names to db?
+                if ( empty($widget_add) == false )
+                {
+                    if ($this->_CI->Widgets_model->AddStoredWidgets($widget_add) == false)
+                    {
+                        // failed to add
+                        log_message('Error','#### => Panic! Failed to add new widget-names to database.');
+                        
+                        // logout user if logged in
+                        if ( $this->_CI->user->IsLoggedIn() )
+                        {
+                            $this->_CI->user->logout();
+                            
+                            // create a new session since it is destroyed in logout
+                            @session_start();    
+                        }
+                        
+                        // set error
+                        $this->_CI->session->set_userdata('widget_save_error', true); // skip next call to readwidgets
+                        $this->_CI->session->set_userdata('errormessage','Panic! Unable to update widgets in database.');   
+                  
+                        // redirect and exit
+                        redirect('account/login');
+                        return;
+                    }
+                    else
+                    {
+                        log_message('debug','#### => Notice: Class Widgets added '.count($widget_add).' new widgets to database.');
+                    }
+                }
+                
+  
             }
             
         }       
@@ -228,7 +308,7 @@ class Widgets
             {
                 if ( (string)$row2->name == (string)$row->Widget_name )    
                 {
-                    if ( $this->_debug) log_message('debug','Widgets->_LoadFileType() has '.count($row2->files).' files for widget '.$row->Widget_name);
+                    //log_message('debug','Widgets->_LoadFileType() has '.count($row2->files).' files for widget '.$row->Widget_name);
                     
                     // scan through array of files
                     foreach ($row2->files as $row3)
@@ -372,23 +452,23 @@ class Widgets
        // check timeout if found
        if ( $cached_project_widgets != false && $cache_project_widgets_timeout != false)
        {
-            if ($this->_debug) log_message('debug','Widgets->_GetProjectWidgets() has found cached data');
+            //log_message('debug','Widgets->_GetProjectWidgets() has found cached data');
            
             $cached_project_widgets = unserialize($cached_project_widgets);
             $current_time = time();
             
-            if ($this->_debug) log_message('debug','Widgets->_GetProjectWidgets() has timeout values: $cache_project_widgets_timeout '.$cache_project_widgets_timeout.' ('.date('Y-m-d H:i:s',$cache_project_widgets_timeout).') > $current_time '.$current_time.' ('.date('Y-m-d H:i:s',$current_time).')');
+            //log_message('debug','Widgets->_GetProjectWidgets() has timeout values: $cache_project_widgets_timeout '.$cache_project_widgets_timeout.' ('.date('Y-m-d H:i:s',$cache_project_widgets_timeout).') > $current_time '.$current_time.' ('.date('Y-m-d H:i:s',$current_time).')');
             
             if ( (int)$cache_project_widgets_timeout > $current_time && empty($cached_project_widgets) == false )
             {
-                if ($this->_debug) log_message('debug','Widgets->_GetProjectWidgets() have found valid cache data');
+                //log_message('debug','Widgets->_GetProjectWidgets() have found valid cache data');
                 
                 // all good! return cached data
                 return $cached_project_widgets;
             }
             else
             {
-                if ($this->_debug) log_message('debug','Widgets->_GetProjectWidgets() will clear cashed data');
+                //log_message('debug','Widgets->_GetProjectWidgets() will clear cashed data');
                 
                 // old data; clear! 
                 $this->_CI->session->unset_userdata( array('cache_project_widgets','cache_project_widgets_timeout') );
