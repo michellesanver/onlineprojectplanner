@@ -12,6 +12,7 @@ The jquery plugin window can be used in two modes; Iframe och content/AJAX. Obse
  * Settings.xml 
  * Setup (javascript)
 
+
 ==Folders==
 Each widget is placed in _*system/application/widgets/(name)*_ where _*(name)*_ is the name of the widget without (). Inside the folder for the widget the structure is just like Codeigniter:
     
@@ -33,6 +34,7 @@ Online Project Planner provides a number of common global functions and variable
  * _*CURRENT_PROJECT_ID*_ ID to current project
 
 ===Functions===
+
 _*show_message(message)*_ <br>
 _Explanation:_ this function will display an ok-message<br>
 _Parameters:_
@@ -41,25 +43,20 @@ _Parameters:_
 _*show_errormessage(message)*_<br>
 _Explanation:_ this function will display an error-message<br>
 _Parameters:_
- * message is a string with the message to be displayed    
+ * message is a string with the message to be displayed
 
 
+==URL's==
+Codeigniter has an extension in the library Router to make it possible to have another folder-structure and URL's. When calling for a controller for a widget, use this syntax:
+    
+_*SITE_URL + "/widget/(name)/(controller)"*_ where _*(name)*_ is the name of the widget and _*(controller)*_ is the name of the controller.
 
-    <h2>URL's</h2>
+*Example*:<br>
+SITE_URL + "/widget/iframe_template/main"; this will call the controller main for the widget iframe_template.
     
-    <p>Codeigniter has an extension in the library Router to make it possible to have another folder-structure and URL's. When calling for 
-    a controller for a widget, use this syntax:</p>
-    
-    <p><em><strong>SITE_URL + "/widget/(name)/(controller)"</strong></em>; where <strong><em>(name)</em></strong> is the name
-    of the widget and <strong><em>(controller)</em></strong> is the name of the controller (see folders.)</p>
-    
-    <p><strong>Example:</strong><br/>
-    <strong><em>SITE_URL + "/widget/iframe_template/main"</em></strong>; this will call the controller main for the widget iframe_template.
-    </p>
-    
-    <h2>Settings.xml</h2>
-    
-    <p>Each widget is required to have the file settings.xml inside the root-folder of the widget. Here is an example with comments:</p>
+
+==Settings.xml==
+Each widget is required to have the file settings.xml inside the root-folder of the widget. Here is an example with comments:
     
 {{{
 <?xml version="1.0"?>
@@ -92,12 +89,11 @@ _Parameters:_
 </settings>
 }}}
     
-    <h2>Setup (javascript)</h2>
+
+==Setup (javascript)==
+Set the name for the namespace of the widget in settings.xml and then create a javascript-file with the initial code to start a widget. Here is an example with comments:
    
-    <p>Set the name for the namespace of the widget in settings.xml and then create a javascript-file with the initial code to start a widget. Here
-    is an example with comments:</p>
-   
-    <p><strong>Example:</strong></p>
+*Example:*
    
 {{{
     // place widget in a namespace (javascript object simulates a namespace)
