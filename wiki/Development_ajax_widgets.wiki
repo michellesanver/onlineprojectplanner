@@ -29,6 +29,20 @@ _Explanation:_ this function will display an error-message<br>
 _Parameters:_
  * message is a string with the message to be displayed
 
+_*show_ajax_loader(divID, divClass)*_<br>
+_Explanation:_ this function will display an ajax-spinner in divID or divClass (only one parameter is required, send null to the other one)<br>
+_Parameters:_
+ * divID is a string with the id to the div that should have a ajax spinner (or send null)
+ * divClass is a string with the class to the div that should have a ajax spinner (or send null)
+
+
+_*show_ajax_error(divID, divClass, loadURL, errorIcon)*_<br>
+_Explanation:_ this function will display an error. use divID or divClass (send null to the one that is not used). if errorIcon (an image) is sent then it is displayed also.<br>
+_Parameters:_
+ * divID is a string with the id to the div that should have a ajax spinner (or send null)
+ * divClass is a string with the class to the div that should have a ajax spinner (or send null)
+ * loadURL a string with the url that failed to load
+ * errorIcon is a string with a image to be displayed before the message (optional)
 
 ==URL's==
 See this [https://code.google.com/p/onlineprojectplanner/wiki/Development_iframe_widgets#URL's link].
@@ -42,10 +56,134 @@ See this [https://code.google.com/p/onlineprojectplanner/wiki/Development_iframe
 Set the name for the namespace of the widget in settings.xml and then create a javascript-file with the initial code to start a widget. Here is an example with comments:
    
 
-*Example:*
+*Example 1:* this is from ajax_template and uses common funtions but also implements own functions for _load_ and _post_
    
 {{{
-  
+   
+// place widget in a namespace (javascript object simulates a namespace)
+ajaxTemplateWidget = {
+
+    contentDivClass: 'ajaxTemplateContent',
+    widgetTitle: 'AJAX template',
+    widgetName: 'ajax_template', // also name of folder
+    errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
+    
+    // variable for window (DO NOT CHANGE - REQUIRED)
+    wnd: null, 
+    
+    // callbacks that is set in common.js upon start (DO NOT CHANGE - REQUIRED)     
+    onMinimize: null, 
+    onClose:null,
+    
+    // function that will be called upon start (REQUIRED - do NOT change the name)
+    open: function() {
+        
+                    // create the first view
+                    var initialContent = "<div class=\""+ajaxTemplateWidget.contentDivClass+"\"></div>";
+        
+                    // create a new jquery window
+                    this.wnd = $('#content').window({
+                        // change theese as needed
+                       title: ajaxTemplateWidget.widgetTitle,
+                       content: initialContent,
+                       width: 625,
+                       height: 400,
+                       x: 30,
+                       y: 15,
+                       
+                       // do NOT change theese
+                       onMinimize:  this.onMinimize, 
+                       onClose:  this.onClose,
+                       checkBoundary: true,
+                       maxWidth: $('#content').width(),
+                       maxHeight: $('#content').height(),
+                       bookmarkable: false
+                    });
+        
+                    // load the first page upon start
+                    ajaxTemplateWidget.load('/some_controller_name');
+        
+                } ,
+                
+    
+    // set content in widgets div
+    setContent: function(data)  
+        {
+            $('.'+ajaxTemplateWidget.contentDivClass).html(data);
+        },
+                
+    // function that will load an url and set resulting data into specified div
+    load: function(url)
+        {
+            
+            // empty url?
+            if (url == "")
+            {
+                show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
+                return;
+            }
+            
+            // show ajax spinner
+            show_ajax_loader(null, ajaxTemplateWidget.contentDivClass);
+            
+            // load with ajax
+            var loadURL = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+            $.ajax({
+              type: 'GET',
+              url: loadURL,
+              success: function(data){
+                    // set new content
+                    ajaxTemplateWidget.setContent(data);
+              },
+              error: function(xhr, statusSTR, errorSTR) {
+                    // display an error
+                    show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL, ajaxTemplateWidget.errorIcon);
+              }
+           });      
+           
+           return false; 
+        },
+    
+    // post data
+    post: function(formID, url)
+    {
+        var postdata = $('#'+formID ).serialize();
+      
+        // empty url?
+        if (url == "")
+        {
+            show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
+            return;
+        }
+        // empty postdata?
+        else if (postdata == "")
+        {
+            show_errormessage('Hey! :\'( No data found to submit? *confused*');
+            return;
+        }
+        
+        // show ajax spinner
+        show_ajax_loader(null, ajaxTemplateWidget.contentDivClass);
+                 
+        // post with ajax
+        var loadURL = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        $.ajax({
+          type: 'POST',
+          data: postdata,
+          url: loadURL,
+          success: function(data){
+                // set new content
+                ajaxTemplateWidget.setContent(data);
+          },
+          error: function(xhr, statusSTR, errorSTR) {
+                // display an error
+                show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL, ajaxTemplateWidget.errorIcon);
+          }
+       });
+       
+       return false;   
+    }
+}  
 }}}
    
    <p><strong><em>Note 1:</em></strong> the jquery extended function $.window is a plugin that is loaded globally.<br/>
@@ -53,3 +191,27 @@ Set the name for the namespace of the widget in settings.xml and then create a j
    that called when a user clicks on the icon.<br/>
    <strong><em>Note 3:</em></strong> also make sure that the namespace has the following variables: <em>wnd</em>, <em>onMinimize</em> and <em>onClose</em>.<br/>
    <strong><em>Note 4:</em></strong> and last.. make sure not to change the parameters after the comment "// do NOT change theese"
+
+
+*Example 2:* here is an example with a a href-link that uses the load-function.
+{{{
+  <a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/show_documentation');">show jquery.window documentation</a>
+}}}
+
+
+*Example 3:* here is an example of a form that uses the post-function.
+{{{
+    <form method="post" action="" onsubmit="return false";  id="form1" name="form1">
+        <input type="hidden" id="" name="User_id" value="<?php echo $user['User_id']; ?>" />
+        <p>Username: <?php echo $user['Username']; ?></p>
+        
+        <p>Firstname: <input type="text" id="Firstname" name="Firstname" value="<?php echo $user['Firstname']; ?>" /><br/>
+           Lastname: <input type="text" id="Lastname" name="Lastname" value="<?php echo $user['Lastname']; ?>" /></p>
+        
+        <p>Password: <input type="text" id="Password" name="Password" value="" /></p> 
+           
+        <p>Email: <input type="text" id="Email" name="Email" value="<?php echo $user['Email']; ?>" /></p>
+        
+        <p><input type="button" value="Save" onclick="ajaxTemplateWidget.post('form1', '/some_controller_name/save_edit_user');" /> (hit save to view an example of post)</p>
+    </form>
+}}}
