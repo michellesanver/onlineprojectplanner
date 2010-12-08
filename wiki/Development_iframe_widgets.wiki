@@ -1,5 +1,7 @@
 =Iframe template; Widget help=
 
+<p>The jquery plugin window can be used in two modes; Iframe och content/AJAX. Observe that the two modes cannot be switched if a window is created with one mode. For example: if a window is created with calling an URL then it is not possible to use setContent.</p>
+
 <strong>Contents:</strong>
  * Folders
  * Common Javascript
