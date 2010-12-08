@@ -36,7 +36,7 @@ class Test extends Controller
     }
 		
 		function log_error_test(){
-			$id = $this->error->log('Detta är ett test, för att se så allt fungerar', $_SERVER['REMOTE_ADDR']);
+			$id = $this->error->log('Detta är ett test, för att se så allt fungerar', $_SERVER['REMOTE_ADDR'], 'class/function', 'calling/function', array('test' => 'value', 'test2' => 'value2'));
 			var_dump($this->error->GetFullLog());
 			$this->error->RemoveLogEntity($id);
 		}

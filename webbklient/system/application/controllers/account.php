@@ -81,13 +81,13 @@ class Account extends Controller {
                     }
                     else
                     {
-                        
+                        $error_msg = $this->user->GetLastError();
                         // something went wrong...    
                         $formData = array(
                             "status" => "error",
-                            "status_message" => "Error(s): ".$this->user->GetLastError()
+                            "status_message" => "Error(s): ".$error_msg
                          );
-                         
+                         $this->error->log($error_msg, $_SERVER['REMOTE_ADDR'], 'account/ResetPassword', 'user/ResetPassword', array('email' => $email, 'username' => $username));
                     }
                     
                 }
@@ -137,11 +137,13 @@ class Account extends Controller {
             }
             else
             {
+								$error_msg = $this->user->GetLastError();
                 // something went wrong...    
                 $formData = array(
                     "status" => "error",
-                    "status_message" => "Error(s): ".$this->user->GetLastError()
+                    "status_message" => "Error(s): ".$error_msg
                  );
+								 $this->error->log($error_msg, $_SERVER['REMOTE_ADDR'], 'account/ResetPassword', 'user/ConfirmResetPassword', array('User_id' => $UserID, 'Code' => $code));
             }
             
         }
@@ -325,6 +327,7 @@ class Account extends Controller {
             else
             {
                 // registration failed
+								$this->error->log('Failed to register user. Database return false.', $_SERVER['REMOTE_ADDR'], 'account/Register', 'user/Register', $insert);
                 $status = false;
             }
 		}

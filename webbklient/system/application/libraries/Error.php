@@ -47,14 +47,28 @@ class Error
     * 
     * @param string $message
     * @param string $ip
+    * @param string $function
+    * @param array $var
     * @return mixed
     */
-    function Log($message, $ip)
+    function Log($message, $ip, $function, $calling, $var="")
     {
 			$insert = array(
 				'Ip_adress' => $ip,
+				'Function' => $function,
+				'Calling' => $calling,
 				'Message' => $message
 			);
+			
+			$var_str = "";
+			if($var == "") {
+				$var_str = "none";
+			} else {
+				foreach($var as $key => $val) {
+					$var_str .= $key . " => " . $val . "; ";
+				}
+			}
+			$insert['Variables'] = $var_str;
 			
 			$error_id = $this->_CI->Error_model->insert($insert);
 			
