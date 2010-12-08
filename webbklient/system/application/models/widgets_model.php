@@ -31,6 +31,7 @@ class Widgets_model extends Model  {
          $this->db->from($this->_table);
          $this->db->join($table2, "$table1.Widget_id = $table2.Widget_id");
          $this->db->where(array("$table1.Is_active" => $active, "$table1.Project_id" => $projectID));
+         $this->db->order_by("$table1.Order ASC");
          $query = $this->db->get();
          
          // any result?
