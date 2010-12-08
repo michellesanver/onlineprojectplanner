@@ -57,3 +57,4 @@
   * wysywig och/eller wiki-syntax
   * bilduppladdning (wysiwyg)
   * taggar
+  * sökning via taggar eller full-text
