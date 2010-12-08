@@ -7,12 +7,12 @@
 
 <body>
 
-    <h1>Iframe template</h1>
+    <h1>AJAX template</h1>
 
-    <p>This Iframe template uses the style <strong>Iframe</strong> in jquery window.</p>
+    <p>This AJAX template uses the style <strong>AJAX</strong> in jquery window.</p>
     <p>This view is loaded from the subfolder 'views' inside the folder for the widget.</p>
     
-    <p><a href="<?php echo $widget_url; ?>main/show_documentation">show jquery.window documentation</a></p>
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/show_documentation');">show jquery.window documentation</a></p>
 
 
 
@@ -30,15 +30,15 @@
     
 <pre class="code"> 
 CODE (Call to a function inside the namespace):
-    &lt;p>&lt;a href="javascript:parent.iframeTemplateWidget.example_showMessage('Hello World');" onclick="">Call to a function inside the namespace&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:ajaxTemplateWidget.example_showMessage('Hello World');return false;">Call to a function inside the namespace&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:parent.iframeTemplateWidget.example_showMessage('Hello World');" onclick="">Call to a function inside the namespace</a></p>
+    <p><a href="javascript:ajaxTemplateWidget.example_showMessage('Hello World');return false;">Call to a function inside the namespace</a></p>
 
 <pre class="code"> 
 CODE (Call to a global function - error):
-    &lt;p>&lt;a href="javascript:parent.show_errormessage('This is a error message');" onclick="">Call to a global function - error&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:parent.show_errormessage('This is a error message');return false;">Call to a global function - error&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:parent.show_errormessage('This is a error message');" onclick="">Call to a global function - error</a></p>  
+    <p><a href="javascript:show_errormessage('This is a error message');return false;">Call to a global function - error</a></p>  
 
 <pre class="code"> 
 CODE (database-model test):
