@@ -64,7 +64,7 @@ ajaxTemplateWidget = {
             }
             
             // show ajax spinner
-            ajaxTemplateWidget.showAjaxLoader();
+            show_ajax_loader(null, ajaxTemplateWidget.contentDivClass);
             
             // load with ajaxv
             var loadURL = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
@@ -76,24 +76,11 @@ ajaxTemplateWidget = {
                     ajaxTemplateWidget.setContent(data);
               },
               error: function(xhr, statusSTR, errorSTR) {
-                    // display an error (jquery ui)
-                    var errorMessage = "<p class=\"ajaxTemplateWidget_Error\"><img src=\""+ajaxTemplateWidget.errorIcon+"\" width=\"35\" height=\"35\" />"+
-                                       "Error: Unable to load the page at<br/><br/><small>"+loadURL+"</small></p>";
-
-                    ajaxTemplateWidget.setContent(errorMessage);      
+                    // display an error
+                    show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL, ajaxTemplateWidget.errorIcon);
               }
            });      
             
-        },
-    
-    // display an ajax spinner
-    showAjaxLoader: function()
-        {   
-             // class frame_loading is from jquery.window 
-             var container = $('.'+ajaxTemplateWidget.contentDivClass);
-             container.html("<div class='frame_loading'>Loading...</div>");
-             var loading = container.children(".frame_loading");
-             loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
         },
     
     // shows a message (example in start.php)

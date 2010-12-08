@@ -1,5 +1,4 @@
-<html>
-<head>
+
     <style type="text/css">
             /*************** Attributes & Methods ***************/
         .attributes_list, .methods_list {
@@ -37,16 +36,18 @@
         .share_region {
             padding-left: 5px;
         }
+        
+        a.small {
+            font-size: 85%;
+        }
     </style>
-</head>
 
-<body>
 
 <h1>Documentation jquery.window</h1>
 
 <p>URL: <a href="http://fstoke.me/jquery/window/">http://fstoke.me/jquery/window/</a></p>
 
-<p><a href="javascript:window.back(-1);"><< Back to previous page</a></p> 
+<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.load('/some_controller_name');"><< Back to previous page</a></p>
 
             <h3>Static Attributes</h3>
             <table class="attributes_list">
@@ -75,7 +76,7 @@
             </tbody></table>
             <br>
  
- <p><a href="javascript:window.back(-1);"><< Back to previous page</a></p> 
+<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.load('/some_controller_name');"><< Back to previous page</a></p>  
             
             <h3>Instance Attributes</h3>
             <table class="attributes_list">
@@ -249,7 +250,7 @@
                 </tr>
             </tbody></table>
 
-<p><a href="javascript:window.back(-1);"><< Back to previous page</a></p> 
+<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.load('/some_controller_name');"><< Back to previous page</a></p>  
 
             <h3>Static Methods ( $.window.[method name] )</h3>
             <table class="methods_list">
@@ -291,7 +292,7 @@
             </tbody></table>
             <br>
             
-<p><a href="javascript:window.back(-1);"><< Back to previous page</a></p> 
+<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.load('/some_controller_name');"><< Back to previous page</a></p>  
 
             <h3>Instance Methods</h3>
             <table class="methods_list">
@@ -430,7 +431,5 @@
                 </tr>
             </tbody></table>
 
-<p><a href="javascript:window.back(-1);"><< Back to previous page</a></p> 
+<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.load('/some_controller_name');"><< Back to previous page</a></p>  
 
-</body>
-</html>

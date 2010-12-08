@@ -4,8 +4,8 @@ class Testlib {
 
     function randomFunctionName()
     {
-        $returnDATA = "<html><head></head><body><h1>Iframe template; Mashed up data in library</h1>";
-        $returnDATA .= "<p><a href=\"javascript:window.back(-1);\"><< Back to previous page</a></p> ";
+        $returnDATA = "<h1>AJAX template; Mashed up data in library</h1>";
+        $returnDATA .= "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.load('/some_controller_name');\"><< Back to previous page</a></p>";
         $returnDATA .= "<br style=\"clear:both;\">"; 
         
         
