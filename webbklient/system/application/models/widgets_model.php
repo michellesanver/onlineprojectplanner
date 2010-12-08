@@ -10,7 +10,8 @@
 class Widgets_model extends Model  {
     
      private $_table = "Project_Widgets";
-    
+     private $_table2 = "Widgets";
+     
     /**
     * Get all widgets for a specific project
     * 
@@ -24,7 +25,13 @@ class Widgets_model extends Model  {
          $active = ($active === true ? 1 : 0);
          
          // run query
-         $query = $this->db->get_where($this->_table, array('Is_active' => $active, 'Project_id' => $projectID));
+         $table1 = $this->_table;
+         $table2 = $this->_table2;
+         $this->db->select("$table1.*, $table2.Widget_name");
+         $this->db->from($this->_table);
+         $this->db->join($table2, "$table1.Widget_id = $table2.Widget_id");
+         $this->db->where(array("$table1.Is_active" => $active, "$table1.Project_id" => $projectID));
+         $query = $this->db->get();
          
          // any result?
          if ($query && $query->num_rows() > 0)
@@ -33,5 +40,48 @@ class Widgets_model extends Model  {
             return false;
      }
     
+    /**
+    * This will get all widgets in the database
+    * @return mixed
+    */
+    function GetStoredWidgets()
+    {
+         // run query
+         $query = $this->db->get_where($this->_table2);
+         
+         // any result?
+         if ($query && $query->num_rows() > 0)
+            return $query->result();
+         else
+            return false; 
+    }
     
+    /**
+    * This will add a list of names to the database (table Widgets)
+    * 
+    * @param array $names
+    * @return bool
+    */
+    function AddStoredWidgets($names)
+    {
+        // start a transaction; all or nothing
+        $this->db->trans_begin();
+        
+        foreach($names as $row)
+        {
+            $this->db->insert($this->_table2, array('Widget_name' => $row) );
+        
+            // nothing changed?
+            if ( $this->db->affected_rows() == 0 )
+            {
+                // roll back transaction and return false
+                $this->db->trans_rollback();
+                return false;
+            }
+        } 
+        
+        // else; all ok! commit transaction and return true
+        $this->db->trans_commit();
+        return true;
+    }
 }
