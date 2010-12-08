@@ -202,7 +202,7 @@ class Widgets
         
         $returnSTR = "";
         
-        $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
+        $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
         
         // scan through all widgets that was found
@@ -210,13 +210,14 @@ class Widgets
         foreach ($this->_widgets as $row)
         {
             $widget_object = $row2->widget_object;
+            $about = $row2->about;
             $icon_div = "widget_icon".($pos+1);
             $function = "open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."')"; // open_widget is a global function in common.js
             $title = ($row2->icon_title != "" ? $row2->icon_title : "");
             $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
             
             // replace %s with the real value
-            $returnSTR .= sprintf($divSTR, ($pos+1), $function, $icon, $title);
+            $returnSTR .= sprintf($divSTR, ($pos+1), $function, $about, $icon, $title);
             
             // add one position
             $pos++;
@@ -255,7 +256,7 @@ class Widgets
        
         // prepare data
         $returnSTR = "";
-        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
+        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
      
         // loop trough all widgets for the project
@@ -269,13 +270,14 @@ class Widgets
                 {
                     // prepare data
                     $widget_object = $row2->widget_object;
+                    $about = $row2->about;
                     $icon_div = "widget_icon".($found_count+1);
                     $function = "open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."')"; // open_widget is a global function in common.js
                     $title = ($row2->icon_title != "" ? $row2->icon_title : "");
                     $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
                     
                     // replace %s with the real value
-                    $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $icon, $title);
+                    $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
 
                     // add one widget found
                     $found_count++;

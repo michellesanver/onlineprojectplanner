@@ -332,7 +332,6 @@ span.sitetitle a:hover {
 }
 
 #content {
-    /*height:100%;*/
     z-index: 2;
     margin-left:10px;
     margin-right:10px;

@@ -1,39 +1,88 @@
-
-// lägg i ett eget namespace
+   
+// place widget in a namespace (javascript object simulates a namespace)
 browserWidget = {
 
-    // variabel för fönstret
+    // variable for window (DO NOT CHANGE - REQUIRED)
     wnd: null, 
     
-    // callbacks som sätts globalt (common.js)   
+    // callbacks that is set in common.js upon start (DO NOT CHANGE - REQUIRED)     
     onMinimize: null, 
     onClose:null,
     
-    openBrowser: function()
-                {
-                    // #content är global och ligger i designen = "desktop"
-                    var maxheight =  $('#content').height();
-                    var maxwidth =  $('#content').width();
-                    
-                    // skapa nytt fönster med jquery window
-                    browserWidget.wnd = $('#content').window({
+    // function that will be called upon start (REQUIRED - do NOT change the name)
+    open: function() {
+        
+                    // create the first view
+                    var initialContent = "<div class=\"browserTopBar\"><div class=\"browserInnerContent\">Enter a URL: <input type=\"text\" class=\"browserInput\" size=\"50\" /> <input type=\"button\" class=\"browserSubmitButton\" value=\"Go!\" onclick=\"browserWidget.load();\" /></div></div><div class=\"browserContent\"></div>";
+        
+                    // create a new jquery window
+                    this.wnd = $('#content').window({
+                        // change theese as needed
                        title: "Simple browser",
-                       url: SITE_URL+"/widget/browser/main",
-                       content: "",
-                       checkBoundary: true,
-                       width: 600,
-                       height: 400,
-                       maxWidth: maxwidth,
-                       maxHeight: maxheight,
+                       content: initialContent,
+                       width: 800,
+                       height: 450,
                        x: 30,
                        y: 15,
-                       bookmarkable: false,
-                       onMinimize:  browserWidget.onMinimize,
-                       onClose:  browserWidget.onClose
-                    });    
                        
-                }
-
+                       // do NOT change theese
+                       onMinimize:  this.onMinimize, 
+                       onClose:  this.onClose,
+                       checkBoundary: true,
+                       maxWidth: $('#content').width(),
+                       maxHeight: $('#content').height(),
+                       bookmarkable: false
+                    });
+        
+                } ,
+                
+    // --------------------------------------------------------------------------------------- 
+      
+    iframeHTML: "<iframe id=\"browserIFrame\" width=\"775\" height=\"375\" border=\"0\" frameborder=\"0\"></iframe>",
+                
+    // function that will load an url from the textinput
+    load: function()
+    {
+        // get url from input
+        var url = $('.browserInput').val();   
+        
+        // empty?
+        if (url == "")
+        {
+            show_errormessage('Hey! :\'( You must enter a URL before submitting.');
+            return;
+        }
+        
+        // show ajax spinner
+        browserWidget.showAjaxLoader();
+        
+        // load with ajax
+        var loadURL = SITE_URL+"/widget/browser/main/get";
+        $.ajax({
+          type: 'POST',
+          url: loadURL,
+          data: {'url': url},
+          success: function(data){
+                // create an iframe
+                $('.browserContent').html(browserWidget.iframeHTML);  
+                
+                // write result into iframe
+                doc = document.getElementById('browserIFrame').contentWindow.document;
+                doc.open();
+                doc.write(data);
+                doc.close();
+          }
+       });
+        
+    },
+    
+    showAjaxLoader: function()
+    {   
+         // class frame_loading is from jquery.window 
+         var container = $('.browserContent');
+         container.html("<div class='frame_loading'>Loading...</div>");
+         var loading = container.children(".frame_loading");
+         loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
+    }
+    
 };
-
-
