@@ -1,13 +1,12 @@
-<html>
-<head></head>
 
-<body>
 
-    <h1>Iframe template; parameter test</h1>
+    <h1>AJAX template; parameter test</h1>
     
     <p>Query is: <?php echo $query; ?></p>
     
-    <p><a href="javascript:window.back(-1);"><< Back to previous page</a></p> 
+    <p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.load('/some_controller_name');"><< Back to previous page</a></p> 
+    
+    <br/>
     
     <p>Username: <?php echo $user['Username']; ?></p>
     
@@ -19,6 +18,3 @@
     <p>Email: <input type="text" value="<?php echo $user['Email']; ?>" /></p>
     
     <p><input type="submit" value="Save" /></p>
-    
-</body>
-</html>

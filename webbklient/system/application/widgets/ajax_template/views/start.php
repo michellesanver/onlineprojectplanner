@@ -29,36 +29,41 @@
     <h2>Examples</h2>
     
 <pre class="code"> 
-CODE (Call to a function inside the namespace):
-    &lt;p>&lt;a href="javascript:ajaxTemplateWidget.example_showMessage('Hello World');return false;">Call to a function inside the namespace&lt;/a>&lt;/p>
+CODE (Error "page not found"):
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/this_is_an_url_that_does_not_work');">error "page not found"&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:ajaxTemplateWidget.example_showMessage('Hello World');return false;">Call to a function inside the namespace</a></p>
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/this_is_an_url_that_does_not_work');">Error "page not found"</a></p>    
+    
+<pre class="code"> 
+CODE (Call to a function inside the namespace):
+    &lt;p>&lt;a href="javascript:ajaxTemplateWidget.example_showMessage('Hello World');">Call to a function inside the namespace&lt;/a>&lt;/p>
+</pre>
+    <p><a href="javascript:ajaxTemplateWidget.example_showMessage('Hello World');">Call to a function inside the namespace</a></p>
 
 <pre class="code"> 
 CODE (Call to a global function - error):
-    &lt;p>&lt;a href="javascript:parent.show_errormessage('This is a error message');return false;">Call to a global function - error&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:show_errormessage('This is a error message');">Call to a global function - error&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:show_errormessage('This is a error message');return false;">Call to a global function - error</a></p>  
+    <p><a href="javascript:show_errormessage('This is a error message');">Call to a global function - error</a></p>  
 
 <pre class="code"> 
 CODE (database-model test):
-    &lt;p>&lt;a href="&lt;?php echo $widget_url; ?>main/model_test">database-model test&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/show_documentation');">database-model test&lt;/a>&lt;/p>
 </pre>
-    <p><a href="<?php echo $widget_url; ?>main/model_test">database-model test</a></p>  
-
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/model_test');">database-model test</a></p>
+ 
 <pre class="code"> 
 CODE (library test):
-    &lt;p>&lt;a href="&lt;?php echo $widget_url; ?>main/library_test">library test&lt;/a>&lt;/p>
-</pre>    
-    <p><a href="<?php echo $widget_url; ?>main/library_test">library test</a></p>    
-
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/library_test');">library test&lt;/a>&lt;/p>        
+</pre>
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/library_test');">library test</a></p>        
+   
 <pre class="code"> 
 CODE (parameter test):
-    &lt;p>&lt;a href="&lt;?php echo $widget_url; ?>main/edit_user/&lt;?php echo $userID; ?>">parameter test&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/edit_user/&lt;?php echo $userID; ?>');">parameter test&lt;/a>&lt;/p>
 </pre>
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/edit_user/<?php echo $userID; ?>');">parameter test</a></p>   
     
-    <p><a href="<?php echo $widget_url; ?>main/edit_user/<?php echo $userID; ?>">parameter test</a></p>
-
 <pre class="code">
 CODE (Image from widget-folder):
     &lt;p>&lt;img src="&lt;?php echo $widget_base_url; ?>images/Why_NORAD_Tracks_Santa.jpg" />&lt;/p>

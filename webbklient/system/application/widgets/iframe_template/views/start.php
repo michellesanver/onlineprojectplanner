@@ -30,15 +30,15 @@
     
 <pre class="code"> 
 CODE (Call to a function inside the namespace):
-    &lt;p>&lt;a href="javascript:parent.iframeTemplateWidget.example_showMessage('Hello World');" onclick="">Call to a function inside the namespace&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:parent.iframeTemplateWidget.example_showMessage('Hello World');">Call to a function inside the namespace&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:parent.iframeTemplateWidget.example_showMessage('Hello World');" onclick="">Call to a function inside the namespace</a></p>
+    <p><a href="javascript:parent.iframeTemplateWidget.example_showMessage('Hello World');">Call to a function inside the namespace</a></p>
 
 <pre class="code"> 
 CODE (Call to a global function - error):
-    &lt;p>&lt;a href="javascript:parent.show_errormessage('This is a error message');" onclick="">Call to a global function - error&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:parent.show_errormessage('This is a error message');">Call to a global function - error&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:parent.show_errormessage('This is a error message');" onclick="">Call to a global function - error</a></p>  
+    <p><a href="javascript:parent.show_errormessage('This is a error message');">Call to a global function - error</a></p>  
 
 <pre class="code"> 
 CODE (database-model test):

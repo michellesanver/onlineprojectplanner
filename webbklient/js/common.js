@@ -146,3 +146,43 @@ function reset_widget(widgetIconId)
     $('#'+widgetIconId).attr('state', '');
     $('#'+widgetIconId).css({ 'opacity':'1.0', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"', 'filter':'alpha(opacity=100)' });
 }
+
+// display a ajax spinner
+function show_ajax_loader(divID, divClass)
+{   
+     // class frame_loading is from jquery.window 
+     var container = null;
+     if (divClass != undefined || divClass != "" || divClass != null)
+     {
+        container = $('.'+divClass);
+     }
+     else
+     {
+         container = $('#'+divID);
+     }
+     container.html("<div class='frame_loading'>Loading...</div>");
+     var loading = container.children(".frame_loading");
+     loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
+}
+
+// display an error (jquery ui)
+function show_ajax_error(divID, divClass, loadURL, errorIcon)
+{
+    var errorMessage = "<p class=\"ajaxTemplateWidget_Error\">";
+    
+    if (errorIcon != undefined || errorIcon != "" || errorIcon != null)
+    {
+        errorMessage += "<img src=\""+errorIcon+"\" width=\"35\" height=\"35\" />";
+    }
+    
+    errorMessage += "Error: Unable to load the page at<br/><br/><small>"+loadURL+"</small></p>";
+
+    if (divClass != undefined || divClass != "" || divClass != null)
+    {
+        $('.'+divClass).html(errorMessage);
+    }
+    else
+    {
+        $('#'+divID).html(errorMessage);
+    }
+}
