@@ -11,6 +11,7 @@ class Account extends Controller {
 		parent::Controller();	
 		
 		$this->load->library(array('validation', 'emailsender'));
+		$this->load->library('project_lib', null, 'project');
 	}
 	
     /**
@@ -501,6 +502,8 @@ class Account extends Controller {
 		if($this->user->IsLoggedIn() === false) {
 			redirect("","");
 		}
+		
+		$this->project->clearCurrentProject();
 		
 		$user = $this->user->getLoggedInUser();
 		
