@@ -136,5 +136,29 @@ class Some_controller_name extends Controller {
       $this->load->view_widget('edit_user', $data); // view is loaded into an iframe (jquery plugin window)
   }
   
+  function save_edit_user()  
+  {
+  
+      // output data from post
+      echo "<h1>AJAX template; Post data</h1>";
+      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.load('/some_controller_name');\"><< Back to previous page</a></p>   ";
     
+      echo "<table cellpadding=\"3\">";
+      echo "<tr>";
+      echo "<td><strong>Name</strong></td>";
+      echo "<td><strong>Value</strong></td>";
+      echo "</tr>";
+      foreach ($_POST as $key=>$val)
+      {
+            echo "<tr>";
+            echo "<td>$key</td>";
+            echo "<td>$val</td>";
+            echo "</tr>";
+      }
+      echo "</table>";
+    
+      
+  }
+  
+  
 }

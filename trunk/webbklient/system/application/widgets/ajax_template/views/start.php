@@ -1,11 +1,8 @@
-<html>
-<head>
+
     <style type="text/css">
         pre.code {margin-top:20px; margin-left:10px; padding:5px; background-color:#d9d9d9; border:2px dashed #f0f0f0;}
     </style>
-</head>
 
-<body>
 
     <h1>AJAX template</h1>
 
@@ -59,10 +56,10 @@ CODE (library test):
     <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/library_test');">library test</a></p>        
    
 <pre class="code"> 
-CODE (parameter test):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/edit_user/&lt;?php echo $userID; ?>');">parameter test&lt;/a>&lt;/p>
+CODE (parameter and post test):
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/edit_user/&lt;?php echo $userID; ?>');">parameter and post test&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/edit_user/<?php echo $userID; ?>');">parameter test</a></p>   
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/edit_user/<?php echo $userID; ?>');">parameter and post test</a></p>   
     
 <pre class="code">
 CODE (Image from widget-folder):
@@ -71,5 +68,4 @@ CODE (Image from widget-folder):
     
     <p><img src="<?php echo $widget_base_url; ?>images/Why_NORAD_Tracks_Santa.jpg" /></p>
 
-</body>
-</html>
+
