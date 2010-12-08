@@ -1,7 +1,7 @@
 #labels Docs
 =Iframe template; Widget help=
 
-*This version/type of widget is not recommended - use the ajax-version instead since it gives the user more visual response.*
+*This version/type of widget is not recommended - use the [Development_ajax_widgets ajax-version] instead since it gives the user more visual response.*
 
 The jquery plugin window can be used in two modes; Iframe och content/AJAX. Observe that the two modes cannot be switched if a window is created with one mode. For example: if a window is created with calling an URL then it is not possible to use setContent.
 
@@ -93,6 +93,7 @@ Each widget is required to have the file settings.xml inside the root-folder of 
 ==Setup (javascript)==
 Set the name for the namespace of the widget in settings.xml and then create a javascript-file with the initial code to start a widget. Here is an example with comments:
    
+
 *Example:*
    
 {{{
