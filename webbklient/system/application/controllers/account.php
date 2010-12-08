@@ -240,6 +240,9 @@ class Account extends Controller {
 	*/
 	function Register()
 	{
+		if($this->user->IsLoggedIn() !== false) {
+			redirect("","");
+		}
         // add a tracemessage to log
         log_message('debug','#### => Controller Account->Register');
         
@@ -252,7 +255,7 @@ class Account extends Controller {
 			"email" => "trim|required|max_length[100]|xss_clean|valid_email|callback_email_check",
 			"username" => "trim|required|max_length[100]|xss_clean|callback_username_check",
 			"password" => "trim|required|min_length[6]|max_length[32]|xss_clean",
-			"password2" => "trim|required|max_length[32]|xss_clean|matches[password]",
+			"password2" => "trim|required|min_length[6]|max_length[32]|xss_clean|matches[password]",
 			"streetadress" => "trim|max_length[100]|xss_clean",
 			"postalcode" => "trim|max_length[5]|integer",
 			"hometown" => "trim|max_length[130]|xss_clean"
@@ -351,7 +354,6 @@ class Account extends Controller {
 	}
     
 	/**
-	* Function: email_check
 	* This function is part of the register validation. It will stop any
 	* registration with an email that already exist
 	* 
@@ -368,7 +370,6 @@ class Account extends Controller {
 	}
 	
 	/**
-	* Function: username_check
 	* This function is part of the register validation. It will stop any
 	* registration with an username that already exist
 	* 
@@ -379,6 +380,23 @@ class Account extends Controller {
 	{   
 		if($this->user->checkIfExist("Username", $str)) {
 			$this->validation->set_message('username_check', 'That username already exist in our database.');
+			return false;
+		}
+		return true;
+	}
+	/**
+	* This function is part of the edit account validation. It will stop the user
+	* from editing his information if he didnt type the right password compared
+	* to his current one.
+	* 
+	*@param string $str
+	*@return bool
+	*/
+	function password_check($str)
+	{
+		$user = $this->user->getLoggedInUser();
+		if($this->user->TransformPassword($str) !== $user['Password']) {
+			$this->validation->set_message('password_check', 'Please enter your current password!');
 			return false;
 		}
 		return true;
@@ -473,6 +491,135 @@ class Account extends Controller {
 		}
 		
 		$this->theme->view('user/recommend', $data);
+	}
+	
+	/**
+		* This function will open the possability for the user
+		* to edit his account-information
+		*/
+	function Edit() {
+		if($this->user->IsLoggedIn() === false) {
+			redirect("","");
+		}
+		
+		$user = $this->user->getLoggedInUser();
+		
+		$data = array();
+		
+		// Checks wich submit button that has been clicked
+		if($this->input->post('edit_info_btn')) {
+			/*
+			* Rules for the inputfields
+			*/
+			$rules = array(
+				"old_password" => "trim|required|xss_clean|callback_password_check",
+				"firstname" => "trim|required|max_length[100]|alpha|xss_clean",
+				"lastname" => "trim|required|max_length[100]|alpha|xss_clean",
+				"streetadress" => "trim|max_length[100]|xss_clean",
+				"postalcode" => "trim|max_length[5]|integer",
+				"hometown" => "trim|max_length[130]|xss_clean"
+			);
+			
+			$this->validation->set_rules($rules);
+			
+			/*
+			* Human names for the inputfields
+			*/
+			$field = array(
+				"old_password" =>"Old password",
+				"firstname" => "Firstname",
+				"lastname" => "Lastname",
+				"streetadress" => "Streetadress",
+				"postalcode" => "Postalcode",
+				"hometown" => "Hometown"
+			);
+			
+			$this->validation->set_fields($field);
+			
+			$status = $this->validation->run();
+			
+			if($status) {
+				$update = array(
+					"User_id" => $user['User_id'],
+					"Firstname" => $this->validation->firstname,
+					"Lastname" => $this->validation->lastname,
+					"Email" => $user['Email'],
+					"Username" => $user['Username'],
+					"Password" => $user['Password'],
+					"Streetadress" => $this->validation->streetadress,
+					"Postalcode" => $this->validation->postalcode,
+					"Hometown" => $this->validation->hometown
+				);
+			}
+			
+		} else if($this->input->post('edit_pass_btn')) {
+			/*
+			* Rules for the inputfields
+			*/
+			$rules = array(
+				"old_password" => "trim|required|xss_clean|callback_password_check",
+				"new_password" => "trim|required|min_length[6]|max_length[32]|xss_clean",
+				"new_again_password" => "trim|required|min_length[6]|max_length[32]|xss_clean|matches[new_password]"
+			);
+			
+			$this->validation->set_rules($rules);
+			
+			/*
+			* Human names for the inputfields
+			*/
+			$field = array(
+				"old_password" =>"Old password",
+				"new_password" => "New password",
+				"new_again_password" => "New password again"
+			);
+			
+			$this->validation->set_fields($field);
+			
+			$status = $this->validation->run();
+			
+			if($status) {
+				$update = array(
+					"User_id" => $user['User_id'],
+					"Firstname" => $user['Firstname'],
+					"Lastname" => $user['Lastname'],
+					"Email" => $user['Email'],
+					"Username" => $user['Username'],
+					"Password" => $this->user->TransformPassword($this->validation->new_password),
+					"Streetadress" => $user['Streetadress'],
+					"Postalcode" => $user['Postalcode'],
+					"Hometown" => $user['Hometown']
+				);
+			}
+		}
+		if(isset($status)) {
+			if($status) {
+				if($this->user->updateUser($update)) {
+					// all ok
+					$data = array(
+							"status" => "ok",
+							"status_message" => "Your information has been updated!"
+					);
+					$user = $this->user->getLoggedInUser();
+				} else {
+					// update failed
+					$data = array(
+							"status" => "error",
+							"status_message" => "An error occured!"
+					);
+					$this->error->log('Failed to update userinformation. Database return false.', $_SERVER['REMOTE_ADDR'], 'account/Edit', 'user/updateUser', $update);
+				}
+			} else {
+				// Validation failed
+				$data = array(
+						"status" => "error",
+						"status_message" => "Please correct the following errors:"
+				);
+			}
+		}
+		
+		$data = array_merge($user, $data);
+		
+		$this->theme->view('user/edit', $data);
 	}
 }
 

@@ -17,6 +17,22 @@
 	height: 200px;
 }
 
+#userbar {
+background-color:lightgray;
+	position: fixed;
+	left:50px;
+	bottom: 0px;
+	padding:5px 5px 0 5px;
+	height:30px;
+	width:300px;
+	-webkit-border-top-left-radius:5px;
+	-moz-border-radius-topleft:5px;
+	border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+	-moz-border-radius-topright:5px;
+	border-top-right-radius:5px;
+}
+
 .newprojectbox {
 	padding: 5px;
 	height: 84px;

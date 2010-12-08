@@ -402,7 +402,7 @@ class User
 			return false;
 		}
 		
-	}
+		}
     
     /**
     * Returns userID for the logged in user.
@@ -433,6 +433,20 @@ class User
             return false;
     }
 		
+    /**
+    * Updates a user in the database
+    * 
+		* @param array $update
+    * @return bool
+    */
+	function updateUser($update)
+	{
+        // add a tracemessage to log
+        log_message('debug','#### => Library User->updateUser');
+        
+		return $this->_CI->User_model->update($update);
+	}
+	
     /**
     * Deletes a user from the database
     * 

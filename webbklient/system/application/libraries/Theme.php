@@ -25,7 +25,7 @@ class Theme
        $this->_base_url = $this->_CI->config->item('base_url');
        
        // load library widgets
-       $this->_CI->load->library('widgets');
+       $this->_CI->load->library('widgets', 'user');
     }
     
     /**
@@ -96,7 +96,11 @@ class Theme
         
         // content
         $this->_CI->load->view($view, $vars);
-
+				
+				if($this->_CI->user->IsLoggedIn()) {
+					$this->_CI->load->view($this->_theme.'/common/userbar');
+				}
+				
         // which post_content to load?
         if ($current_project_id != false )
         {
