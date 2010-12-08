@@ -115,7 +115,6 @@ CREATE  TABLE IF NOT EXISTS `Project_Invitation` (
 
 -- 
 -- table `Project_Member`
--- updated to our standards!
 -- 
 CREATE  TABLE IF NOT EXISTS `Project_Member` (
   `Project_member_id` INT NOT NULL AUTO_INCREMENT ,
@@ -147,9 +146,26 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
 -- table `Project_Widgets`
 -- 
  CREATE TABLE IF NOT EXISTS `Project_Widgets` (
-	`Project_widgets_id` INT( 11 ) NOT NULL AUTO_INCREMENT,
-	`Project_id` INT( 11 ) NOT NULL ,
-	`Widget_name` VARCHAR( 50 ) NOT NULL ,
+	`Project_widgets_id` INT NOT NULL AUTO_INCREMENT,
+	`Project_id` INT NOT NULL ,
+    `Widget_id` INT NOT NULL,
 	`Is_active` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
-	PRIMARY KEY ( `Project_Widgets_id` )
+	PRIMARY KEY ( `Project_widgets_id` ),
+  CONSTRAINT `project_widget_ibfk_1` 
+    FOREIGN KEY (`Project_id`)
+    REFERENCES `Project` (`Project_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+-- 
+-- table `Widgets`
+-- 
+ CREATE TABLE IF NOT EXISTS `Widgets` (
+    `Widget_id` INT NOT NULL AUTO_INCREMENT,
+    `Widget_name` VARCHAR( 50 ) NOT NULL ,
+    PRIMARY KEY ( `Widget_id` )
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+
+

@@ -24,8 +24,21 @@ class Widgets
         // get CI instance
         $this->_CI = & get_instance();
         
-        // read all folders with widgets at start
-	    $this->_readWidgets();
+       // load database model
+       $this->_CI->load->model('Widgets_model');
+       
+       // any widget error?
+       $widget_error = $this->_CI->session->userdata('widget_save_error');
+       if ($widget_error == false) 
+       {
+            // read all folders with widgets at start
+	        $this->_readWidgets();
+       }
+       else
+       {
+           // clear error
+           $this->_CI->session->unset_userdata('widget_save_error');
+       }
 	}
 
     /**
@@ -36,7 +49,7 @@ class Widgets
     {
         // set folder
         $dir = BASEPATH . $this->_widget_dir;
-        
+      
         // open folder
         if ($dh = opendir($dir)) {
             while (($file = readdir($dh)) !== false) {
@@ -82,6 +95,57 @@ class Widgets
                 }
             }
             closedir($dh);
+            
+            // also fetch rows from database and update if needed
+            $stored_widgets = $this->_CI->Widgets_model->GetStoredWidgets();
+            if (count($stored_widgets) != count($this->_widgets))
+            {
+                // update database
+                
+                $widget_delete = array();
+                $widget_add = array();
+                
+                // loop thru array that was read from folders
+                foreach($this->_widgets as $row)
+                {
+                    // does the name from folders exist in the database?
+                    if ($stored_widgets==false || in_array($row->name, $stored_widgets)==false)
+                    {
+                        // push to array for addition to db
+                        array_push($widget_add, $row->name);    
+                    }
+                }
+                
+                // add new widget-names to db
+                if ( $this->_CI->Widgets_model->AddStoredWidgets($widget_add) == false )
+                {
+                    // failed to add
+                    log_message('Error','#### => Panic! Failed to add new widget-names to database.');
+                    
+                    // logout user if logged in
+                    if ( $this->_CI->user->IsLoggedIn() )
+                    {
+                        $this->_CI->user->logout();
+                        
+                        // create a new session since it is destroyed in logout
+                        @session_start();    
+                    }
+                    
+                    // set error
+                    $this->_CI->session->set_userdata('widget_save_error', true); // skip next call to readwidgets
+                    $this->_CI->session->set_userdata('errormessage','Panic! Unable to update widgets in database.');   
+              
+                    // redirect and exit
+                    redirect('account/login');
+                    return;
+                }
+                else
+                {
+                    log_message('debug','#### => Notice: Class Widgets added '.count($widget_add).' new widgets to database.');
+                }
+                
+            }
+            
         }       
     
     }
@@ -330,9 +394,6 @@ class Widgets
                 $this->_CI->session->unset_userdata( array('cache_project_widgets','cache_project_widgets_timeout') );
             }
        }
-       
-       // load database model
-       $this->_CI->load->model('Widgets_model');
        
        // get from model
        $project_widgets = $this->_CI->Widgets_model->GetProjectWidgets($projectID); 
