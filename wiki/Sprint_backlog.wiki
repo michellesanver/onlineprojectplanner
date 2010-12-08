@@ -1,0 +1,65 @@
+=Sprint 2=
+
+Timmar för sprint2  175h
+
+==Motorn==
+ * Emailutskick med korrekt html (Dennis) 3h
+ * Justera radera projekt  (skräpdata ligger kvar) (Tobias 3 timmar)
+ * Projektinställningar (hantera widgets) (Michelle) 32h
+    * Admin kan ta bort widgets. (16h)
+        * PHP (1h)
+        * JavaScript(10h)
+        * Gränssnittet(5h)
+    * Kan lägga till widgets. (16h)
+        * PHP (1h)
+        * JavaScript (10h)
+        * Gränssnitt (5h)
+ * Kicka användare ur projekt (Tobias 4 timmar)
+ * Gå ur projekt (Dennis) 5h
+    * Skapa 'Gå ur' knapp/länk 1h
+    * Php-kodning 4h
+ * Projektinbjudning till rätt roller (Dennis) 6h
+ * Ta bort projekt (bara superadmin kan ta bort projekt) (Tobias 4 timmar)
+ * Alla felmeddelanden loggade och/eller mailade (Dennis) 8h
+ * Ändra konto (användaruppgifter) (Dennis) 9h
+    * Skapa formulär 3h
+    * Php-kodning 6h
+ * Superadmin för projektet (Tobias) 11 timmar
+    * lägga till rollen i tabellen 1h
+    * Skaparen blir superadmin (4 timmar)
+    * Superadmin kan ge bort sitt superadmin till en annan användare (bara en kan vara superadmin) 6 timmar
+ * Spårmeddelanden för CI loggen (Fredrik) - 1h
+
+==Widgets==
+ * mall för widgets (Fredrik) - 1h
+ * finjusteringar widget-struktur (Fredrik) - 4h
+ * inställningar för widgets +(Dennis) 15h
+    * Bestämma standard på inställningshantering 8h
+    * Skapa databastabell 3h
+    * UI 5h
+ * Tasklist widget 33h
+  * php 10h
+  * databas 4h 
+  * layout 3h
+  * javascript 10h
+  * inställningar 3h
+  * projektinställningar 3h
+ * Wiki widget (Fredrik) (22h)
+   * php 15h
+   * javascript 5h
+   * databas 1h
+   * layout 1h
+ * Tidtagar widget  (Martin) 22h
+  * php 6h
+  * javascript 6h
+  * tidszoner 4h
+  * inställningar 3h
+  * projektinställningar 3h
+ * Klocka widget (Martin) 15h
+  * php 2h
+  * javascript 3h
+  * tidszoner 4h
+  * inställningar 3h
+  * projektinställningar 3h
+ * css-styling för error_mesage och show_message (Michelle) 1h
+ * debug för widgets - javascript  (Fredrik) - 3h
