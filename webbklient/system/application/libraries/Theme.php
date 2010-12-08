@@ -67,6 +67,10 @@ class Theme
         // add page title?
         if (empty($page_title)==false) $preContentData['page_title'] = $page_title;
         
+				if($this->_CI->user->IsLoggedIn()) {
+					$user = $this->_CI->user->getLoggedInUser();
+					$preContentData['username'] = $user['Username'];
+				}
         // which pre_content to load?
         if ( $current_project_id != false )
         {
@@ -96,10 +100,6 @@ class Theme
         
         // content
         $this->_CI->load->view($view, $vars);
-				
-				if($this->_CI->user->IsLoggedIn()) {
-					$this->_CI->load->view($this->_theme.'/common/userbar');
-				}
 				
         // which post_content to load?
         if ($current_project_id != false )

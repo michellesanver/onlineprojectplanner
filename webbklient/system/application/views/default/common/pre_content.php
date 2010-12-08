@@ -17,10 +17,13 @@
 	    <?php
 
 		    if($is_logged_in) {
-			    echo "<span class=\"topbuttons\">";
-                echo("<a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a>");
+			    echo "<div class=\"topbuttons\"><ul>";
+								if(isset($username)){
+									echo "<li id='usertext'>" . $username . " [<a href='" . site_url('account/edit') . "'>edit</a>]</li>";
+								}
+                echo("<li><a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a></li>");
                 
-                echo "</span>";
+                echo "</ul></div>";
 		    }
 	    ?>
 	</div>
