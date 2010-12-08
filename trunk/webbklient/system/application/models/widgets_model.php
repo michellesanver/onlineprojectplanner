@@ -85,4 +85,36 @@ class Widgets_model extends Model  {
         $this->db->trans_commit();
         return true;
     }
+    
+    /**
+    * This will delete a list of names to the database (table Widgets)
+    * 
+    * @param array $names
+    * @return bool
+    */
+    function DeleteStoredWidgets($names)
+    {
+     
+        // start a transaction; all or nothing
+        $this->db->trans_begin();
+        
+        foreach($names as $row)
+        {
+
+            $res = $this->db->delete($this->_table2, array('Widget_name' => $row) );
+        
+            // nothing changed?
+            if ( $res == false )
+            {
+                // roll back transaction and return false
+                $this->db->trans_rollback();
+                return false;
+            }
+        } 
+        
+        // else; all ok! commit transaction and return true
+        $this->db->trans_commit();
+        return true;
+         
+    }
 }
