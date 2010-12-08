@@ -30,6 +30,7 @@
 ==Widgets==
  * Widgethantering
   * Minimera / Maximera
+  * Spara positionering på desktop
   * Flytta / Ändra storlek
   * Lägga till / ta bort
   * Wiki
@@ -43,7 +44,6 @@
   * Gemensam livedokumentation
   * SVN Hantering? (En projektgrupp kan starta egen SVN)
   * Dropbox; filer för projektet.. drag'n'drop via html5 eller javascript?
-
 
 
  * Webbklient
