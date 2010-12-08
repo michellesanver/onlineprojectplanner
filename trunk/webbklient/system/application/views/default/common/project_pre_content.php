@@ -28,13 +28,18 @@
         <span class="sitetitle"><?php echo "<a href=\"$base_url\" class=\"home_link\">$site_title</a>"; ?></span>
         <?php
             if($is_logged_in) {
-                echo "<div class=\"topbuttons\">";
-               		echo("<a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a>");
-               		echo("<a href=\"" . site_url("project/update/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/Settings.png\"/></a>");
-                	echo("<a href=\"" . site_url("project/members/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/contacts.png\"/></a>");
-                	echo("<a href=\"" . site_url('project/index') . "\"><img src=\"{$base_url}images/buttons/home.png\"/></a>");
+									echo "<div class=\"topbuttons\"><ul>";
+									
+									if(isset($username)){
+										echo "<li id='usertext'>" . $username . " [<a href='" . site_url('account/edit') . "'>edit</a>]</li>";
+									}
+									
+               		echo("<li><a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a></li>");
+               		echo("<li><a href=\"" . site_url("project/update/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/Settings.png\"/></a></li>");
+                	echo("<li><a href=\"" . site_url("project/members/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/contacts.png\"/></a></li>");
+                	echo("<li><a href=\"" . site_url('project/index') . "\"><img src=\"{$base_url}images/buttons/home.png\"/></a></li>");
                 	
-                echo "</div>";
+                echo "</div></ul>";
             }
         ?>
     </div>
