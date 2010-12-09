@@ -34,17 +34,18 @@
 										echo "<li id='usertext'>" . $username . " [<a href='" . site_url('account/edit') . "'>edit</a>]</li>";
 									}
 									
-               		echo("<li><a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a></li>");
                		echo("<li><a href=\"" . site_url("project/update/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/Settings.png\"/></a></li>");
-                	echo("<li><a href=\"" . site_url("project/members/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/contacts.png\"/></a></li>");
-                	echo("<li><a href=\"" . site_url('project/index') . "\"><img src=\"{$base_url}images/buttons/home.png\"/></a></li>");
+					echo("<li><a href=\"" . site_url("project/members/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/contacts.png\"/></a></li>");
+					echo("<li><a href=\"" . site_url('project/index') . "\"><img src=\"{$base_url}images/buttons/home.png\"/></a></li>");
+					echo("<li><a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a></li>");
+
                 	
                 echo "</div></ul>";
             }
         ?>
     </div>
     
-    <div id="widget_bar"><?php echo $widget_bar; ?> </div>
+    <div id="widget_bar"><?php echo $widget_bar; ?></div>
     
     <div id="content">
 
