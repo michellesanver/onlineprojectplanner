@@ -378,7 +378,17 @@ class Widgets
         
         // return the result
         return $returnSTR; 
-    }
+    }
+    
+   function GetProjectDeleteIcons($projectID) 
+   {
+   		$array = array(
+   			"browser" => "icon.png",
+   			"anna" => "icon.png"
+   		);
+   		
+ 		return $array;
+   }
    
     /**
     * This function will return html with icons for
