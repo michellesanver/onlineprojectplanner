@@ -77,7 +77,14 @@ class Theme
            // load widgets javascript and css
            $preContentData['widget_javascript']  = $this->_CI->widgets->GetProjectJavascripts($current_project_id);
            $preContentData['widget_css']  = $this->_CI->widgets->GetProjectStylesheets($current_project_id);
-           $preContentData['widget_bar'] = $this->_CI->widgets->GetProjectIcons($current_project_id);  
+           
+           // Should we load a custom widget bar or the default one?
+           if(isset($vars['custom_bar'])) {
+           		$preContentData['widget_bar'] = $vars['custom_bar'];
+           } else {
+           		$preContentData['widget_bar'] = $this->_CI->widgets->GetProjectIcons($current_project_id);  
+           }
+           
          
            // use project pre_content
            $this->_CI->load->view($this->_theme.'/common/project_pre_content', $preContentData); 
