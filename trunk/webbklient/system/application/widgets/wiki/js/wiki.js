@@ -2,8 +2,9 @@
 // place widget in a namespace (javascript object simulates a namespace)
 wikiWidget = {
 
-    contentDivClass: 'wikiContent',
-    widgetTitle: 'Wiki',
+    pageContentDivClass: 'wiki_main_content',
+    contentDivClass: 'wiki_content',
+    widgetTitle: 'Wiki 1.0',
     widgetName: 'wiki', // also name of folder
     errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
     
@@ -44,15 +45,9 @@ wikiWidget = {
         
                 } ,
                 
-    
-    // set content in widgets div
-    setContent: function(data)  
-        {
-            $('.'+wikiWidget.contentDivClass).html(data);
-        },
-                
     // function that will load an url and set resulting data into specified div
-    load: function(url)
+    // if parameter into_page_content is set then the content is put into div.wiki_main_content 
+    load: function(url, into_page_content)
         {
             
             // empty url?
@@ -62,8 +57,14 @@ wikiWidget = {
                 return;
             }
             
+            var whichDiv = wikiWidget.contentDivClass;
+            if (into_page_content != undefined && into_page_content == true)
+            {
+                whichDiv = wikiWidget.pageContentDivClass;
+            }
+            
             // show ajax spinner
-            show_ajax_loader(null, wikiWidget.contentDivClass);
+            show_ajax_loader(null, whichDiv);
             
             // load with ajax
             var loadURL = SITE_URL+'/widget/'+wikiWidget.widgetName+url;
@@ -72,11 +73,11 @@ wikiWidget = {
               url: loadURL,
               success: function(data){
                     // set new content
-                    wikiWidget.setContent(data);
+                    $('.'+whichDiv).html(data);
               },
               error: function(xhr, statusSTR, errorSTR) {
                     // display an error
-                    show_ajax_error(null, wikiWidget.contentDivClass, loadURL, wikiWidget.errorIcon);
+                    show_ajax_error(null, whichDiv, loadURL, wikiWidget.errorIcon);
               }
            });      
            
