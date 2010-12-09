@@ -11,7 +11,7 @@ class Project extends Controller {
         parent::Controller();
 
         $this->load->library(array('validation', 'project_member', 'emailsender', 'invitation'));
-        $this->load->library('project_lib', null, 'project');
+        $this->load->library('project_lib', null, 'project', 'widgets');
         $this->load->model('project_model');
         $this->load->model('project_member_model');
         $this->load->model('project_role_model');
@@ -247,11 +247,15 @@ class Project extends Controller {
             // Else, present saved data
 
             else {
-
+				$widget_data = array(
+					"delete_icons" => $this->widgets->GetProjectDeleteIcons($savedData['Project_id'])
+				);
+				
                 $data = array(
                     "projectID" => $savedData['Project_id'],
                     "title" => $savedData['Title'],
                     "description" => $savedData['Description'],
+                    "custom_bar" => $this->load->view($this->theme->GetThemeFolder() . '/widgets/delete_bar', $widget_data, true)
                 );
             }
 
