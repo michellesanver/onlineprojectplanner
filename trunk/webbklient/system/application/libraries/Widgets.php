@@ -165,25 +165,30 @@ class Widgets
                 {
                     if ($this->_CI->Widgets_model->DeleteStoredWidgets($widget_delete) == false )
                     {
-                        // failed to add
-                        log_message('Error','#### => Panic! Failed to delete old widget-names from database.');
-                        
-                        // logout user if logged in
-                        if ( $this->_CI->user->IsLoggedIn() )
+                        // development mode?
+                        if ( $this->_CI->Widgets_model->CheckDeleteQuery() == false)
                         {
-                            $this->_CI->user->logout();
+                            // nope, continue to log error
+                       
+                            log_message('Error','#### => Panic! Failed to delete old widget-names from database.');
                             
-                            // create a new session since it is destroyed in logout
-                            @session_start();    
+                            // logout user if logged in
+                            if ( $this->_CI->user->IsLoggedIn() )
+                            {
+                                $this->_CI->user->logout();
+                                
+                                // create a new session since it is destroyed in logout
+                                @session_start();    
+                            }
+                            
+                            // set error
+                            $this->_CI->session->set_userdata('widget_save_error', true); // skip next call to readwidgets
+                            $this->_CI->session->set_userdata('errormessage','Panic! Unable to update widgets in database.');   
+                      
+                            // redirect and exit
+                            redirect('account/login');
+                            return;
                         }
-                        
-                        // set error
-                        $this->_CI->session->set_userdata('widget_save_error', true); // skip next call to readwidgets
-                        $this->_CI->session->set_userdata('errormessage','Panic! Unable to update widgets in database.');   
-                  
-                        // redirect and exit
-                        redirect('account/login');
-                        return;
                     }
                     else
                     {
@@ -378,7 +383,7 @@ class Widgets
         
         // return the result
         return $returnSTR; 
-    }
+    }
     
    function GetProjectDeleteIcons($projectID) 
    {

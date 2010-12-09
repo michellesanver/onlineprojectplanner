@@ -12,6 +12,10 @@ class Widgets_model extends Model  {
      private $_table = "Project_Widgets";
      private $_table2 = "Widgets";
      
+     // will be set to true in delete-query if widget
+     // is in development
+     private $_deleteQuery_InDevMode = false;
+     
     /**
     * Get all widgets for a specific project
     * 
@@ -94,13 +98,23 @@ class Widgets_model extends Model  {
     */
     function DeleteStoredWidgets($names)
     {
-     
+        
         // start a transaction; all or nothing
         $this->db->trans_begin();
         
         foreach($names as $row)
         {
-
+            // is widget in devmode?
+            $query = $this->db->get_where($this->_table2, array('Widget_name' => $row));
+            $result = $query->result();
+            if ($result[0]->In_development == '1')
+            {
+                // yes, do a override
+                $this->_deleteQuery_InDevMode = true;
+                return false;
+            }
+            
+            
             $res = $this->db->delete($this->_table2, array('Widget_name' => $row) );
         
             // nothing changed?
@@ -116,5 +130,19 @@ class Widgets_model extends Model  {
         $this->db->trans_commit();
         return true;
          
+    }
+    
+    /**
+    * Checks if last delete-query returned
+    * that the widget is in development. Will
+    * also reset the status upon exit.
+    * 
+    * @return bool
+    */
+    function CheckDeleteQuery()
+    {
+        $return_value = $this->_deleteQuery_InDevMode;
+        $this->_deleteQuery_InDevMode = false;   
+        return $return_value;
     }
 }
