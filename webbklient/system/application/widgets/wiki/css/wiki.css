@@ -1,0 +1,20 @@
+
+.wiki_left_bar {
+    width:100px;
+    float:left;
+}
+
+.wiki_logo {
+    background: url(img/wiki-logo.png) no-repeat;
+    width:128px;
+    height:128px;
+}
+
+.wiki_main_content {
+    float:left;
+}
+
+.wiki_column_status {
+    width:50px;
+    float:left;
+}
