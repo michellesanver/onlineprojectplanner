@@ -9,7 +9,7 @@
 class Widgets
 {
     private $_CI = null; 
-    
+        
     private $_widgets = array();
 
     private $_widget_dir = "application/widgets";
