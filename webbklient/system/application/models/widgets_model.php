@@ -16,6 +16,42 @@ class Widgets_model extends Model  {
      // is in development
      private $_deleteQuery_InDevMode = false;
      
+     function GetWidgetId($name)
+     {
+     	$table2 = $this->_table2;
+     	$this->db->select("$table2.Widget_id");
+        $this->db->from($table2);
+        $this->db->where(array("$table2.Widget_name" => $name));
+        
+        $query = $this->db->get();
+        $row = $query->row();
+        
+        if(empty($row)) {
+        	return false;
+        } else {
+        	return $row->Widget_id;
+        }
+
+     }
+     
+     function GetProjectWidgetName($project_widget_id)
+     {
+     	$table2 = $this->_table2;
+     	$this->db->select("$table2.Widget_name");
+        $this->db->from($table2);
+        $this->db->where(array("$table2.Project_widgets_id" => $project_widget_id));
+        
+        $query = $this->db->get();
+        $row = $query->row();
+        
+        if(empty($row)) {
+        	return false;
+        } else {
+        	return $row->Widget_name;
+        }
+
+     }
+     
     /**
     * Get all widgets for a specific project
     * 
@@ -130,6 +166,49 @@ class Widgets_model extends Model  {
         $this->db->trans_commit();
         return true;
          
+    }
+    
+    function AddProjectWidget($projectid, $widgetid)
+    {
+    	
+		// start a transaction; all or nothing
+        $this->db->trans_begin();
+        
+        $this->db->insert($this->_table, array('Project_id' => $projectid, 'Widget_id' => $widgetid, 'Is_active' => 1));
+    
+        // nothing changed?
+        if ( $this->db->affected_rows() == 0 )
+        {
+            // roll back transaction and return false
+            $this->db->trans_rollback();
+            return false;
+        }
+
+        // else; all ok! commit transaction and return true
+        $this->db->trans_commit();
+        return true;
+
+    }
+    
+    function DeleteProjectWidget($project_widget_id)
+    {
+    	
+		// start a transaction; all or nothing
+        $this->db->trans_begin();
+         $res = $this->db->delete($this->_table, array('Project_widgets_id' => $project_widget_id) );
+        
+        // nothing changed?
+        if ($res == false )
+        {
+            // roll back transaction and return false
+            $this->db->trans_rollback();
+            return false;
+        }
+
+        // else; all ok! commit transaction and return true
+        $this->db->trans_commit();
+        return true;
+
     }
     
     /**

@@ -28,6 +28,11 @@
         <?php } ?>
 	</div>                               
 	<div id="rightbox">
-		
+		<?php foreach($allwidgets as $widget): ?>
+			<div class="widget_listening">
+				<a href="<?php echo site_url("project/update/{$projectID}/{$widget['id']}"); ?>"><img src="<?php echo($widget['icon']); ?>" /></a><br/>
+				<?php echo($widget['icon_title']); ?>
+			</div>
+		<?php endforeach; ?>
 	</div>
 </div>
