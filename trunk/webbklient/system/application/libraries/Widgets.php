@@ -385,14 +385,46 @@ class Widgets
         return $returnSTR; 
     }
     
-   function GetProjectDeleteIcons($projectID) 
-   {
-   		$array = array(
-   			"browser" => "icon.png",
-   			"anna" => "icon.png"
-   		);
-   		
- 		return $array;
+	function GetAllIconsAsArray()
+	{
+		
+		$widget_array = array();
+		$base_url = $this->_CI->config->item('base_url')."system/";
+		
+		foreach($this->_widgets as $widget)
+		{
+			$icon = ($widget->icon != "" ? $base_url.$this->_widget_dir.'/'.$widget->name.'/'.$widget->icon : $base_url."../".$this->_generic_icon_image);
+			$widget_array[$widget->name]['icon'] = $icon;
+			$widget_array[$widget->name]['icon_title'] = $widget->icon_title;	
+			$widget_array[$widget->name]['id'] = $this->_CI->Widgets_model->GetWidgetId($widget->name);
+		}
+		
+		return $widget_array;
+	}
+	
+    function GetProjectIconsAsArray($projectID) 
+    {
+    	// old data; clear! 
+        $this->_CI->session->unset_userdata( array('cache_project_widgets','cache_project_widgets_timeout') );
+   		$project_widgets = $this->_GetProjectWidgets($projectID);
+
+   		$widget_array = array();
+   		$base_url = $this->_CI->config->item('base_url')."system/";
+   		$allicons = $this->GetAllIconsAsArray();
+
+   		if(!empty($project_widgets)) 
+   		{
+   			foreach ($project_widgets as $widget)
+	        {
+            	$icon = $allicons[$widget->Widget_name]['icon'];
+            	$widget_array[$widget->Project_widgets_id]['name'] = $allicons[$widget->Widget_name]['icon_title'];
+            	$widget_array[$widget->Project_widgets_id]['icon'] = $icon;
+         
+            	
+	        }
+   		}
+		
+   		return $widget_array;
    }
    
     /**

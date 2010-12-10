@@ -16,6 +16,7 @@ class Project extends Controller {
         $this->load->model('project_member_model');
         $this->load->model('project_role_model');
         $this->load->model('invitation_model');
+        $this->load->model('widgets_model');
     }
 
     /**
@@ -121,8 +122,9 @@ class Project extends Controller {
     * catch the formvalues if the submit button is clicked.
     */
 
-    function Update($projectID)
+    function Update($projectID, $widgetid = 0, $deleteid = 0)
     {
+    
         // add a tracemessage to log
         log_message('debug','#### => Controller Project->Update');
         
@@ -136,6 +138,7 @@ class Project extends Controller {
             redirect('account/login');
             return;
         }
+        
         // is user member in the project?
         if($this->project_member->IsMember($projectID)==false)
         {
@@ -146,6 +149,7 @@ class Project extends Controller {
             redirect("project/view/$projectID"); 
             return;
         }
+        
         // is user admin?
         if ($this->project_member->HaveRoleInCurrentProject('admin')==false)
         {
@@ -160,7 +164,22 @@ class Project extends Controller {
         
         // ----------------------------------
         // continue
-
+		if($widgetid != 0) {
+    		//Add widget to current project
+    		$this->widgets_model->AddProjectWidget($projectID, $widgetid);	
+    		
+    		//Go back to update
+    		redirect("project/update/$projectID"); 
+            return; 
+    	} else if($deleteid != 0) {
+    		//Delete widget from current project
+    		$this->widgets_model->DeleteProjectWidget($deleteid);	
+    		
+    		//Go back to update
+    		redirect("project/update/$projectID"); 
+            return; 
+    	}
+    	
         $data = array();
 
         // Get saved data
@@ -248,13 +267,15 @@ class Project extends Controller {
 
             else {
 				$widget_data = array(
-					"delete_icons" => $this->widgets->GetProjectDeleteIcons($savedData['Project_id'])
+					"delete_icons" => $this->widgets->GetProjectIconsAsArray($savedData['Project_id']),
+					"projectID" => $savedData['Project_id']
 				);
 				
                 $data = array(
                     "projectID" => $savedData['Project_id'],
                     "title" => $savedData['Title'],
                     "description" => $savedData['Description'],
+                    "allwidgets" => $this->widgets->GetAllIconsAsArray(),
                     "custom_bar" => $this->load->view($this->theme->GetThemeFolder() . '/widgets/delete_bar', $widget_data, true)
                 );
             }

@@ -1,7 +1,7 @@
 /* @override 
-	http://localhost/~Geekie/OPP/webbklient/default/css/style.css
-	http://localhost/~Geekie/OPP/webbklient/css/default/style.css
+	http://localhost/~Geekie/OPP/trunk/webbklient/css/default/style.css
 */
+
 
 /* @group User */
 
@@ -414,6 +414,13 @@ div#message.error {
 }
 
 /* @group Widgets */
+.widget_listening {
+	float: left;
+	margin:0px 15px 0px 15px;
+	text-align: center;
+	font-weight: bold;
+	color: #424242;
+}
 
 div#widget_bar {
     padding: 5px;
@@ -427,6 +434,7 @@ div#widget_bar div.icon {
     float:left;
     font-size:10pt;
     font-weight:bold;
+    text-align:center;
 }
 
 
