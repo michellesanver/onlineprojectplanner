@@ -18,6 +18,12 @@ class Pages extends Controller
     
     function index()
     {
+        // is user logged in?
+        if ($this->user->IsLoggedIn() == false)
+        {
+            // nope, then die
+            die('NOT AUTHORIZED');
+        }
         
         // package some data for the view
         $widget_name = $this->_widget_name;
@@ -37,11 +43,73 @@ class Pages extends Controller
         
     }   
     
-    
+    //
+    // This function is called by ajax
+    //
     function get($Wiki_page_id)
     {
+        // is user logged in?
+        if ($this->user->IsLoggedIn() == false)
+        {
+            // nope, then die
+            die('NOT AUTHORIZED');
+        }
+             
+        // package and fetch data for view
+        $data = array(
+            'page' => $this->Wiki->GetPage($Wiki_page_id)
+        );
+            
+        // no page found?
+        if ( $data['page'] === false )
+        {
+            // string will be matched in javascript
+            echo "PAGE NOT FOUND";
+        }
         
-        echo "TEST: get/$Wiki_page_id";
+        // add current version in history
+        $currentVersion = new stdClass();
+        $currentVersion->Wiki_page_history_id = null; // do NOT view this in history
+        $currentVersion->Title = $data['page']->Title;
+        $currentVersion->Version = $data['page']->Version;
+        $currentVersion->Created = $data['page']->Created;
+        $currentVersion->Updated = $data['page']->Updated;
+        $currentVersion->Firstname = $data['page']->Firstname;
+        $currentVersion->Lastname = $data['page']->Lastname;
         
+        // get more data
+        $data['history'] = $this->Wiki->GetHistory($Wiki_page_id);
+        array_push($data['history'], $currentVersion);
+        
+        // show view
+        $this->load->view_widget('page', $data); 
     }
+    
+    //
+    // get a page from history - called by ajax
+    //
+    function get_history($Wiki_page_history_id)
+    {
+        // is user logged in?
+        if ($this->user->IsLoggedIn() == false)
+        {
+            // nope, then die
+            die('NOT AUTHORIZED');
+        }  
+       
+        // fetch page from history
+        $page = $this->Wiki->GetHistoryPage($Wiki_page_history_id);
+       
+        // no page found?
+        if ( $page === false )
+        {
+            // string will be matched in javascript
+            echo "PAGE NOT FOUND";
+        }
+        
+        // show view
+        $this->load->view_widget('page_history', array('page'=>$page));
+    }
+    
+    
 }

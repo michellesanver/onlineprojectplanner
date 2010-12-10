@@ -3,10 +3,11 @@
 .wiki_content {
     padding:15px;
     font-size:11pt;
+    width:95%; /* with margins */
 }
 
 .wiki_left_bar {
-    width:125px;
+    width:20%;
     float:left;
     border-right:2px solid #e5e5e5;
 }
@@ -30,6 +31,8 @@ wiki_left_bar ul {
 .wiki_main_content {
     float:left;
     padding-left:10px;
+    width:75%; /* with margins */
+    margin-left:15px;
 }
 
 
@@ -38,4 +41,60 @@ wiki_left_bar ul {
     font-weight:bold;
     display:block;
     margin-bottom:10px;
+}
+
+.wiki_page_footer {
+    margin-top:30px;
+    padding-top:15px;
+    border-top:1px solid #e5e5e5;
+}
+
+.wiki_page_footer_left, .wiki_page_footer_right {
+    width:50%;
+    font-size: 9pt;
+    color: #797979;    
+} 
+
+.wiki_page_footer_left {
+    float:left;
+    text-align:left;
+}
+
+.wiki_page_footer_right {
+    float:right;
+    text-align:right;
+}
+
+.wiki_page_footer span.text {
+    color: #494949;
+}
+
+.wiki_admin_links {
+    float:right;
+    font-size:9pt;
+    color: #393939;
+}
+
+.wiki_admin_links a, .wiki_admin_links a_visited, .wiki_admin_links a:hover {
+    color: #393939;
+}
+
+.wiki_inner_page_edit, .wiki_inner_page_history {
+    display:none;
+}
+
+.wiki_history {
+    margin:0;
+    padding:0;
+}
+
+.wiki_history tr td {
+    padding-right:15px;        
+}
+
+.wiki_history tr.head td {
+    padding-right:15px;
+    border-bottom:1px solid #e5e5e5;
+    margin-bottom:15px;
+    font-weight:bold;
 }

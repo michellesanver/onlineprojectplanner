@@ -52,6 +52,43 @@ Class Wiki_lib
         return $this->_CI->Wiki_model->FetchAllUpdatedPages($this->_Current_Project_id);  
     }
     
+    
+    /**
+    * Fetch a page by id from db.
+    * Will return empty array if not found.
+    * 
+    * @param int $id
+    * @return mixed
+    */
+    function GetPage($id)
+    {
+        return $this->_CI->Wiki_model->FetchPage($id);     
+    }
+    
+    
+    /**
+    * Fetch history for a page by id
+    * Will return false if no history
+    * 
+    * @param int $id
+    * @return mixed  
+    */
+    function GetHistory($id)
+    {
+        return $this->_CI->Wiki_model->FetchHistory($id);    
+    }
+    
+    /**
+    * Fetch a page from history to display it
+    * 
+    * @param int $id
+    * @return mixed  
+    */
+    function GetHistoryPage($id)
+    {
+        return $this->_CI->Wiki_model->FetchHistoryPage($id);    
+    }
+    
 }
   
 ?>

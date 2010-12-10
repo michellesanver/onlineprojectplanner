@@ -72,8 +72,21 @@ wikiWidget = {
               type: 'GET',
               url: loadURL,
               success: function(data){
-                    // set new content
-                    $('.'+whichDiv).html(data);
+                    // set new content if no error
+                    if (data != "PAGE NOT FOUND" && data != "NOT AUTHORIZED")
+                    {
+                        $('.'+whichDiv).html(data);
+                    }
+                    else if (data == "PAGE NOT FOUND")
+                    {
+                        var errorHtml = '<h1>Error 404</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>The requested Wiki-page was not found.';
+                        $('.'+whichDiv).html(errorHtml);     
+                    }
+                    else if (data == "NOT AUTHORIZED")
+                    {
+                        var errorHtml = '<h1>Error 401</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>Authorization failed! You must be logged in.';
+                        $('.'+whichDiv).html(errorHtml);     
+                    }
               },
               error: function(xhr, statusSTR, errorSTR) {
                     // display an error
@@ -112,8 +125,21 @@ wikiWidget = {
           data: postdata,
           url: loadURL,
           success: function(data){
-                // set new content
-                wikiWidget.setContent(data);
+                    // set new content if no error
+                    if (data != "PAGE NOT FOUND" && data != "NOT AUTHORIZED")
+                    {
+                        $('.'+wikiWidget.contentDivClass).html(data);
+                    }
+                    else if (data == "PAGE NOT FOUND")
+                    {
+                        var errorHtml = '<h1>Error 404</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>The requested Wiki-page was not found.';
+                        $('.'+wikiWidget.contentDivClass).html(errorHtml);     
+                    }
+                    else if (data == "NOT AUTHORIZED")
+                    {
+                        var errorHtml = '<h1>Error 401</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>Authorization failed! You must be logged in.';
+                        $('.'+wikiWidget.contentDivClass).html(errorHtml);     
+                    }
           },
           error: function(xhr, statusSTR, errorSTR) {
                 // display an error

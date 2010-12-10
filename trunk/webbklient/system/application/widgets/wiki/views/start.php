@@ -1,6 +1,4 @@
 
-<div class="wiki_wrapper">
-
     <div class="wiki_left_bar">
         <div class="wiki_logo"></div>
         <strong>Pages:</strong>
@@ -11,6 +9,7 @@
                 <?php foreach($wiki_menu as $row): ?>
                     <li><a href="javascript:void(0);" onclick="wikiWidget.load('<?php echo '/pages/get/'.$row->Wiki_page_id; ?>', true);"><?php echo $row->Title; ?></a></li>
                 <?php endforeach; ?>
+                <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/get/99', true);">errortest</a></li>
                 </ul>
                 
         <?php else: ?>
@@ -59,4 +58,3 @@
         
     </div>
 
-</div> 
