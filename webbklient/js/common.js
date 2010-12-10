@@ -161,9 +161,10 @@ function show_ajax_loader(divID, divClass)
          container = $('#'+divID);
      }
      
-       
+     // show white or black version?  
      if ( container.html() == "" )
      {
+         // no content; show white
          var loadingHTML = "<div class='frame_loading'>Loading...</div>"; 
          container.html(loadingHTML);
          var loading = container.children(".frame_loading");
@@ -171,12 +172,24 @@ function show_ajax_loader(divID, divClass)
      }
      else
      {
+        // has content; show black 
+         
+        // find top-most div of window
+        var parentContainer = container;
+        while (parentContainer.hasClass('window_panel')==false)
+        {
+            parentContainer = parentContainer.parent();    
+        } 
+        
+        // prepare html 
         var loadingHTML = "<div class='frame_loading-black'>Loading...</div>"; 
+        
+        // prepare options for overlay
         var overlayOptions = {  
                                 'z-index': 2000,
                                 'background-color': '#333',
-                                'height':container.parent().parent().css('height'),
-                                'width':container.parent().parent().css('width'),
+                                'height':parentContainer.css('height'),
+                                'width':parentContainer.css('width'),
                                 'opacity':'0.5',
                                 '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"',
                                 'filter':'alpha(opacity=50)',
@@ -185,8 +198,8 @@ function show_ajax_loader(divID, divClass)
                                 'left': 0
                             }; 
          
+        // append overlay to ID or Class     
         var overlay = "";
-            
         if (divClass != undefined || divClass != "" || divClass != null)
         {
             overlay = "<div class=\""+divClass+"_Overlay\"></div>";
@@ -200,6 +213,7 @@ function show_ajax_loader(divID, divClass)
             $('#'+divID+'_Overlay').css(overlayOptions);
         }
         
+        // append loading html and set position
         container.append(loadingHTML);
         var loading = container.children(".frame_loading-black");
         loading.css({"marginLeft": '-' + (loading.outerWidth() / 2) -20 + 'px', 'z-index': 2001});  
@@ -209,15 +223,19 @@ function show_ajax_loader(divID, divClass)
 // display an error (jquery ui)
 function show_ajax_error(divID, divClass, loadURL, errorIcon)
 {
+    // prepare message
     var errorMessage = "<p class=\"ajaxTemplateWidget_Error\">";
     
+    // with icon?
     if (errorIcon != undefined || errorIcon != "" || errorIcon != null)
     {
         errorMessage += "<img src=\""+errorIcon+"\" width=\"35\" height=\"35\" />";
     }
     
+    // append message
     errorMessage += "Error: Unable to load the page at<br/><br/><small>"+loadURL+"</small></p>";
 
+    // show in div with ID or Class
     if (divClass != undefined || divClass != "" || divClass != null)
     {
         $('.'+divClass).html(errorMessage);
