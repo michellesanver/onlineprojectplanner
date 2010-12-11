@@ -5,6 +5,7 @@
 ==Övrigt==
  * Alla felmeddelanden loggade och/eller mailade.
  * Motor för placering av widgets
+ * Debug-funktion för widgets (javascript)
  * Webbklient
  * Mobilklient
 
