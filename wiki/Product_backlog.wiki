@@ -1,6 +1,14 @@
 #labels Backlog
 = Product backlog = 
 - Antal timmar till projekt: 2400 h
+
+==Övrigt==
+ * Alla felmeddelanden loggade och/eller mailade.
+ * Motor för placering av widgets
+ * Webbklient
+ * Mobilklient
+
+
 ==Användarhantering==
  * Registrering
  * Login och logout
@@ -8,9 +16,6 @@
  * Återställa lösenord
  * Ta bort användare
 
-
- * Alla felmeddelanden loggade och/eller mailade.
- * Motor för placering av widgets
 
 ==Projekthantering==
  * Skapa projekt
@@ -26,30 +31,27 @@
    * Medlem
 
 
-
 ==Widgets==
  * Widgethantering
   * Minimera / Maximera
   * Spara positionering på desktop
   * Flytta / Ändra storlek
   * Lägga till / ta bort
-  
- * Wiki
- * Kalender
- * Chatt
- * Videochatt
- * Blogg / log
- * Forum / Diskussion
- * Dokumentdelning i mappar
- * Gemensam livekodning
- * Gemensam livedokumentation
- * SVN Hantering? (En projektgrupp kan starta egen SVN)
- * Dropbox; filer för projektet.. drag'n'drop via html5 eller javascript?
- * Webbklient
- * Mobilklient
- * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.
- * Filhanterare där det går att hantera uppladdade filer.
- * Projekthantering (skapa nya etc)
+ 
+ * Widgets 
+  * Wiki
+  * Kalender
+  * Chatt
+  * Videochatt
+  * Blogg / log
+  * Forum / Diskussion
+  * Dokumentdelning i mappar
+  * Gemensam livekodning
+  * Gemensam livedokumentation
+  * SVN Hantering? (En projektgrupp kan starta egen SVN)
+  * Dropbox; filer för projektet.. drag'n'drop via html5 eller javascript?
+  * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.
+  * Filhanterare där det går att hantera uppladdade filer.
 
 == Vidareutveckling Widgets==
  * Wiki 1.1
