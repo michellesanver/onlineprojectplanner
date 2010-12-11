@@ -547,9 +547,9 @@ class Project extends Controller {
 
         $projectMembers = $this->project_member_model->getByProjectId($projectID);
 
-        // Get project roles
+        // Get project roles allowed for invitation
 
-    	$projectRoles = $this->project_role_model->getAll();
+    	$projectRoles = $this->project_role_model->getAllAllowedForInvitation();
 
         // Rules for the inputfields
 
