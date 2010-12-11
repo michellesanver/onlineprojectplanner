@@ -76,9 +76,14 @@ class Widgets_model extends Model  {
          
          // any result?
          if ($query && $query->num_rows() > 0)
-            return $query->result();
+         {
+            $result = $query->result();
+            return $result;
+         }
          else
+         {
             return false;
+         }
      }
     
     /**
@@ -92,9 +97,14 @@ class Widgets_model extends Model  {
          
          // any result?
          if ($query && $query->num_rows() > 0)
-            return $query->result();
+         {
+            $result = $query->result();
+            return $result;
+         }
          else
-            return false; 
+         {
+            return false;
+         }
     }
     
     /**
@@ -170,43 +180,43 @@ class Widgets_model extends Model  {
     
     function AddProjectWidget($projectid, $widgetid)
     {
-    	
-		// start a transaction; all or nothing
-        $this->db->trans_begin();
+        // start transaction (function will FAIL if transaction is not used)  
+        $this->db->trans_begin();  
         
+        // insert row
         $this->db->insert($this->_table, array('Project_id' => $projectid, 'Widget_id' => $widgetid, 'Is_active' => 1));
-    
+     
         // nothing changed?
         if ( $this->db->affected_rows() == 0 )
-        {
-            // roll back transaction and return false
+        {   
+            // rollbak db and return false 
             $this->db->trans_rollback();
             return false;
         }
-
+        
         // else; all ok! commit transaction and return true
-        $this->db->trans_commit();
+        $this->db->trans_commit(); 
         return true;
-
     }
     
     function DeleteProjectWidget($project_widget_id)
     {
-    	
-		// start a transaction; all or nothing
-        $this->db->trans_begin();
-         $res = $this->db->delete($this->_table, array('Project_widgets_id' => $project_widget_id) );
+        // start transaction (function will FAIL if transaction is not used)
+        $this->db->trans_begin();  
+        
+        // delete in db
+        $res = $this->db->delete($this->_table, array('Project_widgets_id' => $project_widget_id) );
         
         // nothing changed?
         if ($res == false )
-        {
-            // roll back transaction and return false
+        {   
+            // rollbak db and return false
             $this->db->trans_rollback();
             return false;
         }
-
+        
         // else; all ok! commit transaction and return true
-        $this->db->trans_commit();
+        $this->db->trans_commit(); 
         return true;
 
     }
