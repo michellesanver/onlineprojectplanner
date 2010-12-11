@@ -175,7 +175,7 @@ class Project_Member
             }
         }
 
-        // If no match, set up role structure
+        // If no match, set up role structure to see if users role is higher or lower in hierarchy
 
         // Fetch all roles
 
@@ -184,6 +184,8 @@ class Project_Member
         $roleStructure = array();
 
         $currentOrder = NULL;
+
+        // Set up role structure
 
         while(count($roleStructure) < count($appRoles)) {
 
@@ -198,6 +200,8 @@ class Project_Member
                 }
                 else if($appRole['Project_role_id_u'] == $currentOrder)
                 {
+                    $currentOrder = $appRole['Project_role_id'];
+
                     array_push($roleStructure, $appRole['Role']);
                 }
 
@@ -206,13 +210,15 @@ class Project_Member
 
         $roleLevel = NULL;
 
+        // If users role in role structure is called before permitted role level, return true
+
         foreach($roleStructure as $roleItem) {
 
-            if($roleItem == $role)
+            if($roleItem == $role && $roleLevel == NULL)
             {
-                $roleLevel = $role;
+                $roleLevel = $roleItem;
             }
-            else if($roleItem == $roleInProject && $roleLevel != NULL)
+            else if($roleItem == $roleInProject && $roleLevel == NULL)
             {
                 return true;
             }
