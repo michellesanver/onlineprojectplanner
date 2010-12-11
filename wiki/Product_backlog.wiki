@@ -33,19 +33,18 @@
   * Spara positionering på desktop
   * Flytta / Ändra storlek
   * Lägga till / ta bort
-  * Wiki
-  * Kalender
-  * Chatt
-  * Videochatt
-  * Blogg / log
-  * Forum / Diskussion
-  * Dokumentdelning i mappar
-  * Gemensam livekodning
-  * Gemensam livedokumentation
-  * SVN Hantering? (En projektgrupp kan starta egen SVN)
-  * Dropbox; filer för projektet.. drag'n'drop via html5 eller javascript?
-
-
+  
+ * Wiki
+ * Kalender
+ * Chatt
+ * Videochatt
+ * Blogg / log
+ * Forum / Diskussion
+ * Dokumentdelning i mappar
+ * Gemensam livekodning
+ * Gemensam livedokumentation
+ * SVN Hantering? (En projektgrupp kan starta egen SVN)
+ * Dropbox; filer för projektet.. drag'n'drop via html5 eller javascript?
  * Webbklient
  * Mobilklient
  * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.
