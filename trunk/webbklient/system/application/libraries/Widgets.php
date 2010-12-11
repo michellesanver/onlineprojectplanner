@@ -404,9 +404,8 @@ class Widgets
 	
     function GetProjectIconsAsArray($projectID) 
     {
-    	// old data; clear! 
-        $this->_CI->session->unset_userdata( array('cache_project_widgets','cache_project_widgets_timeout') );
-   		$project_widgets = $this->_GetProjectWidgets($projectID);
+    	
+   		$project_widgets = $this->_GetProjectWidgets($projectID, true); // get new data with forced parameter
 
    		$widget_array = array();
    		$base_url = $this->_CI->config->item('base_url')."system/";
@@ -423,7 +422,7 @@ class Widgets
             	
 	        }
    		}
-		
+        
    		return $widget_array;
    }
    
@@ -484,17 +483,23 @@ class Widgets
         return $returnSTR; 
     }
    
+   private function _ClearWidgetCache()
+   {
+        $this->_CI->session->unset_userdata( array('cache_project_widgets','cache_project_widgets_timeout') );     
+   }
+   
    /**
    * load all widgets from database for a project
    * 
    * @param int $projectID
+   * @param bool $forecedReload (optional, default false)
    * @return mixed
    */
-   private function _GetProjectWidgets($projectID)
+   private function _GetProjectWidgets($projectID, $forecedReload=false)
    {
        // any cached data?
-       $cached_project_widgets = $this->_CI->session->userdata('cache_project_widgets');
-       $cache_project_widgets_timeout = $this->_CI->session->userdata('cache_project_widgets_timeout');
+       $cached_project_widgets = ($forecedReload == true ? false : $this->_CI->session->userdata('cache_project_widgets') );
+       $cache_project_widgets_timeout = ($forecedReload == true ? false : $this->_CI->session->userdata('cache_project_widgets_timeout') );
        
        // check timeout if found
        if ( $cached_project_widgets != false && $cache_project_widgets_timeout != false)
@@ -518,7 +523,7 @@ class Widgets
                 //log_message('debug','Widgets->_GetProjectWidgets() will clear cashed data');
                 
                 // old data; clear! 
-                $this->_CI->session->unset_userdata( array('cache_project_widgets','cache_project_widgets_timeout') );
+                $this->_ClearWidgetCache();
             }
        }
        
