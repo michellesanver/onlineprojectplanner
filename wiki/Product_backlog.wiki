@@ -41,7 +41,7 @@
  
  * Widgets 
   * Wiki
-  * Kalender
+  * Kalender med mötesbokning (påminnelse via epost? cron?)
   * Chatt
   * Videochatt
   * Blogg / log
