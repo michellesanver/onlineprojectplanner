@@ -1,37 +1,5 @@
 
-<script type="text/javascript">
-    function wiki_show_history() {
-        $('.wiki_inner_page_edit').hide(); 
-        $('.wiki_inner_page_history').show();
-        $('.wiki_inner_page').hide()
-    }
-
-    function wiki_edit_page() {
-        $('.wiki_inner_page_history').hide();
-        $('.wiki_inner_page_edit').show();
-        $('.wiki_inner_page').hide();
-    }
-    
-    function wiki_abort_edit() {
-        $('.wiki_inner_page_edit').hide();    
-        $('.wiki_inner_page').show();
-    }
-    
-    function wiki_close_history() {
-        $('.wiki_inner_page_history').hide();     
-        $('.wiki_inner_page').show();
-    }
-    
-    function wiki_show_history_page(id) {
-        wikiWidget.load('/pages/get_history/'+id, true);
-    }
-    
-    function wiki_save_page() {
-        
-        
-    }
-</script>
-
+ 
  <div class="wiki_inner_page">
      <h1>
         <?php echo $page->Title; ?>
@@ -44,6 +12,18 @@
 
     <?php echo $page->Text; ?>
 
+    <p><br /><br /><small>Tags:
+    <?php if (empty($page->Tags) ): ?>
+        &nbsp;-
+    <? else: ?>
+        <? $len = count($page->Tags);
+            for($n=0; $n<$len; $n++): ?>
+                <?php echo trim(ucfirst($page->Tags[$n]->Tag)); ?>
+                <?php if ($n+1<$len): ?>,&nbsp;<?php endif; ?>
+            <?php endfor; ?>
+    <?php endif; ?>
+   </small></p>
+    
     <div class="wiki_page_footer">
             <span class="wiki_page_footer_left">
                 Page title: <span class="text"><?php echo $page->Title; ?></span><br/>
@@ -75,20 +55,35 @@
     
         <table cellpadding="3" cellspacing="3">
             <tr>
-                <td>Title:</td>
+                <td valign="top">Title:</td>
                 <td><input type="text" name="wiki_edit_title" id="wiki_edit_title" value="<?php echo $page->Title; ?>" /></td>
             </tr>
             <tr>
                 <td valign="top">Text:</td>
-                <td><textarea rows="10" cols="55" id="wiki_edit_text" name="wiki_edit_text"><?php echo $page->Text; ?></textarea></td>
+                <td><textarea rows="10" cols="60" id="wiki_edit_text" name="wiki_edit_text"><?php echo $page->Text; ?></textarea></td>
             </tr>
             <tr>
-                <td>Tags:</td>
-                <td><input type="text" name="wiki_edit_tags" id="wiki_edit_tags" value="TODO..." /></td>
+                <td valign="top">Tags:</td>
+                <td>
+                    <input type="text" name="wiki_edit_tags" id="wiki_edit_tags" value="<?php echo $page->Tags_string; ?>" />
+                    <br /><small>(A comma-separated list)</small> 
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">Parent:</td>
+                <td><?php $current_parent = (empty($page->Parent_wiki_page_id)==false ? $page->Parent_wiki_page_id : ''); ?>
+                    <select name="" id="">
+                        <option value="">None</option>
+                        <?php foreach($select_parents as $row): ?>
+                            <option value="<?php echo $row->Wiki_page_id; ?>" <?php if ($current_parent != "" && (int)$current_parent==(int)$row->Wiki_page_id) { echo 'selected="selected"';  } ?> ><?php echo $row->Title; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <br /><small>(select page if the new page should have a parent)</small> 
+                </td>
             </tr>
             <tr>
                 <td></td>
-                <td><input type="button" onclick="wiki_save_page();" value="Save" /> <input type="button" onclick="wiki_abort_edit();" value="Cancel" /></td>
+                <td><br/><input type="button" onclick="wiki_save_page();" value="Save" /> <input type="button" onclick="wiki_abort_edit();" value="Cancel" /></td>
             </tr>
         </table>
     </form>
@@ -132,3 +127,42 @@
     <p><a href="javascript:void(0);" onclick="wiki_close_history();"><< Back to page</a></p>
     
 </div>
+
+
+<script type="text/javascript">
+
+     $('#wiki_edit_text').css({'width':'425px', 'height':'200px'});
+     $('#wiki_edit_text').resizable(); 
+     
+
+    function wiki_show_history() {
+        $('.wiki_inner_page_edit').hide(); 
+        $('.wiki_inner_page_history').show();
+        $('.wiki_inner_page').hide()
+    }
+
+    function wiki_edit_page() {
+        $('.wiki_inner_page_history').hide();
+        $('.wiki_inner_page_edit').show();
+        $('.wiki_inner_page').hide();
+    }
+    
+    function wiki_abort_edit() {
+        $('.wiki_inner_page_edit').hide();    
+        $('.wiki_inner_page').show();
+    }
+    
+    function wiki_close_history() {
+        $('.wiki_inner_page_history').hide();     
+        $('.wiki_inner_page').show();
+    }
+    
+    function wiki_show_history_page(id) {
+        wikiWidget.load('/pages/get_history/'+id, true);
+    }
+    
+    function wiki_save_page() {
+        
+        
+    }
+</script>

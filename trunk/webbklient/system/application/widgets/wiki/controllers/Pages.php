@@ -34,8 +34,11 @@ class Pages extends Controller
             'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
             
             'wiki_menu' => $this->Wiki->GetMenuTitles(),
+            
             'new_pages' => $this->Wiki->GetNewPages(),
-            'last_updated_pages' => $this->Wiki->GetLastUpdatedPages()
+            'last_updated_pages' => $this->Wiki->GetLastUpdatedPages(),
+            
+            'changelog' => $this->Wiki->GetChangelog()
         );
        
         // load a view for the widget
@@ -82,6 +85,8 @@ class Pages extends Controller
         $data['history'] = $this->Wiki->GetHistory($Wiki_page_id);
         array_push($data['history'], $currentVersion);
         
+        $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren();
+        
         // show view
         $this->load->view_widget('page', $data); 
     }
@@ -113,5 +118,24 @@ class Pages extends Controller
         $this->load->view_widget('page_history', array('page'=>$page));
     }
     
+    
+    function create()
+    {
+        // is user logged in?
+        if ($this->user->IsLoggedIn() == false)
+        {
+            // nope, then die
+            die('NOT AUTHORIZED');
+        }   
+    
+    
+        // fetch all pages with no children for select
+        $data = array(
+            'select_parents' => $this->Wiki->GetTitlesWithoutChildren()
+        );
+    
+        // show view
+        $this->load->view_widget('create', $data);
+    }
     
 }

@@ -83,7 +83,25 @@
         <p style="clear:both;"><hr size="1" /></p>
         <br/>
         <h2>News</h2>
-        <p>Wiget changelog....</p>
+        <?php if (empty($changelog)==false ): ?>
+        
+            <?php foreach ($changelog->news as $row): ?>
+                <p>
+                    <strong><?php echo $row->title; ?></strong> <small>(<?php echo $row->date.' by '.$row->author; ?>)</small><br />
+                    <?php echo $row->text; ?>
+                </p>
+            <?php endforeach; ?>
+            
+        <?php else: ?> 
+        
+            <em>No entries found</em>     
+            
+        <?php endif; ?>
+        
+        <br/>
+        <br/>
         
     </div>
 
+
+    
