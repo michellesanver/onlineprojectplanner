@@ -70,8 +70,15 @@ CREATE TABLE IF NOT EXISTS `User_ResetPassword` (
 CREATE  TABLE IF NOT EXISTS `Project_Role` (
   `Project_role_id` INT NOT NULL AUTO_INCREMENT ,
   `Role` VARCHAR(25) NOT NULL ,
+  `Project_role_id_u` INT NOT NULL ,
   PRIMARY KEY (`Project_role_id`) ,
-  UNIQUE INDEX `Unique_Project_Role` (`Role` ASC)
+  UNIQUE INDEX `Unique_Project_Role` (`Role` ASC) ,
+  INDEX `FK_ProjectInvitation_ProjectRole` (`Project_role_id` ASC) ,
+  CONSTRAINT `FK_ProjectRole_ProjectRole`
+    FOREIGN KEY (`Project_role_id_u` )
+    REFERENCES `Project_Role ` (`Project_role_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 
