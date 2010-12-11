@@ -147,6 +147,43 @@ Class Wiki_model extends Model
             return false;
          }
     }
+    
+    function FetchPageTags($Wiki_page_id)
+    {
+        // get tags for page
+        $query = $this->db->get_where($this->_table_tags, array('Wiki_page_id'=>$Wiki_page_id));
+        
+         // any result?
+         if ($query && $query->num_rows() > 0)
+         {
+            return $query->result();
+         }
+         else
+         {
+             // else return empty array
+            return array();
+         }
+    }
+    
+    function FetchTitlesWithoutChildren()
+    {
+        // manual query since "is null" is not supported by active record
+        $table = $this->_table_pages;
+        $sql = "SELECT `Wiki_page_id`, `Title` FROM (`$table`) WHERE `Parent_wiki_page_id` IS NULL ORDER BY `Title`;";
+        
+        $query = $this->db->query($sql);
+        
+         // any result?
+         if ($query && $query->num_rows() > 0)
+         {
+            return $query->result();
+         }
+         else
+         {
+             // else return empty array
+            return array();
+         }
+    }
 }  
   
 ?>

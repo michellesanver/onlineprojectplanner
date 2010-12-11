@@ -7,9 +7,10 @@
 }
 
 .wiki_left_bar {
-    width:20%;
+    width:150px;
     float:left;
     border-right:2px solid #e5e5e5;
+    overflow:hidden;
 }
 
 .wiki_logo {
@@ -21,13 +22,14 @@
 .wiki_left_bar ul {
     padding:0;
     margin:0;    
+    padding-right:15px;
 }
 
 .wiki_main_content {
     float:left;
     padding-left:10px;
-    width:75%; /* with margins */
     margin-left:15px;
+    width: 67%; /* with margins */
 }
 
 
@@ -39,7 +41,7 @@
 }
 
 .wiki_page_footer {
-    margin-top:30px;
+    margin-top:15px;
     padding-top:15px;
     border-top:1px solid #e5e5e5;
 }

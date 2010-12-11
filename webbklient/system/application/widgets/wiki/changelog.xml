@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<root>
+	<news>
+		<author>Fredrik Johansson</author>
+		<date>2010-12-11</date>
+		<title>First entry</title>
+		<text>Some important newstext here for the first entry :P</text>
+	</news>
+</root>
