@@ -25,7 +25,56 @@ Class Wiki_lib
     */
     function GetMenuTitles()
     {
-        return $this->_CI->Wiki_model->FetchAllMenuTitles($this->_Current_Project_id); 
+        // get results from db
+        $result = $this->_CI->Wiki_model->FetchAllMenuTitles($this->_Current_Project_id); 
+        
+        // sort children
+        $unset_wiki_page_id = array();
+        foreach ($result as $row)
+        {
+            
+            // any parent set?
+            if ( empty($row->Parent_wiki_page_id) == false )
+            {
+                // find correct parent
+                foreach($result as $row2)
+                {
+                
+                    // does id match?
+                    if ( empty($row2)==false && (int)$row->Parent_wiki_page_id==(int)$row2->Wiki_page_id)
+                    {
+                        // add children array if not found
+                        if ( isset($row2->children)==false)
+                        {
+                            $row2->children = array();    
+                        }
+                        
+                        // save to parent
+                        array_push($row2->children, $row);        
+                        
+                        // save id to be excluded
+                        array_push($unset_wiki_page_id, $row->Wiki_page_id);
+                    }
+                    
+                }
+            }
+         
+        }
+      
+        $final_result = array();
+      
+        // create a new array and exclude id's that have been moved to a parent
+        $len = count($result);
+        foreach ($result as $row)     
+        {
+              if ( in_array($row->Wiki_page_id, $unset_wiki_page_id) == false )
+              {
+                array_push($final_result, $row);    
+              }
+        }  
+           
+        // return the sorted result
+        return $final_result;
     }
     
     /**

@@ -65,6 +65,7 @@ class Pages extends Controller
         {
             // string will be matched in javascript
             echo "PAGE NOT FOUND";
+            return;
         }
         
         // add current version in history
@@ -105,6 +106,7 @@ class Pages extends Controller
         {
             // string will be matched in javascript
             echo "PAGE NOT FOUND";
+            return;
         }
         
         // show view
