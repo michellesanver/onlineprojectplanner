@@ -54,7 +54,6 @@
 
 == Vidareutveckling Widgets==
  * Wiki 1.1
-  * wysywig och/eller wiki-syntax
+  * wysywig (html-syntax)
   * bilduppladdning (wysiwyg)
-  * taggar
   * sökning via taggar eller full-text
