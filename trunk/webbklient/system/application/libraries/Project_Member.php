@@ -130,7 +130,8 @@ class Project_Member
     * have a certain role in selected project. Searches the
     * database for a match and returns the answer as an bool.
     * The parameter $role is case-insensitive but must have
-    * the correct spelling.
+    * the correct spelling. In order to check permissions only
+    * the lowest permitted role need to be checked
     * 
     * @param string $role
     * @return bool
@@ -138,7 +139,8 @@ class Project_Member
 
     function HaveRoleInCurrentProject($role)
     {
-        // make name of role case-insensitive
+        // Make role name case-insensitiv
+
         $role = ucfirst(strtolower($role));
         
         // fetch userID
@@ -153,6 +155,8 @@ class Project_Member
 
         $currentProjectID = $this->_CI->session->userdata('current_project_id');
 
+        $roleInProject = NULL;
+
         if($memberships != NULL)
         {
             foreach($memberships as $membership) {
@@ -163,7 +167,56 @@ class Project_Member
 
                     return true;
                 }
+                else if($membership['User_id'] == $userID && $membership['Project_id'] == $currentProjectID)
+                {
+                    $roleInProject = $membership['Role'];
+                }
+
             }
+        }
+
+        // If no match, set up role structure
+
+        // Fetch all roles
+
+        $appRoles = $this->_CI->Project_role_model->getAll();
+
+        $roleStructure = array();
+
+        $currentOrder = NULL;
+
+        while(count($roleStructure) < count($appRoles)) {
+
+            foreach($appRoles as $appRole) {
+
+                if($currentOrder == NULL && $appRole['Project_role_id'] == $appRole['Project_role_id_u']) {
+
+                    $currentOrder = $appRole['Project_role_id'];
+
+                    array_push($roleStructure, $appRole['Role']);
+
+                }
+                else if($appRole['Project_role_id_u'] == $currentOrder)
+                {
+                    array_push($roleStructure, $appRole['Role']);
+                }
+
+            }
+        }
+
+        $roleLevel = NULL;
+
+        foreach($roleStructure as $roleItem) {
+
+            if($roleItem == $role)
+            {
+                $roleLevel = $role;
+            }
+            else if($roleItem == $roleInProject && $roleLevel != NULL)
+            {
+                return true;
+            }
+
         }
 
         return false;

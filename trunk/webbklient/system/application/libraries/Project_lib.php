@@ -108,7 +108,7 @@ class Project_lib
         
         $userID = $this->_CI->session->userdata('UserID');
 
-        $role = $this->_CI->Project_role_model->getByRole(ucfirst(strtolower('Admin')));
+        $role = $this->_CI->Project_role_model->getByRole(ucfirst(strtolower('General')));
 
         $result = $this->_CI->Project_model->insert($insert, $userID, $role);
 
