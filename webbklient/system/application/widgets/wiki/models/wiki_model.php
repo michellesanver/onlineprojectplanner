@@ -10,15 +10,16 @@ Class Wiki_model extends Model
     function FetchAllMenuTitles($projectID)
     {
         // fetch titles for menu
-        $this->db->select('Wiki_page_id, Title');
+        $this->db->select('Wiki_page_id, Parent_wiki_page_id, Title');
         $this->db->order_by('Order ASC');
-        $this->db->where('Project_id', $projectID);
-        $query = $this->db->get($this->_table_pages);    
-        
+        $this->db->where(array('Project_id'=> $projectID));
+        $query = $this->db->get($this->_table_pages);  
+  
          // any result?
          if ($query && $query->num_rows() > 0)
          {
-            return $query->result();
+             // return results
+            return $query->result();            
          }
          else
          {

@@ -24,5 +24,7 @@
 	<load>
         <file type="javascript">js/wiki.js</file>
         <file type="css">css/wiki.css</file>
+        <file type="javascript">js/jquery.treeview.js</file>
+        <file type="css">css/jquery.treeview.css</file>
     </load>
 </settings>

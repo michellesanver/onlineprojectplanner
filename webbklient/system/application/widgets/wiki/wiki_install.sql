@@ -1,6 +1,7 @@
 
  CREATE TABLE IF NOT EXISTS `WI_Wiki_Pages` (
     `Wiki_page_id` INT NOT NULL AUTO_INCREMENT,
+    `Parent_wiki_page_id` INT NULL,
     `Project_id` INT NOT NULL ,
     `User_id` INT NOT NULL,
     `Created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), 
@@ -26,6 +27,7 @@
  CREATE TABLE IF NOT EXISTS `WI_Wiki_Pages_History` (
     `Wiki_page_history_id` INT NOT NULL AUTO_INCREMENT,
     `Wiki_page_id` INT NOT NULL,
+    `Parent_wiki_page_id` INT NULL, 
     `Project_id` INT NOT NULL ,
     `User_id` INT NOT NULL,
     `Created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(), 
@@ -64,3 +66,4 @@
     ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
