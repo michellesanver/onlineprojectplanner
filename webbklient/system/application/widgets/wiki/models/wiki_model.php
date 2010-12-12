@@ -352,9 +352,9 @@ Class Wiki_model extends Model
     }
     
     function SearchByTag($tag)
-    {       log_message('debug','#### => searchbytag() 1 has $tag: '.$tag);
+    {       
         $tag = $this->db->escape("%$tag%");
-            log_message('debug','#### => searchbytag() 2 has $tag: '.$tag);
+            
         $table1 = $this->_table_tags;
         $table2 = $this->_table_pages;
         $sql = "SELECT $table2.Title, $table2.Wiki_page_id FROM $table1 JOIN $table2 ON $table1.Wiki_page_id = $table2.Wiki_page_id WHERE $table1.`Tag` LIKE $tag;";
@@ -371,6 +371,51 @@ Class Wiki_model extends Model
              // else return empty array
             return array();
          }  
+    }
+    
+    
+    function UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order)
+    {
+        $this->db->trans_begin();     
+        
+        // get current version
+        $page = $this->FetchPage($Wiki_page_id);
+        
+        // copy to history
+        $data = array(
+            'Wiki_page_id' => $page->Wiki_page_id,
+
+            'Wiki_page_id' => $page->Wiki_page_id,
+            'Wiki_page_id' => $page->Wiki_page_id,
+            'Wiki_page_id' => $page->Wiki_page_id,
+            'Wiki_page_id' => $page->Wiki_page_id,
+            'Wiki_page_id' => $page->Wiki_page_id,
+            'Wiki_page_id' => $page->Wiki_page_id,
+            'Wiki_page_id' => $page->Wiki_page_id
+        );
+        
+        // additional data that can be null?
+        if (empty($page->Parent_wiki_page_id)
+        {
+            $data['Parent_wiki_page_id'] = $page->Parent_wiki_page_id;    
+        }
+        
+        // insert new version
+
+        
+        
+        
+        // update tags?
+        if (empty($tags)==false)
+        {
+            
+            
+            
+        }
+        
+        
+        
+        
     }
 }  
   

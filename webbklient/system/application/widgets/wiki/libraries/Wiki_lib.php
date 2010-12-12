@@ -347,6 +347,23 @@ Class Wiki_lib
         return $this->_CI->Wiki_model->SearchByTag($tag);   
     }
     
+    /**
+    * Update a page, tags, move current version to history
+    * 
+    * @param int $Wiki_page_id
+    * @param string $title
+    * @param string $text
+    * @param string $tags
+    * @param string $parent
+    * @param string $order
+    * @return bool
+    */
+    function UpdatePage($Wiki_page_id, $title, $text, $tags, $parent, $order)
+    {
+        $tags = strtolower($tags);    
+        return $this->_CI->Wiki_model->UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order);
+    }
+    
 }
   
 ?>

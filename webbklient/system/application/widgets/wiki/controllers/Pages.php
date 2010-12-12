@@ -24,8 +24,9 @@ class Pages extends Controller
         // is user logged in?
         if ($this->user->IsLoggedIn() == false)
         {
-            // nope, then die
-            die('NOT AUTHORIZED');
+            // nope, display error just as with javascript and die
+            echo $this->_GetDisplayError('Error 401','NOT AUTHORIZED');
+            die();
         }
         
         // package some data for the view
@@ -74,8 +75,9 @@ class Pages extends Controller
          // is user logged in?
         if ($this->user->IsLoggedIn() == false)
         {
-            // nope, then die
-            die('NOT AUTHORIZED');
+            // nope, display error just as with javascript and die
+            echo $this->_GetDisplayError('Error 401','NOT AUTHORIZED');
+            die();
         }
         
         // package some data for the view
@@ -148,7 +150,7 @@ class Pages extends Controller
     }
     
     //
-    // This function is called by ajax
+    // get a new page (also edit and history)
     //
     function get($Wiki_page_id)
     {
@@ -158,18 +160,75 @@ class Pages extends Controller
             // nope, then die
             die('NOT AUTHORIZED');
         }
-             
-        // package and fetch data for view
-        $data = array(
-            'page' => $this->Wiki->GetPage($Wiki_page_id)
+          
+        // use CI validation
+        $this->load->library(array('validation'));
+    
+        // set validation rules
+        $rules = array(
+            "wiki_edit_title" => "max_length[100]|required|strip_tags|xss_clean",
+            "wiki_edit_text" => "required|xss_clean"
+        );   
+        $this->validation->set_rules($rules);  
+    
+        // set names for validation errors
+        $fields = array(
+            "wiki_edit_title" => "Title",
+            "wiki_edit_text" => "Text" 
         );
+        $this->validation->set_fields($fields); 
+        
+        // prepare array for view
+        $data = array();  
+        
+        // run validation
+       if ($this->validation->run())
+       {
+            // validation ok! update page!    
+
+            $form_title = $this->input->post('wiki_edit_title');
+            $form_text = $this->input->post('wiki_edit_text');
+            $form_parent = strip_tags( $this->input->post('wiki_edit_parent', true) ); // also do xss_clean
+            $form_order = strip_tags( $this->input->post('wiki_edit_order', true) ); // also do xss_clean
+            
+            // update tags or not?
+            $form_tags = "";
+            $tags_update = $this->input->post('wiki_edit_tags_update');
+            if ($tags_update == 'true' || $tags_update == true)
+            {
+                $form_tags = strip_tags( $this->input->post('wiki_edit_tags', true) ); // also do xss_clean    
+            }
+            
+            // save with library
+            if ( $this->Wiki->UpdatePage($Wiki_page_id, $form_title, $form_text, $form_tags, $form_parent, $form_order) != false )
+            {
+                // all ok!
+                $data['status'] = "ok";
+                $data['status_message'] = "Page has been saved";   
+            }
+            else
+            {
+                // no error was thrown
+                $data['status'] = "error";
+                $data['status_message'] = $this->Wiki->GetLastError();    
+                
+                // refill form data
+                $data['form_title'] = $this->input->post('wiki_create_title');
+                $data['form_text'] = $this->input->post('wiki_create_text');
+                $data['form_tags'] = $this->input->post('wiki_create_tags');
+                $data['form_parent'] = $this->input->post('wiki_page_parent');
+                $data['form_order'] = $this->input->post('wiki_create_order');
+            }
+       }
+                
+        // package and fetch data for view
+        $data['page'] = $this->Wiki->GetPage($Wiki_page_id);
             
         // no page found?
         if ( $data['page'] === false )
         {
             // string will be matched in javascript
-            echo "PAGE NOT FOUND";
-            return;
+            die("PAGE NOT FOUND");
         }
         
         // add current version in history
@@ -189,13 +248,48 @@ class Pages extends Controller
         $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren();
         $data['delete_token'] = $this->_GenerateDeleteCode($Wiki_page_id);
         
-        
+       // any errors set?
+       $errors = validation_errors();
+       if ( empty($errors) == false || empty($this->validation->error_string) == false )
+       {
+            $data['status'] = "error";
+            $data['status_message'] = 'Error(s): '.strip_tags($errors.$this->validation->error_string);
+            
+            // refill form data
+            $data['form_title'] = $this->input->post('wiki_edit_title');
+            $data['form_text'] = $this->input->post('wiki_edit_text');
+            $data['form_tags'] = $this->input->post('wiki_edit_tags');
+            $data['form_parent'] = $this->input->post('wiki_edit_parent');
+            $data['form_order'] = $this->input->post('wiki_edit_order');
+            
+            // set flag så the edit is displayed directly
+            $data['show_edit'] = true;
+       }
+       else
+       {  
+            // populate variables for editform (so the view will work with edit)
+            $data['form_title'] = $data['page']->Title;
+            $data['form_text'] = $data['page']->Text;
+            $data['form_order'] = $data['page']->Order; 
+            $data['form_tags'] = $data['page']->Tags_string; 
+            $data['form_parent'] = $data['page']->Parent_wiki_page_id;
+       }
+       
+       
         // show view
         $this->load->view_widget('page', $data); 
     }
     
     //
-    // get a page from history - called by ajax
+    // alias of get to get a cleaner url for edit page
+    //
+    function update($Wiki_page_id)
+    {
+        return $this->get($Wiki_page_id);
+    }
+    
+    //
+    // get a page from history
     //
     function get_history($Wiki_page_history_id)
     {
@@ -221,7 +315,9 @@ class Pages extends Controller
         $this->load->view_widget('page_history', array('page'=>$page));
     }
     
-    
+    //
+    // create a new page
+    //
     function create()
     {
         // is user logged in?
@@ -425,6 +521,25 @@ class Pages extends Controller
             // present results
             $this->load->view_widget('search_results', array('results'=>$results,'term'=>$term));
         }    
+    }
+    
+    /**
+    * Used for returning an error just as it is with
+    * javascript (for example if "not authorized" occurs
+    * in index where the whole layout is loaded)
+    * 
+    * @param string $title
+    * @param string $message
+    * @return string
+    */
+    private function _GetDisplayError($title, $message)
+    {
+        $base_url = $this->config->item('base_url');
+        $erroricon = $base_url.'images/backgrounds/erroricon.png';
+        
+        $returnData = "<h1>$title</h1><span style=\"float:left;margin:5px;margin-top:-10px;\"><img src=\"$erroricon\" /></span>$message";
+    
+        return $returnData;
     }
     
 }
