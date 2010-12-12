@@ -58,4 +58,3 @@
  * Wiki 1.1
   * wysywig (html-syntax)
   * bilduppladdning (wysiwyg)
-  * sökning via taggar eller full-text
