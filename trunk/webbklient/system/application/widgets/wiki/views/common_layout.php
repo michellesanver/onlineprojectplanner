@@ -20,7 +20,7 @@
                         <?php if (isset($row->children) && empty($row->children)==false): ?>
                             <ul>
                             <?php foreach($row->children as $row2): ?>
-                                <li><a href="javascript:void(0);" onclick="wikiWidget.load('<?php echo '/pages/get/'.$row2->Wiki_page_id; ?>');"><?php echo $row2->Title; ?></a></li>
+                                <li><a href="javascript:void(0);" onclick="wikiWidget.load('<?php echo '/pages/get/'.$row2->Wiki_page_id; ?>', true);"><?php echo $row2->Title; ?></a></li>
                             <?php endforeach; ?>  
                             </ul>
                         <?php endif; ?>

@@ -22,11 +22,11 @@
     <?php else: ?>
         <?php $len = count($page->Tags);
             for($n=0; $n<$len; $n++): ?>
-                <a href="javascript:void(0);" onclick="wikiWidget.search('', '<?php echo $page->Tags[$n]->Tag; ?>');"><?php echo ucfirst($page->Tags[$n]->Tag); ?></a>
+                <a href="javascript:void(0);" onclick="wiki_search_tag('<?php echo $page->Tags[$n]->Tag; ?>');"><?php echo ucfirst($page->Tags[$n]->Tag); ?></a>
                 <?php if ($n+1<$len): ?>,&nbsp;<?php endif; ?>
             <?php endfor; ?>
     <?php endif; ?>
-   </small></p>
+   </small></p>                                        
     
     <div class="wiki_page_footer">
             <span class="wiki_page_footer_left">
@@ -164,6 +164,11 @@
     function wiki_close_history() {
         $('.wiki_inner_page_history').hide();     
         $('.wiki_inner_page').show();
+    }
+   
+    function wiki_search_tag(tag) {
+        var resultDivClass = wikiWidget.pageContentDivClass;
+        wikiWidget.search('', tag, resultDivClass, true); 
     }
     
     function wiki_delete_page(){
