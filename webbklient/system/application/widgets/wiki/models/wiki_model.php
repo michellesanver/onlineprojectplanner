@@ -378,34 +378,58 @@ Class Wiki_model extends Model
     {
         $this->db->trans_begin();     
         
+        //---------------------------
         // get current version
         $page = $this->FetchPage($Wiki_page_id);
         
-        // copy to history
+        //---------------------------
+        // copy page to history
         $data = array(
             'Wiki_page_id' => $page->Wiki_page_id,
-
-            'Wiki_page_id' => $page->Wiki_page_id,
-            'Wiki_page_id' => $page->Wiki_page_id,
-            'Wiki_page_id' => $page->Wiki_page_id,
-            'Wiki_page_id' => $page->Wiki_page_id,
-            'Wiki_page_id' => $page->Wiki_page_id,
-            'Wiki_page_id' => $page->Wiki_page_id,
-            'Wiki_page_id' => $page->Wiki_page_id
+            'Project_id' => $page->Project_id,
+            'User_id' => $page->User_id,
+            'Created' => $page->Created,
+            'Title' => $page->Title,
+            'Text' => $page->Text,
+            'Order' => $page->Order,
+            'Version' => $page->Version
         );
         
         // additional data that can be null?
-        if (empty($page->Parent_wiki_page_id)
+        if (empty($page->Parent_wiki_page_id)==false)
         {
             $data['Parent_wiki_page_id'] = $page->Parent_wiki_page_id;    
         }
+        if (empty($page->Updated)==false)
+        {
+            $data['Updated'] = $page->Updated;    
+        }
         
+        $res = $this->db->insert($this->_table_pages, $data);
+        
+        // check result
+        if ($res == false)
+        {
+            // something went wrong
+            // rollback transaction and return false
+            $this->db->trans_rollback();
+            return false;  
+        }
+        
+        //---------------------------
+        // copy tags to history
+        
+        
+        
+        
+        //---------------------------
         // insert new version
 
         
         
         
-        // update tags?
+        //---------------------------
+        // update tags for new version?
         if (empty($tags)==false)
         {
             

@@ -361,7 +361,20 @@ Class Wiki_lib
     function UpdatePage($Wiki_page_id, $title, $text, $tags, $parent, $order)
     {
         $tags = strtolower($tags);    
-        return $this->_CI->Wiki_model->UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order);
+        $result = $this->_CI->Wiki_model->UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order);
+        
+        // what was the result?
+        if ( $result == false )
+        {
+            // set message
+            $this->_last_error = "Database error - unable to update page";
+            return false;
+        }
+        else
+        {
+            // all ok!
+            return true;
+        }
     }
     
 }
