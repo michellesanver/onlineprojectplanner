@@ -7,7 +7,19 @@
 
     <?php echo $page->Text; ?> 
 
-    <br/>
+    <p><br /><small>Tags:
+    <?php if (empty($page->Tags) ): ?>
+        &nbsp;-
+    <?php else: ?>
+        <?php $len = count($page->Tags);
+            for($n=0; $n<$len; $n++): ?>
+                <?php echo ucfirst($page->Tags[$n]->Tag); ?>
+                <?php if ($n+1<$len): ?>,&nbsp;<?php endif; ?>
+            <?php endfor; ?>
+    <?php endif; ?>
+   </small></p>
+    
+    
     <p><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/get/<?php echo $page->Wiki_page_id; ?>', true);"><< Back to current version</a></p> 
     
     <div class="wiki_page_footer">

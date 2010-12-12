@@ -2,10 +2,19 @@
 
 
 /* ---------------------------------------
+* Timezone
+* --------------------------------------- */
+
+$timezone = "Europe/Stockholm";
+@date_default_timezone_set($timezone);
+
+
+/* ---------------------------------------
 * Site title
 * --------------------------------------- */
 
 $config['webclient']['site_title'] = "Online Project Planner";
+
 
 /* ---------------------------------------
 * Password salt

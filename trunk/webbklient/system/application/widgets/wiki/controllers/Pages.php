@@ -242,8 +242,8 @@ class Pages extends Controller
         $currentVersion->Lastname = $data['page']->Lastname;
         
         // get more data
-        $data['history'] = $this->Wiki->GetHistory($Wiki_page_id);
-        array_push($data['history'], $currentVersion);
+        $data['history'] = array( $currentVersion );
+        $data['history'] = array_merge($data['history'], $this->Wiki->GetHistory($Wiki_page_id));
         
         $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren();
         $data['delete_token'] = $this->_GenerateDeleteCode($Wiki_page_id);

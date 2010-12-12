@@ -5,6 +5,7 @@ Class Wiki_model extends Model
     private $_table_pages = "WI_Wiki_Pages";
     private $_table_history = "WI_Wiki_Pages_History";
     private $_table_tags = "WI_Wiki_Tags";
+    private $_table_tags_history = "WI_Wiki_Tags_History";
     private $_table_users = "User"; 
 
     function FetchAllMenuTitles($projectID)
@@ -104,7 +105,7 @@ Class Wiki_model extends Model
         $this->db->from($table1);
         $this->db->join($table2, "$table1.User_id = $table2.User_id");
         $this->db->where(array('Wiki_page_id'=>$Wiki_page_id)); 
-        $this->db->order_by("$table1.Order DESC");
+        $this->db->order_by("$table1.Version DESC");
         $query = $this->db->get();
         
          // any result?
@@ -148,10 +149,22 @@ Class Wiki_model extends Model
          }
     }
     
+    function FetchPageTagsHistory($Wiki_page_history_id)
+    {
+        // use common function to fetch
+        return $this->_commonFetchTags($this->_table_tags_history, array('Wiki_page_history_id'=>$Wiki_page_history_id));
+    }
+    
     function FetchPageTags($Wiki_page_id)
     {
+        // use common function to fetch
+        return $this->_commonFetchTags($this->_table_tags, array('Wiki_page_id'=>$Wiki_page_id));
+    }
+    
+    private function _commonFetchTags($table, $where)
+    {
         // get tags for page
-        $query = $this->db->get_where($this->_table_tags, array('Wiki_page_id'=>$Wiki_page_id));
+        $query = $this->db->get_where($table, $where);
         
          // any result?
          if ($query && $query->num_rows() > 0)
@@ -162,7 +175,7 @@ Class Wiki_model extends Model
          {
              // else return empty array
             return array();
-         }
+         } 
     }
     
     function FetchTitlesWithoutChildren()
@@ -227,7 +240,7 @@ Class Wiki_model extends Model
             // package data
             $data = array(
                 'Wiki_page_id' => $new_wiki_page_id,
-                'Tag' => strtolower($tag)
+                'Tag' => $tag
             ); 
          
             // save current tag
@@ -374,38 +387,39 @@ Class Wiki_model extends Model
     }
     
     
-    function UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order)
+    function UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order, $author, $updated)
     {
         $this->db->trans_begin();     
         
         //---------------------------
         // get current version
-        $page = $this->FetchPage($Wiki_page_id);
+        $old_page = $this->FetchPage($Wiki_page_id);
+        $old_tags = $this->FetchPageTags($Wiki_page_id);
         
         //---------------------------
         // copy page to history
         $data = array(
-            'Wiki_page_id' => $page->Wiki_page_id,
-            'Project_id' => $page->Project_id,
-            'User_id' => $page->User_id,
-            'Created' => $page->Created,
-            'Title' => $page->Title,
-            'Text' => $page->Text,
-            'Order' => $page->Order,
-            'Version' => $page->Version
+            'Wiki_page_id' => $old_page->Wiki_page_id,
+            'Project_id' => $old_page->Project_id,
+            'User_id' => $old_page->User_id,
+            'Created' => $old_page->Created,
+            'Title' => $old_page->Title,
+            'Text' => $old_page->Text,
+            'Order' => $old_page->Order,
+            'Version' => $old_page->Version
         );
         
         // additional data that can be null?
-        if (empty($page->Parent_wiki_page_id)==false)
+        if (empty($old_page->Parent_wiki_page_id)==false)
         {
-            $data['Parent_wiki_page_id'] = $page->Parent_wiki_page_id;    
+            $data['Parent_wiki_page_id'] = $old_page->Parent_wiki_page_id;    
         }
-        if (empty($page->Updated)==false)
+        if (empty($old_page->Updated)==false)
         {
-            $data['Updated'] = $page->Updated;    
+            $data['Updated'] = $old_page->Updated;    
         }
         
-        $res = $this->db->insert($this->_table_pages, $data);
+        $res = $this->db->insert($this->_table_history, $data);
         
         // check result
         if ($res == false)
@@ -416,30 +430,154 @@ Class Wiki_model extends Model
             return false;  
         }
         
+        // fetch new id
+        $new_wiki_page_history_id = $this->db->insert_id();
+        
         //---------------------------
         // copy tags to history
-        
-        
-        
+        foreach($old_tags as $otag)
+        {
+            $data = array(
+                'Wiki_page_history_id' => $new_wiki_page_history_id,
+                'Tag' => $otag->Tag
+            ); 
+         
+            $res = $this->db->insert($this->_table_tags_history, $data);
+            
+            // check result
+            if ($res == false)
+            {
+                // something went wrong
+                // rollback transaction and return false
+                $this->db->trans_rollback();
+                return false;  
+            }
+        }        
         
         //---------------------------
-        // insert new version
+        // update current version
 
+        // package
+        $data = array(
+            'User_id' => $author,
+            'Updated' => $updated,
+            'Title' => $title,
+            'Text' => $text,
+            'Order' => $order,
+            'Version' => (int)$old_page->Version+1
+        );
         
+        // additional data that can be null?
+        if (empty($parent)==false)
+        {
+            $data['Parent_wiki_page_id'] = $parent;    
+        }
         
+        // update db
+        $this->db->where('Wiki_page_id', $Wiki_page_id);
+        $res = $this->db->update($this->_table_pages, $data);
         
-        //---------------------------
+        // check result
+        if ( $this->db->affected_rows() == false )
+        {
+            // rollback transaction and return false
+            $this->db->trans_rollback();
+            return false;  
+        }
+        
+        //-----------------------------
         // update tags for new version?
         if (empty($tags)==false)
         {
-            
-            
-            
+           // delete all old tags for current
+           $this->db->delete($this->_table_tags, array('Wiki_page_id' => $Wiki_page_id));
+
+            // save new tags
+            foreach($tags as $tag)
+            {
+                // package data
+                $data = array(
+                    'Wiki_page_id' => $Wiki_page_id,
+                    'Tag' => $tag
+                ); 
+             
+                // save current tag
+                $res = $this->db->insert($this->_table_tags, $data);
+                
+                // check result
+                if ($res == false)
+                {
+                    // something went wrong
+                    // rollback transaction and return false
+                    $this->db->trans_rollback();
+                    return false;  
+                }
+            }  
         }
         
+        //-------------------------------------
+        // delete old version(s) if more than 10
         
+        $this->db->select('Wiki_page_history_id');
+        $this->db->where( array('Wiki_page_id' => $Wiki_page_id) );
+        $this->db->order_by('Version DESC');
+        $query = $this->db->get($this->_table_history);
         
+        // any result?
+        if ($query && $query->num_rows() > 0)
+        {
+            $result = $query->result();
+            
+            // check count
+            $cnt = count($result);
+            if ( $cnt > 10 )
+            {
+                // more than 10; delete
+             
+                $delete_ids = array();
+             
+                // more than one?
+                if ( $cnt > 11 )
+                {    
+                    // start loop at 10 (array starts at 0 )
+                    for($n=10; $n<$cnt; $n++)    
+                    {
+                        $row = $result[$n];
+                        array_push($delete_ids, $row->Wiki_page_history_id);  
+                    }
+                }
+                else if ( $cnt == 11 )
+                {
+                    // only one
+                    $row = $result[10]; // array starts at 0
+                    array_push($delete_ids, $row->Wiki_page_history_id);
+                }
+              
+                // delete from page_history ( tags_history  will also be deleted to due foreign key cascade rule)
+                $this->db->where('Wiki_page_history_id', $delete_ids[0]);
+                if (count($delete_ids)>1)
+                {
+                    $len = count($delete_ids);
+                    for($n=1; $n<$len; $n++)
+                    {
+                        $row = $delete_ids[$n];
+                        $this->db->or_where('Wiki_page_history_id', $delete_ids[$n]);  
+                    }
+                }
+                $res = $this->db->delete($this->_table_history);
+                if ( $res == false )
+                {
+                    $this->db->trans_rollback(); 
+                    return false; 
+                }
+
+            }
+        }
         
+        //----------------------------- 
+        // all ok! commit!
+        $this->db->trans_commit(); 
+        return true;
     }
 }  
   

@@ -67,3 +67,14 @@
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
+ CREATE TABLE IF NOT EXISTS `WI_Wiki_Tags_History` (
+    `Wiki_tags_history_id` INT NOT NULL AUTO_INCREMENT,
+    `Wiki_page_history_id` INT NOT NULL,
+    `Tag` VARCHAR(35) NOT NULL,
+    PRIMARY KEY ( `Wiki_tags_history_id` ),
+  CONSTRAINT `wiki_tags_history_widget_ibfk_1` 
+    FOREIGN KEY (`Wiki_page_history_id`)
+    REFERENCES `WI_Wiki_Pages_History` (`Wiki_page_history_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;

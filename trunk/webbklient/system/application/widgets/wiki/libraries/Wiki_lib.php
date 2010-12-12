@@ -209,18 +209,8 @@ Class Wiki_lib
         $page = $this->_CI->Wiki_model->FetchHistoryPage($id);    
         
         // get tags for page
-        $page->Tags = $this->_CI->Wiki_model->FetchPageTags($id); 
-        
-        // mash up tags for a string (edit page)
-        if ( empty($page->Tags) == false)
-        {
-            $page->Tags_string = implode($page->Tags, ', ');
-        }
-        else
-        {
-            $page->Tags_string = "";    
-        }
-        
+        $page->Tags = $this->_CI->Wiki_model->FetchPageTagsHistory($id); 
+
         // return data
         return $page;
     }
@@ -261,13 +251,21 @@ Class Wiki_lib
             // more than one tag?
             if (preg_match('/,/', $tags))
             {
-                // split tags based on comma (kill spaces also)
-                $tags = explode(',', preg_replace('/\s/','', $tags));    
+                // split tags based on comma
+                $tags = explode(',', strtolower($tags));    
+                
+                // loop thru result and kill spaces
+                $tags_new = array();
+                foreach ($tags as $tag)
+                {
+                    array_push($tags_new, trim($tag));    
+                }
+                $tags = $tags_new;
             }
             else
             {
                 // manually setup only one tag (kill spaces also) 
-                $tags = array( preg_replace('/\s/','', $tags) );
+                $tags = array( trim(strtolower($tags)) );
             }
         }
         else
@@ -360,8 +358,41 @@ Class Wiki_lib
     */
     function UpdatePage($Wiki_page_id, $title, $text, $tags, $parent, $order)
     {
-        $tags = strtolower($tags);    
-        $result = $this->_CI->Wiki_model->UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order);
+        // business rules  
+        $author = $this->_CI->user->getUserID();
+        $updated = date('Y-m-d H:i:s');
+        
+        // prepare tags
+        if (empty($tags)==false)
+        {
+            // more than one tag?
+            if (preg_match('/,/', $tags))
+            {
+                // split tags based on comma
+                $tags = explode(',', strtolower($tags));    
+                
+                // loop thru result and kill spaces
+                $tags_new = array();
+                foreach ($tags as $tag)
+                {
+                    array_push($tags_new, trim($tag));    
+                }
+                $tags = $tags_new;
+            }
+            else
+            {
+                // manually setup only one tag
+                $tags = array( trim(strtolower($tags)) );
+            }
+        }
+        else
+        {
+            // no tags to save
+            $tags = array();
+        }
+        
+        // update
+        $result = $this->_CI->Wiki_model->UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order, $author, $updated);
         
         // what was the result?
         if ( $result == false )
