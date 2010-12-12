@@ -1,10 +1,14 @@
 
- 
+ <?php if (isset($status) && isset($status_message)): ?>
+    <div class="<?php echo $status; ?>"><b><?php echo $status_message; ?></b></div>
+    <br />
+<?php endif; ?>
+    
  <div class="wiki_inner_page">
      <h1>
         <?php echo $page->Title; ?>
         <span class="wiki_admin_links">
-            [ <a href="javascript:void(0);" onclick="wiki_edit_page();">Edit</a> | <a href="javascript:void(0);" onclick="wiki_show_history();">History</a>]
+            [ <a href="javascript:void(0);" onclick="wiki_edit_page();">Edit</a> | <a href="javascript:void(0);" onclick="wiki_delete_page();">Delete</a> | <a href="javascript:void(0);" onclick="wiki_show_history();">History</a>]
         </span>
     </h1>
 
@@ -18,7 +22,7 @@
     <? else: ?>
         <? $len = count($page->Tags);
             for($n=0; $n<$len; $n++): ?>
-                <?php echo trim(ucfirst($page->Tags[$n]->Tag)); ?>
+                <a href="javascript:void(0);" onclick="wiki_search_by_tag('<?php echo $page->Tags[$n]->Tag; ?>');"><?php echo ucfirst($page->Tags[$n]->Tag); ?></a>
                 <?php if ($n+1<$len): ?>,&nbsp;<?php endif; ?>
             <?php endfor; ?>
     <?php endif; ?>
@@ -44,9 +48,6 @@
 <div class="wiki_inner_page_edit">
      <h1>
         Edit: <?php echo $page->Title; ?>
-        <span class="wiki_admin_links">
-            [ <a href="javascript:void(0);" onclick="wiki_show_history();">History</a> ]
-        </span>
     </h1>
 
     <div style="clear:both;height:1px;">&nbsp;</div>
@@ -63,9 +64,16 @@
                 <td><textarea rows="10" cols="60" id="wiki_edit_text" name="wiki_edit_text"><?php echo $page->Text; ?></textarea></td>
             </tr>
             <tr>
-                <td valign="top">Tags:</td>
+                <td valign="top">Order:</td>
                 <td>
-                    <input type="text" name="wiki_edit_tags" id="wiki_edit_tags" value="<?php echo $page->Tags_string; ?>" />
+                    <input type="text" name="wiki_create_order" id="wiki_create_order" size="5" value="<?php echo (isset($form_order) ? $form_order : ''); ?>" />
+                    <br /><small>(Optional, a number specifying page-order)</small>
+                </td>
+            </tr>            
+            <tr>
+                <td valign="top"><br />Tags:</td>
+                <td>
+                    <br /><input type="text" name="wiki_edit_tags" id="wiki_edit_tags" value="<?php echo $page->Tags_string; ?>" />
                     <br /><small>(A comma-separated list)</small> 
                 </td>
             </tr>
@@ -94,9 +102,6 @@
 <div class="wiki_inner_page_history">
      <h1>
         History: <?php echo $page->Title; ?>
-        <span class="wiki_admin_links">
-            [ <a href="javascript:void(0);" onclick="wiki_edit_page();">Edit</a> ]
-        </span>
     </h1>
 
     <div style="clear:both;height:1px;">&nbsp;</div>
@@ -126,6 +131,10 @@
     <br/>
     <p><a href="javascript:void(0);" onclick="wiki_close_history();"><< Back to page</a></p>
     
+</div>
+
+<div id="dialog-confirm" title="Delete this page?" style="display:none;">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you absolutely sure you want to delete this page and all history? Action is permanent.</p>
 </div>
 
 
@@ -159,6 +168,29 @@
     
     function wiki_show_history_page(id) {
         wikiWidget.load('/pages/get_history/'+id, true);
+    }
+    
+    function wiki_search_by_tag(tag) {
+        wikiWidget.search('', tag);    
+    }
+    
+    function wiki_delete_page(){
+        $( "#dialog-confirm" ).dialog({
+            resizable: false,
+            height: 200,
+            width: 500,
+            modal: true,
+            zIndex: 3999,
+            buttons: {
+                "Continue": function() {
+                    $( this ).dialog( "close" );
+                    wikiWidget.load('/pages/delete/<?php echo $page->Wiki_page_id; ?>/<?php echo $delete_token; ?>');
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
     }
     
     function wiki_save_page() {

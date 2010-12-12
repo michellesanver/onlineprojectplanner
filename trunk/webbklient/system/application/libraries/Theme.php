@@ -25,7 +25,7 @@ class Theme
        $this->_base_url = $this->_CI->config->item('base_url');
        
        // load library widgets
-       $this->_CI->load->library('widgets', 'user');
+       $this->_CI->load->library('widgets');
     }
     
     /**

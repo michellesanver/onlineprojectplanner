@@ -184,6 +184,194 @@ Class Wiki_model extends Model
             return array();
          }
     }
+    
+    function SaveNewWikiPage($title, $text,  $parent, $order, $version, $author, $project, $tags)
+    {
+        // start a transaction; all or nothing
+        $this->db->trans_begin();
+        
+        // package data
+        $data = array(
+            'Project_id' => $project,
+            'User_id' => $author,
+            'Title' => $title,
+            'Text' => $text,
+            'Order' => $order,
+            'Version' => $version
+        );
+        
+        // has parent?
+        if (empty($parent)==false)
+        {
+            $data['Parent_wiki_page_id'] = $parent;    
+        }
+        
+        // save page
+        $res = $this->db->insert($this->_table_pages, $data);
+        
+        // check result
+        if ($res == false)
+        {
+            // something went wrong
+            // rollback transaction and return false
+            $this->db->trans_rollback();
+            return false;  
+        }
+
+        // fetch new id
+        $new_wiki_page_id = $this->db->insert_id();
+            
+        // save tags
+        foreach($tags as $tag)
+        {
+            // package data
+            $data = array(
+                'Wiki_page_id' => $new_wiki_page_id,
+                'Tag' => strtolower($tag)
+            ); 
+         
+            // save current tag
+            $res = $this->db->insert($this->_table_tags, $data);
+            
+            // check result
+            if ($res == false)
+            {
+                // something went wrong
+                // rollback transaction and return false
+                $this->db->trans_rollback();
+                return false;  
+            }
+        }
+        
+        // else; all ok! commit transaction and return new id
+        $this->db->trans_commit();
+        return $new_wiki_page_id;
+    }
+    
+    function DeletePage($Wiki_page_id)
+    {
+        $this->db->trans_begin(); 
+        
+        // deeeeelete!
+        $res = $this->db->delete($this->_table_pages, array('Wiki_page_id' => $Wiki_page_id));
+ 
+        // was row deleted?
+        if ( $res == false )
+        {
+            $this->db->trans_rollback(); 
+            return false; 
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return true;
+        }
+        
+    }
+    
+    function UpdateNoParent()
+    {
+        $this->db->trans_begin();
+        
+        $table = $this->_table_pages;
+        
+        // fetch titles for menu
+        $this->db->select('Wiki_page_id, Parent_wiki_page_id');
+        $query = $this->db->get($table);  
+  
+         // any result?
+         if ($query && $query->num_rows() > 0)
+         {
+             // ok, continue..
+            $result = $query->result();            
+            
+            // loop thru result
+            $no_parents = array();
+            foreach($result as $row)
+            {
+                if ( empty($row->Parent_wiki_page_id)==false)
+                {
+                    // check if parent exists
+                    $parent_found = false;
+                    foreach($result as $row2)
+                    {
+                        if ( (int)$row->Parent_wiki_page_id  == (int)$row2->Wiki_page_id )
+                        {
+                            // parent found!
+                            $parent_found = true;
+                            break;
+                        }
+                    }
+                    
+                    // no parent?
+                    if ($parent_found==false) 
+                    {
+                        array_push($no_parents, $row->Wiki_page_id);    
+                    }
+                }    
+            }
+            
+            // update children to be a mainpage instead
+            foreach($no_parents as $row)
+            {
+                $sql = "UPDATE $table SET Parent_wiki_page_id = NULL WHERE Wiki_page_id = $row;";
+                $this->db->query($sql);
+            }
+            
+            // all ok
+            $this->db->trans_commit(); 
+            return true;
+         }
+         else
+         {
+             // nothing to do
+             $this->db->trans_rollback();
+            return false;
+         } 
+    }
+    
+    function SearchByWord($word)
+    {
+        $word = $this->db->escape("%$word%");
+        
+        $table = $this->_table_pages;
+        $sql = "SELECT Title, Wiki_page_id FROM $table WHERE `Text` LIKE $word OR `Title` LIKE $word;";
+        $query = $this->db->query($sql);
+        
+         // any result?
+         if ($query && $query->num_rows() > 0)
+         {
+            $result = $query->result();
+            return $result;
+         }
+         else
+         {
+             // else return empty array
+            return array();
+         } 
+    }
+    
+    function SearchByTag($tag)
+    {       log_message('debug','#### => searchbytag() 1 has $tag: '.$tag);
+        $tag = $this->db->escape("%$tag%");
+            log_message('debug','#### => searchbytag() 2 has $tag: '.$tag);
+        $table1 = $this->_table_tags;
+        $table2 = $this->_table_pages;
+        $sql = "SELECT $table2.Title, $table2.Wiki_page_id FROM $table1 JOIN $table2 ON $table1.Wiki_page_id = $table2.Wiki_page_id WHERE $table1.`Tag` LIKE $tag;";
+        $query = $this->db->query($sql);
+        
+         // any result?
+         if ($query && $query->num_rows() > 0)
+         {
+            $result = $query->result();
+            return $result;
+         }
+         else
+         {
+             // else return empty array
+            return array();
+         }  
+    }
 }  
   
 ?>

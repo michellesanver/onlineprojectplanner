@@ -111,22 +111,29 @@ a.projectbox:active, a.projectbox:visited, a.projectbox:hover {
 
 /* @group Default */
 
-/* @group Errors */
+/* @group Messages */
+
+div.error, div.ok  { 
+    padding-left: 40px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    padding-top: 10px;
+    width: 700px;
+    margin-left:auto;
+    margin-right:auto;
+    min-height:32px;    
+}
 
 div.error {
 	background: #f8fdda url(../../images/backgrounds/erroricon.png) no-repeat;
-	padding-left: 40px;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;
-	padding-top: 10px;
-	width: 700px;
-	margin-left:auto;
-	margin-right:auto;
-	border: 2px solid #e61913;
+    border: 2px solid #e61913;
 }
 
-
+div.ok {
+    background: #f8fdda url(../../images/backgrounds/okicon.png) no-repeat;
+    border: 2px solid #1ca10e;
+}
 
 /* @end */
 
@@ -392,6 +399,7 @@ div#fullpage_overlay {
     filter: alpha(opacity=50);
 }
 
+/* @group javascript popup messages */
 div#message {
     position:absolute;
     left:0;
@@ -412,6 +420,7 @@ div#message.ok {
 div#message.error {
     background-color:#d92222;     
 }
+/* @end */ 
 
 /* @group Widgets */
 .widget_listening {
