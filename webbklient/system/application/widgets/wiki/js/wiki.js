@@ -26,8 +26,8 @@ wikiWidget = {
                         // change theese as needed
                        title: wikiWidget.widgetTitle,
                        content: initialContent,
-                       width: 625,
-                       height: 400,
+                       width: 650,
+                       height: 425,
                        x: 30,
                        y: 15,
                        
@@ -98,7 +98,8 @@ wikiWidget = {
         },
     
     // post data
-    post: function(formID, url)
+    // if parameter into_page_content is set then the content is put into div.wiki_main_content    
+    post: function(formID, url, into_page_content)
     {
         var postdata = $('#'+formID ).serialize();
       
@@ -115,8 +116,14 @@ wikiWidget = {
             return;
         }
         
+        var whichDiv = wikiWidget.contentDivClass;
+        if (into_page_content != undefined && into_page_content == true)
+        {
+            whichDiv = wikiWidget.pageContentDivClass;
+        }
+        
         // show ajax spinner
-        show_ajax_loader(null, wikiWidget.contentDivClass);
+        show_ajax_loader(null, whichDiv);
                  
         // post with ajax
         var loadURL = SITE_URL+'/widget/'+wikiWidget.widgetName+url;
@@ -128,25 +135,68 @@ wikiWidget = {
                     // set new content if no error
                     if (data != "PAGE NOT FOUND" && data != "NOT AUTHORIZED")
                     {
-                        $('.'+wikiWidget.contentDivClass).html(data);
+                        $('.'+whichDiv).html(data);
                     }
                     else if (data == "PAGE NOT FOUND")
                     {
                         var errorHtml = '<h1>Error 404</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>The requested Wiki-page was not found.';
-                        $('.'+wikiWidget.contentDivClass).html(errorHtml);     
+                        $('.'+whichDiv).html(errorHtml);     
                     }
                     else if (data == "NOT AUTHORIZED")
                     {
                         var errorHtml = '<h1>Error 401</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>Authorization failed! You must be logged in.';
-                        $('.'+wikiWidget.contentDivClass).html(errorHtml);     
+                        $('.'+whichDiv).html(errorHtml);     
                     }
           },
           error: function(xhr, statusSTR, errorSTR) {
                 // display an error
-                show_ajax_error(null, wikiWidget.contentDivClass, loadURL, wikiWidget.errorIcon);
+                show_ajax_error(null, whichDiv, loadURL, wikiWidget.errorIcon);
           }
        });
        
        return false;   
+    },
+    
+    // search wiki by word or tag
+    search: function(word, tag, resultDivClass) {
+        
+        // create an ajax spinner
+         var loadingHTML = "<div class='frame_loading'>Searching...</div>"; 
+         var container = $('.'+resultDivClass);
+         container.html(loadingHTML);
+         var loading = container.children(".frame_loading");
+         loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px'); 
+         
+        // send post
+        var loadURL = SITE_URL+'/widget/'+wikiWidget.widgetName+'/pages/search';
+        $.ajax({
+          type: 'POST',
+          data: {'word': word, 'tag': tag},
+          url: loadURL,
+          success: function(data){
+                    // set new content if no error
+                    if (data != "PAGE NOT FOUND" && data != "NOT AUTHORIZED")
+                    {
+                        $('.'+resultDivClass).html(data);
+                    }
+                    else if (data == "PAGE NOT FOUND")
+                    {
+                        var errorHtml = '<h1>Error 404</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>The requested Wiki-page was not found.';
+                        $('.'+wikiWidget.pageContentDivClass).html(errorHtml);     
+                    }
+                    else if (data == "NOT AUTHORIZED")
+                    {
+                        var errorHtml = '<h1>Error 401</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>Authorization failed! You must be logged in.';
+                        $('.'+wikiWidget.pageContentDivClass).html(errorHtml);     
+                    }
+          },
+          error: function(xhr, statusSTR, errorSTR) {
+                // display an error
+                show_ajax_error(null, wikiWidget.pageContentDivClass, loadURL, wikiWidget.errorIcon);
+          }
+       });
+       
+       return false; 
+         
     }
 } 

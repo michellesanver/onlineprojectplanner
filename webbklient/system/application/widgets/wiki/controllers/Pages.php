@@ -15,8 +15,11 @@ class Pages extends Controller
         $this->load->library_widget('Wiki_lib', null, 'Wiki');
     }
     
-    
-    function index()
+    //
+    // this will load the startpage
+    // (if used internally then $ok_message or $error_message can be set)
+    //
+    function index($ok_message='', $error_message='')
     {
         // is user logged in?
         if ($this->user->IsLoggedIn() == false)
@@ -41,10 +44,108 @@ class Pages extends Controller
             'changelog' => $this->Wiki->GetChangelog()
         );
        
-        // load a view for the widget
-       $this->load->view_widget('start', $data);
+        // any message set?
+        if (empty($ok_message)==false)
+        {
+            $data['status'] = 'ok';
+            $data['status_message'] = $ok_message;
+        }
+        else if (empty($error_message)==false)
+        {
+            $data['status'] = 'error';
+            $data['status_message'] = $error_message;
+        }
+       
+       // load content
+       $data['content'] = $this->load->view_widget('start', $data, true);
+       
+        // load complete view for the widget
+       $this->load->view_widget('common_layout', $data);
         
     }   
+   
+   //
+   // internal function that gets called after a
+   // new page is saved. will reload the view (just
+   // as in index but load the specified page)
+   //
+    private function _index_new_page($wiki_page_id, $ok_message='', $error_message='')
+    {
+         // is user logged in?
+        if ($this->user->IsLoggedIn() == false)
+        {
+            // nope, then die
+            die('NOT AUTHORIZED');
+        }
+        
+        // package some data for the view
+        $widget_name = $this->_widget_name;
+        $base_url = $this->config->item('base_url');
+        $data = array(
+            'base_url' => $base_url,
+            'widget_url' => site_url("/widget/$widget_name").'/',
+            'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
+            
+            'wiki_menu' => $this->Wiki->GetMenuTitles(),
+            
+            'new_pages' => $this->Wiki->GetNewPages(),
+            'last_updated_pages' => $this->Wiki->GetLastUpdatedPages(),
+            
+            'changelog' => $this->Wiki->GetChangelog()
+        );
+      
+        // any message set?
+        if (empty($ok_message)==false)
+        {
+            $data['status'] = 'ok';
+            $data['status_message'] = $ok_message;
+        }
+        else if (empty($error_message)==false)
+        {
+            $data['status'] = 'error';
+            $data['status_message'] = $error_message;
+        }
+        
+       // get page
+       $data['page'] = $this->Wiki->GetPage($wiki_page_id);
+     
+       // no page found? 
+       if ( $data['page'] === false )
+       {
+            $errorURL = $data['widget_url']."pages/get/$wiki_page_id";
+           
+            // fake content so javascript will display an error
+            // note; wikiWidget.pageContentDivClass and wikiWidget.errorIcon is set in wiki.js
+            $data['content'] = '<script type="text/javascript">show_ajax_error(null, wikiWidget.pageContentDivClass, "'.$errorURL.'", wikiWidget.errorIcon);</script>';
+       }
+       else
+       {    
+            // add current version in history
+            $currentVersion = new stdClass();
+            $currentVersion->Wiki_page_history_id = null; // do NOT view this in history
+            $currentVersion->Title = $data['page']->Title;
+            $currentVersion->Version = $data['page']->Version;
+            $currentVersion->Created = $data['page']->Created;
+            $currentVersion->Updated = $data['page']->Updated;
+            $currentVersion->Firstname = $data['page']->Firstname;
+            $currentVersion->Lastname = $data['page']->Lastname;
+            
+            // get more data
+            $data['history'] = $this->Wiki->GetHistory($wiki_page_id);
+            array_push($data['history'], $currentVersion);
+            
+            $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren();
+            $data['delete_token'] = $this->_GenerateDeleteCode($wiki_page_id); 
+          
+          
+            // load content
+            $data['content'] = $this->load->view_widget('page', $data, true);
+       }
+       
+        
+       // load complete view for the widget
+       $this->load->view_widget('common_layout', $data);
+    }
     
     //
     // This function is called by ajax
@@ -86,6 +187,8 @@ class Pages extends Controller
         array_push($data['history'], $currentVersion);
         
         $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren();
+        $data['delete_token'] = $this->_GenerateDeleteCode($Wiki_page_id);
+        
         
         // show view
         $this->load->view_widget('page', $data); 
@@ -128,14 +231,200 @@ class Pages extends Controller
             die('NOT AUTHORIZED');
         }   
     
+        // use CI validation
+        $this->load->library(array('validation'));
     
-        // fetch all pages with no children for select
-        $data = array(
-            'select_parents' => $this->Wiki->GetTitlesWithoutChildren()
+        // set validation rules
+        $rules = array(
+            "wiki_create_title" => "max_length[100]|required|strip_tags|xss_clean",
+            "wiki_create_text" => "required|xss_clean"
+        );   
+        $this->validation->set_rules($rules);  
+    
+        // set names for validation errors
+        $fields = array(
+            "wiki_create_title" => "Title",
+            "wiki_create_text" => "Text" 
         );
+        $this->validation->set_fields($fields);
+        
+        // prepare array for view
+        $data = array();
+        
+        // run validation
+       if ($this->validation->run())
+       { 
+            // save data
+
+            $form_title = $this->input->post('wiki_create_title');
+            $form_text = $this->input->post('wiki_create_text');
+            $form_tags = strip_tags( $this->input->post('wiki_create_tags', true) ); // also do xss_clean
+            $form_parent = strip_tags( $this->input->post('wiki_page_parent', true) ); // also do xss_clean
+            $form_order = strip_tags( $this->input->post('wiki_create_order', true) ); // also do xss_clean
+            
+            // send to library
+            $new_wiki_page_id = $this->Wiki->SaveNewPage($form_title, $form_text, $form_tags, $form_parent, $form_order);
+            
+            // what was the result?
+            if ( $new_wiki_page_id != false )
+            {
+                // all ok! show page then (also reload index and menu)
+                $this->_index_new_page($new_wiki_page_id, 'New page has been saved'); // since function create is called with ajax we can use this and it won't affect the url
+                return;
+            }
+            else
+            {
+                // no error was thrown
+                $data['status'] = "error";
+                $data['status_message'] = $this->Wiki->GetLastError();    
+                
+                // refill form data
+                $data['form_title'] = $this->input->post('wiki_create_title');
+                $data['form_text'] = $this->input->post('wiki_create_text');
+                $data['form_tags'] = $this->input->post('wiki_create_tags');
+                $data['form_parent'] = $this->input->post('wiki_page_parent');
+                $data['form_order'] = $this->input->post('wiki_create_order');
+            }
+            
+       }
+
+       
+       // show form and/or display errors
+
+       // package some data for the view
+       $widget_name = $this->_widget_name;
+       $base_url = $this->config->item('base_url');
+       $data['base_url'] = $base_url;
+       $data['widget_url'] = site_url("/widget/$widget_name").'/';
+       $data['widget_base_url'] = $base_url."system/application/widgets/$widget_name/";
+       $data['wiki_menu'] = $this->Wiki->GetMenuTitles();
+       
+       // any errors set?
+       $errors = validation_errors();
+       if ( empty($errors) == false || empty($this->validation->error_string) == false )
+       {
+            $data['status'] = "error";
+            $data['status_message'] = 'Error(s): '.strip_tags($errors.$this->validation->error_string);
+            
+            // refill form data
+            $data['form_title'] = $this->input->post('wiki_create_title');
+            $data['form_text'] = $this->input->post('wiki_create_text');
+            $data['form_tags'] = $this->input->post('wiki_create_tags');
+            $data['form_parent'] = $this->input->post('wiki_page_parent');
+            $data['form_order'] = $this->input->post('wiki_create_order');
+       }
+       
+       // fetch all pages with no children for select
+       $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren();
     
-        // show view
-        $this->load->view_widget('create', $data);
+       // show view
+       $data['content'] = $this->load->view_widget('create', $data, true);
+       
+       // load complete view for the widget
+       $this->load->view_widget('common_layout', $data);
+    }
+    
+    function delete($Wiki_page_id, $token)
+    {
+        // is user logged in?
+        if ($this->user->IsLoggedIn() == false)
+        {
+            // nope, then die
+            die('NOT AUTHORIZED');
+        }  
+        
+        // get code and clear in session
+        $saved_token = $this->session->userdata('delete_token');
+        $saved_id = $this->session->userdata('delete_id');
+        $this->session->unset_userdata(array('delete_id','delete_token'));
+        
+        // verify code and id
+        if ( $saved_token!=$token || $saved_id!=$Wiki_page_id )
+        {
+            // error; they don't match
+            $this->_index_new_page($Wiki_page_id,'','Error in request - unable to delete page.');
+            return;
+        }
+        else
+        {
+            // else; continue
+            
+            // delete through library
+            if ( $this->Wiki->DeletePage($Wiki_page_id) )
+            {
+                // all ok!
+                $this->index('Page was deleted.'); // delete is called with ajax so it won't affect the url
+                return;
+            }
+            else
+            {
+                // something went wrong..
+                $message = $this->Wiki->GetLastError();
+                $this->_index_new_page($Wiki_page_id,'',$message);
+                return;
+            }
+        } 
+    }
+    
+    /**
+    * Sets a new code for delete in session
+    * (delete-url will fail without correct code)
+    */
+    private function _GenerateDeleteCode($Wiki_page_id)
+    {
+        // generate start position 
+        $start_pos = -1;
+        while ( $start_pos < 0 ) 
+        {
+            $start_pos = (rand(1,32)-12);    
+        }
+        // create token
+        $token = substr(md5(uniqid().$_SERVER['REMOTE_ADDR']), $start_pos, 12);
+        
+        // set data
+        $this->session->set_userdata('delete_token', $token);
+        $this->session->set_userdata('delete_id', $Wiki_page_id);
+        
+        // return token
+        return $token;
+    }
+    
+    //
+    // search wiki by word or tag. send 'none'
+    // to the parameter that's not used. if both
+    // parameters is empty then the searchform is
+    // displayed.
+    //
+    function search()
+    {
+        $word = (isset($_POST['word']) ? $this->input->post('word',true) : '');
+        $tag = (isset($_POST['tag']) ? $this->input->post('tag',true) : '');
+        
+        // search or show form?
+        if ($word == '' && $tag == '')
+        {
+            // show form
+            $this->load->view_widget('search');
+        }
+        else
+        {
+            // do search 
+            $results = null;
+            $term = '';
+            if ($word != '' && $tag == '')
+            {
+                $term = $word;
+                $results = $this->Wiki->SearchByWord($word);    
+            }
+            else if ($word == '' && $tag != '')
+            {
+                $term = $tag;
+                $results = $this->Wiki->SearchByTag($tag);    
+            }
+            
+            // present results
+            $this->load->view_widget('search_results', array('results'=>$results,'term'=>$term));
+        }    
     }
     
 }

@@ -4,8 +4,8 @@ Class Wiki_lib
 {
     private $_CI = null;
     private $_Current_Project_id = "";
-    
     private $_changelog_filename = "../changelog.xml"; // relative to this file
+    private $_last_error = "";
     
     function __construct()
     {
@@ -16,6 +16,19 @@ Class Wiki_lib
         // fetch current project id
         $this->_CI->load->library('Project_lib', null, 'Project');
         $this->_Current_Project_id = $this->_CI->Project->checkCurrentProject();
+    }
+    
+    /**
+    * This function will return the last error
+    * this class has set.
+    */
+    function GetLastError()
+    {
+        // save error, clear message and return
+
+        $returnStr = $this->_last_error;
+        $this->_last_error = "";
+        return $returnStr;
     }
     
     /**
@@ -137,6 +150,13 @@ Class Wiki_lib
         // get page
         $page = $this->_CI->Wiki_model->FetchPage($id);     
         
+        // was page found?
+        if ($page === false)
+        {
+            // no, quit
+            return false;
+        }
+        
         // get tags for page
         $page->Tags = $this->_CI->Wiki_model->FetchPageTags($id); 
         
@@ -216,6 +236,118 @@ Class Wiki_lib
         return $this->_CI->Wiki_model->FetchTitlesWithoutChildren();   
     }
     
+    /**
+    * Save a new wikipage; will return false or new wiki_page_id
+    * 
+    * @param string $title
+    * @param string $text
+    * @param string $tags
+    * @param int $parent
+    * @param int $order
+    * @return mixed
+    */
+    function SaveNewPage($title, $text, $tags, $parent, $order)
+    {
+        // apply business rules
+        $author = $this->_CI->user->getUserID();
+        $project = $this->_Current_Project_id;
+        $order = (empty($order) ? 0 : (int)$order); // default order: 0
+        $parent = (empty($parent) ? '' : (int)$parent); // default parent: none
+        $version = 1;
+        
+        // prepare tags
+        if (empty($tags)==false)
+        {
+            // more than one tag?
+            if (preg_match('/,/', $tags))
+            {
+                // split tags based on comma (kill spaces also)
+                $tags = explode(',', preg_replace('/\s/','', $tags));    
+            }
+            else
+            {
+                // manually setup only one tag (kill spaces also) 
+                $tags = array( preg_replace('/\s/','', $tags) );
+            }
+        }
+        else
+        {
+            // no tags to save
+            $tags = array();
+        }
+        
+        // save page in model
+        $new_wiki_page_id = $this->_CI->Wiki_model->SaveNewWikiPage($title, $text, $parent, $order, $version, $author, $project, $tags);
+        
+        // any error?
+        if ( $new_wiki_page_id != false )
+        {
+            // no, return new id
+            return $new_wiki_page_id;
+        }
+        else
+        {
+            // set message and return false
+            $this->_last_error = "Database error - unable to save new page";
+            return false;
+        }
+    }
+    
+    /**
+    * This will delete a page and all history 
+    * 
+    * @return bool
+    */
+    function DeletePage($id)
+    {
+        // delete with model
+        $result = $this->_CI->Wiki_model->DeletePage($id);
+        
+        // what was the result?
+        if ( $result == false )
+        {
+            // set message
+            $this->_last_error = "Database error - unable to delete page";
+            return false;
+        }
+        else
+        {
+            // run a search/update if any child is without parent
+            $this->_CI->Wiki_model->UpdateNoParent();
+            
+            // all ok!
+            return true;
+        }
+        
+    }
+    
+    /**
+    * Will search in the wiki for a word (full-text).
+    * Returns false or a db-result
+    * 
+    * @param string $word
+    * @return mixed
+    */
+    function SearchByWord($word)
+    {
+        $word = strtolower($word);
+        return $this->_CI->Wiki_model->SearchByWord($word);
+    }
+    
+    /**
+    * Will search in the wiki for a tag
+    * Returns false or a db-result
+    * 
+    * @param string $tag
+    * @return mixed
+    */
+    function SearchByTag($tag)
+    {
+        $tag = strtolower($tag);
+        return $this->_CI->Wiki_model->SearchByTag($tag);   
+    }
+    
 }
   
 ?>
+
