@@ -19,8 +19,8 @@
     <p><br /><br /><small>Tags:
     <?php if (empty($page->Tags) ): ?>
         &nbsp;-
-    <? else: ?>
-        <? $len = count($page->Tags);
+    <?php else: ?>
+        <?php $len = count($page->Tags);
             for($n=0; $n<$len; $n++): ?>
                 <a href="javascript:void(0);" onclick="wikiWidget.search('', '<?php echo $page->Tags[$n]->Tag; ?>');"><?php echo ucfirst($page->Tags[$n]->Tag); ?></a>
                 <?php if ($n+1<$len): ?>,&nbsp;<?php endif; ?>
