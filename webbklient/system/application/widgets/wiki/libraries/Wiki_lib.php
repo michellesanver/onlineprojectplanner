@@ -410,5 +410,3 @@ Class Wiki_lib
     
 }
   
-?>
-
