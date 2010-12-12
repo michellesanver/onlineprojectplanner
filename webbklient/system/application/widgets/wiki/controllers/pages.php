@@ -518,8 +518,10 @@ class Pages extends Controller
                 $results = $this->Wiki->SearchByTag($tag);    
             }
             
-            // present results
+
+            //  present results
             $this->load->view_widget('search_results', array('results'=>$results,'term'=>$term));
+
         }    
     }
     

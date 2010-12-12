@@ -158,26 +158,31 @@ wikiWidget = {
     },
     
     // search wiki by word or tag
-    search: function(word, tag, resultDivClass) {
-        
+    search: function(word, tag, resultDivClass, appendTitle) { 
+         
         // create an ajax spinner
          var loadingHTML = "<div class='frame_loading'>Searching...</div>"; 
          var container = $('.'+resultDivClass);
          container.html(loadingHTML);
          var loading = container.children(".frame_loading");
          loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px'); 
-         
+           
         // send post
         var loadURL = SITE_URL+'/widget/'+wikiWidget.widgetName+'/pages/search';
         $.ajax({
           type: 'POST',
-          data: {'word': word, 'tag': tag},
+          data: {'word': word, 'tag': tag },
           url: loadURL,
           success: function(data){
                     // set new content if no error
                     if (data != "PAGE NOT FOUND" && data != "NOT AUTHORIZED")
                     {
-                        $('.'+resultDivClass).html(data);
+                        if (appendTitle != undefined && appendTitle == true)
+                        {
+                            data = '<h1>Search result</h1>'+data;    
+                        }
+                        
+                        $('.'+resultDivClass).html(data);     
                     }
                     else if (data == "PAGE NOT FOUND")
                     {
