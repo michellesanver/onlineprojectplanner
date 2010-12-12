@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><br /><input type="button" onclick="wiki_save_new_page();" value="Save" /> </td>
+                <td><br /><input type="button" onclick="wikiWidget.post('wiki_create_form','/pages/create');" value="Save" /> </td>
             </tr>
         </table>
     </form>
@@ -56,8 +56,4 @@
     $('#wiki_create_text').css({'width':'325px', 'height':'150px'});
     $('#wiki_create_text').resizable();
 
-    function wiki_save_new_page() {
-        wikiWidget.post('wiki_create_form','/pages/create');    
-        return false;
-    }
 </script>
