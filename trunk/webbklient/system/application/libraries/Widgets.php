@@ -299,9 +299,12 @@ class Widgets
         if ( empty($project_widgets) ) return ""; // return just empty then
         
         // prepare data
-        $returnSTR = "";
+				$base_url = $this->_CI->config->item('base_url');
+				
+				// Init the js that will handle the window object and everything common for all widget-windows
+        $returnSTR = sprintf($loadSTR, $base_url . "js/WI_window_handler.js");
         
-        $base_url = $this->_CI->config->item('base_url')."system/";
+        $base_url = $base_url."system/";
         
         // loop trough all widgets for the project
         $found_count = 0;

@@ -8,7 +8,7 @@ ajaxTemplateWidget = {
     errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
     
     // variable for window (DO NOT CHANGE - REQUIRED)
-    wnd: null, 
+    wnd_handler: null, 
     
     // callbacks that is set in common.js upon start (DO NOT CHANGE - REQUIRED)     
     onMinimize: null, 
@@ -21,7 +21,7 @@ ajaxTemplateWidget = {
                     var initialContent = "<div class=\""+ajaxTemplateWidget.contentDivClass+"\"></div>";
         
                     // create a new jquery window
-                    this.wnd = $('#content').window({
+                    this.wnd_handler = new WIWindowHandler({
                         // change theese as needed
                        title: ajaxTemplateWidget.widgetTitle,
                        content: initialContent,
@@ -41,7 +41,6 @@ ajaxTemplateWidget = {
         
                     // load the first page upon start
                     ajaxTemplateWidget.load('/some_controller_name');
-        
                 } ,
                 
     // --------------------------------------------------------------------------------------- 
