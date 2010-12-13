@@ -5,6 +5,6 @@ function WIWindowHandler(options) {
 
 }
 	
-WIWindowHandler.prototype.getWindow = function() {
+WIWindowHandler.prototype.getWindowObject = function() {
 	return this.wnd;
 };

@@ -14,6 +14,7 @@
   <link href="<?php echo $base_url; ?>js/window/css/jquery.window-opp.css" rel="Stylesheet" type="text/css" />
   
   <!-- widgets -->
+	<script type="text/javascript" src="<?php echo $base_url; ?>js/WIWindowHandler.js"></script>
   <?php echo $widget_javascript; ?>
   <?php echo $widget_css; ?>
 </head>
