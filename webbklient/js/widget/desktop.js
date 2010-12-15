@@ -8,8 +8,8 @@ Desktop = {
 		options.onMinimize = function(){ Desktop.close_widget(widgetIconId, id); };
 		options.onClose = function(){ Desktop.reset_widget(widgetIconId); };
 		options.checkBoundary = true;
-		options.maxWidth = $('#content').width();
-		options.maxHeight = $('#content').height();
+		options.maxWidth = $('#desktop').width();
+		options.maxHeight = $('#desktop').height();
 		if (options.bookmarkable == undefined )
 		{
 			options.bookmarkable = false;
@@ -107,7 +107,7 @@ Desktop = {
 	// common function to set timer and start animate
 	start_message_animate: function()
 	{
-		var maxWidth = $('#content').width();
+		var maxWidth = $('#desktop').width();
 		var centerPosition = (maxWidth/2)-(message_width/2);
 		$('#message').css('left',centerPosition+'px');
 		$('#message').css('top',message_start_position+'px');
