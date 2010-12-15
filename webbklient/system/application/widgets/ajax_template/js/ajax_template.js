@@ -18,7 +18,20 @@ ajaxTemplateWidget = {
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
     open: function() {
-			this.currentID = Desktop.newWidgetWindow();
+	
+			// set options for window
+			var windowOptions = {
+				// change theese as needed
+				title: browserWidget.widgetTitle,
+				width: 800,
+				height: 450,
+				x: 30,
+				y: 15
+			};
+	
+			// create window
+			this.currentID = Desktop.newWidgetWindow(windowOptions);
+			
 			// load the first page upon start
 			ajaxTemplateWidget.load('/some_controller_name');
 		} ,

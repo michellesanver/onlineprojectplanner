@@ -2,27 +2,24 @@ Desktop = {
 	
 	_widgetArray : new Array(),
 	
-	newWidgetWindow : function() {
+	newWidgetWindow : function(options) {
 	
+		// set id
 		var id = this._widgetArray.length -1;
 		
-		var widget = new Widget(id,
+		// add more options
+		options.onMinimize = this.onMinimize;
+		options.onClose = this.onClose;
+		options.checkBoundary: true;
+		options.maxWidth: $('#content').width();
+		options.maxHeight: $('#content').height();
+		if (options.bookmarkable == undefined )
 		{
-			// change theese as needed
-			title: browserWidget.widgetTitle,
-			width: 800,
-			height: 450,
-			x: 30,
-			y: 15,
+			options.bookmarkable = false;
+		}
 		
-			// do NOT change theese
-			onMinimize:  this.onMinimize, 
-			onClose:  this.onClose,
-			checkBoundary: true,
-			maxWidth: $('#content').width(),
-			maxHeight: $('#content').height(),
-			bookmarkable: false
-		});
+		// create window
+		var widget = new Widget(id, options);
 		
 		return id;
 	},
