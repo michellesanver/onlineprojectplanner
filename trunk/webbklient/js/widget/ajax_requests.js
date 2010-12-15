@@ -1,7 +1,7 @@
 ajaxRequests = {
 
     // function that will load an url and set resulting data into specified div
-    load: function(windowID, loadURL, successFunction, errorFunction)
+    load: function(windowID, loadURL, successFunction, errorFunction, partial)
         {
             // empty url?
             if (loadURL == "")
@@ -18,9 +18,9 @@ ajaxRequests = {
               url: loadURL,
               success: function(data){
                     // set new content
-										data = escape(data);
+					data = escape(data);
 										
-                    eval(successFunction + '("' + data + '")');
+                    eval(successFunction + '("' + data + '", '+partial+')');
               },
               error: function(xhr, statusSTR, errorSTR) {
                     // display an error
@@ -30,9 +30,9 @@ ajaxRequests = {
         },
     
     // post data
-    post: function(windowID, formClass, loadURL)
+    post: function(windowID, formClass, loadURL, successFunction, errorFunction, partial)
     {
-        var postdata = $('#widget_' + windowID ).find('#' + formClass).serialize();
+        var postdata = $('#widget_' + windowID ).find('.' + formClass).serialize();
       
         // empty url?
         if (loadURL == "")
@@ -57,9 +57,9 @@ ajaxRequests = {
           url: loadURL,
           success: function(data){
                 // set new content
-										data = escape(data);
+					data = escape(data);
 										
-                    eval(successFunction + '("' + data + '")');
+                    eval(successFunction + '("' + data + '", '+partial+')');
           },
           error: function(xhr, statusSTR, errorSTR) {
                 // display an error

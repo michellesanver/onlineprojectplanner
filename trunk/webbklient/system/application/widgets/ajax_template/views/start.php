@@ -10,7 +10,7 @@
     <p>This AJAX template uses the style <strong>AJAX</strong> in jquery window.</p>
     <p>This view is loaded from the subfolder 'views' inside the folder for the widget.</p>
     
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/show_documentation');">show jquery.window documentation</a></p>
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/show_documentation');">show jquery.window documentation</a></p>
 
 
 
@@ -28,9 +28,9 @@
     
 <pre class="code"> 
 CODE (Error "page not found"):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/this_is_an_url_that_does_not_work');">error "page not found"&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/this_is_an_url_that_does_not_work');">error "page not found"&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/this_is_an_url_that_does_not_work');">Error "page not found"</a></p>    
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/this_is_an_url_that_does_not_work');">Error "page not found"</a></p>    
     
 <pre class="code"> 
 CODE (Call to a function inside the namespace):
@@ -42,31 +42,31 @@ CODE (Call to a function inside the namespace):
 CODE (Call to a global function - error):
     &lt;p>&lt;a href="javascript:show_errormessage('This is a error message');">Call to a global function - error&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:show_errormessage('This is a error message');">Call to a global function - error</a></p>  
+    <p><a href="javascript:Desktop.show_errormessage('This is a error message');">Call to a global function - error</a></p>  
 
 <pre class="code"> 
 CODE (database-model test):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/show_documentation');">database-model test&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/show_documentation');">database-model test&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/model_test');">database-model test</a></p>
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/model_test');">database-model test</a></p>
  
 <pre class="code"> 
 CODE (library test):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/library_test');">library test&lt;/a>&lt;/p>        
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/library_test');">library test&lt;/a>&lt;/p>        
 </pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/library_test');">library test</a></p>        
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/library_test');">library test</a></p>        
    
 <pre class="code"> 
 CODE (parameter and post test):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/edit_user/&lt;?php echo $userID; ?>');">parameter and post test&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/edit_user/&lt;?php echo $userID; ?>');">parameter and post test&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/edit_user/<?php echo $userID; ?>');">parameter and post test</a></p>   
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/edit_user/<?php echo $userID; ?>');">parameter and post test</a></p>   
 
 <pre class="code"> 
 CODE (setPartialContent test):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/partial');">setPartialContent test&lt;/a>&lt;/p>
+    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/partial');">setPartialContent test&lt;/a>&lt;/p>
 </pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.load('/some_controller_name/partial');">setPartialContent test</a></p>   
+    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/partial');">setPartialContent test</a></p>   
     
     
 <pre class="code">

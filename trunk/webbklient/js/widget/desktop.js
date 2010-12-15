@@ -106,40 +106,40 @@ Desktop = {
 	show_message: function(message)
 	{
 		$('#message').html('<p>'+message+'</p>'+'<p>Click anywhere to close this message</p>');
-		$('#message').css('top',message_current_position+'px');
+		$('#message').css('top',Desktop.message_current_position+'px');
 		$('#message').addClass('ok');
 		
-		$('#fullpage_overlay').click(function(){ close_message(); $('#message').removeClass('ok'); });
-		$('#message').click(function(){ close_message(); $('#message').removeClass('ok'); }); 
+		$('#fullpage_overlay').click(function(){ Desktop.close_message(); $('#message').removeClass('ok'); });
+		$('#message').click(function(){ Desktop.close_message(); $('#message').removeClass('ok'); }); 
 		
-		start_message_animate();
+		Desktop.start_message_animate();
 	},
 
 	// function for widgets to display an error-message (red)
 	show_errormessage: function(message)
 	{
 		$('#message').html('<p>'+message+'</p>'+'<p>Click anywhere to close this message</p>'); 
-		$('#message').css('top',message_current_position+'px');
+		$('#message').css('top',Desktop.message_current_position+'px');
 		$('#message').addClass('error');
 		
-		$('#fullpage_overlay').click(function(){ close_message(); $('#message').removeClass('error'); });
-		$('#message').click(function(){ close_message(); $('#message').removeClass('error'); }); 
+		$('#fullpage_overlay').click(function(){ Desktop.close_message(); $('#message').removeClass('error'); });
+		$('#message').click(function(){ Desktop.close_message(); $('#message').removeClass('error'); }); 
 		
-		start_message_animate();
+		Desktop.start_message_animate();
 	},
 
 	// common function to set timer and start animate
 	start_message_animate: function()
 	{
 		var maxWidth = $('#desktop').width();
-		var centerPosition = (maxWidth/2)-(message_width/2);
+		var centerPosition = (maxWidth/2)-(Desktop.message_width/2);
 		$('#message').css('left',centerPosition+'px');
-		$('#message').css('top',message_start_position+'px');
+		$('#message').css('top',Desktop.message_start_position+'px');
 		
 		$('#fullpage_overlay').show(); 
 		
-		message_timer = setInterval('message_animate()', message_speed);
-		$('#message').fadeIn(message_speed);
+		Desktop.message_timer = setInterval('Desktop.message_animate()', Desktop.message_speed);
+		$('#message').fadeIn(Desktop.message_speed);
 	},
 	
 	show_ajax_loader_in_widget: function(id) {
@@ -152,14 +152,14 @@ Desktop = {
 	// callback function for timer
 	message_animate: function()
 	{
-		if (message_current_position<0)
+		if (Desktop.message_current_position<0)
 		{
-			message_current_position += message_tick;
-			$('#message').css('top',message_current_position+'px');    
+			Desktop.message_current_position += Desktop.message_tick;
+			$('#message').css('top',Desktop.message_current_position+'px');    
 		}
 		else
 		{
-			reset_message();
+			Desktop.reset_message();
 		}
 	},
 
@@ -173,9 +173,9 @@ Desktop = {
 	// reset timer and position for a new round
 	reset_message: function()
 	{
-		clearInterval(message_timer);    
-		message_timer = null;
-		message_current_position = message_start_position;  
+		clearInterval(Desktop.message_timer);    
+		Desktop.message_timer = null;
+		Desktop.message_current_position = Desktop.message_start_position;  
 	}
 	
 }
