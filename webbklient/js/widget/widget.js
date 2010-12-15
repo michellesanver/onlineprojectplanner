@@ -1,19 +1,22 @@
 function Widget(id, wnd_options) {
 	
+	// Property assignment
 	this.id = id;
+	this.divId = "widget_" + id;
 	
-	var initialContent = "<div class=\"widget_window\" id=\"widget_" + id + "\"></div>";
-	alert(this.id);
+	// Starting JQuery-window object
+	var initialContent = "<div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
+	
 	wnd_options.content = initialContent;
 	
 	this.wnd = $('#content').window(wnd_options);
+	
+	//TODO: SETTINGS IN THE FOOTER
 	//this.wnd.setFooterContent("<a href='#'><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
-
-    return this.wnd;
 }
 
 Widget.prototype.setContent = function(data) {
-	$('#widget_' + this.id).html(data);
+	$('#' + this.divId).html(data);
 }
 
 Widget.prototype.getWindowObject = function() {
@@ -25,18 +28,11 @@ Widget.prototype.closeWidget = function() {
 };
 
 // display a ajax spinner
-Widget.prototype.show_ajax_loader = function(divID, divClass)
-{   /*
+Widget.prototype.show_ajax_loader = function()
+{
      // class frame_loading is from jquery.window 
-     var container = null;
-     if (divClass != undefined || divClass != "" || divClass != null)
-     {
-        container = $('.'+divClass);
-     }
-     else
-     {
-         container = $('#'+divID);
-     }
+     
+     container = $('#' + this.divId);
      
      // show white or black version?  
      if ( container.html() == "" )
@@ -50,13 +46,6 @@ Widget.prototype.show_ajax_loader = function(divID, divClass)
      else
      {
         // has content; show black 
-         
-        // find top-most div of window
-        var parentContainer = container;
-        while (parentContainer.hasClass('window_panel')==false)
-        {
-            parentContainer = parentContainer.parent();    
-        } 
         
         // prepare html 
         var loadingHTML = "<div class='frame_loading-black'>Loading...</div>"; 
@@ -75,32 +64,21 @@ Widget.prototype.show_ajax_loader = function(divID, divClass)
                                 'left': 0
                             }; 
          
-        // append overlay to ID or Class     
-        var overlay = "";
-        if (divClass != undefined || divClass != "" || divClass != null)
-        {
-            overlay = "<div class=\""+divClass+"_Overlay\"></div>";
-            container.append(overlay);
-            $('.'+divClass+'_Overlay').css(overlayOptions);
-        }
-        else
-        {
-            overlay = "<div id=\""+divID+"_Overlay\"></div>";
-            container.append(overlay);
-            $('#'+divID+'_Overlay').css(overlayOptions);
-        }
+				overlay = "<div id=\""+this.divId+"_Overlay\"></div>";
+				container.append(overlay);
+				$('#'+divID+'_Overlay').css(overlayOptions);
         
         // append loading html and set position
         container.append(loadingHTML);
         var loading = container.children(".frame_loading-black");
         loading.css({"marginLeft": '-' + (loading.outerWidth() / 2) -20 + 'px', 'z-index': 2001});  
 				
-     }*/
+     }
 }
 
 // display an error (jquery ui)
-Widget.prototype.show_ajax_error = function(divID, divClass, loadURL, errorIcon)
-{/*
+Widget.prototype.show_ajax_error = function(loadURL, errorIcon)
+{
     // prepare message
     var errorMessage = "<p class=\"ajaxTemplateWidget_Error\">";
     
@@ -114,12 +92,5 @@ Widget.prototype.show_ajax_error = function(divID, divClass, loadURL, errorIcon)
     errorMessage += "Error: Unable to load the page at<br/><br/><small>"+loadURL+"</small></p>";
 
     // show in div with ID or Class
-    if (divClass != undefined || divClass != "" || divClass != null)
-    {
-        $('.'+divClass).html(errorMessage);
-    }
-    else
-    {
-        $('#'+divID).html(errorMessage);
-    }*/
+        $('#'+this.divId).html(errorMessage);
 }

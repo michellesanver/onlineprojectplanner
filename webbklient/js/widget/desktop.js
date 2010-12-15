@@ -118,8 +118,11 @@ Desktop = {
 		$('#message').fadeIn(message_speed);
 	},
 	
-	show_ajax_loader_in_widget: function(id, divID, divClass) {
-		//this._widgetArray[id].show_ajax_loader(divID, divClass);
+	show_ajax_loader_in_widget: function(id) {
+		this._widgetArray[id].show_ajax_loader();
+	},
+	show_ajax_error_in_widget: function(id, loadURL, errorIcon) {
+		this._widgetArray[id].show_ajax_error(loadURL, errorIcon);
 	},
 
 	// callback function for timer

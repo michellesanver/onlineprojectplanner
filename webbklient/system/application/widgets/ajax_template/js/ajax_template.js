@@ -33,17 +33,23 @@ ajaxTemplateWidget = {
 			this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId);
 			
 			// load the first page upon start
-			ajaxTemplateWidget.load('/some_controller_name');
+			ajaxTemplateWidget.load('/ome_controller_name');
 		},
 		
     // --------------------------------------------------------------------------------------- 
     
-    // set content in widgets div
+    // set content in widgets div, called from the ajax request
     setContent: function(data)  
         {
             Desktop.setWidgetContent(this.currentID, data);
         },
-                
+
+    // set error-message in widgets div, called from the ajax request
+    setAjaxError: function(loadURL, errorIcon)  
+        {
+					Desktop.show_ajax_error_in_widget(this.currentID, loadURL, errorIcon);
+        },
+				
     // function that will load an url and set resulting data into specified div
     load: function(url)
         {
@@ -56,7 +62,7 @@ ajaxTemplateWidget = {
             }
             
             // show ajax spinner
-            Desktop.show_ajax_loader_in_widget(this.currentID, null, ajaxTemplateWidget.contentDivClass);
+            Desktop.show_ajax_loader_in_widget(this.currentID);
 
             
             // load with ajax
@@ -70,7 +76,7 @@ ajaxTemplateWidget = {
               },
               error: function(xhr, statusSTR, errorSTR) {
                     // display an error
-                    show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL, ajaxTemplateWidget.errorIcon);
+                    ajaxTemplateWidget.setAjaxError(loadURL, ajaxTemplateWidget.errorIcon);
               }
            });      
            
