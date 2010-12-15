@@ -37,6 +37,11 @@ Desktop = {
 		return id;
 	},
 	
+    getWindowObject: function(id) {
+        // get a jquery window-object so it is accessable in static widget javascript
+        return this._widgetArray[id].getWindowObject();    
+    },
+    
 	setWidgetContent : function(id, data) {
 		this._widgetArray[id].setContent(data);
 	},

@@ -1,94 +1,86 @@
-   
-// place widget in a namespace (javascript object simulates a namespace)
-browserWidget = {
-
-    contentDivClass: 'browserContent',
+  
+browserWidget = {   
+  
+      // widget specific settings
+    partialContentDivClass: '', // optional
     widgetTitle: 'Simple browser',
     widgetName: 'browser', // also name of folder
-    errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
     
-    // variable for window (DO NOT CHANGE - REQUIRED)
-    wnd: null, 
-    
-    // callbacks that is set in common.js upon start (DO NOT CHANGE - REQUIRED)     
-    onMinimize: null, 
-    onClose:null,
+    // id to current window    
+    currentID: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function() {
-        
-                    // create the first view
-                    var initialContent = "<div class=\"browserTopBar\"><div class=\"browserInnerContent\">Enter a URL: <input type=\"text\" class=\"browserInput\" size=\"50\" /> <input type=\"button\" class=\"browserSubmitButton\" value=\"Go!\" onclick=\"browserWidget.load();\" /></div></div><div class=\"browserContent\"></div>";
-        
-                    // create a new jquery window
-                    this.wnd = $('#content').window({
-                        // change theese as needed
-                       title: browserWidget.widgetTitle,
-                       content: initialContent,
-                       width: 800,
-                       height: 450,
-                       x: 30,
-                       y: 15,
-                       
-                       // do NOT change theese
-                       onMinimize:  this.onMinimize, 
-                       onClose:  this.onClose,
-                       checkBoundary: true,
-                       maxWidth: $('#content').width(),
-                       maxHeight: $('#content').height(),
-                       bookmarkable: false
-                    });
-        
-                } ,
-                
-    // --------------------------------------------------------------------------------------- 
-     
-    // set content in widgets div
-    setContent: function(data)  
-        {
-            $('.'+browserWidget.contentDivClass).html(data);
+    open: function(widgetIconId) {
+            
+            // set options for window
+            var windowOptions = {
+                // change theese as needed
+                title: browserWidget.widgetTitle,
+                width: 800,
+                height: 450,
+                x: 30,
+                y: 15
+            };
+          
+            // create window
+            this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId, browserWidget.partialContentDivClass);
+
+            // set content
+            var initialContent = "<form class=\"browser_form\"><div class=\"browserTopBar\"><div class=\"browserInnerContent\">Enter a URL: <input type=\"text\" class=\"browserURL\" name=\"browserURL\" id=\"browserURL\" size=\"50\" /> <input type=\"button\" class=\"browserSubmitButton\" value=\"Go!\" onclick=\"browserWidget.getURL();\" /></div></div><div class=\"browserContent\"></div></form>";
+            browserWidget.setContent(initialContent);
         },
-      
-    iframeHTML: "<iframe id=\"browserIFrame\" width=\"775\" height=\"375\" border=\"0\" frameborder=\"0\"></iframe>",
-                
-    // function that will load an url from the textinput
-    load: function()
+        
+    // --------------------------------------------------------------------------------------- 
+    
+    // set content in widgets div, called from the ajax request
+    setContent: function(data)  
     {
-        // get url from input
-        var url = $('.browserInput').val();   
+            Desktop.setWidgetContent(this.currentID, unescape(data));
+    },
+
+    // set partial content in widgets div, called from the ajax request
+    setPartialContent: function(data)  
+    {
+            Desktop.setWidgetPartialContent(this.currentID, unescape(data));
+    },
         
-        // empty?
-        if (url == "")
-        {
-            show_errormessage('Hey! :\'( You must enter a URL before submitting.');
-            return;
-        }
+    // set error-message in widgets div, called from the ajax request
+    setAjaxError: function(loadURL)  
+    {
+            Desktop.show_ajax_error_in_widget(this.currentID, loadURL);
+    },
+    
+    
+    // -----------------------------------------------------------------
+    
+    getURL: function() {
+ 
+        var url = SITE_URL+"/widget/browser/main/get"; 
         
-        // show ajax spinner
-        show_ajax_loader(null, browserWidget.contentDivClass);
+         // send request
+        ajaxRequests.post(browserWidget.currentID, 'browser_form', url, 'browserWidget.loadSuccess', 'browserWidget.setAjaxError', false);
+    },
+    
+    iframeHTML: "<iframe class=\"browserIFrame\" width=\"775\" height=\"375\" border=\"0\" frameborder=\"0\"></iframe>", 
+    
+    // a successfunction from ajaxrequest
+    loadSuccess: function(data) {
         
-        // load with ajax
-        var loadURL = SITE_URL+"/widget/browser/main/get";
-        $.ajax({
-          type: 'POST',
-          url: loadURL,
-          data: {'url': url},
-          success: function(data){
-                // create an iframe
-                $('.browserContent').html(browserWidget.iframeHTML);  
-                
-                // write result into iframe
-                doc = document.getElementById('browserIFrame').contentWindow.document;
-                doc.open();
-                doc.write(data);
-                doc.close();
-          },
-              error: function(xhr, statusSTR, errorSTR) {
-                    // display an error (jquery ui)
-                    show_ajax_error(null, browserWidget.contentDivClass, loadURL, browserWidget.errorIcon);         
-              }
-       });
+        // get current window and container-div
+        var window = Desktop.getWindowObject(this.currentID);
+        var container = window.getContainer();
         
+        // inject iframe through container
+        container.find('.browserContent').html(browserWidget.iframeHTML);  
+        
+        // write to iframe using native javascript
+        var iframe = container.find('.browserIFrame');
+        doc = iframe[0].contentWindow.document;
+        doc.open();
+        doc.write(unescape(data));
+        doc.close();
     }
     
 };
+   
+   
