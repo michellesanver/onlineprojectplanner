@@ -3,7 +3,7 @@ function Widget(id, wnd_options) {
 	this.id = id;
 	
 	var initialContent = "<div class=\"widget_window\" id=\"widget_" + id + "\"></div>";
-	
+	alert(this.id);
 	wnd_options.content = initialContent;
 	
 	this.wnd = $('#content').window(wnd_options);
@@ -17,11 +17,11 @@ Widget.prototype.setContent = function(data) {
 
 Widget.prototype.getWindowObject = function() {
 	return this.wnd;
-};
+}
 
 // display a ajax spinner
 Widget.prototype.show_ajax_loader = function(divID, divClass)
-{   
+{   /*
      // class frame_loading is from jquery.window 
      var container = null;
      if (divClass != undefined || divClass != "" || divClass != null)
@@ -89,12 +89,13 @@ Widget.prototype.show_ajax_loader = function(divID, divClass)
         container.append(loadingHTML);
         var loading = container.children(".frame_loading-black");
         loading.css({"marginLeft": '-' + (loading.outerWidth() / 2) -20 + 'px', 'z-index': 2001});  
-     }
+				
+     }*/
 }
 
 // display an error (jquery ui)
 Widget.prototype.show_ajax_error = function(divID, divClass, loadURL, errorIcon)
-{
+{/*
     // prepare message
     var errorMessage = "<p class=\"ajaxTemplateWidget_Error\">";
     
@@ -115,5 +116,5 @@ Widget.prototype.show_ajax_error = function(divID, divClass, loadURL, errorIcon)
     else
     {
         $('#'+divID).html(errorMessage);
-    }
+    }*/
 }

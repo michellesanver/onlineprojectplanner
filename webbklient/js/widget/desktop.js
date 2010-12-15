@@ -4,22 +4,21 @@ Desktop = {
 	
 	newWidgetWindow : function(options) {
 	
-		// set id
-		var id = this._widgetArray.length -1;
-		
 		// add more options
 		options.onMinimize = this.onMinimize;
 		options.onClose = this.onClose;
-		options.checkBoundary: true;
-		options.maxWidth: $('#content').width();
-		options.maxHeight: $('#content').height();
+		options.checkBoundary = true;
+		options.maxWidth = $('#content').width();
+		options.maxHeight = $('#content').height();
 		if (options.bookmarkable == undefined )
 		{
 			options.bookmarkable = false;
 		}
 		
+		// set id
+		var id = this._widgetArray.length;
 		// create window
-		var widget = new Widget(id, options);
+		this._widgetArray.push(new Widget(id, options));
 		
 		return id;
 	},
@@ -121,6 +120,10 @@ Desktop = {
 		
 		message_timer = setInterval('message_animate()', message_speed);
 		$('#message').fadeIn(message_speed);
+	},
+	
+	show_ajax_loader_in_widget: function(id, divID, divClass) {
+		this._widgetArray[id].show_ajax_loader(divID, divClass);
 	},
 
 	// callback function for timer

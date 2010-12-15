@@ -56,7 +56,7 @@ ajaxTemplateWidget = {
             }
             
             // show ajax spinner
-            show_ajax_loader(null, ajaxTemplateWidget.contentDivClass);
+            Desktop.show_ajax_loader_in_widget(this.currentID, null, ajaxTemplateWidget.contentDivClass);
             
             // load with ajax
             var loadURL = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
