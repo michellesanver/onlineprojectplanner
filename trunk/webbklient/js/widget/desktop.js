@@ -1,6 +1,7 @@
 Desktop = {
 	
 	_widgetArray : new Array(),
+    _partialContentArray: new Array(),
 	_errorIcon: BASE_URL+'images/backgrounds/erroricon.png', 
     
 	newWidgetWindow : function(options, widgetIconId, partialContentClass) {
@@ -18,9 +19,21 @@ Desktop = {
 		
 		// set id
 		var id = this._widgetArray.length;
+        
 		// create window
 		this._widgetArray.push(new Widget(id, options));
 		
+        // save partialContentClass if it is set
+        if (partialContentClass != undefined)
+        {
+            this._partialContentArray.push(partialContentClass);    
+        }
+        else
+        {
+            this._partialContentArray.push(""); // so the arrays will match
+        }
+        
+        // return new id
 		return id;
 	},
 	
@@ -28,7 +41,17 @@ Desktop = {
 		this._widgetArray[id].setContent(data);
 	},
 	
-	
+    setWidgetPartialContent : function(id, data) {
+        var partialClass = this._partialContentArray[id];
+        
+        if (partialClass == "")
+        {
+            return false;
+        }    
+    
+        this._widgetArray[id].PartialContent(partialClass, data);
+    },
+    
 	// --------------------------------------------------------------------------------------------------
 	// open and close widgets in widget bar
 	

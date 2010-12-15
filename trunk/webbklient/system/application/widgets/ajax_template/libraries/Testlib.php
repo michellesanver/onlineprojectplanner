@@ -4,7 +4,8 @@ class Testlib {
 
     function randomFunctionName()
     {
-        $returnDATA = "<h1>AJAX template; Mashed up data in library</h1>";
+        $returnDATA = "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
+        $returnDATA .= "<h1>AJAX template; Mashed up data in library</h1>";
         $returnDATA .= "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.load('/some_controller_name');\"><< Back to previous page</a></p>";
         $returnDATA .= "<br style=\"clear:both;\">"; 
         
@@ -37,7 +38,7 @@ class Testlib {
               $returnDATA .= "</tr>";
         }
         echo "</table>";
-        $returnDATA .= "</div>"; 
+        $returnDATA .= "</div></div>"; 
         
         // return the result
         return $returnDATA;

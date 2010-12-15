@@ -42,6 +42,7 @@
         }
     </style>
 
+<div id="ajax_template_wrapper" style="padding:15px;">
 
 <h1>Documentation jquery.window</h1>
 
@@ -433,3 +434,4 @@
 
 <p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.load('/some_controller_name');"><< Back to previous page</a></p>  
 
+</div>

@@ -19,13 +19,17 @@ Widget.prototype.setContent = function(data) {
 	$('#' + this.divId).html(data);
 }
 
+Widget.prototype.PartialContent = function(partialClass, data) {
+    $('#' + this.divId+'').find('.'+partialClass).html(data);
+}
+
 Widget.prototype.getWindowObject = function() {
 	return this.wnd;
 }
 
 Widget.prototype.closeWidget = function() {
     this.wnd.close();    
-};
+}
 
 // display a ajax spinner
 Widget.prototype.show_ajax_loader = function()
@@ -46,6 +50,12 @@ Widget.prototype.show_ajax_loader = function()
      else
      {
         // has content; show black 
+        parentContainer = container;
+        while (parentContainer.hasClass("window_panel")==false)
+        {
+            parentContainer = parentContainer.parents();    
+        }
+        
         
         // prepare html 
         var loadingHTML = "<div class='frame_loading-black'>Loading...</div>"; 
@@ -66,7 +76,7 @@ Widget.prototype.show_ajax_loader = function()
          
 				overlay = "<div id=\""+this.divId+"_Overlay\"></div>";
 				container.append(overlay);
-				$('#'+divID+'_Overlay').css(overlayOptions);
+				$('#'+this.divId+'_Overlay').css(overlayOptions);
         
         // append loading html and set position
         container.append(loadingHTML);
