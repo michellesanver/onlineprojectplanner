@@ -6,6 +6,8 @@ ajaxTemplateWidget = {
     widgetTitle: 'AJAX template',
     widgetName: 'ajax_template', // also name of folder
     errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
+		
+		currentID: null,
     
     // variable for window (DO NOT CHANGE - REQUIRED)
     wnd_handler: null, 
@@ -16,39 +18,17 @@ ajaxTemplateWidget = {
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
     open: function() {
-        
-                    // create the first view
-                    var initialContent = "<div class=\""+ajaxTemplateWidget.contentDivClass+"\"></div>";
-        
-                    // create a new jquery window
-                    this.wnd_handler = new WIWindowHandler({
-                        // change theese as needed
-                       title: ajaxTemplateWidget.widgetTitle,
-                       content: initialContent,
-                       width: 625,
-                       height: 400,
-                       x: 30,
-                       y: 15,
-                       
-                       // do NOT change theese
-                       onMinimize:  this.onMinimize, 
-                       onClose:  this.onClose,
-                       checkBoundary: true,
-                       maxWidth: $('#content').width(),
-                       maxHeight: $('#content').height(),
-                       bookmarkable: false
-                    });
-        
-                    // load the first page upon start
-                    ajaxTemplateWidget.load('/some_controller_name');
-                } ,
-                
+			this.currentID = Desktop.newWidgetWindow();
+			// load the first page upon start
+			ajaxTemplateWidget.load('/some_controller_name');
+		} ,
+		
     // --------------------------------------------------------------------------------------- 
     
     // set content in widgets div
     setContent: function(data)  
         {
-            $('.'+ajaxTemplateWidget.contentDivClass).html(data);
+            Desktop.setWidgetContent(this.currentID, data);
         },
                 
     // function that will load an url and set resulting data into specified div
