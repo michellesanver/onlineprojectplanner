@@ -9,7 +9,7 @@ function Widget(id, wnd_options) {
 	
 	wnd_options.content = initialContent;
 	
-	this.wnd = $('#content').window(wnd_options);
+	this.wnd = $('#desktop').window(wnd_options);
 	
 	//TODO: SETTINGS IN THE FOOTER
 	//this.wnd.setFooterContent("<a href='#'><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");

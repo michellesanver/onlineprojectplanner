@@ -355,7 +355,7 @@ span.sitetitle a:hover {
     z-index: 1;
 }
 
-#content {
+#desktop, #content {
     z-index: 2;
 	margin-left:10px;
 	margin-right: 10px;
