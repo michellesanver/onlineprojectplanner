@@ -181,6 +181,11 @@ Desktop = {
 		clearInterval(Desktop.message_timer);    
 		Desktop.message_timer = null;
 		Desktop.message_current_position = Desktop.message_start_position;  
+	},
+	
+	openSettingsWindow: function(id)
+	{
+		this._widgetArray[id].open_settings_Window();
 	}
 	
 }

@@ -12,7 +12,7 @@ function Widget(id, wnd_options) {
 	this.wnd = $('#desktop').window(wnd_options);
 	
 	//TODO: SETTINGS IN THE FOOTER
-	//this.wnd.setFooterContent("<a href='#'><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
+	this.wnd.setFooterContent("<a href=\"javascript:void(0);\" onclick=\"Desktop.openSettingsWindow(" + this.id + ")\"><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
 }
 
 Widget.prototype.setContent = function(data) {
@@ -103,4 +103,9 @@ Widget.prototype.show_ajax_error = function(loadURL, errorIcon)
 
     // show in div with ID or Class
         $('#'+this.divId).html(errorMessage);
+}
+
+Widget.prototype.open_settings_Window = function()
+{
+	alert("NOT IMPLEMENTED");
 }
