@@ -5,7 +5,14 @@ The jquery plugin window can be used in two modes; Iframe och content/AJAX. Obse
 
 
 ==Folders==
-See this [https://code.google.com/p/onlineprojectplanner/wiki/Development_iframe_widgets#Folders link]
+Each widget is placed in _*system/application/widgets/(name)*_ where _*(name)*_ is the name of the widget without (). Inside the folder for the widget the structure is just like Codeigniter:
+    
+ * _*(name)/controllers*_ controller-classes (inherit from CI Controller)
+ * _*(name)/js*_ external javascript (recommended, not an requirement)
+ * _*(name)/css*_ external stylesheets (recommended, not an requirement)
+ * _*(name)/libraries*_ libraries
+ * _*(name)/models*_ models (database, inherit from CI model)
+ * _*(name)/views*_ views (Iframe requires full html-pages for each view)
 
     
 ==Common Javascript==
@@ -45,11 +52,47 @@ _Parameters:_
  * errorIcon is a string with a image to be displayed before the message (optional)
 
 ==URL's==
-See this [https://code.google.com/p/onlineprojectplanner/wiki/Development_iframe_widgets#URL's link].
+Codeigniter has an extension in the library Router to make it possible to have another folder-structure and URL's. When calling for a controller for a widget, use this syntax:
+    
+_*SITE_URL + "/widget/(name)/(controller)"*_ where _*(name)*_ is the name of the widget and _*(controller)*_ is the name of the controller.
+
+*Example*:<br>
+SITE_URL + "/widget/iframe_template/main"; this will call the controller main for the widget iframe_template.
     
 
 ==Settings.xml==
-See this [https://code.google.com/p/onlineprojectplanner/wiki/Development_iframe_widgets#Settings.xmls link].
+Each widget is required to have the file settings.xml inside the root-folder of the widget. Here is an example with comments:
+    
+{{{
+<?xml version="1.0"?>
+<!-- root -->
+<settings>
+    <!--  short description of the widget -->
+	<about>A template and help for developing widgets with Iframe-style</about>
+    <!-- version of widget-->
+	<version>1.0</version>
+    <!-- link to website -->
+	<link>none</link>
+    <!-- name of author -->
+	<author>Fredrik Johansson</author>
+    <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
+	<icon>help-desk-icon.png</icon>
+    <!-- title of widget; will be placed under icon (can be left empty) -->
+    <icon_title>Iframe Template</icon_title>
+    <!-- namespace of widget (namespace = javascript object) -->
+    <widget_object>iframeTemplateWidget</widget_object>
+    <!--
+        list of files to be loaded relative to main folder of widgets
+        (theese files will be loaded upon project start)
+        
+        valid types are; javascript, css
+    -->
+	<load>
+		<file type="javascript">js/iframe-template.js</file>
+		<file type="css">css/iframe-styles.css</file>
+	</load>
+</settings>
+}}}
     
 
 ==Setup (javascript)==
