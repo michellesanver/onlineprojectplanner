@@ -42,7 +42,7 @@ ajaxTemplateWidget = {
     // set partial content in widgets div, called from the ajax request
     setPartialContent: function(data)  
     {
-            Desktop.setWidgetPartialContent(this.currentID, data);
+            Desktop.setWidgetPartialContent(this.currentID, unescape(data));
     },
         
     // set error-message in widgets div, called from the ajax request

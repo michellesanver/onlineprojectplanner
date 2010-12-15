@@ -12,7 +12,7 @@ class Main extends Controller {
     function get()
     {
   
-        $url = $_POST['url'];
+        $url = $_POST['browserURL'];
         $base_url = 'proxy.php?url=';
             
         // ------------------------------------------
