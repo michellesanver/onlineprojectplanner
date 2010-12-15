@@ -70,6 +70,7 @@ class Some_controller_name extends Controller {
       $members = $this->testmodel->getUsers();
       
       // output data from the model
+      echo "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
       echo "<h1>AJAX template; Data from model</h1>";
       echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.load('/some_controller_name');\"><< Back to previous page</a></p>   ";
       echo "<table cellpadding=\"3\">";
@@ -86,7 +87,7 @@ class Some_controller_name extends Controller {
             echo "<td>$row->Email</td>";
             echo "</tr>";
       }
-      echo "</table>";
+      echo "</table></div>";
   }
     
    
@@ -140,6 +141,7 @@ class Some_controller_name extends Controller {
   {
   
       // output data from post
+      echo "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
       echo "<h1>AJAX template; Post data</h1>";
       echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.load('/some_controller_name');\"><< Back to previous page</a></p>   ";
     
@@ -155,10 +157,23 @@ class Some_controller_name extends Controller {
             echo "<td>$val</td>";
             echo "</tr>";
       }
-      echo "</table>";
+      echo "</table></div>";
     
       
   }
   
+  function partial()
+  {
+      echo "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
+      echo "<h1>AJAX template; setPartialContent</h1>";
+      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.load('/some_controller_name');\"><< Back to previous page</a></p>   ";   
+
+      echo "<br/><div class=\"ajax_template_partial\" style=\"border:2px solid #777;padding:20px;\">".
+            "This area is partial and will be reloaded when clicked.".
+            " <a href=\"javascript:void(0);\" onclick=\"ajaxTemplateWidget.setPartialContent('<p>This is the new content :)</p>');\">Reload partial area</a>".
+            "</div>";
+            
+      echo "<br/><br/>This area will NOT be reloaded.</div>";
+  }
   
 }

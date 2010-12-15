@@ -2,6 +2,8 @@
         pre.code {margin-top:20px; margin-left:10px; padding:5px; background-color:#d9d9d9; border:2px dashed #f0f0f0;}
     </style>
 
+<div id="ajax_template_wrapper" style="padding:15px;">
+
     <h1>AJAX template; parameter test</h1>
     
     <p>Query is: <?php echo $query; ?></p>
@@ -31,4 +33,5 @@
     CODE (form post): 
     &lt;form method="post" action="return false;" onsubmit="ajaxTemplateWidget.post('form1', '/some_controller_name/save_edit_user');" id="form1" name="form1"> 
 </pre>
-    
+
+</div>

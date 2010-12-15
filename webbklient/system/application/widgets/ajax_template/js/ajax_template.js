@@ -2,19 +2,13 @@
 // place widget in a namespace (javascript object simulates a namespace)
 ajaxTemplateWidget = {
 
-    partialContentDivClass: 'ajaxTemplateContent', // optional
+    // widget specific settings
+    partialContentDivClass: 'ajax_template_partial', // optional
     widgetTitle: 'AJAX template',
     widgetName: 'ajax_template', // also name of folder
 	
     // id to current window	
 	currentID: null,
-    
-    // variable for window (DO NOT CHANGE - REQUIRED)
-    wnd_handler: null, 
-    
-    // callbacks that is set in common.js upon start (DO NOT CHANGE - REQUIRED)     
-    onMinimize: null, 
-    onClose:null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
     open: function(widgetIconId) {
@@ -22,7 +16,7 @@ ajaxTemplateWidget = {
 			// set options for window
 			var windowOptions = {
 				// change theese as needed
-				title: this.widgetTitle,
+				title: ajaxTemplateWidget.widgetTitle,
 				width: 800,
 				height: 450,
 				x: 30,
@@ -44,6 +38,12 @@ ajaxTemplateWidget = {
             Desktop.setWidgetContent(this.currentID, unescape(data));
         },
 
+    // set partial content in widgets div, called from the ajax request
+    setPartialContent: function(data)  
+        {
+            Desktop.setWidgetPartialContent(this.currentID, data);
+        },
+        
     // set error-message in widgets div, called from the ajax request
     setAjaxError: function(loadURL)  
         {
