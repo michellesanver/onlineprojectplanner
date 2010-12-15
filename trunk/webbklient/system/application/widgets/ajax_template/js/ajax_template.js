@@ -33,7 +33,7 @@ ajaxTemplateWidget = {
 			this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId);
 			
 			// load the first page upon start
-			ajaxTemplateWidget.load('/ome_controller_name');
+			ajaxTemplateWidget.load('/some_controller_name');
 		},
 		
     // --------------------------------------------------------------------------------------- 
