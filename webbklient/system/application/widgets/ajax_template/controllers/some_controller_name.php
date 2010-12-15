@@ -72,7 +72,7 @@ class Some_controller_name extends Controller {
       // output data from the model
       echo "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
       echo "<h1>AJAX template; Data from model</h1>";
-      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.load('/some_controller_name');\"><< Back to previous page</a></p>   ";
+      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.loadURL('/some_controller_name');\"><< Back to previous page</a></p>   ";
       echo "<table cellpadding=\"3\">";
       echo "<tr>";
       echo "<td><strong>Firstname</strong></td>";
@@ -143,7 +143,7 @@ class Some_controller_name extends Controller {
       // output data from post
       echo "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
       echo "<h1>AJAX template; Post data</h1>";
-      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.load('/some_controller_name');\"><< Back to previous page</a></p>   ";
+      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.loadURL('/some_controller_name');\"><< Back to previous page</a></p>   ";
     
       echo "<table cellpadding=\"3\">";
       echo "<tr>";
@@ -166,7 +166,7 @@ class Some_controller_name extends Controller {
   {
       echo "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
       echo "<h1>AJAX template; setPartialContent</h1>";
-      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.load('/some_controller_name');\"><< Back to previous page</a></p>   ";   
+      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.loadURL('/some_controller_name');\"><< Back to previous page</a></p>   ";   
 
       echo "<br/><div class=\"ajax_template_partial\" style=\"border:2px solid #777;padding:20px;\">".
             "This area is partial and will be reloaded when clicked.".
