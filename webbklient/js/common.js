@@ -22,10 +22,63 @@ function setContentSize()
     $('#content').css('height',contentHeight+'px');  
 }
 
+
+
+// -----------------------------------------------------------------------------------------------------------
+// common functions for widgets
+
+ // MOVED to desktop.js
+ 
+// function to open a widget
+/*function open_widget(widgetCallback, widgetIconId, wObject)
+{
+    // which state?
+    var state = $('#'+widgetIconId).attr('state');
+    if ( state == "" )
+    {
+        // no state!
+        
+        // set callbacks for minimize and close
+        eval(wObject+'.onMinimize = function(){ close_widget("'+widgetIconId+'", "'+wObject+'"); }');
+        eval(wObject+'.onClose = function(){ reset_widget("'+widgetIconId+'"); }'); 
+        
+        // run callback to open widget
+        eval(wObject+'.open()');
+        
+        // set state as open and transparency for icon to 20%
+        $('#'+widgetIconId).attr('state', 'open');
+        $('#'+widgetIconId).css({ 'opacity':'0.2', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"', 'filter':'alpha(opacity=20)' });
+    }
+    
+}
+
+// callback for minimize
+function close_widget(widgetIconId, wObject)
+{
+    // close widget
+    eval(wObject+'.wnd.close()');
+    
+    // reset icon
+    reset_widget(widgetIconId);    
+}
+
+// callback for close
+function reset_widget(widgetIconId)
+{
+    // set state to none and set transparency to 100%
+    $('#'+widgetIconId).attr('state', '');
+    $('#'+widgetIconId).css({ 'opacity':'1.0', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"', 'filter':'alpha(opacity=100)' });
+} */
+
+
+
 // -----------------------------------------------------------------------------------------------------------
 // common functions and variables for messages
 
-message_current_position = -100;
+// MOVED to desktop.js
+
+
+/*message_current_position = -100;
 message_start_position = -100; // message_current_position will be set to this value after completion
 message_timer = null;
 message_speed = 100;
@@ -99,56 +152,15 @@ function reset_message()
     clearInterval(message_timer);    
     message_timer = null;
     message_current_position = message_start_position;  
-}
+}*/
 
 
-// -----------------------------------------------------------------------------------------------------------
-// common functions for widgets
 
 
-// function to open a widget
-function open_widget(widgetCallback, widgetIconId, wObject)
-{
-    // which state?
-    var state = $('#'+widgetIconId).attr('state');
-    if ( state == "" )
-    {
-        // no state!
-        
-        // set callbacks for minimize and close
-        eval(wObject+'.onMinimize = function(){ close_widget("'+widgetIconId+'", "'+wObject+'"); }');
-        eval(wObject+'.onClose = function(){ reset_widget("'+widgetIconId+'"); }'); 
-        
-        // run callback to open widget
-        eval(wObject+'.open()');
-        
-        // set state as open and transparency for icon to 20%
-        $('#'+widgetIconId).attr('state', 'open');
-        $('#'+widgetIconId).css({ 'opacity':'0.2', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"', 'filter':'alpha(opacity=20)' });
-    }
-    
-}
-
-// callback for minimize
-function close_widget(widgetIconId, wObject)
-{
-    // close widget
-    eval(wObject+'.wnd.close()');
-    
-    // reset icon
-    reset_widget(widgetIconId);    
-}
-
-// callback for close
-function reset_widget(widgetIconId)
-{
-    // set state to none and set transparency to 100%
-    $('#'+widgetIconId).attr('state', '');
-    $('#'+widgetIconId).css({ 'opacity':'1.0', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"', 'filter':'alpha(opacity=100)' });
-}
+// MOVED to widget.js
 
 // display a ajax spinner
-function show_ajax_loader(divID, divClass)
+/*function show_ajax_loader(divID, divClass)
 {   
      // class frame_loading is from jquery.window 
      var container = null;
@@ -244,4 +256,4 @@ function show_ajax_error(divID, divClass, loadURL, errorIcon)
     {
         $('#'+divID).html(errorMessage);
     }
-}
+}*/
