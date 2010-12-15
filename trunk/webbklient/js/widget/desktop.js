@@ -2,11 +2,11 @@ Desktop = {
 	
 	_widgetArray : new Array(),
 	
-	newWidgetWindow : function(options) {
+	newWidgetWindow : function(options, widgetIconId) {
 	
 		// add more options
-		options.onMinimize = this.onMinimize;
-		options.onClose = this.onClose;
+		options.onMinimize = function(){ Desktop.close_widget(widgetIconId, id); };
+		options.onClose = function(){ Desktop.reset_widget(widgetIconId); };
 		options.checkBoundary = true;
 		options.maxWidth = $('#content').width();
 		options.maxHeight = $('#content').height();
@@ -39,25 +39,21 @@ Desktop = {
 		{
 			// no state!
 			
-			// set callbacks for minimize and close
-			eval(wObject+'.onMinimize = function(){ close_widget("'+widgetIconId+'", "'+wObject+'"); }');
-			eval(wObject+'.onClose = function(){ reset_widget("'+widgetIconId+'"); }'); 
-			
 			// run callback to open widget
-			eval(wObject+'.open()');
+			eval(wObject+'.open("'+widgetIconId+'")');
 			
 			// set state as open and transparency for icon to 20%
 			$('#'+widgetIconId).attr('state', 'open');
-			$('#'+widgetIconId).css({ 'opacity':'0.2', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"', 'filter':'alpha(opacity=20)' });
+			$('#'+widgetIconId).css({ 'opacity':'0.2', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=20)"', 'filter':'alpha(opacity=20)' });
 		}
 		
 	},
 
 	// callback for minimize
-	close_widget: function(widgetIconId, wObject)
+	close_widget: function(widgetIconId, id)
 	{
 		// close widget
-		eval(wObject+'.wnd.close()');
+        this._widgetArray[id].closeWidget();
 		
 		// reset icon
 		reset_widget(widgetIconId);    
@@ -123,7 +119,7 @@ Desktop = {
 	},
 	
 	show_ajax_loader_in_widget: function(id, divID, divClass) {
-		this._widgetArray[id].show_ajax_loader(divID, divClass);
+		//this._widgetArray[id].show_ajax_loader(divID, divClass);
 	},
 
 	// callback function for timer
