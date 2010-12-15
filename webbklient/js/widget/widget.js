@@ -9,6 +9,7 @@ function Widget(id, wnd_options) {
 	this.wnd = $('#content').window(wnd_options);
 	//this.wnd.setFooterContent("<a href='#'><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
 
+    return this.wnd;
 }
 
 Widget.prototype.setContent = function(data) {
@@ -18,6 +19,10 @@ Widget.prototype.setContent = function(data) {
 Widget.prototype.getWindowObject = function() {
 	return this.wnd;
 }
+
+Widget.prototype.closeWidget = function() {
+    this.wnd.close();    
+};
 
 // display a ajax spinner
 Widget.prototype.show_ajax_loader = function(divID, divClass)

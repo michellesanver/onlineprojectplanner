@@ -17,24 +17,24 @@ ajaxTemplateWidget = {
     onClose:null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function() {
+    open: function(widgetIconId) {
 	
 			// set options for window
 			var windowOptions = {
 				// change theese as needed
-				title: browserWidget.widgetTitle,
+				title: this.widgetTitle,
 				width: 800,
 				height: 450,
 				x: 30,
 				y: 15
 			};
-	
+	      
 			// create window
-			this.currentID = Desktop.newWidgetWindow(windowOptions);
+			this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId);
 			
 			// load the first page upon start
 			ajaxTemplateWidget.load('/some_controller_name');
-		} ,
+		},
 		
     // --------------------------------------------------------------------------------------- 
     
@@ -57,6 +57,7 @@ ajaxTemplateWidget = {
             
             // show ajax spinner
             Desktop.show_ajax_loader_in_widget(this.currentID, null, ajaxTemplateWidget.contentDivClass);
+
             
             // load with ajax
             var loadURL = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
