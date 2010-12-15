@@ -363,7 +363,7 @@ class Widgets
             $widget_object = $row2->widget_object;
             $about = $row2->about;
             $icon_div = "widget_icon".($pos+1);
-            $function = "open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."')"; // open_widget is a global function in common.js
+            $function = "Desktop.open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."')"; // open_widget is a global function in common.js
             $title = ($row2->icon_title != "" ? $row2->icon_title : "");
             $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
             
@@ -464,7 +464,7 @@ class Widgets
                     $widget_object = $row2->widget_object;
                     $about = $row2->about;
                     $icon_div = "widget_icon".($found_count+1);
-                    $function = "open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."')"; // open_widget is a global function in common.js
+                    $function = "Desktop.open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."')"; // open_widget is a global function in common.js
                     $title = ($row2->icon_title != "" ? $row2->icon_title : "");
                     $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
                     
