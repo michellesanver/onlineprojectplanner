@@ -1,8 +1,9 @@
 Desktop = {
 	
 	_widgetArray : new Array(),
-	
-	newWidgetWindow : function(options, widgetIconId) {
+	_errorIcon: BASE_URL+'images/backgrounds/erroricon.png', 
+    
+	newWidgetWindow : function(options, widgetIconId, partialContentClass) {
 	
 		// add more options
 		options.onMinimize = function(){ Desktop.close_widget(widgetIconId, id); };
@@ -121,8 +122,8 @@ Desktop = {
 	show_ajax_loader_in_widget: function(id) {
 		this._widgetArray[id].show_ajax_loader();
 	},
-	show_ajax_error_in_widget: function(id, loadURL, errorIcon) {
-		this._widgetArray[id].show_ajax_error(loadURL, errorIcon);
+	show_ajax_error_in_widget: function(id, loadURL) {
+		this._widgetArray[id].show_ajax_error(loadURL, Desktop._errorIcon);
 	},
 
 	// callback function for timer
