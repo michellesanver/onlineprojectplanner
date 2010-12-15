@@ -2,12 +2,12 @@
 // place widget in a namespace (javascript object simulates a namespace)
 ajaxTemplateWidget = {
 
-    contentDivClass: 'ajaxTemplateContent',
+    partialContentDivClass: 'ajaxTemplateContent', // optional
     widgetTitle: 'AJAX template',
     widgetName: 'ajax_template', // also name of folder
-    errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
-		
-		currentID: null,
+	
+    // id to current window	
+	currentID: null,
     
     // variable for window (DO NOT CHANGE - REQUIRED)
     wnd_handler: null, 
@@ -30,7 +30,7 @@ ajaxTemplateWidget = {
 			};
 	      
 			// create window
-			this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId);
+			this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
 			
 			// load the first page upon start
 			ajaxTemplateWidget.load('/some_controller_name');
@@ -47,7 +47,7 @@ ajaxTemplateWidget = {
     // set error-message in widgets div, called from the ajax request
     setAjaxError: function(loadURL, errorIcon)  
         {
-					Desktop.show_ajax_error_in_widget(this.currentID, loadURL, errorIcon);
+					Desktop.show_ajax_error_in_widget(this.currentID, loadURL);
         },
 				
     // function that will load an url and set resulting data into specified div
@@ -76,7 +76,7 @@ ajaxTemplateWidget = {
               },
               error: function(xhr, statusSTR, errorSTR) {
                     // display an error
-                    ajaxTemplateWidget.setAjaxError(loadURL, ajaxTemplateWidget.errorIcon);
+                    ajaxTemplateWidget.setAjaxError(loadURL);
               }
            });      
            
@@ -116,7 +116,7 @@ ajaxTemplateWidget = {
           },
           error: function(xhr, statusSTR, errorSTR) {
                 // display an error
-                show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL, ajaxTemplateWidget.errorIcon);
+                show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL);
           }
        });
        
