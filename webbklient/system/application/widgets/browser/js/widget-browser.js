@@ -1,10 +1,12 @@
   
 browserWidget = {   
   
-      // widget specific settings
+    // widget specific settings
     partialContentDivClass: '', // optional
     widgetTitle: 'Simple browser',
     widgetName: 'browser', // also name of folder
+    
+    initialContent: "<form class=\"browser_form\"><div class=\"browserTopBar\"><div class=\"browserInnerContent\">Enter a URL: <input type=\"text\" class=\"browserURL\" name=\"browserURL\" id=\"browserURL\" size=\"50\" /> <input type=\"button\" class=\"browserSubmitButton\" value=\"Go!\" onclick=\"browserWidget.getURL();\" /></div></div><div class=\"browserContent\"></div></form>",
     
     // id to current window    
     currentID: null,
@@ -19,15 +21,12 @@ browserWidget = {
                 width: 800,
                 height: 450,
                 x: 30,
-                y: 15
+                y: 15,
+                content: browserWidget.initialContent
             };
           
             // create window
             this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId, browserWidget.partialContentDivClass);
-
-            // set content
-            var initialContent = "<form class=\"browser_form\"><div class=\"browserTopBar\"><div class=\"browserInnerContent\">Enter a URL: <input type=\"text\" class=\"browserURL\" name=\"browserURL\" id=\"browserURL\" size=\"50\" /> <input type=\"button\" class=\"browserSubmitButton\" value=\"Go!\" onclick=\"browserWidget.getURL();\" /></div></div><div class=\"browserContent\"></div></form>";
-            browserWidget.setContent(initialContent);
         },
         
     // --------------------------------------------------------------------------------------- 
@@ -58,10 +57,8 @@ browserWidget = {
         var url = SITE_URL+"/widget/browser/main/get"; 
         
          // send request
-        ajaxRequests.post(browserWidget.currentID, 'browser_form', url, 'browserWidget.loadSuccess', 'browserWidget.setAjaxError', false);
+        ajaxRequests.post(this.currentID, 'browser_form', url, 'browserWidget.loadSuccess', 'browserWidget.setAjaxError', false);
     },
-    
-    iframeHTML: "<iframe class=\"browserIFrame\" width=\"775\" height=\"375\" border=\"0\" frameborder=\"0\"></iframe>", 
     
     // a successfunction from ajaxrequest
     loadSuccess: function(data) {
@@ -70,8 +67,21 @@ browserWidget = {
         var window = Desktop.getWindowObject(this.currentID);
         var container = window.getContainer();
         
+        // set content for topbar
+        browserWidget.setContent(browserWidget.initialContent);
+        
+        // fetch size of iframe
+        parentContainer = container;
+        while (parentContainer.hasClass("window_panel")==false)
+        {
+            parentContainer = parentContainer.parents();    
+        } 
+        
+        var height = parseInt(parentContainer.css('height'))-87;
+        var width = parseInt(parentContainer.css('width'))-7;
+        
         // inject iframe through container
-        container.find('.browserContent').html(browserWidget.iframeHTML);  
+        container.find('.browserContent').html("<iframe class=\"browserIFrame\" height=\""+height+"\" width=\""+width+"\" border=\"0\" frameborder=\"0\"></iframe>");
         
         // write to iframe using native javascript
         var iframe = container.find('.browserIFrame');

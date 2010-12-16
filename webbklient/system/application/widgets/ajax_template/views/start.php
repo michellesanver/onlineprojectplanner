@@ -3,7 +3,7 @@
         pre.code {margin-top:20px; margin-left:10px; padding:5px; background-color:#d9d9d9; border:2px dashed #f0f0f0;}
     </style>
 
-<div id="ajax_template_wrapper" style="padding:15px;">
+<!--<div id="ajax_template_wrapper" style="padding:15px;">-->
     
     <h1>AJAX template</h1>
 
@@ -77,4 +77,4 @@ CODE (Image from widget-folder):
     <p><img src="<?php echo $widget_base_url; ?>images/Why_NORAD_Tracks_Santa.jpg" /></p>
 
 
-</div>
+<!--</div>-->

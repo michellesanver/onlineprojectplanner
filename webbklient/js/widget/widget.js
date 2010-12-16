@@ -5,9 +5,14 @@ function Widget(id, wnd_options) {
 	this.divId = "widget_" + id;
 	
 	// Starting JQuery-window object
-	var initialContent = "<div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
-	
-	wnd_options.content = initialContent;
+    if (wnd_options.content == undefined)
+    {
+	    wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
+    }
+    else
+    {
+        wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\">"+wnd_options.content+"</div>";    
+    }
 	
 	this.wnd = $('#desktop').window(wnd_options);
 	
@@ -20,7 +25,7 @@ Widget.prototype.setContent = function(data) {
 }
 
 Widget.prototype.PartialContent = function(partialClass, data) {
-    $('#' + this.divId+'').find('.'+partialClass).html(data);
+    $('#' + this.divId).find('.'+partialClass).html(data);
 }
 
 Widget.prototype.getWindowObject = function() {
@@ -39,14 +44,21 @@ Widget.prototype.show_ajax_loader = function()
      container = $('#' + this.divId);
      
      // show white or black version?  
-     if ( container.html() == "" )
-     {
+     /*if ( container.html() == "" )
+     {*/
+     
          // no content; show white
          var loadingHTML = "<div class='frame_loading'>Loading...</div>"; 
          container.html(loadingHTML);
          var loading = container.children(".frame_loading");
          loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
-     }
+     
+     
+     // NOTE; the black version if content is set with overlay does not work corrently
+     // do NOT delete the code though
+     
+         
+  /*   }
      else
      {
         // has content; show black 
@@ -54,7 +66,7 @@ Widget.prototype.show_ajax_loader = function()
         while (parentContainer.hasClass("window_panel")==false)
         {
             parentContainer = parentContainer.parents();    
-        }
+        }   
         
         
         // prepare html 
@@ -74,16 +86,21 @@ Widget.prototype.show_ajax_loader = function()
                                 'left': 0
                             }; 
          
-				overlay = "<div id=\""+this.divId+"_Overlay\"></div>";
-				container.append(overlay);
-				$('#'+this.divId+'_Overlay').css(overlayOptions);
+		overlay = "<div id=\""+this.divId+"_Overlay\"></div>";
+		container.append(overlay);
+		$('#'+this.divId+'_Overlay').css(overlayOptions);
         
         // append loading html and set position
         container.append(loadingHTML);
         var loading = container.children(".frame_loading-black");
         loading.css({"marginLeft": '-' + (loading.outerWidth() / 2) -20 + 'px', 'z-index': 2001});  
 				
-     }
+     }      */
+     
+     
+     // NOTE; the black version if content is set with overlay does not work corrently
+     // do NOT delete the code though
+     
 }
 
 // display an error (jquery ui)
