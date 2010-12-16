@@ -7,8 +7,6 @@ ajaxTemplateWidget = {
     widgetTitle: 'AJAX template',
     widgetName: 'ajax_template', // also name of folder
 	
-    // id to current window	
-		currentID: null,
 		currentPartial: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
@@ -24,11 +22,11 @@ ajaxTemplateWidget = {
 			};
 	      
 			// create window
-			this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
+			Desktop.newWidgetWindow(windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
 			
 			// load the first page upon start
-      var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name';
-			ajaxRequests.load(this.currentID, loadFirstPage, "ajaxTemplateWidget.loadSuccess", "ajaxTemplateWidget.setAjaxError");
+      var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name/';
+			ajaxRequests.load(loadFirstPage, "ajaxTemplateWidget.setContent", "ajaxTemplateWidget.setAjaxError");
 		},
 		
 		
@@ -43,20 +41,20 @@ ajaxTemplateWidget = {
     setContent: function(data) {
 			// The success return function, the data must be unescaped befor use.
 			// This is due to ILLEGAL chars in the string.
-			Desktop.setWidgetContent(this.currentID, unescape(data));
+			Desktop.setWidgetContent(unescape(data));
     },
 
     // set partial content in widgets div, called from the ajax request
     setPartialContent: function(data) {
 			// The success return function, the data must be unescaped befor use.
 			// This is due to ILLEGAL chars in the string.
-			Desktop.setWidgetPartialContent(this.currentID, this.currentPartial, unescape(data));
+			Desktop.setWidgetPartialContent(this.currentPartial, unescape(data));
 			this.currentPartial = null;
     },
     
     // set error-message in widgets div, called from the ajax request
     setAjaxError: function(loadURL) {
-			Desktop.show_ajax_error_in_widget(this.currentID, loadURL);
+			Desktop.show_ajax_error_in_widget(loadURL);
     },
     
     // shows a message (example in start.php)
@@ -70,9 +68,10 @@ ajaxTemplateWidget = {
         url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
 				
         // send request
-        ajaxRequests.load(ajaxTemplateWidget.currentID, url, 'ajaxTemplateWidget.loadSuccess', 'ajaxTemplateWidget.setAjaxError');
+        ajaxRequests.load(url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');
     },
 		
+		// Loads a ajaxrequest to specific partialclass, in this case "ajax_template_partial"
 		loadURLtoPartialTest: function(url) {
         // prepare url
         url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
@@ -81,35 +80,16 @@ ajaxTemplateWidget = {
         this.currentPartial = ajaxTemplateWidget.partialContentDivClass;
         
         // send request, last parameter = true if this is a partial call. Will skip the loading image.
-        ajaxRequests.load(ajaxTemplateWidget.currentID, url, 'ajaxTemplateWidget.setPartialContent', 'ajaxTemplateWidget.setAjaxError', true);
-    },
-    
-    // a successfunction from an ajaxrequest
-    loadSuccess: function(data, partial) {
-        // partial or full?
-        if (partial != undefined && partial == true)
-        {
-            ajaxTemplateWidget.setPartialContent(data);        
-        }
-        else
-        {
-            ajaxTemplateWidget.setContent(data);    
-        }
+        ajaxRequests.load(url, 'ajaxTemplateWidget.setPartialContent', 'ajaxTemplateWidget.setAjaxError', true);
     },
 		
     // wrapper-function that easily can be used inside views from serverside
-    postURL: function(formClass, url, partial) {
+    postURL: function(formClass, url) {
         // prepare url
         url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
-        
-        // set partial to false if not specified
-        if (partial == undefined)
-        {
-            partial = false;    
-        }
-        
+				
         // send request
-        ajaxRequests.post(ajaxTemplateWidget.currentID, formClass, url, 'ajaxTemplateWidget.loadSuccess', 'ajaxTemplateWidget.setAjaxError', partial);   
+        ajaxRequests.post(formClass, url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');   
     }
     
 };

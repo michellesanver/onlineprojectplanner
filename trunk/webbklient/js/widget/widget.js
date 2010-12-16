@@ -19,16 +19,23 @@ function Widget(id, wnd_options, partialClasses) {
 		}
 	}
 	
+	// Event that updates the selected window
+	wnd_options.Wid = this.id;
+	wnd_options.onSelect = function (){
+		Desktop.selectedWindowId = this.Wid;
+	};
+	
 	// Starting JQuery-window object
 	if(wnd_options.content == undefined) {
 		wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
 	} else {
 		wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\">" + wnd_options.content + "</div>";
 	}
+	
 	this.wnd = $('#desktop').window(wnd_options);
 	
 	//TODO: SETTINGS IN THE FOOTER
-	this.wnd.setFooterContent("<a href=\"javascript:void(0);\" onclick=\"Desktop.openSettingsWindow(" + this.id + ")\"><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
+	this.wnd.setFooterContent("<a href=\"javascript:void(0);\" onclick=\"Desktop.openSettingsWindow()\"><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
 }
 
 Widget.prototype.setContent = function(data) {
