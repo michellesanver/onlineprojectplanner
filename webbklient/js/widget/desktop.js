@@ -2,7 +2,7 @@ Desktop = {
 	
 	_widgetArray : new Array(),
 	_errorIcon: BASE_URL+'images/backgrounds/erroricon.png', 
-	
+	selectedWindowId: null,
 	// Message properties
 	message_current_position: -100,
 	message_start_position: -100, // message_current_position will be set to this value after completion
@@ -15,10 +15,10 @@ Desktop = {
 	newWidgetWindow : function(options, widgetIconId, partialContentClasses) {
 	
 		// set id
-		var id = this._widgetArray.length;
+		Desktop.selectedWindowId = this._widgetArray.length+2;
 		
 		// add more options
-		options.onMinimize = function(){ Desktop.close_widget(widgetIconId, id); };
+		options.onMinimize = function(){ Desktop.close_widget(widgetIconId); };
 		options.onClose = function(){ Desktop.reset_widget(widgetIconId); };
 		options.checkBoundary = true;
 		options.maxWidth = $('#desktop').width();
@@ -40,23 +40,19 @@ Desktop = {
 		}
 		
 		// create window
-		this._widgetArray.push(new Widget(id, options, partialClasses));
+		this._widgetArray[Desktop.selectedWindowId] = new Widget(Desktop.selectedWindowId, options, partialClasses);
 		
 		// return new id
-		return id;
+		return Desktop.selectedWindowId;
 	},
 	
-	getWindowObject: function(id) {
-			// get a jquery window-object so it is accessable in static widget javascript
-			return this._widgetArray[id].getWindowObject();    
+	setWidgetContent : function(data) {
+		this._widgetArray[Desktop.selectedWindowId].setContent(data);
 	},
 	
-	setWidgetContent : function(id, data) {
-		this._widgetArray[id].setContent(data);
-	},
-	
-	setWidgetPartialContent : function(id, inClass, data) {
-		this._widgetArray[id].setPartialContent(inClass, data);
+	// sets the partial content in the selected widget
+	setWidgetPartialContent : function(inClass, data) {
+		this._widgetArray[Desktop.selectedWindowId].setPartialContent(inClass, data);
 	},
 	
 	// --------------------------------------------------------------------------------------------------
@@ -81,10 +77,10 @@ Desktop = {
 	},
 
 	// callback for minimize
-	close_widget: function(widgetIconId, id)
+	close_widget: function(widgetIconId)
 	{
 		// close widget
-        this._widgetArray[id].closeWidget();
+        this._widgetArray[Desktop.selectedWindowId].closeWidget();
 		
 		// reset icon
 		reset_widget(widgetIconId);    
@@ -139,14 +135,14 @@ Desktop = {
 	},
 	
 	// Will display a loading image in the widget with the id
-	show_ajax_loader_in_widget: function(id)
+	show_ajax_loader_in_widget: function()
 	{
-		this._widgetArray[id].show_ajax_loader();
+		this._widgetArray[Desktop.selectedWindowId].show_ajax_loader();
 	},
 	// Will display an ajax error in the widget with the id
-	show_ajax_error_in_widget: function(id, loadURL)
+	show_ajax_error_in_widget: function(loadURL)
 	{
-		this._widgetArray[id].show_ajax_error(loadURL, Desktop._errorIcon);
+		this._widgetArray[Desktop.selectedWindowId].show_ajax_error(loadURL, Desktop._errorIcon);
 	},
 
 	// callback function for timer
@@ -178,9 +174,9 @@ Desktop = {
 		Desktop.message_current_position = Desktop.message_start_position;  
 	},
 	
-	openSettingsWindow: function(id)
+	openSettingsWindow: function()
 	{
-		this._widgetArray[id].open_settings_Window();
+		this._widgetArray[Desktop.selectedWindowId].open_settings_Window();
 	}
 	
 }

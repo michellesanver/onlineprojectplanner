@@ -1,7 +1,7 @@
 ajaxRequests = {
 
     // function that will load an url and set resulting data into specified div
-    load: function(windowID, loadURL, successFunction, errorFunction, partial)
+    load: function(loadURL, successFunction, errorFunction, partial)
         {
             // empty url?
             if (loadURL == "")
@@ -12,7 +12,7 @@ ajaxRequests = {
             
             // show ajax spinner
 						if(!partial){
-							Desktop.show_ajax_loader_in_widget(windowID);
+							Desktop.show_ajax_loader_in_widget();
 						}
 
             $.ajax({
@@ -32,7 +32,7 @@ ajaxRequests = {
         },
     
     // post data
-    post: function(windowID, formClass, loadURL, successFunction, errorFunction, partial)
+    post: function(formClass, loadURL, successFunction, errorFunction, partial)
     {
         var postdata = $('#widget_' + windowID ).find('.' + formClass).serialize();
       
@@ -49,9 +49,11 @@ ajaxRequests = {
             return;
         }
         
-        // show ajax spinner
-        Desktop.show_ajax_loader_in_widget(windowID);
-                 
+				// show ajax spinner
+				if(!partial){
+					Desktop.show_ajax_loader_in_widget();
+				}
+				
         // post with ajax
         $.ajax({
           type: 'POST',
