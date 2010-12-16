@@ -11,7 +11,9 @@ ajaxRequests = {
             }
             
             // show ajax spinner
-            Desktop.show_ajax_loader_in_widget(windowID);
+						if(!partial){
+							Desktop.show_ajax_loader_in_widget(windowID);
+						}
 
             $.ajax({
               type: 'GET',
@@ -20,7 +22,7 @@ ajaxRequests = {
                     // set new content
 					data = escape(data);
 										
-                    eval(successFunction + '("' + data + '", '+partial+')');
+                    eval(successFunction + '("' + data + '")');
               },
               error: function(xhr, statusSTR, errorSTR) {
                     // display an error
