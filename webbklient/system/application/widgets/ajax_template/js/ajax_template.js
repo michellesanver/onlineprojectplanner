@@ -8,11 +8,10 @@ ajaxTemplateWidget = {
     widgetName: 'ajax_template', // also name of folder
 	
     // id to current window	
-	currentID: null,
+		currentID: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
     open: function(widgetIconId) {
-	
 			// set options for window
 			var windowOptions = {
 				// change theese as needed
@@ -27,35 +26,41 @@ ajaxTemplateWidget = {
 			this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
 			
 			// load the first page upon start
-            var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name';
+      var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name';
 			ajaxRequests.load(this.currentID, loadFirstPage, "ajaxTemplateWidget.loadSuccess", "ajaxTemplateWidget.setAjaxError");
 		},
 		
-    // --------------------------------------------------------------------------------------- 
-    
+		
+		
+		
+		/* 
+		* The following functions are common for att widgets.
+    * --------------------------------------------------------------------------------------- 
+    */
+		
     // set content in widgets div, called from the ajax request
-    setContent: function(data)  
-    {
-            Desktop.setWidgetContent(this.currentID, unescape(data));
+    setContent: function(data) {
+			// The success return function, the data must be unescaped befor use.
+			// This is due to ILLEGAL chars in the string.
+			Desktop.setWidgetContent(this.currentID, unescape(data));
     },
 
     // set partial content in widgets div, called from the ajax request
-    setPartialContent: function(data)  
-    {
-            Desktop.setWidgetPartialContent(this.currentID, unescape(data));
+    setPartialContent: function(data) {
+			// The success return function, the data must be unescaped befor use.
+			// This is due to ILLEGAL chars in the string.
+			Desktop.setWidgetPartialContent(this.currentID, unescape(data));
     },
-        
+    
     // set error-message in widgets div, called from the ajax request
-    setAjaxError: function(loadURL)  
-    {
+    setAjaxError: function(loadURL) {
 			Desktop.show_ajax_error_in_widget(this.currentID, loadURL);
     },
     
     // shows a message (example in start.php)
-    example_showMessage: function(message)
-        {
-            Desktop.show_message(message);    
-        },
+    example_showMessage: function(message) {
+			Desktop.show_message(message);    
+		},
     
     // wrapper-function that easily can be used inside views from serverside    
     loadURL: function(url, partial) {
@@ -84,7 +89,8 @@ ajaxTemplateWidget = {
             ajaxTemplateWidget.setContent(data);    
         }
     },
-    
+		
+    // wrapper-function that easily can be used inside views from serverside
     postURL: function(formClass, url, partial) {
         // prepare url
         url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
