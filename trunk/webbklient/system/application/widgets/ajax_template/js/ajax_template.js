@@ -65,23 +65,23 @@ ajaxTemplateWidget = {
 		},
     
     // wrapper-function that easily can be used inside views from serverside    
-    loadURL: function(url, toPartialClass) {
+    loadURL: function(url) {
         // prepare url
         url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
-        
-				var successFunction = 'ajaxTemplateWidget.loadSuccess';
-				var partial = false;
 				
-        // set partial to false if not specified
-        if (toPartialClass != undefined)
-        {
-						partial = true;
-            this.currentPartial = toPartialClass;
-						successFunction = 'ajaxTemplateWidget.setPartialContent';
-        }
-        
         // send request
-        ajaxRequests.load(ajaxTemplateWidget.currentID, url, successFunction, 'ajaxTemplateWidget.setAjaxError', partial);
+        ajaxRequests.load(ajaxTemplateWidget.currentID, url, 'ajaxTemplateWidget.loadSuccess', 'ajaxTemplateWidget.setAjaxError');
+    },
+		
+		loadURLtoPartialTest: function(url) {
+        // prepare url
+        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+				
+        // set currentpartial to to the classname
+        this.currentPartial = ajaxTemplateWidget.partialContentDivClass;
+        
+        // send request, last parameter = true if this is a partial call. Will skip the loading image.
+        ajaxRequests.load(ajaxTemplateWidget.currentID, url, 'ajaxTemplateWidget.setPartialContent', 'ajaxTemplateWidget.setAjaxError', true);
     },
     
     // a successfunction from an ajaxrequest
