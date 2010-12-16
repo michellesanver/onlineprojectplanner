@@ -104,129 +104,115 @@ Set the name for the namespace of the widget in settings.xml and then create a j
 {{{
    
 // place widget in a namespace (javascript object simulates a namespace)
+   
+// place widget in a namespace (javascript object simulates a namespace)
 ajaxTemplateWidget = {
 
-    contentDivClass: 'ajaxTemplateContent',
+    // widget specific settings
+    partialContentDivClass: 'ajax_template_partial', // optional
     widgetTitle: 'AJAX template',
     widgetName: 'ajax_template', // also name of folder
-    errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
-    
-    // variable for window (DO NOT CHANGE - REQUIRED)
-    wnd: null, 
-    
-    // callbacks that is set in common.js upon start (DO NOT CHANGE - REQUIRED)     
-    onMinimize: null, 
-    onClose:null,
+	
+    // id to current window	
+		currentID: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function() {
-        
-                    // create the first view
-                    var initialContent = "<div class=\""+ajaxTemplateWidget.contentDivClass+"\"></div>";
-        
-                    // create a new jquery window
-                    this.wnd = $('#content').window({
-                        // change theese as needed
-                       title: ajaxTemplateWidget.widgetTitle,
-                       content: initialContent,
-                       width: 625,
-                       height: 400,
-                       x: 30,
-                       y: 15,
-                       
-                       // do NOT change theese
-                       onMinimize:  this.onMinimize, 
-                       onClose:  this.onClose,
-                       checkBoundary: true,
-                       maxWidth: $('#content').width(),
-                       maxHeight: $('#content').height(),
-                       bookmarkable: false
-                    });
-        
-                    // load the first page upon start
-                    ajaxTemplateWidget.load('/some_controller_name');
-        
-                } ,
-                
+    open: function(widgetIconId) {
+			// set options for window
+			var windowOptions = {
+				// change theese as needed
+				title: ajaxTemplateWidget.widgetTitle,
+				width: 800,
+				height: 450,
+				x: 30,
+				y: 15
+			};
+	      
+			// create window
+			this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
+			
+			// load the first page upon start
+      var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name';
+			ajaxRequests.load(this.currentID, loadFirstPage, "ajaxTemplateWidget.loadSuccess", "ajaxTemplateWidget.setAjaxError");
+		},
+		
+		
+		
+		
+		/* 
+		* The following functions are common for att widgets.
+    * --------------------------------------------------------------------------------------- 
+    */
+		
+    // set content in widgets div, called from the ajax request
+    setContent: function(data) {
+			// The success return function, the data must be unescaped befor use.
+			// This is due to ILLEGAL chars in the string.
+			Desktop.setWidgetContent(this.currentID, unescape(data));
+    },
+
+    // set partial content in widgets div, called from the ajax request
+    setPartialContent: function(data) {
+			// The success return function, the data must be unescaped befor use.
+			// This is due to ILLEGAL chars in the string.
+			Desktop.setWidgetPartialContent(this.currentID, unescape(data));
+    },
     
-    // set content in widgets div
-    setContent: function(data)  
-        {
-            $('.'+ajaxTemplateWidget.contentDivClass).html(data);
-        },
-                
-    // function that will load an url and set resulting data into specified div
-    load: function(url)
-        {
-            
-            // empty url?
-            if (url == "")
-            {
-                show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
-                return;
-            }
-            
-            // show ajax spinner
-            show_ajax_loader(null, ajaxTemplateWidget.contentDivClass);
-            
-            // load with ajax
-            var loadURL = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
-            $.ajax({
-              type: 'GET',
-              url: loadURL,
-              success: function(data){
-                    // set new content
-                    ajaxTemplateWidget.setContent(data);
-              },
-              error: function(xhr, statusSTR, errorSTR) {
-                    // display an error
-                    show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL, ajaxTemplateWidget.errorIcon);
-              }
-           });      
-           
-           return false; 
-        },
+    // set error-message in widgets div, called from the ajax request
+    setAjaxError: function(loadURL) {
+			Desktop.show_ajax_error_in_widget(this.currentID, loadURL);
+    },
     
-    // post data
-    post: function(formID, url)
-    {
-        var postdata = $('#'+formID ).serialize();
-      
-        // empty url?
-        if (url == "")
+    // shows a message (example in start.php)
+    example_showMessage: function(message) {
+			Desktop.show_message(message);    
+		},
+    
+    // wrapper-function that easily can be used inside views from serverside    
+    loadURL: function(url, partial) {
+        // prepare url
+        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        
+        // set partial to false if not specified
+        if (partial == undefined)
         {
-            show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
-            return;
-        }
-        // empty postdata?
-        else if (postdata == "")
-        {
-            show_errormessage('Hey! :\'( No data found to submit? *confused*');
-            return;
+            partial = false;    
         }
         
-        // show ajax spinner
-        show_ajax_loader(null, ajaxTemplateWidget.contentDivClass);
-                 
-        // post with ajax
-        var loadURL = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
-        $.ajax({
-          type: 'POST',
-          data: postdata,
-          url: loadURL,
-          success: function(data){
-                // set new content
-                ajaxTemplateWidget.setContent(data);
-          },
-          error: function(xhr, statusSTR, errorSTR) {
-                // display an error
-                show_ajax_error(null, ajaxTemplateWidget.contentDivClass, loadURL, ajaxTemplateWidget.errorIcon);
-          }
-       });
-       
-       return false;   
+        // send request
+        ajaxRequests.load(ajaxTemplateWidget.currentID, url, 'ajaxTemplateWidget.loadSuccess', 'ajaxTemplateWidget.setAjaxError', partial);
+    },
+    
+    // a successfunction from an ajaxrequest
+    loadSuccess: function(data, partial) {
+        // partial or full?
+        if (partial != undefined && partial == true)
+        {
+            ajaxTemplateWidget.setPartialContent(data);        
+        }
+        else
+        {
+            ajaxTemplateWidget.setContent(data);    
+        }
+    },
+		
+    // wrapper-function that easily can be used inside views from serverside
+    postURL: function(formClass, url, partial) {
+        // prepare url
+        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        
+        // set partial to false if not specified
+        if (partial == undefined)
+        {
+            partial = false;    
+        }
+        
+        // send request
+        ajaxRequests.post(ajaxTemplateWidget.currentID, formClass, url, 'ajaxTemplateWidget.loadSuccess', 'ajaxTemplateWidget.setAjaxError', partial);   
     }
-}  
+    
+};
+
 }}}
    
    <p><strong><em>Note 1:</em></strong> the jquery extended function $.window is a plugin that is loaded globally.<br/>
