@@ -1,19 +1,26 @@
-function Widget(id, wnd_options) {
+function Widget(id, wnd_options, partialClasses) {
 	
 	// Property assignment
+	
+	// The Id of the instance
 	this.id = id;
+	
+	// The div-id of this instance
 	this.divId = "widget_" + id;
 	
-	// Starting JQuery-window object
-    if (wnd_options.content == undefined)
-    {
-	    wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
-    }
-    else
-    {
-        wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\">"+wnd_options.content+"</div>";    
-    }
+	// An array containing all partial areas in the window for better updating of smaller parts.
+	this.partialClassNames = new Array();
+	if (partialClasses != undefined)
+	{
+		if($.isArray(partialClasses)) {
+			this.partialClassNames = partialClasses;
+		} else {
+			this.partialClassNames.push(partialClasses);
+		}
+	}
 	
+	// Starting JQuery-window object
+	wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
 	this.wnd = $('#desktop').window(wnd_options);
 	
 	//TODO: SETTINGS IN THE FOOTER
@@ -24,8 +31,10 @@ Widget.prototype.setContent = function(data) {
 	$('#' + this.divId).html(data);
 }
 
-Widget.prototype.PartialContent = function(partialClass, data) {
-    $('#' + this.divId).find('.'+partialClass).html(data);
+Widget.prototype.setPartialContent = function(partialClass, data) {
+	if($.inArray(partialClass, this.partialClassNames) >= 0) {
+		$('#' + this.divId).find('.'+partialClass).html(data);
+	}
 }
 
 Widget.prototype.getWindowObject = function() {

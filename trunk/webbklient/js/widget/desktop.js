@@ -1,11 +1,22 @@
 Desktop = {
 	
 	_widgetArray : new Array(),
-    _partialContentArray: new Array(),
 	_errorIcon: BASE_URL+'images/backgrounds/erroricon.png', 
-    
-	newWidgetWindow : function(options, widgetIconId, partialContentClass) {
 	
+	// Message properties
+	message_current_position: -100,
+	message_start_position: -100, // message_current_position will be set to this value after completion
+	message_timer: null,
+	message_speed: 100,
+	message_tick: 20,
+	message_width: 500, // also in css
+  
+	
+	newWidgetWindow : function(options, widgetIconId, partialContentClasses) {
+	
+		// set id
+		var id = this._widgetArray.length;
+		
 		// add more options
 		options.onMinimize = function(){ Desktop.close_widget(widgetIconId, id); };
 		options.onClose = function(){ Desktop.reset_widget(widgetIconId); };
@@ -17,46 +28,37 @@ Desktop = {
 			options.bookmarkable = false;
 		}
 		
-		// set id
-		var id = this._widgetArray.length;
-        
-		// create window
-		this._widgetArray.push(new Widget(id, options));
+		// save partialContentClass if it is set
+		var partialClasses = new Array();
+		if (partialContentClasses != undefined)
+		{
+			if($.isArray(partialContentClasses)) {
+				partialClasses = partialContentClasses;
+			} else {
+				partialClasses.push(partialContentClasses);
+			}
+		}
 		
-        // save partialContentClass if it is set
-        if (partialContentClass != undefined)
-        {
-            this._partialContentArray.push(partialContentClass);    
-        }
-        else
-        {
-            this._partialContentArray.push(""); // so the arrays will match
-        }
-        
-        // return new id
+		// create window
+		this._widgetArray.push(new Widget(id, options, partialClasses));
+		
+		// return new id
 		return id;
 	},
 	
-    getWindowObject: function(id) {
-        // get a jquery window-object so it is accessable in static widget javascript
-        return this._widgetArray[id].getWindowObject();    
-    },
-    
+	getWindowObject: function(id) {
+			// get a jquery window-object so it is accessable in static widget javascript
+			return this._widgetArray[id].getWindowObject();    
+	},
+	
 	setWidgetContent : function(id, data) {
 		this._widgetArray[id].setContent(data);
 	},
 	
-    setWidgetPartialContent : function(id, data) {
-        var partialClass = this._partialContentArray[id];
-        
-        if (partialClass == "")
-        {
-            return false;
-        }    
-    
-        this._widgetArray[id].PartialContent(partialClass, data);
-    },
-    
+	setWidgetPartialContent : function(id, inClass, data) {
+		this._widgetArray[id].setPartialContent(inClass, data);
+	},
+	
 	// --------------------------------------------------------------------------------------------------
 	// open and close widgets in widget bar
 	
@@ -96,17 +98,6 @@ Desktop = {
 		$('#'+widgetIconId).css({ 'opacity':'1.0', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"', 'filter':'alpha(opacity=100)' });
 	},
 	
-	
-	// ---------------------------------------------------------------------------------------------------
-	// messages:
-	
-	message_current_position: -100,
-	message_start_position: -100, // message_current_position will be set to this value after completion
-	message_timer: null,
-	message_speed: 100,
-	message_tick: 20,
-	message_width: 500, // also in css
-
 	// function for widgets to display an ok-message (green)
 	show_message: function(message)
 	{
@@ -147,10 +138,14 @@ Desktop = {
 		$('#message').fadeIn(Desktop.message_speed);
 	},
 	
-	show_ajax_loader_in_widget: function(id) {
+	// Will display a loading image in the widget with the id
+	show_ajax_loader_in_widget: function(id)
+	{
 		this._widgetArray[id].show_ajax_loader();
 	},
-	show_ajax_error_in_widget: function(id, loadURL) {
+	// Will display an ajax error in the widget with the id
+	show_ajax_error_in_widget: function(id, loadURL)
+	{
 		this._widgetArray[id].show_ajax_error(loadURL, Desktop._errorIcon);
 	},
 
