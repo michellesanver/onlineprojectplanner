@@ -20,7 +20,11 @@ function Widget(id, wnd_options, partialClasses) {
 	}
 	
 	// Starting JQuery-window object
-	wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
+	if(wnd_options.content == undefined) {
+		wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
+	} else {
+		wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\">" + wnd_options.content + "</div>";
+	}
 	this.wnd = $('#desktop').window(wnd_options);
 	
 	//TODO: SETTINGS IN THE FOOTER
