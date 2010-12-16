@@ -170,7 +170,7 @@ class Some_controller_name extends Controller {
 
       echo "<div class=\"ajax_template_partial\" style=\"border:2px solid #777;padding:20px;\">".
             "This area is partial and will be reloaded when clicked.".
-            " <a href=\"javascript:void(0);\" onclick=\"ajaxTemplateWidget.loadURL('/some_controller_name/partialCall', 'ajax_template_partial');\">Reload partial area</a>".
+            " <a href=\"javascript:void(0);\" onclick=\"ajaxTemplateWidget.loadURLtoPartialTest('/some_controller_name/partialCall');\">Reload partial area</a>".
             "</div>";
             
       echo "<br/><br/>This area will NOT be reloaded.</div>";
