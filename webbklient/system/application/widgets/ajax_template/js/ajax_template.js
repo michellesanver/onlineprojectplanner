@@ -9,6 +9,7 @@ ajaxTemplateWidget = {
 	
     // id to current window	
 		currentID: null,
+		currentPartial: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
     open: function(widgetIconId) {
@@ -49,7 +50,8 @@ ajaxTemplateWidget = {
     setPartialContent: function(data) {
 			// The success return function, the data must be unescaped befor use.
 			// This is due to ILLEGAL chars in the string.
-			Desktop.setWidgetPartialContent(this.currentID, unescape(data));
+			Desktop.setWidgetPartialContent(this.currentID, this.currentPartial, unescape(data));
+			this.currentPartial = null;
     },
     
     // set error-message in widgets div, called from the ajax request
@@ -63,18 +65,23 @@ ajaxTemplateWidget = {
 		},
     
     // wrapper-function that easily can be used inside views from serverside    
-    loadURL: function(url, partial) {
+    loadURL: function(url, toPartialClass) {
         // prepare url
         url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
         
+				var successFunction = 'ajaxTemplateWidget.loadSuccess';
+				var partial = false;
+				
         // set partial to false if not specified
-        if (partial == undefined)
+        if (toPartialClass != undefined)
         {
-            partial = false;    
+						partial = true;
+            this.currentPartial = toPartialClass;
+						successFunction = 'ajaxTemplateWidget.setPartialContent';
         }
         
         // send request
-        ajaxRequests.load(ajaxTemplateWidget.currentID, url, 'ajaxTemplateWidget.loadSuccess', 'ajaxTemplateWidget.setAjaxError', partial);
+        ajaxRequests.load(ajaxTemplateWidget.currentID, url, successFunction, 'ajaxTemplateWidget.setAjaxError', partial);
     },
     
     // a successfunction from an ajaxrequest
