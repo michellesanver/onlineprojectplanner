@@ -38,6 +38,7 @@
   * Spara positionering på desktop
   * Flytta / Ändra storlek
   * Lägga till / ta bort
+  * Specifiera att vissa widgets måste vara med i ett projekt. 
  
  * Widgets 
   * Wiki
@@ -53,7 +54,9 @@
   * Dropbox; filer för projektet.. drag'n'drop via html5 eller javascript?
   * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.
   * Filhanterare där det går att hantera uppladdade filer.
-
+  * Widgethanterarwidget där man kan ta bort, sortera och lägga till widgets. 
+  * Användarhanterarwidget där man kan bjuda in användare. 
+  * Kontaktlistewidget där man ser alla medlemmarna i projektet.
 == Vidareutveckling Widgets==
  * Wiki 1.1
   * wysywig (html-syntax)
