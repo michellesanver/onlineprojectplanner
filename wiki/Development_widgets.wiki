@@ -1,0 +1,307 @@
+#labels Docs
+=AJAX template; Widget help=
+
+The jquery plugin window can be used in two modes; Iframe och content/AJAX. Observe that the two modes cannot be switched if a window is created with one mode. For example: if a window is created with calling an URL then it is not possible to use setContent.
+
+
+==Folders==
+Each widget is placed in _*system/application/widgets/(name)*_ where _*(name)*_ is the name of the widget without (). Inside the folder for the widget the structure is just like Codeigniter:
+    
+ * _*(name)/controllers*_ controller-classes (inherit from CI Controller)
+ * _*(name)/js*_ external javascript (recommended, not an requirement)
+ * _*(name)/css*_ external stylesheets (recommended, not an requirement)
+ * _*(name)/libraries*_ libraries
+ * _*(name)/models*_ models (database, inherit from CI model)
+ * _*(name)/views*_ views (Iframe requires full html-pages for each view)
+
+==URL's==
+Codeigniter has an extension in the library Router to make it possible to have another folder-structure and URL's. When calling for a controller for a widget, use this syntax:
+    
+_*SITE_URL + "/widget/(name)/(controller)"*_ where _*(name)*_ is the name of the widget and _*(controller)*_ is the name of the controller.
+
+*Example*:<br>
+SITE_URL + "/widget/iframe_template/main"; this will call the controller main for the widget iframe_template.
+    
+
+==Settings.xml==
+Each widget is required to have the file settings.xml inside the root-folder of the widget. Here is an example with comments:
+    
+{{{
+<?xml version="1.0"?>
+<!-- root -->
+<settings>
+    <!--  short description of the widget -->
+	<about>A template and help for developing widgets with Iframe-style</about>
+    <!-- version of widget-->
+	<version>1.0</version>
+    <!-- link to website -->
+	<link>none</link>
+    <!-- name of author -->
+	<author>Fredrik Johansson</author>
+    <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
+	<icon>help-desk-icon.png</icon>
+    <!-- title of widget; will be placed under icon (can be left empty) -->
+    <icon_title>Iframe Template</icon_title>
+    <!-- namespace of widget (namespace = javascript object) -->
+    <widget_object>iframeTemplateWidget</widget_object>
+    <!--
+        list of files to be loaded relative to main folder of widgets
+        (theese files will be loaded upon project start)
+        
+        valid types are; javascript, css
+    -->
+	<load>
+		<file type="javascript">js/iframe-template.js</file>
+		<file type="css">css/iframe-styles.css</file>
+	</load>
+</settings>
+}}}
+    
+    
+==Common Javascript==
+    
+Online Project Planner provides a number of common global functions and variables that can be used:
+    
+===Variables===
+ * _*BASE_URL*_ base_url from CI (no index.php)
+ * _*SITE_URL*_ site_url from CI (WITH index.php)
+ * _*CURRENT_PROJECT_ID*_ ID to current project
+
+==Objects==
+I will here explain the role of the objects that are involved. 
+
+[http://dennissangmo.se/JS_Widget_Str.jpg]
+
+===Widget===
+Widget is an object that will represent the widgetwindow and contains all the functions that are common for all diffrent kind of widgets that are developed. I wont go in to the details of this object because the main functions the widget-developer will interact with is the one located in the Desktop object. The Desktop object are the one who orders this widget-class around.
+
+===Desktop===
+Desktop is a static object that represent the real-life "desktop-area" where all the widget windows will be. It does not only take care of all the widget object, that i talked earlier about, it also know wich object that is the current one (the selected one). I will explain the variables and functions that are relevant for the widget-development. 
+
+_Example: Desktop.setWidgetContent(data);_
+
+====Variables====
+_*widgetArray*_<br>
+_Explanation:_ contais the all the open widgetwindows.
+
+
+_*selectedWindowId*_<br>
+_Explanation:_ contais the id of the selecte widgetwindow.
+
+====Functions====
+_*newWidgetWindow(options, widgetIconId, partialContentClasses)*_ <br>
+_Explanation:_ Will open a new window and add it to the windowlist<br>
+_Parameters:_
+ * options (object): A list of options that will be sent to the jquery-windowobject
+ * widgetIconId (String): The id of the widgeticon
+ * partialContentClasses (array/string): A list of the diffrent partial areas in the widget.
+_Returns:_ The id of the new window
+
+<hr>
+
+_*setWidgetContent(data)*_ <br>
+_Explanation:_ Will transfer contentdata to the selected window<br>
+_Parameters:_
+ * data (String)
+
+<hr>
+
+_*setWidgetPartialContent(inClass, data)*_ <br>
+_Explanation:_ Will transfer partialcontentdata to the selected window<br>
+_Parameters:_
+ * inClass (String): The classname in the window.
+ * data (String)
+
+<hr>
+
+_*show_message(message)*_ <br>
+_Explanation:_ this function will display an ok-message<br>
+_Parameters:_
+ * message (String): The message to be displayed
+
+<hr>
+
+_*show_errormessage(message)*_<br>
+_Explanation:_ this function will display an error-message<br>
+_Parameters:_
+ * message (String): The message to be displayed
+
+<hr>
+
+_*show_ajax_loader_in_widget()*_<br>
+_Explanation:_ this function will display an ajax-spinner in selected window<br>
+
+<hr>
+
+_*show_ajax_error_in_widget(loadURL)*_<br>
+_Explanation:_ this function will display an request error in the selected window<br>
+_Parameters:_
+ * loadURL (String): The url that failed to load
+
+<hr>
+
+===ajaxRequest===
+This static object is more of a helperobject, all to make it easier for the widget-developer to send requests to the controller.
+
+_Example: ajaxRequest.load("http://thisproject.com/index.php/controller/function", "myWidget.ajaxSuccess", "myWidget.ajaxError", false);_
+
+====Functions====
+_*load(loadURL, successFunction, errorFunction, partial)*_<br>
+_Explanation:_ Makes a ajax request for the specified loadURL and calls the successFunction with the result (html page) as an escaped (javascript escape() command) string. If an requesterror occured it calls the errorFunction with the loadURL<br>
+_Parameters:_
+ * loadURL (String): The url to load
+ * successFunction (String): The funktion to call when success ("yourClass.yourFunction"). Must be able to catch 1 parameter (the page), it will be escaped, use function unescape(). 
+ * errorFunction (String): The funktion to call when error ("yourClass.yourFunction"). Must be able to catch 1 parameter (the failed URL).
+ * partial (boolean): If this param is true, the loader will skipp to show the loading image, wich otherwise will remove the content.
+
+<hr>
+
+_*post(postdata, loadURL, successFunction, errorFunction, partial)*_<br>
+_Explanation:_ Makes a ajax request for the specified loadURL with the postdata and calls the successFunction with the result (html page) as an escaped (javascript escape() command) string. If an requesterror occured it calls the errorFunction with the loadURL<br>
+_Parameters:_
+ * postdata (object): The postdata of the form. Can be caught with the jquery "serialize()" function.
+ * loadURL (String): The url to load
+ * successFunction (String): The funktion to call when success ("yourClass.yourFunction"). Must be able to catch 1 parameter (the page), it will be escaped, use function unescape(). 
+ * errorFunction (String): The funktion to call when error ("yourClass.yourFunction"). Must be able to catch 1 parameter (the failed URL).
+ * partial (boolean): If this param is true, the loader will skipp to show the loading image, wich otherwise will remove the content.
+
+<hr>
+
+===Widget object example (ajax_template)===
+Set the name for the namespace of the widget in settings.xml and then create a javascript-file with the initial code to start a widget. Here is an example with comments:
+   
+====In theory====
+This is a uniq static object that will contain all the function for you widget. The only thing that is required in this object in the function "open", that will be called upon start. 
+
+Other than that, there are three types of funktions in this object.
+ * *The linkcatcher:* Thies are the ones who will catch the data from a link when its clicked in your php view. Here is a good place to preform the ajaxRequest.
+ * *The success/error functions:* Thies are the function who will catch the data from the ajaxRequest and send the information to the Desktop object, so it can be displayed in the widget window. A importent thing to know here is, the successdata retrieved from the ajaxRequest is escaped(), make it a habit to alwais unescape() the data befor useage.
+ * *The happening function:* Thies are your specific function that will alter the information some how.
+
+Down below you will find the sourcecode of an widget template. Read it and you will understand it. :)
+
+{{{
+      
+// place widget in a namespace (javascript object simulates a namespace)
+ajaxTemplateWidget = {
+
+    // widget specific settings
+    partialContentDivClass: 'ajax_template_partial', // optional
+    widgetTitle: 'AJAX template',
+    widgetName: 'ajax_template', // also name of folder
+	
+		currentPartial: null,
+    
+    // function that will be called upon start (REQUIRED - do NOT change the name)
+    open: function(widgetIconId) {
+			// set options for window
+			var windowOptions = {
+				// change theese as needed
+				title: ajaxTemplateWidget.widgetTitle,
+				width: 800,
+				height: 450,
+				x: 30,
+				y: 15
+			};
+	      
+			// create window
+			Desktop.newWidgetWindow(windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
+			
+			// load the first page upon start
+      var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name/';
+			ajaxRequests.load(loadFirstPage, "ajaxTemplateWidget.setContent", "ajaxTemplateWidget.setAjaxError");
+		},
+		
+		
+		
+		
+		/* 
+		* The following functions are common for att widgets.
+    * --------------------------------------------------------------------------------------- 
+    */
+		
+    // set content in widgets div, called from the ajax request
+    setContent: function(data) {
+			// The success return function, the data must be unescaped befor use.
+			// This is due to ILLEGAL chars in the string.
+			Desktop.setWidgetContent(unescape(data));
+    },
+
+    // set partial content in widgets div, called from the ajax request
+    setPartialContent: function(data) {
+			// The success return function, the data must be unescaped befor use.
+			// This is due to ILLEGAL chars in the string.
+			Desktop.setWidgetPartialContent(this.currentPartial, unescape(data));
+			this.currentPartial = null;
+    },
+    
+    // set error-message in widgets div, called from the ajax request
+    setAjaxError: function(loadURL) {
+			Desktop.show_ajax_error_in_widget(loadURL);
+    },
+    
+    // shows a message (example in start.php)
+    example_showMessage: function(message) {
+			Desktop.show_message(message);    
+		},
+    
+    // wrapper-function that easily can be used inside views from serverside    
+    loadURL: function(url) {
+        // prepare url
+        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+				
+        // send request
+        ajaxRequests.load(url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');
+    },
+		
+		// Loads a ajaxrequest to specific partialclass, in this case "ajax_template_partial"
+		loadURLtoPartialTest: function(url) {
+        // prepare url
+        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+				
+        // set currentpartial to to the classname
+        this.currentPartial = ajaxTemplateWidget.partialContentDivClass;
+        
+        // send request, last parameter = true if this is a partial call. Will skip the loading image.
+        ajaxRequests.load(url, 'ajaxTemplateWidget.setPartialContent', 'ajaxTemplateWidget.setAjaxError', true);
+    },
+		
+    // wrapper-function that easily can be used inside views from serverside
+    postURL: function(formClass, url) {
+        // prepare url
+        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+				
+				// catching the form data
+				var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();
+				
+        // send request
+        ajaxRequests.post(postdata, url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');   
+    }
+    
+};
+
+}}}
+   
+
+*Example 2:* here is an example with a a href-link that uses the loadURL-function.
+{{{
+  <a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/show_documentation');">show jquery.window documentation</a>
+}}}
+
+
+*Example 3:* here is an example of a form that uses the post-function.
+{{{
+    <form method="post" action="" onsubmit="return false";  id="form1" name="form1">
+        <input type="hidden" id="" name="User_id" value="<?php echo $user['User_id']; ?>" />
+        <p>Username: <?php echo $user['Username']; ?></p>
+        
+        <p>Firstname: <input type="text" id="Firstname" name="Firstname" value="<?php echo $user['Firstname']; ?>" /><br/>
+           Lastname: <input type="text" id="Lastname" name="Lastname" value="<?php echo $user['Lastname']; ?>" /></p>
+        
+        <p>Password: <input type="text" id="Password" name="Password" value="" /></p> 
+           
+        <p>Email: <input type="text" id="Email" name="Email" value="<?php echo $user['Email']; ?>" /></p>
+        
+        <p><input type="button" value="Save" onclick="ajaxTemplateWidget.postURL('form1', '/some_controller_name/save_edit_user');" /> (hit save to view an example of post)</p>
+    </form>
+}}}
