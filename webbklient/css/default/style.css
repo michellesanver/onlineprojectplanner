@@ -1,7 +1,4 @@
-/* @override 
-	http://localhost/~Geekie/OPP/trunk/webbklient/css/default/style.css
-*/
-
+/* @override http://localhost/~Geekie/OPP/trunk/webbklient/css/default/style.css */
 
 /* @group User */
 
@@ -151,10 +148,8 @@ h1 {
 
 h2, h3 {
 	margin-top: 0px;
-    font-size:14pt;
+    font-size:13pt;
 }
-
-
 
 /* @end */
 
@@ -162,9 +157,10 @@ h2, h3 {
 
 #leftboxwide {
 	margin-left: 10px;
-	width: 370px;
+	width: 390px;
 	border-right: 1px solid #5e5e5e;
 	float: left;
+	padding-right: 10px;
 }
 
 #leftbox {
@@ -177,7 +173,7 @@ h2, h3 {
 #rightbox {
 	margin-left: 20px;
 	float: left;
-	width: 510px;	
+	width: 480px;	
 }
 
 h1.blackheader {
@@ -274,6 +270,8 @@ textarea {
 	color: #424242;
 	font-weight: bold;
 	padding-left: 5px;
+	margin-right: 5px;
+	float: left;
 }
 
 input:hover, input:focus, textarea:hover, textarea:focus {
@@ -304,6 +302,11 @@ p.forgotpassword {
 }
 
 /* @end */
+
+ul {
+	list-style-type: square;
+}
+
 .topbuttons {
 	text-align:right;
 	padding:10px 20px;
@@ -383,6 +386,7 @@ body, html {
 	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
+	
 /* @end */
 
 div#fullpage_overlay {
