@@ -161,6 +161,11 @@ class Project extends Controller {
             return; 
         }
         
+        if(isset($_POST['cancel_btn'])) {
+        	// show project start
+            redirect("project/view/$projectID"); 
+            return;
+        }
         
         // ----------------------------------
         // continue
@@ -229,6 +234,7 @@ class Project extends Controller {
                             "projectID" => $this->validation->projectID,
                             "title" => $savedData['Title'],
                             "description" => $this->validation->description,
+                            "allwidgets" => $this->widgets->GetAllIconsAsArray(),
                             "status" => "ok",
                             "status_message" => "Update was successful!"
                     );
@@ -243,6 +249,7 @@ class Project extends Controller {
                             "title" => $savedData['Title'],
                             "description" => $this->validation->description,
                             "status" => "error",
+                            "allwidgets" => $this->widgets->GetAllIconsAsArray(),
                             "status_message" => "Update failed!"
                     );
 										$this->error->log('Project update failed.', $_SERVER['REMOTE_ADDR'], 'Project/Update', 'project/Update', $update);
@@ -259,6 +266,7 @@ class Project extends Controller {
                     "title" => $savedData['Title'],
                     "description" => $this->validation->description,
                     "status" => "error",
+                    "allwidgets" => $this->widgets->GetAllIconsAsArray(),
                     "status_message" => "Update failed!"
                 );
             }
