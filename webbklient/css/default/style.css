@@ -305,6 +305,8 @@ p.forgotpassword {
 
 ul {
 	list-style-type: square;
+	margin-top: 0px;
+	padding-top: 0px;
 }
 
 .topbuttons {
