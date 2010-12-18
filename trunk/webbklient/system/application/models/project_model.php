@@ -12,6 +12,12 @@ class Project_model extends Model
     private $_table = "Project";
     private $_table2 = "Project_Member";
 
+    private function _preCommit()
+    {
+        $this->db->trans_begin();
+        $this->db->trans_commit();
+    }
+
     /**
     * Function: Query_project
     * Query if the projects title exists.
@@ -135,6 +141,7 @@ class Project_model extends Model
 
     function update($update)
     {
+        $this->_preCommit();
         $this->db->where('Project_id', $update['Project_id']);
         return $this->db->update($this->_table, $update);
     }
