@@ -135,12 +135,12 @@ class Project_lib
     {
         // add a tracemessage to log
         log_message('debug','#### => Library Project_lib->Invite');
-        
+
         $result = $this->_CI->Invitation_model->insert($invitation);
 
-        if($result) {
+        if($result > 0) {
 
-            return $this->_CI->db->insert_id();
+            return $result;
 
         }
 
