@@ -12,11 +12,6 @@ class Project_model extends Model
     private $_table = "Project";
     private $_table2 = "Project_Member";
 
-    private function _preCommit()
-    {
-        $this->db->trans_begin();
-        $this->db->trans_commit();
-    }
 
     /**
     * Function: Query_project
@@ -93,12 +88,14 @@ class Project_model extends Model
 
     function insert($insert, $userID, $role)
     {
+
+		
         $res = false;
 
         // start a transaction; all or nothing
 
         $this->db->trans_begin();
-
+		
         // insert new project
 
         $this->db->insert($this->_table, $insert);
@@ -111,9 +108,10 @@ class Project_model extends Model
             $this->db->trans_rollback();
             return false;
         }
-
+		
         $projectID = $this->db->insert_id();
-
+		
+		
         $res = $this->db->insert($this->_table2, array('User_id' => $userID, 'Project_id' => $projectID, 'Project_role_id' => $role->Project_role_id));
 
         // was row inserted?
@@ -127,6 +125,9 @@ class Project_model extends Model
 
         // else; all ok! commit transaction and return true
         $this->db->trans_commit();
+		
+
+		
         return true;
     }
 
@@ -141,7 +142,7 @@ class Project_model extends Model
 
     function update($update)
     {
-        $this->_preCommit();
+
         $this->db->where('Project_id', $update['Project_id']);
         return $this->db->update($this->_table, $update);
     }
@@ -156,7 +157,17 @@ class Project_model extends Model
     */
     function delete($projectID)
     {
-        return $this->db->delete($this->_table, array('Project_id' => $projectID));
+
+		
+
+		
+        $result = $this->db->delete($this->_table, array('Project_id' => $projectID));
+		
+
+		
+
+		
+		return $result;
     }
 
 }
