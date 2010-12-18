@@ -157,17 +157,9 @@ class Project_model extends Model
     */
     function delete($projectID)
     {
-
-		
-
 		
         $result = $this->db->delete($this->_table, array('Project_id' => $projectID));
-		
-
-		
-
-		
-		return $result;
+	return $result;
     }
 
 }
