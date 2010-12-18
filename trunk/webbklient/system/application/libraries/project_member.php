@@ -155,9 +155,9 @@ class Project_Member
 
         $currentProjectID = $this->_CI->session->userdata('current_project_id');
 
-        $roleInProject = NULL;
+        $roleInProject = null;
 
-        if($memberships != NULL)
+        if($memberships != null)
         {
             foreach($memberships as $membership) {
 
@@ -183,7 +183,7 @@ class Project_Member
 
         $roleStructure = array();
 
-        $currentOrder = NULL;
+        $currentOrder = null;
 
         // Set up role structure
 
@@ -208,17 +208,17 @@ class Project_Member
             }
         }
 
-        $roleLevel = NULL;
+        $roleLevel = null;
 
         // If users role in role structure is called before permitted role level, return true
 
         foreach($roleStructure as $roleItem) {
 
-            if($roleItem == $role && $roleLevel == NULL)
+            if($roleItem == $role && $roleLevel == null)
             {
                 $roleLevel = $roleItem;
             }
-            else if($roleItem == $roleInProject && $roleLevel == NULL)
+            else if($roleItem == $roleInProject && $roleLevel == null)
             {
                 return true;
             }
