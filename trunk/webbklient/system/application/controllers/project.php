@@ -326,10 +326,10 @@ class Project extends Controller {
             return;
         }
         // is user admin?
-        if ($this->project_member->HaveRoleInCurrentProject('admin')==false)
+        if ($this->project_member->HaveRoleInCurrentProject('general')==false)
         {
             // set errormessage (will be catched in view)
-            $this->session->set_userdata('errormessage', 'Authentication You are not an administrator.');    
+            $this->session->set_userdata('errormessage', 'Authentication You are not an project general.');
             
             // show project start
             redirect("project/view/$projectID");
