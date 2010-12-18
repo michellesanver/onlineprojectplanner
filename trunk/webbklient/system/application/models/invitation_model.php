@@ -71,9 +71,29 @@ class Invitation_model extends Model
 	* @param mixed $insert
 	* @return bool
 	*/
+
 	function insert($insert)
 	{
-            return $this->db->insert($this->_table, $insert);
+            // Something is very very wrong right here, this is what I now has to do
+
+            $this->db->trans_begin();
+ 
+            $this->db->insert($this->_table, $insert);
+
+            if($this->db->affected_rows() == 0)
+            {
+                // roll back transaction and return false
+                $this->db->trans_rollback();
+                return false;
+            }
+
+            // else; all ok! commit transaction and return last inserted id
+
+            $id = $this->db->insert_id();
+
+            $this->db->trans_commit();
+
+            return $id;
 	}
 	
 	/**
