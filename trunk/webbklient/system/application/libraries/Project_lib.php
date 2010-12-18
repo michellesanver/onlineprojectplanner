@@ -138,9 +138,9 @@ class Project_lib
 
         $result = $this->_CI->Invitation_model->insert($invitation);
 
-        if($result > 0) {
+        if($result) {
 
-            return $result;
+            return $this->_CI->db->insert_id();
 
         }
 
