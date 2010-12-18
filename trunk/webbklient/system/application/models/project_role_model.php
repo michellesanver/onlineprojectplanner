@@ -25,21 +25,6 @@ class Project_role_model extends Model
     }
 
     /**
-    * Function: getAllAllowedForInvitation
-    * This function will return an array of arrays
-    * that represents the rows in the database
-    * that are allowed for invitation.
-    *
-    * @return array
-    */
-    function getAllAllowedForInvitation()
-    {
-        $this->db->where('Role !=', ucfirst(strtolower('general')));
-        $query = $this->db->get($this->_table);
-        return $query->result_array();
-    }
-
-    /**
     * Function: getByRole
     * This function will return an array representing
     * the role information of the selected role.
