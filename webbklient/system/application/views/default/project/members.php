@@ -33,13 +33,22 @@
 	    <div id="rightbox">
 	
 	    	<?php foreach($members as $member): ?>
-	
+
+                    <?php // $memberInfo = end($member) ?>
+
 		        <div class="projectmemberbox">
-		
+
+                            <?php if($member['IsLoggedInUser'] != false && $isGeneral == false) { ?>
+                            <h3><?php echo($member['Username'])." (".$member['Role'].") [Leave]"; ?></h3>
+                            <?php } else { ?>
 		            <h3><?php echo($member['Username'])." (".$member['Role'].")"; ?></h3>
+                            <?php } ?>
 		            <p>Name: <?php echo($member['Firstname']);?></p>
 		            <p>Surname: <?php echo($member['Lastname']);?></p>
 		            <p>E-mail: <?php echo($member['Email']);?></p>
+                            <?php if($member['IsLoggedInUser'] == false && $isGeneral != false) { ?>
+                            <p>Kick out&nbsp;&nbsp;|&nbsp;&nbsp;Make General</p>
+                            <?php } ?>
 		
 		        </div>
 	
