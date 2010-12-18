@@ -547,6 +547,10 @@ class Project extends Controller {
 
         $this->project->clearCurrentProject();
 
+        // Set current projectID (will be catched in class theme)
+
+        $this->project->setCurrentProject($projectID);
+
         // Get project information
 
     	$project = $this->project_model->getById($projectID);
@@ -557,7 +561,7 @@ class Project extends Controller {
 
         // Get project roles allowed for invitation
 
-    	$projectRoles = $this->project_role_model->getAllAllowedForInvitation();
+    	$projectRoles = $this->invitation->GetSuitableRolesForInvitation();
 
         // Rules for the inputfields
 
@@ -667,10 +671,6 @@ class Project extends Controller {
                 "status_message" => "Invite failed!"
             );
         }
-
-        // Set current projectID (will be catched in class theme)
-
-        $this->project->setCurrentProject($projectID);
 
         // proceed and show view
 
