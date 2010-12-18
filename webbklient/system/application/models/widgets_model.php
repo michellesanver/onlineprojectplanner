@@ -157,6 +157,7 @@ class Widgets_model extends Model  {
             {
                 // yes, do a override
                 $this->_deleteQuery_InDevMode = true;
+				$this->db->trans_rollback();
                 return false;
             }
             
