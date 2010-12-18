@@ -543,6 +543,15 @@ class Project extends Controller {
             return;
         }
 
+        // See if user is General in selected project
+
+        $isGeneral = false;
+
+        if($this->project_member->HaveSpecificRoleInCurrentProject('General'))
+        {
+            $isGeneral = true;
+        }
+
         // If any project is set, clear current variable
 
         $this->project->clearCurrentProject();
@@ -557,7 +566,7 @@ class Project extends Controller {
 
         // Get project members information
 
-        $projectMembers = $this->project_member_model->getByProjectId($projectID);
+        $projectMembers = $this->project_member->GetMembersByProjectId($projectID);
 
         // Get project roles allowed for invitation
 
@@ -678,6 +687,7 @@ class Project extends Controller {
         $data["title"] = $project['Title'];
     	$data["members"] = $projectMembers;
         $data["roles"] = $projectRoles;
+        $data["isGeneral"] = $isGeneral;
 
     	$this->theme->view('project/members', $data);
     }
