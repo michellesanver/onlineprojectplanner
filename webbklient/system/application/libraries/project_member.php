@@ -125,7 +125,7 @@ class Project_Member
     }
 
     /**
-    * Function: HaveRole
+    * Function: HaveRoleInCurrentProject
     * This function is used in order to see if logged in user
     * have a certain role in selected project. Searches the
     * database for a match and returns the answer as an bool.
@@ -228,6 +228,96 @@ class Project_Member
         return false;
     }
 
+    /**
+    * Function: HaveSpecificRoleInCurrentProject
+    * This function is used in order to see if logged in user
+    * have a certain specific role in selected project. Searches the
+    * database for a match and returns the answer as an bool.
+    * The parameter $role is case-insensitive but must have
+    * the correct spelling.
+    *
+    * @param string $role
+    * @return bool
+    */
+
+    function HaveSpecificRoleInCurrentProject($role)
+    {
+        // Make role name case-insensitiv
+
+        $role = ucfirst(strtolower($role));
+
+        // fetch userID
+
+        $userID = $this->_CI->session->userdata('UserID');
+
+        // Fetch memerships
+
+        $memberships = $this->_CI->Project_member_model->getByUserId($userID);
+
+        // Fetch currentProjectID
+
+        $currentProjectID = $this->_CI->session->userdata('current_project_id');
+
+        $roleInProject = null;
+
+        if($memberships != null)
+        {
+            foreach($memberships as $membership) {
+
+                // Search for match
+
+                if($membership['Role'] == $role && $membership['Project_id'] == $currentProjectID) {
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+    * Function: GetMembersByProjectId
+    * This function is used in order to get all members of a project.
+    * Adds information about which member is our logged in user
+    *
+    * @param string $projectId
+    * @return mixed
+    */
+
+    function GetMembersByProjectId($projectID) {
+
+        // Fetch userID
+
+        $userID = $this->_CI->session->userdata('UserID');
+
+        // Fetch members
+
+        $projectMembers = $this->_CI->project_member_model->getByProjectId($projectID);
+        $projectMembersWithInfo = array();
+
+        foreach($projectMembers as $projectMember) {
+
+            if($projectMember['User_id'] == $userID)
+            {
+                $projectMember['IsLoggedInUser'] = true;
+                array_push($projectMembersWithInfo, $projectMember);
+            }
+            else
+            {
+                $projectMember['IsLoggedInUser'] = false;
+                array_push($projectMembersWithInfo, $projectMember);
+            }
+
+        }
+        if($projectMembersWithInfo != null)
+        {
+            return $projectMembersWithInfo;
+        }
+
+        return false;
+
+    }
 }
 
 ?>
