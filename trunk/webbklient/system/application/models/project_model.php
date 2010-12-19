@@ -89,7 +89,6 @@ class Project_model extends Model
     function insert($insert, $userID, $role)
     {
 
-		
         $res = false;
 
         // start a transaction; all or nothing
