@@ -235,13 +235,13 @@ class Project_lib
     * to kick out a project member.
     *
     * @param string $projectID
-    * @param string $userID
+    * @param string $victimID
     * @return bool
     */
 
-    function KickOut($projectID, $userID)
+    function KickOut($projectID, $victimID)
     {
-        $result = $this->_CI->Project_member_model->delete($projectID, $userID);
+        $result = $this->_CI->Project_member_model->delete($projectID, $victimID);
 
         if($result)
         {
@@ -249,6 +249,35 @@ class Project_lib
         }
 
         return false;
+    }
+
+    /**
+    * Function: SwitchGeneral
+    * This function is used when General wants
+    * make another project member General instead.
+    *
+    * @param string $projectID
+    * @param string $victimID
+    * @return bool
+    */
+
+    function SwitchGeneral($projectID, $victimID)
+    {
+        $userID = $this->_CI->session->userdata('UserID');
+
+        $generalRole = $this->_CI->Project_role_model->getByRole(ucfirst(strtolower('General')));
+        $adminRole = $this->_CI->Project_role_model->getByRole(ucfirst(strtolower('Admin')));
+
+        $result = $this->_CI->Project_member_model->switchGeneral($projectID, $userID, $victimID, $adminRole, $generalRole);
+
+        if($result) {
+
+            return true;
+
+        }
+
+        return false;
+ 
     }
 
     /**
