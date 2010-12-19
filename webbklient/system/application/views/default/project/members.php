@@ -39,7 +39,7 @@
 		        <div class="projectmemberbox">
 
                             <?php if($member['IsLoggedInUser'] != false && $isGeneral == false) { ?>
-                            <h3><?php echo($member['Username'])." (".$member['Role'].") [Leave]"; ?></h3>
+                            <h3><?php echo($member['Username'])." (".$member['Role'].")" ?> [<a href="<?php echo site_url('project/leave/'.$projectID.''); ?>">Leave</a>]</h3>
                             <?php } else { ?>
 		            <h3><?php echo($member['Username'])." (".$member['Role'].")"; ?></h3>
                             <?php } ?>
