@@ -878,7 +878,7 @@ class Project extends Controller {
 
     /**
     * Description: Will show the project/kickout.php view and
-    * catch the User_id from get.
+    * catch the Victim_id(User_id) and the Project_id from get.
     * In order to kick someone out of the project the logged user need to be
     * the General of the selected project
     */
@@ -981,6 +981,113 @@ class Project extends Controller {
        $data["projectID"] = $projectID;
 
        $this->theme->view('project/kickout', $data);
+    }
+
+    /**
+    * Description: Will show the project/switch.php view and
+    * catch the Victim_id(User_id) and the Project_id from get.
+    * In order to make someone a General of the project the logged user need to be
+    * the General himself/herself of the selected project
+    */
+
+    function SwitchGeneral($victimID, $projectID)
+    {
+        // Add a tracemessage to log
+
+        log_message('debug','#### => Controller Project->SwitchGeneral');
+
+        // Is user logged in?
+
+        if($this->user->IsLoggedIn()==false)
+        {
+            // Set errormessage (will be catched in login)
+
+            $this->session->set_userdata('errormessage', 'Authentication error! You must be logged in.');
+
+            // No, redirect
+
+            redirect('account/login');
+            return;
+        }
+
+        // Is logged in user member in the project?
+
+        if($this->project_member->IsMember($projectID)==false)
+        {
+            // Set errormessage (will be catched in view)
+
+            $this->session->set_userdata('errormessage', 'Authentication error! You are not a member of this project.');
+
+            // Show project start
+
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        // Is logged in user General of selected project?
+
+        if ($this->project_member->HaveRoleInCurrentProject('general')==false)
+        {
+            // set errormessage (will be catched in view)
+            $this->session->set_userdata('errormessage', 'Authentication You are not an project general.');
+
+            // show project list
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        // Is kick out victim member in the project?
+
+        if($this->project_member->IsVictimMember($victimID, $projectID)==false)
+        {
+            // Set errormessage (will be catched in view)
+
+            $this->session->set_userdata('errormessage', 'The member you want to make a general is not a member of this project.');
+
+            // Show project start
+
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        // Is General schizophrenic?
+
+        if($this->project_member->IsGeneralSchizophrenic($victimID) != false)
+        {
+            // Set errormessage (will be catched in view)
+
+            $this->session->set_userdata('errormessage', 'You are already the general of this project');
+
+            // Show project start
+
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        $data = array();
+
+        // SwitchGeneral
+
+        if($this->project->SwitchGeneral($projectID, $victimID)) {
+
+            $data = array(
+                    "status" => "ok",
+                    "status_message" => "You are no longer the general of this project!"
+            );
+        }
+        // Else, if something went wrong
+        else {
+
+            $data = array(
+                    "status" => "error",
+                    "status_message" => "Something went wrong, you are still the general of this project!"
+            );
+            $this->error->log('Switch General failed.', $_SERVER['REMOTE_ADDR'], 'Project/SwitchGeneral');
+        }
+
+       $data["projectID"] = $projectID;
+
+       $this->theme->view('project/switchgeneral', $data);
     }
 
     /**
