@@ -47,7 +47,7 @@
 		            <p>Surname: <?php echo($member['Lastname']);?></p>
 		            <p>E-mail: <?php echo($member['Email']);?></p>
                             <?php if($member['IsLoggedInUser'] == false && $isGeneral != false) { ?>
-                            <p>Kick out&nbsp;&nbsp;|&nbsp;&nbsp;Make General</p>
+                            <p><a href="<?php echo site_url('project/kickout/'.$member['User_id'].'/'.$projectID.''); ?>">Kick out</a>&nbsp;&nbsp;|&nbsp;&nbsp;Make General</p>
                             <?php } ?>
 		
 		        </div>
