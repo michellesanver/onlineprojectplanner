@@ -125,6 +125,58 @@ class Project_Member
     }
 
     /**
+    * Function: IsVictimMember
+    * This function is used in order to see if kick out victim
+    * is a member in selected project. Searches the
+    * database for a match and returns the answer as an bool.
+    *
+    * @param int $victimID
+    * @param int $projectID
+    * @return bool
+    */
+
+    function IsVictimMember($victimID, $projectID)
+    {
+        // Fetch memberships
+
+        $memberships = $this->_CI->Project_member_model->getByUserId($victimID);
+
+        if($memberships != NULL)
+        {
+            foreach($memberships as $membership) {
+
+                // Search for match
+
+                if($membership['Project_id'] == $projectID) {
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+    * Function: IsGeneralSchizophrenic
+    * This function is used in order to see if General
+    * is not trying to kick himself/herself out.
+    *
+    * @param int $victimID
+    * @return bool
+    */
+
+    function IsGeneralSchizophrenic($victimID)
+    {
+        if($victimID == $this->_CI->session->userdata('UserID'))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
     * Function: HaveRoleInCurrentProject
     * This function is used in order to see if logged in user
     * have a certain role in selected project. Searches the
