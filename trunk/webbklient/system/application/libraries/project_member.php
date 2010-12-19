@@ -296,6 +296,8 @@ class Project_Member
         $projectMembers = $this->_CI->project_member_model->getByProjectId($projectID);
         $projectMembersWithInfo = array();
 
+        // Add information about logged in user
+
         foreach($projectMembers as $projectMember) {
 
             if($projectMember['User_id'] == $userID)

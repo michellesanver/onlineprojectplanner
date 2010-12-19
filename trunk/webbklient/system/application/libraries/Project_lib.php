@@ -207,6 +207,29 @@ class Project_lib
     }
 
     /**
+    * Function: Leave
+    * This function is used when member wants
+    * to leave a project.
+    *
+    * @param string $projectID
+    * @return bool
+    */
+
+    function Leave($projectID)
+    {
+        $userID = $this->_CI->session->userdata('UserID');
+
+        $result = $this->_CI->Project_member_model->delete($projectID, $userID);
+
+        if($result)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
     * Function: CheckIfExist
     * This function is used in the formvalidation. Searches the
     * database for a match and returns the answer as an bool.
