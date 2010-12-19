@@ -347,7 +347,8 @@ class Project extends Controller {
 
         $data = array();
 
-        // If validation is ok => send to library
+        // Delete project
+
         if($this->project_model->Delete($projectID)) {
 
             $data = array(
@@ -547,7 +548,7 @@ class Project extends Controller {
 
         $isGeneral = false;
 
-        if($this->project_member->HaveSpecificRoleInCurrentProject('General'))
+        if($this->project_member->HaveSpecificRoleInCurrentProject('General') != false)
         {
             $isGeneral = true;
         }
@@ -788,6 +789,91 @@ class Project extends Controller {
         }
 
         $this->theme->view('project/accept', $data);
+    }
+
+
+    /**
+    * Description: Will show the project/leave.php view and
+    * catch the Project_id from get.
+    * In order to leave a project the logged user need to be
+    * a member of the selected project
+    */
+
+    function Leave($projectID)
+    {
+        // Add a tracemessage to log
+
+        log_message('debug','#### => Controller Project->Leave');
+
+        // Is user logged in?
+
+        if($this->user->IsLoggedIn()==false)
+        {
+            // Set errormessage (will be catched in login)
+
+            $this->session->set_userdata('errormessage', 'Authentication error! You must be logged in.');
+
+            // No, redirect
+
+            redirect('account/login');
+            return;
+        }
+
+        // Is user member in the project?
+
+        if($this->project_member->IsMember($projectID)==false)
+        {
+            // Set errormessage (will be catched in view)
+
+            $this->session->set_userdata('errormessage', 'Authentication error! You are not a member of this project.');
+
+            // Show project start
+
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        // And not a general
+
+        if($this->project_member->HaveSpecificRoleInCurrentProject('General') != false)
+        {
+            // Set errormessage (will be catched in view)
+
+            $this->session->set_userdata('errormessage', 'You are the General of this project! Firts give away your General role or choose to delete the entire project.');
+
+            // Show project start
+
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        // if any project is set; clear variable (project will not exist after this function)
+
+        $this->project->clearCurrentProject();
+
+
+        $data = array();
+
+        // Make user leave
+
+        if($this->project->Leave($projectID)) {
+
+            $data = array(
+                    "status" => "ok",
+                    "status_message" => "You have left the project!"
+            );
+        }
+        // Else, if something went wrong
+        else {
+
+            $data = array(
+                    "status" => "error",
+                    "status_message" => "Something went wrong, you are still a member of the project!"
+            );
+            $this->error->log('Leave project failed.', $_SERVER['REMOTE_ADDR'], 'Project/Leave', 'project_member/Delete', array('Project_id' => $projectID));
+        }
+
+       $this->theme->view('project/leave', $data);
     }
 
     /**
