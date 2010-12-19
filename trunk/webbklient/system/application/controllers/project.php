@@ -325,7 +325,7 @@ class Project extends Controller {
             redirect("project/view/$projectID");
             return;
         }
-        // is user admin?
+        // is user general?
         if ($this->project_member->HaveRoleInCurrentProject('general')==false)
         {
             // set errormessage (will be catched in view)
@@ -796,7 +796,7 @@ class Project extends Controller {
     * Description: Will show the project/leave.php view and
     * catch the Project_id from get.
     * In order to leave a project the logged user need to be
-    * a member of the selected project
+    * a member of the selected project and NOT a General.
     */
 
     function Leave($projectID)
@@ -874,6 +874,113 @@ class Project extends Controller {
         }
 
        $this->theme->view('project/leave', $data);
+    }
+
+    /**
+    * Description: Will show the project/kickout.php view and
+    * catch the User_id from get.
+    * In order to kick someone out of the project the logged user need to be
+    * the General of the selected project
+    */
+
+    function KickOut($victimID, $projectID)
+    {
+        // Add a tracemessage to log
+
+        log_message('debug','#### => Controller Project->KickOut');
+
+        // Is user logged in?
+
+        if($this->user->IsLoggedIn()==false)
+        {
+            // Set errormessage (will be catched in login)
+
+            $this->session->set_userdata('errormessage', 'Authentication error! You must be logged in.');
+
+            // No, redirect
+
+            redirect('account/login');
+            return;
+        }
+
+        // Is logged in user member in the project?
+
+        if($this->project_member->IsMember($projectID)==false)
+        {
+            // Set errormessage (will be catched in view)
+
+            $this->session->set_userdata('errormessage', 'Authentication error! You are not a member of this project.');
+
+            // Show project start
+
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        // Is logged in user General of selected project?
+
+        if ($this->project_member->HaveRoleInCurrentProject('general')==false)
+        {
+            // set errormessage (will be catched in view)
+            $this->session->set_userdata('errormessage', 'Authentication You are not an project general.');
+
+            // show project list
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        // Is kick out victim member in the project?
+
+        if($this->project_member->IsVictimMember($victimID, $projectID)==false)
+        {
+            // Set errormessage (will be catched in view)
+
+            $this->session->set_userdata('errormessage', 'The member you want to kick out is not a member of this project.');
+
+            // Show project start
+
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        // Is General schizophrenic?
+
+        if($this->project_member->IsGeneralSchizophrenic($victimID) != false)
+        {
+            // Set errormessage (will be catched in view)
+
+            $this->session->set_userdata('errormessage', 'You can not kick out yourself!');
+
+            // Show project start
+
+            redirect("project/view/$projectID");
+            return;
+        }
+
+        $data = array();
+
+        // Kick out victim
+
+        if($this->project->KickOut($projectID, $victimID)) {
+
+            $data = array(
+                    "status" => "ok",
+                    "status_message" => "Member is kicked out!"
+            );
+        }
+        // Else, if something went wrong
+        else {
+
+            $data = array(
+                    "status" => "error",
+                    "status_message" => "Something went wrong, the user is still a member of the project!"
+            );
+            $this->error->log('Kick out member failed.', $_SERVER['REMOTE_ADDR'], 'Project/KickOut', 'project_member/Delete', array('Project_id' => $userID, 'User_id' => $victimID));
+        }
+
+       $data["projectID"] = $projectID;
+
+       $this->theme->view('project/kickout', $data);
     }
 
     /**
