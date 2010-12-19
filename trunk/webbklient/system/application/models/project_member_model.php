@@ -131,4 +131,19 @@ class Project_member_model extends Model
         return $this->db->insert($this->_table, $insert);
 	}
 
+        /**
+        * Function: delete
+        * Used to send the validated information
+        * which will delete the row in the database.
+        *
+        * @param int $projectID
+        * @param int $userID
+        * @return bool
+        */
+        function delete($projectID, $userID)
+        {
+            $result = $this->db->delete($this->_table, array('Project_id' => $projectID, 'User_id' => $userID));
+            return $result;
+        }
+
 }
