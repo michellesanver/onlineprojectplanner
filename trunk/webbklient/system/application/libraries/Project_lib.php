@@ -230,6 +230,28 @@ class Project_lib
     }
 
     /**
+    * Function: KickOut
+    * This function is used when General wants
+    * to kick out a project member.
+    *
+    * @param string $projectID
+    * @param string $userID
+    * @return bool
+    */
+
+    function KickOut($projectID, $userID)
+    {
+        $result = $this->_CI->Project_member_model->delete($projectID, $userID);
+
+        if($result)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
     * Function: CheckIfExist
     * This function is used in the formvalidation. Searches the
     * database for a match and returns the answer as an bool.
