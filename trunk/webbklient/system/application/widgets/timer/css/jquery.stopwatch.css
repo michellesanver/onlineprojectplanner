@@ -1,0 +1,37 @@
+.stopwatch {
+	width:150px;
+	margin:0px;
+	padding:0px;
+}
+
+.stopwatch .display {
+	width:80px;
+	padding:20px;
+	margin-bottom:5px;
+	margin-left:5px;
+	color:#444;
+	font-size:14pt;
+	font-weight:bold;
+	text-align:center;
+	font-family:verdana;
+	background:#fff;
+
+}
+
+.stopwatch .start, .stopwatch .stop, .stopwatch .reset {
+	width:150px;
+	background:#444;
+	font-family:verdana;
+	font-size:10pt;
+	padding:5px 10px;
+	color:#fff;
+	border:none;
+	text-align:center;
+	width:60px;
+	margin-left:8px;
+
+}
+
+.stopwatch .start, .stopwatch .stop {
+	margin-right:5px;
+}
