@@ -1,4 +1,5 @@
 #plugin_container {
+	
     width:150px;
     height:90px;
     position:relative;
@@ -30,6 +31,7 @@
 }
 
 #digital_container {
+	margin-top:12px;
     width:150px;
     height:900px;
     //background:url(../images/background.png) 10px 20px no-repeat;
