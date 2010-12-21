@@ -10,10 +10,10 @@
 * Användarrollhantering
   * Ta bort medlem
   * Ändra medlemsbehörighet
-   * Skapare
-   * Hanterare
-   * Medlem
-   * Ta bort användare
+  * Skapare
+  * Hanterare
+  * Medlem
+  * Ta bort användare
 
 ==Övrigt==
 300h
