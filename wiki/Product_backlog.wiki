@@ -41,7 +41,7 @@
   * Lägga till / ta bort
   * Specifiera att vissa widgets måste vara med i ett projekt. 
  
- * Widgets 
+ * Widgets 1040h
   * Wiki  20h
   * Kalender med mötesbokning (påminnelse via epost? cron?)  30h
   * Chatt  50h
@@ -56,6 +56,8 @@
   * Burndown chart 100h
   * Whiteboard  150h
   * Scrumboard /postis 100h 
+  * Tidsrapportering 100h
+  * Rssflöde 50h
 
 == Vidareutveckling Widgets==
  * Wiki 1.1
