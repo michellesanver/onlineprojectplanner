@@ -58,7 +58,10 @@
   * Widgethanterarwidget där man kan ta bort, sortera och lägga till widgets. 
   * Användarhanterarwidget där man kan bjuda in användare. 
   * Kontaktlistewidget där man ser alla medlemmarna i projektet.
+
 == Vidareutveckling Widgets==
  * Wiki 1.1
-  * wysywig (html-syntax)
-  * bilduppladdning (wysiwyg)
+  * wysiywig (html-syntax)
+  * bilduppladdning via wysiwyg
+  * fler säkerhetskontroller
+  * anpassa till ny widgetstruktur
