@@ -9,34 +9,34 @@
  * Kontaktlistewidget där man ser alla medlemmarna i projektet.  40h
  * Spara positionering på desktop
  * Specifiera att vissa widgets måste vara med i ett projekt. 
-
-* Användarrollhantering
-  * Ta bort medlem
-  * Ändra medlemsbehörighet
+ * Användarrollhantering
+ * Ta bort medlem
+ * Ändra medlemsbehörighet
   * Skapare
   * Hanterare
   * Medlem
   * Ta bort användare
 
+ * Wiki  20h
+ * Chatt  50h
+ * Burndown chart 100h
+ * Whiteboard  150h
+ * Tidsrapportering 100h
+ * Kalender med mötesbokning (påminnelse via epost? cron?)  30h
+ * Gemensam livekodning  60h
+ * Dokumentdelning i mappar/dropbox 100h  + 40h filhantering  
+ * Scrumboard /postis 100h 
+ * Videochatt  60h
+ * Implementera google docs  60h 
+ * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.  40 h
+
 ==Övrigt==
 300h
  * Motor för placering av widgets  
  * Webbklient
- * Mobilklient
 
  * Widgets 1040h
-  * Wiki  20h
-  * Kalender med mötesbokning (påminnelse via epost? cron?)  30h
-  * Chatt  50h
-  * Videochatt  60h
-  * Dokumentdelning i mappar/dropbox 100h  + 40h filhantering  
-  * Gemensam livekodning  60h
-  * Implementera google docs  60h 
-  * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.  40 h
-  * Burndown chart 100h
-  * Whiteboard  150h
-  * Scrumboard /postis 100h 
-  * Tidsrapportering 100h
+ 
   * Rssflöde 50h
 
 == Vidareutveckling Widgets==
