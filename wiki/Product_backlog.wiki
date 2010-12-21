@@ -10,6 +10,7 @@
  * Webbklient
  * Mobilklient
  * Gör en "snabblista" för att användaren snabbt ska kunna byta mellan projekt.
+ * Inloggning via Google och Facebook (30h)
 
 
 ==Användarhantering==
