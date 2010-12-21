@@ -46,16 +46,14 @@
   * Kalender med mötesbokning (påminnelse via epost? cron?)  30h
   * Chatt  50h
   * Videochatt  60h
-  * Dokumentdelning i mappar/dropbox 60h    
+  * Dokumentdelning i mappar/dropbox 100h  + 40h filhantering  
   * Gemensam livekodning  60h
-  * Gemensam livedokumentation 
-  * SVN Hantering? (En projektgrupp kan starta egen SVN)
-  * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.
-  * Filhanterare där det går att hantera uppladdade filer.
-  * Widgethanterarwidget där man kan ta bort, sortera och lägga till widgets. 
-  * Användarhanterarwidget där man kan bjuda in användare. 
-  * Kontaktlistewidget där man ser alla medlemmarna i projektet.
-  * Blogg / log  
+  * Implementera google docs  60h 
+  * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.  40 h
+  * Widgethanterarwidget där man kan ta bort, sortera och lägga till widgets.  20h  
+  * Användarhanterarwidget där man kan bjuda in användare. 20h
+  * Kontaktlistewidget där man ser alla medlemmarna i projektet.  40h
+  *    
 
 == Vidareutveckling Widgets==
  * Wiki 1.1
