@@ -7,7 +7,6 @@
  * Användarhanterarwidget där man kan bjuda in användare. 20h
  * Kontaktlistewidget där man ser alla medlemmarna i projektet.  40h
  * Spara positionering på desktop
- * Motor för placering av widgets  
  * Specifiera att vissa widgets måste vara med i ett projekt. 
  * Användarrollhantering
  * Ta bort medlem
