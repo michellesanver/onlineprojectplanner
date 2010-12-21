@@ -3,7 +3,7 @@
 - Antal timmar till projekt: 2000 h
 
 ==Övrigt== 300h
- * Alla felmeddelanden loggade och/eller mailade. 
+ * ~~Alla felmeddelanden loggade och/eller mailade.~~ 
  * Motor för placering av widgets  
  * Debug-funktion för widgets i javascript (10h)
  * Webbklient
@@ -12,20 +12,20 @@
 
 
 ==Användarhantering==
- * Registrering
- * Login och logout
- * Editera konto
- * Återställa lösenord
+ * ~~Registrering~~
+ * ~~Login och logout~~
+ * ~~Editera konto~~
+ * ~~Återställa lösenord~~
  * Ta bort användare
 
 
 ==Projekthantering==
- * Skapa projekt
- * Ta bort projekt
- * Editera projekt
- * Widgethantering
+ * ~~Skapa projekt~~
+ * ~~Ta bort projekt~~
+ * ~~Editera projekt~~
+ * ~~Widgethantering~~
  * Användarrollhantering
-  * Bjuda in medlem
+  * ~~Bjuda in medlem~~
   * Ta bort medlem
   * Ändra medlemsbehörighet
    * Skapare
@@ -35,10 +35,10 @@
 
 ==Widgets==
  * Widgethantering
-  * Minimera / Maximera
+  * ~~Minimera / Maximera~~
   * Spara positionering på desktop
-  * Flytta / Ändra storlek
-  * Lägga till / ta bort
+  * ~~Flytta / Ändra storlek~~
+  * ~~Lägga till / ta bort~~
   * Specifiera att vissa widgets måste vara med i ett projekt. 
  
  * Widgets 1040h
