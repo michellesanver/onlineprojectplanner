@@ -4,6 +4,9 @@
  * Gör en "snabblista" för att användaren snabbt ska kunna byta mellan projekt.
  * Debug-funktion för widgets i javascript (10h)
  * Widgethantering
+ * Widgethanterarwidget där man kan ta bort, sortera och lägga till widgets.  20h  
+ * Användarhanterarwidget där man kan bjuda in användare. 20h
+ * Kontaktlistewidget där man ser alla medlemmarna i projektet.  40h
  * Spara positionering på desktop
  * Specifiera att vissa widgets måste vara med i ett projekt. 
 
@@ -30,9 +33,6 @@
   * Gemensam livekodning  60h
   * Implementera google docs  60h 
   * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.  40 h
-  * Widgethanterarwidget där man kan ta bort, sortera och lägga till widgets.  20h  
-  * Användarhanterarwidget där man kan bjuda in användare. 20h
-  * Kontaktlistewidget där man ser alla medlemmarna i projektet.  40h
   * Burndown chart 100h
   * Whiteboard  150h
   * Scrumboard /postis 100h 
