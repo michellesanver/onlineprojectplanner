@@ -34,3 +34,4 @@
  * Implementera google docs  60h 
  * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.  40 h
  * Rssflöde 50h
+ * Inloggning via Google / Facebook 30h
