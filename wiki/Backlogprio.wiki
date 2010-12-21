@@ -19,6 +19,11 @@
 
 
  * Wiki  20h
+* Wiki 1.1
+  * wysiywig (html-syntax)
+  * bilduppladdning via wysiwyg
+  * fler säkerhetskontroller
+  * anpassa till ny widgetstruktur
  * Chatt  50h
  * Burndown chart 100h
  * Whiteboard  150h
@@ -31,10 +36,3 @@
  * Implementera google docs  60h 
  * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.  40 h
  * Rssflöde 50h
-
-== Vidareutveckling Widgets==
- * Wiki 1.1
-  * wysiywig (html-syntax)
-  * bilduppladdning via wysiwyg
-  * fler säkerhetskontroller
-  * anpassa till ny widgetstruktur
