@@ -17,9 +17,7 @@
   * Medlem
   * Ta bort användare
 
-
- * Wiki  20h
-* Wiki 1.1
+ * Wiki 1.1
   * wysiywig (html-syntax)
   * bilduppladdning via wysiwyg
   * fler säkerhetskontroller
