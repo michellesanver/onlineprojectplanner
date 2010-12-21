@@ -2,9 +2,9 @@
 = Product backlog = 
 - Antal timmar till projekt: 2000 h
 
-==Övrigt==
- * Alla felmeddelanden loggade och/eller mailade.
- * Motor för placering av widgets
+==Övrigt== 300h
+ * Alla felmeddelanden loggade och/eller mailade. 
+ * Motor för placering av widgets  
  * Debug-funktion för widgets i javascript (10h)
  * Webbklient
  * Mobilklient
