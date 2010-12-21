@@ -53,9 +53,9 @@
   * Widgethanterarwidget där man kan ta bort, sortera och lägga till widgets.  20h  
   * Användarhanterarwidget där man kan bjuda in användare. 20h
   * Kontaktlistewidget där man ser alla medlemmarna i projektet.  40h
-  * Burndown chart 80h
+  * Burndown chart 100h
   * Whiteboard  150h
-  * Scrumboard /postis 80h 
+  * Scrumboard /postis 100h 
 
 == Vidareutveckling Widgets==
  * Wiki 1.1
