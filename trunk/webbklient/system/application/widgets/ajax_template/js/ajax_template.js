@@ -10,7 +10,7 @@ ajaxTemplateWidget = {
 		currentPartial: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(widgetIconId) {
+    open: function(project_widget_id, widgetIconId) {
 			// set options for window
 			var windowOptions = {
 				// change theese as needed
@@ -22,7 +22,7 @@ ajaxTemplateWidget = {
 			};
 	      
 			// create window
-			Desktop.newWidgetWindow(windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
+			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
 			
 			// load the first page upon start
       var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name/';
@@ -88,8 +88,11 @@ ajaxTemplateWidget = {
         // prepare url
         url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
 				
+				// catching the form data
+				var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();
+				
         // send request
-        ajaxRequests.post(formClass, url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');   
+        ajaxRequests.post(postdata, url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');   
     }
     
 };

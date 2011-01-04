@@ -32,10 +32,8 @@ ajaxRequests = {
         },
     
     // post data
-    post: function(formClass, loadURL, successFunction, errorFunction, partial)
+    post: function(postdata, loadURL, successFunction, errorFunction, partial)
     {
-        var postdata = $('#widget_' + windowID ).find('.' + formClass).serialize();
-      
         // empty url?
         if (loadURL == "")
         {
