@@ -52,6 +52,24 @@ class Widgets_model extends Model  {
 
      }
      
+     function GetProjectWidgetId($project_widget_id)
+     {
+     	$t1 = $this->_table;
+     	$this->db->select("$t1.Widget_id");
+        $this->db->from($t1);
+        $this->db->where(array("$t1.Project_widgets_id" => $project_widget_id));
+        
+        $query = $this->db->get();
+        $row = $query->row();
+        
+        if(empty($row)) {
+        	return false;
+        } else {
+        	return $row->Widget_id;
+        }
+
+     }
+     
     /**
     * Get all widgets for a specific project
     * 
