@@ -12,7 +12,7 @@ browserWidget = {
     currentID: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(widgetIconId) {
+    open: function(project_widget_id, widgetIconId) {
             
             // set options for window
             var windowOptions = {
@@ -26,7 +26,7 @@ browserWidget = {
             };
           
             // create window
-            this.currentID = Desktop.newWidgetWindow(windowOptions, widgetIconId, browserWidget.partialContentDivClass);
+            this.currentID = Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, browserWidget.partialContentDivClass);
         },
         
     // --------------------------------------------------------------------------------------- 

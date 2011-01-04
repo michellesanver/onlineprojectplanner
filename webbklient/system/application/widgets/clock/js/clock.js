@@ -16,7 +16,7 @@ clockWidget = {
     onClose:null,
     currentPartial: null,
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(widgetIconId) {
+    open: function(project_widget_id, widgetIconId) {
         			
 					var windowOptions = {
 		                 title: clockWidget.widgetTitle,
@@ -26,7 +26,7 @@ clockWidget = {
 	                     y: 15,
 		             };
 		
-					Desktop.newWidgetWindow(windowOptions, widgetIconId, clockWidget.partialContentDivClass);
+					Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, clockWidget.partialContentDivClass);
 					
 					var loadFirstPage = SITE_URL+'/widget/' + clockWidget.widgetName + '/Pages/';
 				                        ajaxRequests.load(loadFirstPage, "clockWidget.setContent", "clockWidget.setAjaxError");
