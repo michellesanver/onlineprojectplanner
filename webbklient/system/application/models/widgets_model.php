@@ -63,7 +63,7 @@ class Widgets_model extends Model  {
      {
          // prepare
          $active = ($active === true ? 1 : 0);
-         
+				
          // run query
          $table1 = $this->_table;
          $table2 = $this->_table2;
