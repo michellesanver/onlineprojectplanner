@@ -168,6 +168,7 @@ Widget.prototype.closeSettings = function() {
 	this.settingsOpen = false;
 }
 
+
 // returns the settingswindow state.
 Widget.prototype.getSettingsState = function() {
 	return this.settingsOpen;

@@ -179,19 +179,53 @@ Desktop = {
 	openSettingsWindow: function()
 	{
 		if(this._widgetArray[Desktop.selectedWindowId].getSettingsState() == false) {
-			ajaxRequests.load(SITE_URL+'/Widget_settings/GetProjectWidgetSettings/'+Desktop.selectedWindowId, "Desktop.openSettingsWindowSuccess", "Desktop.openSettingsWindowError", true);
+			ajaxRequests.load(SITE_URL+'/Widget_settings/GetProjectWidgetSettings/'+Desktop.selectedWindowId, "Desktop.openSettingsWindowSuccess", "Desktop.ajaxSettingsWindowError", true);
 		} else {
 			this._widgetArray[Desktop.selectedWindowId].closeSettings();
 		}
 	},
 	
+	// Success function of open settings.
 	openSettingsWindowSuccess: function(data)
 	{
 		this._widgetArray[Desktop.selectedWindowId].setSettingsContent(unescape(data));
+		$('#' + Desktop.selectedWindowId + '_settings').validate();
 	},
 	
-	openSettingsWindowError: function(loadURL) {
+	ajaxSettingsWindowError: function(loadURL)
+	{
 		Desktop.show_ajax_error_in_widget(loadURL);
+	},
+	
+	// Saves the settingswindow
+	saveSettingsForm: function()
+	{
+		if($('#' + Desktop.selectedWindowId + '_settings').valid()) {
+			
+			var settings = $('#' + Desktop.selectedWindowId + '_settings').find('input');
+			
+			var formArray = new Array()
+			for(var i = 0; i < settings.length; i++) {
+				var val = [];
+				val['name'] = settings[i]['name'];
+				val['value'] = settings[i]['value'];
+				formArray.push(val);
+			}
+			
+			ajaxRequests.post(formArray, SITE_URL+'/Widget_settings/SaveProjectWidgetSettings', "Desktop.saveSettingsWindowSuccess", "Desktop.ajaxSettingsWindowError", true);
+		}
+		
+		return false;
+	},
+	
+	//called when when the post ajax request are success
+	saveSettingsWindowSuccess: function(data)
+	{
+		if(data == "true"){
+			Desktop.show_message("The settings has been saved. To return please click the settingsbutton!");
+		} else {
+			Desktop.show_errormessage("The settings did not get saved.");
+		}
 	},
 	
 	// variable so debug is accessible for all widgets

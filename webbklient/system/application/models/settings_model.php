@@ -18,16 +18,24 @@ class Settings_model extends Model
 		parent::Model();	
 	}
 	
-	function GetProjectWidgetSettings($projectWidgetId)
+	/**
+	* returns an array containing the settingens for a widget with the right values
+	* 
+	* @param int $widget_id
+	* @param int $projectWidgetId
+	* @return mixed
+	*/
+	function GetProjectWidgetSettings($widget_id, $projectWidgetId)
 	{
 		$t1 = $this->_table1;
 		$t2 = $this->_table2;
 		$t3 = $this->_table3;
-		$this->db->select("$t3.Value, $t1.Name, $t2.CI_rule");
-		$this->db->from($t3);
-		$this->db->where('Project_widgets_id', $projectWidgetId);
-		$this->db->join($t1, "$t3.Settings_id = $t1.Settings_id");
+		$this->db->select("$t1.Name, $t2.CI_rule, $t3.Widget_settings_value_id, $t3.Value");
+		$this->db->from($t1);
+		$this->db->where('Widget_id', $widget_id);
 		$this->db->join($t2, "$t1.Type_id = $t2.Type_id");
+		$this->db->join($t3, "$t1.Settings_id = $t3.Settings_id", "left");
+		$this->db->where("$t3.Project_widgets_id", $projectWidgetId);
 		$this->db->order_by("$t1.Order ASC");
 		$query = $this->db->get();
 		
@@ -41,5 +49,18 @@ class Settings_model extends Model
 	 {
 			return false;
 	 }
+	}
+	
+	/**
+	* Updates a row in the value table.
+	* 
+	* @param array $insert
+	* @return bool
+	*/
+	function updateSettingValue($insert)
+	{
+		$this->db->where('Widget_settings_value_id', $insert['Widget_settings_value_id']);
+		return $this->db->update($this->_table3, $insert);
+		
 	}
 }

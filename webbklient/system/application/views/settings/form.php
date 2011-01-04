@@ -4,14 +4,19 @@
 		}
 	?>
 	<h1>Settings</h1>
-		<form id="registerform" action="<?php echo site_url('account/register'); ?>" method="POST">
-			<?php				
-				for($i = 0; $i < count($settings); $i++) {
-					$val = isset($settings[$i]['Value']) ? $settings[$i]['Value'] : "";
-					echo "<p><label for=\"" . $i . "\">" . $settings[$i]['Name'] . " </label><input type=\"text\" name=\"" . $i . "\" value=\"" . $val . "\" />*</p>";
+			<?php
+				if(is_array($settings)) {
+					echo "<form id=\"" . $id . "_settings\" onsubmit=\"return Desktop.saveSettingsForm()\">";
+					for($i = 0; $i < count($settings); $i++) {
+						$val = isset($settings[$i]['Value']) ? $settings[$i]['Value'] : "";
+						echo "<p><label for=\"" . $settings[$i]['Widget_settings_value_id'] . "\">" . $settings[$i]['Name'] . " </label><input type=\"text\" name=\"" . $settings[$i]['Widget_settings_value_id'] . "\" class=\"" . $settings[$i]['CI_rule'] . "\" value=\"" . $val . "\" />*</p>";
+					}
+					echo "<p><input type=\"submit\" value=\"Save\" /></p>";
+					
+					echo "</form>";
+				} else {
+					echo "<p>There are no settings for this widget</p>";
 				}
 			?>
-			<p><input type="submit" value="Save" name="register_btn" /></p>
-		</form>
 
 
