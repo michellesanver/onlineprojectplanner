@@ -177,6 +177,114 @@ Desktop = {
 	openSettingsWindow: function()
 	{
 		this._widgetArray[Desktop.selectedWindowId].open_settings_Window();
-	}
-	
+	},
+
+    
+	// variable so debug is accessible for all widgets
+    debug_win: null,
+
+    // open and/or append a debug message
+    log_message: function(message) {
+        
+        // does a window exist?
+        if (Desktop.debug_win == null) {
+            
+            // create new window
+         
+            var options = {
+                    title: 'Debug messages',
+                    width: 400,
+                    height: 525,
+                    x: 30,
+                    y: 15,
+                    onClose: function() { Desktop.close_debug_window();  },
+                    content: '<div id="debug_widget_messages"></div>'
+            };
+         
+            Desktop.debug_win = $('#desktop').window(options);
+        }        
+            
+        // get date + time for message        
+        var d = new Date();
+        var month = d.getMonth()+1; // function returns 0-11
+        if (month<10) {
+            month = '0'+month;
+        }
+        var day = d.getDate(); // returns 1-31
+        if (day<10) {
+            day = '0'+day;
+        }
+        var hour = d.getHours(); // returns 0-23
+        if (hour<10) {
+            hour = '0'+hour;
+        }
+        var minutes = d.getMinutes(); // returns 0-59
+        if (minutes<10) {
+            minutes = '0'+minutes;
+        }                 
+        var seconds = d.getSeconds(); // returns 0-59
+        if (seconds<10) {
+            seconds = '0'+seconds;
+        } 
+        var timestamp = d.getFullYear()+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+            
+        // append message
+        $('#debug_widget_messages').append('<p><span class="debug_timestamp">['+timestamp+']:</span> '+message+'</p>');
+    },
+
+    // callback to close a debug window
+    close_debug_window: function() {
+      Desktop.debug_win = null;  
+    },
+    
+    // help-function to log_variable
+     var_dump: function(data) {
+        var rtrn = '';
+
+        
+        if(typeof(data) != 'object') {
+            
+           dt = data;
+           if(typeof(data) == 'string') {
+              
+           }//end if typeof == string
+           
+           if(typeof(data) == 'function') {
+              
+           }//end if typeof == function
+           
+           if(typeof(data) == 'undefined') {
+              dt = 'undefined';
+           }//end if typeof == undefined
+           
+           return dt;
+        }//end if typeof != object && != array
+        
+
+        return rtrn;
+     }//end function var_dump
+
 }
+
+
+// ----------------------------------------------------------------
+
+// shorthand global function to wrap Desktop.log_message into log_message
+function log_message(msg) {
+    Desktop.log_message(msg);
+}
+
+// shorthand to dump a variable
+function log_variable(msg, data) {
+    if (msg != null && msg != '') {
+        // write message + variable
+        Desktop.log_message(msg+' '+Desktop.var_dump(data));    
+    }
+    else {
+        // write only variable
+        Desktop.log_message(Desktop.var_dump(data));    
+    }
+}
+
+
+

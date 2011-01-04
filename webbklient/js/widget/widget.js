@@ -142,7 +142,11 @@ Widget.prototype.show_ajax_error = function(loadURL, errorIcon)
         $('#'+this.divId).html(errorMessage);
 }
 
+
+
 Widget.prototype.open_settings_Window = function()
 {
 	alert("NOT IMPLEMENTED");
 }
+
+
