@@ -11,11 +11,11 @@ Desktop = {
 	message_tick: 20,
 	message_width: 500, // also in css
   
-	
-	newWidgetWindow : function(options, widgetIconId, partialContentClasses) {
+	// Will open a new window and add it to the windowlist
+	newWidgetWindow : function(project_widget_id, options, widgetIconId, partialContentClasses) {
 	
 		// set id
-		Desktop.selectedWindowId = this._widgetArray.length+2;
+		Desktop.selectedWindowId = project_widget_id;
 		
 		// add more options
 		options.onMinimize = function(){ Desktop.close_widget(widgetIconId); };
@@ -46,6 +46,7 @@ Desktop = {
 		return Desktop.selectedWindowId;
 	},
 	
+	// Will transfer contentdata to the selected window
 	setWidgetContent : function(data) {
 		this._widgetArray[Desktop.selectedWindowId].setContent(data);
 	},
@@ -58,7 +59,7 @@ Desktop = {
 	// --------------------------------------------------------------------------------------------------
 	// open and close widgets in widget bar
 	
-	open_widget: function(widgetCallback, widgetIconId, wObject)
+	open_widget: function(widgetCallback, widgetIconId, wObject, project_widget_id)
 	{
 		// which state?
 		var state = $('#'+widgetIconId).attr('state');
@@ -67,7 +68,7 @@ Desktop = {
 			// no state!
 			
 			// run callback to open widget
-			eval(wObject+'.open("'+widgetIconId+'")');
+			eval(wObject+'.open("'+project_widget_id+'", "'+widgetIconId+'")');
 			
 			// set state as open and transparency for icon to 20%
 			$('#'+widgetIconId).attr('state', 'open');
@@ -174,12 +175,25 @@ Desktop = {
 		Desktop.message_current_position = Desktop.message_start_position;  
 	},
 	
+	// Depending of the settingstate will it open or close the window.
 	openSettingsWindow: function()
 	{
-		this._widgetArray[Desktop.selectedWindowId].open_settings_Window();
+		if(this._widgetArray[Desktop.selectedWindowId].getSettingsState() == false) {
+			ajaxRequests.load(SITE_URL+'/Widget_settings/GetProjectWidgetSettings/'+Desktop.selectedWindowId, "Desktop.openSettingsWindowSuccess", "Desktop.openSettingsWindowError", true);
+		} else {
+			this._widgetArray[Desktop.selectedWindowId].closeSettings();
+		}
 	},
-
-    
+	
+	openSettingsWindowSuccess: function(data)
+	{
+		this._widgetArray[Desktop.selectedWindowId].setSettingsContent(unescape(data));
+	},
+	
+	openSettingsWindowError: function(loadURL) {
+		Desktop.show_ajax_error_in_widget(loadURL);
+	},
+	
 	// variable so debug is accessible for all widgets
     debug_win: null,
 

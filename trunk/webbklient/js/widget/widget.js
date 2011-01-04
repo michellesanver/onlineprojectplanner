@@ -8,6 +8,8 @@ function Widget(id, wnd_options, partialClasses) {
 	// The div-id of this instance
 	this.divId = "widget_" + id;
 	
+	this.settingsOpen = false;
+	
 	// An array containing all partial areas in the window for better updating of smaller parts.
 	this.partialClassNames = new Array();
 	if (partialClasses != undefined)
@@ -38,20 +40,24 @@ function Widget(id, wnd_options, partialClasses) {
 	this.wnd.setFooterContent("<a href=\"javascript:void(0);\" onclick=\"Desktop.openSettingsWindow()\"><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
 }
 
+// Will set the content in the widget
 Widget.prototype.setContent = function(data) {
 	$('#' + this.divId).html(data);
 }
 
+// Will set the content in a partal area
 Widget.prototype.setPartialContent = function(partialClass, data) {
 	if($.inArray(partialClass, this.partialClassNames) >= 0) {
 		$('#' + this.divId).find('.'+partialClass).html(data);
 	}
 }
 
+// returns the jquery-windowobject
 Widget.prototype.getWindowObject = function() {
 	return this.wnd;
 }
 
+// Closes the widgetwindow
 Widget.prototype.closeWidget = function() {
     this.wnd.close();    
 }
@@ -142,11 +148,27 @@ Widget.prototype.show_ajax_error = function(loadURL, errorIcon)
         $('#'+this.divId).html(errorMessage);
 }
 
-
-
-Widget.prototype.open_settings_Window = function()
-{
-	alert("NOT IMPLEMENTED");
+// Opens (creates if needed) the settings window
+Widget.prototype.setSettingsContent = function(data) {
+	if($('#' + this.divId).next('#settings').length == 0) {
+		$('#' + this.divId).after('<div id="settings"></div>');
+		
+	}
+	
+	$('#' + this.divId).next('#settings').html(data);
+	$('#' + this.divId).fadeOut('1000');
+	$('#' + this.divId).next('#settings').fadeIn('1000');
+	this.settingsOpen = true;
 }
 
+// Closes the settingswindow
+Widget.prototype.closeSettings = function() {
+	$('#' + this.divId).next('#settings').fadeOut('1000');
+	$('#' + this.divId).fadeIn('1000');
+	this.settingsOpen = false;
+}
 
+// returns the settingswindow state.
+Widget.prototype.getSettingsState = function() {
+	return this.settingsOpen;
+}
