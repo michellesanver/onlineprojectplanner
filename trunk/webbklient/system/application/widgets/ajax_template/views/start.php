@@ -3,7 +3,7 @@
         pre.code {margin-top:20px; margin-left:10px; padding:5px; background-color:#d9d9d9; border:2px dashed #f0f0f0;}
     </style>
 
-<!--<div id="ajax_template_wrapper" style="padding:15px;">-->
+
     
     <h1>AJAX template</h1>
 
@@ -77,4 +77,46 @@ CODE (Image from widget-folder):
     <p><img src="<?php echo $widget_base_url; ?>images/Why_NORAD_Tracks_Santa.jpg" /></p>
 
 
-<!--</div>-->
+<h2>Debug message</h2>
+
+<pre class="code">
+CODE:
+    &lt;p>&lt;a href="javascript:void(0);" onclick="log_message('Just a message');">Log a message (1)&lt;/a>&lt;/p>
+</pre>
+<p><a href="javascript:void(0);" onclick="log_message('Just a message');">Log a message (1)</a></p>
+
+<pre class="code">
+CODE:
+    &lt;p>&lt;a href="javascript:void(0);" onclick="log_message('Anooother message');">Log a message (2)&lt;/a>&lt;/p>
+</pre>
+<p><a href="javascript:void(0);" onclick="log_message('Anooother message');">Log a message (2)</a></p>
+
+<script type="text/javascript">
+    function test_dump1() {
+        var testArray = [];
+        testArray[0] = 'value1';
+        testArray[1] = 'something else';
+        testArray[2] = true;
+        
+        log_variable(null, testArray);
+    }
+</script>
+
+<pre class="code">
+CODE:
+    &lt;script type="text/javascript">
+        function test_dump1() {
+            var testArray = [];
+            testArray[0] = 'value1';
+            testArray[1] = 'something else';
+            testArray[2] = true;
+        
+                log_variable(null, testArray);
+            }
+    &lt;/script>
+    
+    &lt;p>&lt;a href="javascript:void(0);" onclick="test_dump1();">Log an array&lt;/a>&lt;/p> 
+</pre>
+<p><a href="javascript:void(0);" onclick="test_dump1();">Log an array (3)</a></p>
+
+<br /><br /><br />

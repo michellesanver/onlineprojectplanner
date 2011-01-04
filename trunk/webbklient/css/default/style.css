@@ -455,3 +455,21 @@ div#widget_bar div.icon {
 
 
 /* @end */
+
+/* @group desktop debug messages */
+
+#debug_widget_messages {
+    padding: 5px;    
+}
+
+#debug_widget_messages p {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 3px;
+}
+
+#debug_widget_messages .debug_timestamp {
+    font-size:10pt;    
+}
+
+/* @end */
