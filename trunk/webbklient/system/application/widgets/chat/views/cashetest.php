@@ -3,7 +3,7 @@
 
 <?php if(empty($cashed_data) == false ) { ?>
 
-    <?php foreach ($cashed_data->item as $item) { ?>
+    <?php foreach ($cashed_data->items->item as $item) { ?>
 
         <p>
             User: <?php echo $item->user; ?><br />

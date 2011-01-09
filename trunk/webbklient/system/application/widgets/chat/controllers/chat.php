@@ -45,7 +45,14 @@ class Chat extends Controller {
 
         // Get cashed data
 
-        $cashe_data = $this->cashe_lib->ReadCashe();
+        if($this->cashe_lib->WriteCashe('cashe_test', 'hello world') != false)
+        {
+            $cashe_data = $this->cashe_lib->ReadCashe('cashe_test');
+        }
+        else
+        {
+            $cashe_data = NULL;
+        }
 
         $data = array(
             'base_url' => $base_url,
