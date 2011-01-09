@@ -9,7 +9,7 @@ Class Cashe_lib
     {
         $this->_CI = & get_instance();
 
-        $this->_CI->load->model_widget('cashe_model', 'Cashe_model');
+        $this->_CI->load->model_widget('cashe_model', 'cashe_model');
     }
 
     /**
@@ -18,9 +18,16 @@ Class Cashe_lib
     * -
     */
 
-    function ReadCashe()
+    function ReadCashe($key)
     {
-        return 'cashed data';
+        $cashe = $this->_CI->cashe_model->ReadCashe($key);
+
+        if($cashe != false)
+        {
+            return $cashe;
+        }
+
+        return NULL;
     }
 
     /**
@@ -29,9 +36,24 @@ Class Cashe_lib
     * -
     */
 
-    function WriteCashe()
+    function WriteCashe($key, $currentMessage)
     {
-        //
+        $currentUserInformation = $this->_CI->user->getLoggedInUser();
+
+        if($currentUserInformation != NULL)
+        {
+            $currentUser = $currentUserInformation['Username'];
+            $currentId = $currentUserInformation['User_id'];
+            $currentDatetime = date("c");
+
+            $cashe = $this->_CI->cashe_model->WriteCashe($key, $currentUser, $currentId, $currentMessage, $currentDatetime);
+
+            if($cashe != false)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
