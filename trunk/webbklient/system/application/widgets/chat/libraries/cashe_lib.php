@@ -20,7 +20,7 @@ Class Cashe_lib
 
     function ReadCashe()
     {
-        //
+        return 'cashed data';
     }
 
     /**

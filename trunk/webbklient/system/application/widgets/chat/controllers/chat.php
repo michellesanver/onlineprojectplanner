@@ -6,7 +6,7 @@ class Chat extends Controller {
     {
         parent::Controller();
 
-        $this->load->library_widget('cashe_lib', null, 'chat');
+        $this->load->library_widget('Cashe_lib', null, 'cashe_lib');
     }
 
     /**
@@ -43,10 +43,15 @@ class Chat extends Controller {
 
         $base_url = $this->config->item('base_url');
 
+        // Get cashed data
+
+        $cashe_data = $this->cashe_lib->ReadCashe();
+
         $data = array(
             'base_url' => $base_url,
             'widget_url' => site_url("/widget/$widget_name").'/',
-            'widget_base_url' => $base_url."system/application/widgets/$widget_name/"
+            'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
+            'cashed_data' => $cashe_data
         );
 
         $this->load->view_widget('cashetest', $data);
