@@ -3,12 +3,16 @@
 Class Cashe_model extends Model
 {
 
+    private $_template = "cashe_template";
+
     /**
     * Used to get cashe
     * -
     */
     function _GetCasheURL($key)
     {
+        // TODO: Move folder down to the protected system/cashe folder
+
         $dir = dirname(__FILE__);
 
         return $dir.'/../cashe/'.$key.'.xml';
@@ -41,37 +45,65 @@ Class Cashe_model extends Model
     function WriteCashe($key, $currentUser, $currentId, $currentMessage, $currentDatetime)
     {
         $file = $this->_GetCasheURL($key);
+        $cashe = NULL;
 
         if(file_exists($file) != false)
         {
             $cashe = @simplexml_load_file($file);
 
-            // Cashe item
+            if($cashe != false)
+            {
+                // Cashe item
 
-            $items = $cashe->items[0];
-            $item = $items->addChild("item", '');
-            $user = $item->addChild("user", $currentUser);
-            $user->addAttribute('id', $currentId);
-            $item->addChild("message", $currentMessage);
-            $item->addChild("datetime", $currentDatetime);
+                $items = $cashe->items[0];
+                $item = $items->addChild("item", '');
+                $user = $item->addChild("user", $currentUser);
+                $user->addAttribute('id', $currentId);
+                $item->addChild("message", $currentMessage);
+                $item->addChild("datetime", $currentDatetime);
 
-            // Update <lastupdated>
+                // Update <lastupdated>
 
-            $cashe->lastupdated[0] = $currentDatetime;
+                $cashe->lastupdated[0] = $currentDatetime;
 
-            // Save
+                // Save
 
-            $cashe->saveXML($file);
-
-            return true;
+                if($cashe->saveXML($file) != false)
+                {
+                    return true;
+                }
+            }
         }
         else
         {
-            // Save new file from template...
+            $template = $this->_GetCasheURL($this->_template);
+            $cashe = @simplexml_load_file($template);
+
+            if($cashe != false)
+            {
+                // Cashe item
+
+                $items = $cashe->items[0];
+                $item = $items->addChild("item", '');
+                $user = $item->addChild("user", $currentUser);
+                $user->addAttribute('id', $currentId);
+                $item->addChild("message", $currentMessage);
+                $item->addChild("datetime", $currentDatetime);
+
+                // Update <lastupdated>
+
+                $cashe->lastupdated[0] = $currentDatetime;
+
+                // Save
+
+                if($cashe->saveXML($file) != false)
+                {
+                    return true;
+                }
+            }
         }
 
         return false;
-
     }
 
 }
