@@ -1,9 +1,11 @@
     
 <h1>Cashe test...</h1>
 
-<?php if(empty($cashed_data) == false ) { ?>
+<?php echo '<p>'.$result.'</p>'; ?>
 
-    <?php foreach ($cashed_data->items->item as $item) { ?>
+<?php if(empty($cashe) == false ) { ?>
+
+    <?php foreach ($cashe->items->item as $item) { ?>
 
         <p>
             User: <?php echo $item->user; ?><br />
@@ -12,9 +14,5 @@
         </p>
 
     <?php } ?>
-
-<?php } else { ?>
-
-    <p>No cashe found...</p>
 
 <?php } ?>

@@ -43,22 +43,37 @@ class Chat extends Controller {
 
         $base_url = $this->config->item('base_url');
 
-        // Get cashed data
+        $key = 'cashe_test';
+        $message = $key;
 
-        if($this->cashe_lib->WriteCashe('cashe_test', 'hello world') != false)
+        if($this->cashe_lib->WriteCashe($key, $message) != false)
         {
-            $cashe_data = $this->cashe_lib->ReadCashe('cashe_test');
+            $result = 'Cashe was written to xml...';
+
+            $cashe = $this->cashe_lib->ReadCashe($key);
+
+            if($cashe != NULL)
+            {
+                $result = 'Cashe found...';
+            }
+            else
+            {
+                $result = 'No cashe found...';
+            }
         }
         else
         {
-            $cashe_data = NULL;
+            $result = 'No cashe was written to xml...';
+
+            $cashe = NULL;
         }
 
         $data = array(
             'base_url' => $base_url,
             'widget_url' => site_url("/widget/$widget_name").'/',
             'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
-            'cashed_data' => $cashe_data
+            'result' => $result,
+            'cashe' => $cashe
         );
 
         $this->load->view_widget('cashetest', $data);
