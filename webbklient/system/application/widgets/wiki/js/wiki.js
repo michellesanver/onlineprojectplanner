@@ -4,25 +4,39 @@ wikiWidget = {
 
     pageContentDivClass: 'wiki_main_content',
     contentDivClass: 'wiki_content',
-    widgetTitle: 'Wiki 1.0',
+    widgetTitle: 'Wiki 1.1',
     widgetName: 'wiki', // also name of folder
     errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
     
-    // variable for window (DO NOT CHANGE - REQUIRED)
-    wnd: null, 
-    
-    // callbacks that is set in common.js upon start (DO NOT CHANGE - REQUIRED)     
-    onMinimize: null, 
-    onClose:null,
+    currentPartial: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function() {
+    open: function(project_widget_id, widgetIconId) {
         
                     // create the first view
                     var initialContent = "<div class=\""+wikiWidget.contentDivClass+"\"></div>";
         
+        
+                    // set options for window
+                    var windowOptions = {
+                        // change theese as needed
+                        title: wikiWidget.widgetTitle,
+                        content: initialContent, 
+                        width: 650,
+                        height: 425,
+                        x: 30,
+                        y: 15
+                    };
+                  
+                    // create window
+                    Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
+                    
+                    // load the first page upon start
+                    var loadFirstPage = SITE_URL+'/widget/' + wikiWidget.widgetName + '/pages';
+                    ajaxRequests.load(loadFirstPage, "wikiWidget.setContent", "wikiWidget.setAjaxError");
+        
                     // create a new jquery window
-                    this.wnd = $('#content').window({
+                    /*this.wnd = $('#content').window({
                         // change theese as needed
                        title: wikiWidget.widgetTitle,
                        content: initialContent,
@@ -38,10 +52,10 @@ wikiWidget = {
                        maxWidth: $('#content').width(),
                        maxHeight: $('#content').height(),
                        bookmarkable: false
-                    });
+                    }); 
         
                     // load the first page upon start
-                    wikiWidget.load('/pages');
+                    wikiWidget.load('/pages');    */
         
                 } ,
                 
