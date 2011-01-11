@@ -39,7 +39,7 @@ clockWidget = {
 				                        // This is due to ILLEGAL chars in the string.	
 				                        Desktop.setWidgetContent(unescape(data));
 										
-                                        // find which .digiclocl to use through selected window's children
+                                        // find which .digiclock to use through selected window's children
                                         $('#widget_' + Desktop.selectedWindowId ).find('.digiclock').jdigiclock({ }); 
                                         
                                         /*
