@@ -18,10 +18,11 @@ This function will write a message and/or a variable into the debug-window (open
 {{{
 function javascript_test() {
 
+    var error = false;
     // do some stuff
 
     if (error==true) {
-       // if variable error is true; send a message
+       // if variable error is true; log a message
        log_message( 'Error; Unable to do stuff' );
     }
 
@@ -39,25 +40,23 @@ function javascript_testvar() {
     dataDump[1] = new Object();
     dataDump[1].hello = 'world';
 
-    if (error==true) {
-       // if variable error is true; send a message and variable data
-       log_variable( 'Error; dumping data', dataDump );
-    }
+    // log a message and variable data
+    log_variable( 'Error; dumping data', dataDump );
 
 }
 }}}
 
 *Log a variable_*
 {{{
-function javascript_testvar2() {
+function javascript_testvar2(result) {
 
     // do some stuff
 
     var dataDump = new Object();
     dataDump.hello = 'world';
 
-    if (error==true) {
-       // if variable error is true; send variable data
+    if (result==undefined) {
+       // if no parameter sent to function; logvariable data
        log_variable( '', dataDump );
     }
 
