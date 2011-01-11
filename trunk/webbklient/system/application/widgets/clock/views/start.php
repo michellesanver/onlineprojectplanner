@@ -1,3 +1,3 @@
 
-<div id="digiclock">test</div>
+<div class="digiclock">test</div>
 

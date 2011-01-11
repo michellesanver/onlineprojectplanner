@@ -38,8 +38,14 @@ clockWidget = {
 				                        // The success return function, the data must be unescaped befor use.
 				                        // This is due to ILLEGAL chars in the string.	
 				                        Desktop.setWidgetContent(unescape(data));
-										$('#digiclock').jdigiclock({ });
 										
+                                        // find which .digiclocl to use through selected window's children
+                                        $('#widget_' + Desktop.selectedWindowId ).find('.digiclock').jdigiclock({ }); 
+                                        
+                                        /*
+                                        OLD CODE; does not work with multiple instances
+                                        $('.digiclock').jdigiclock({ });
+                                        */
 				    },
 
 				    // set partial content in widgets div, called from the ajax request
