@@ -56,7 +56,7 @@ function javascript_testvar2(result) {
     dataDump.hello = 'world';
 
     if (result==undefined) {
-       // if no parameter sent to function; logvariable data
+       // if no parameter sent to function; log variable data
        log_variable( '', dataDump );
     }
 
