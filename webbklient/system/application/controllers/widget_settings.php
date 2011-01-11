@@ -6,7 +6,7 @@ class Widget_settings extends Controller {
 	{
 		parent::Controller();
 		$this->load->model(array("settings_model", "Widgets_model"));
-		$this->load->library(array('validation'));
+		$this->load->library("settings_provider");
 	}
 	
 	/**
@@ -16,13 +16,22 @@ class Widget_settings extends Controller {
 	*/
 	function GetProjectWidgetSettings($projectWidgetId)
 	{
+		if(($projectWidgetId = (int)$projectWidgetId) == false) {
+			echo "Input is not an int!";
+		}
+		
 		$data = array();
 		$data['id'] = $projectWidgetId;
 		
-		$widget_id = $this->Widgets_model->GetProjectWidgetId($projectWidgetId);
-		$data['settings'] = $this->settings_model->GetProjectWidgetSettings($widget_id, $projectWidgetId);
+		$widget_id = $this->Widgets_model->GetWidgetId($projectWidgetId);
 		
-		$this->load->view('settings/form', $data);
+		if($widget_id > 0) {
+			$data['settings'] = $this->settings_model->GetProjectWidgetSettings($widget_id, $projectWidgetId);
+			
+			$this->load->view('settings/form', $data);
+		} else {
+			echo "Problems with the widget_id.";
+		}
 	}
 	
 	
@@ -38,24 +47,38 @@ class Widget_settings extends Controller {
 		* Preparing data
 		*/
 		$data = array();
+		$project_widget_id = array_pop($post);
 		$keys = array_keys($post);
 		for($i = 0; $i < $valueCount; $i++) {
 			$key = $keys[$i];
 			$tmp = array();
 			$tmp['Widget_settings_value_id'] = $key;
-			$tmp['Value'] = $post[$key];
+			$tmp['Value'] = (string)$post[$key];
 			$data[] = $tmp;
 		}
 		
-		$res = "true";
+		$res = true;
 		foreach($data as $row){
-			if($this->settings_model->updateSettingValue($row) == false) {
-				echo $row['Value'] . "<br />";
-				$res = "false";
+			if(substr($row['Widget_settings_value_id'],0,1) == "n"){
+				$s_id = substr($row['Widget_settings_value_id'],1);
+				if($this->settings_model->insertSettingValue(array("Project_widgets_id" => $project_widget_id, "Settings_id" => $s_id, "Value" => $row['Value'])) == false) {
+					echo "Error while inserting: " . $row['Widget_settings_value_id'] . " = " . $row['Value'] . "<br />";
+					$res = false;
+				}
+			} else {
+				if($this->settings_model->updateSettingValue($row) == false) {
+					echo "Error while updating: " . $row['Widget_settings_value_id'] . " = " . $row['Value'] . "<br />";
+					$res = false;
+				}
 			}
 		}
-		
-		echo $res;
+		if($res)
+			echo "true";
+	}
+	
+	function libTester()
+	{
+		var_dump($this->settings_provider->getSettingValue("ajax_template", 1, 9));
 	}
 }
 
