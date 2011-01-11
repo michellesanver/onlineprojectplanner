@@ -283,34 +283,7 @@ Desktop = {
     // callback to close a debug window
     close_debug_window: function() {
       Desktop.debug_win = null;  
-    },
-    
-    // help-function to log_variable
-     var_dump: function(data) {
-        var rtrn = '';
-
-        
-        if(typeof(data) != 'object') {
-            
-           dt = data;
-           if(typeof(data) == 'string') {
-              
-           }//end if typeof == string
-           
-           if(typeof(data) == 'function') {
-              
-           }//end if typeof == function
-           
-           if(typeof(data) == 'undefined') {
-              dt = 'undefined';
-           }//end if typeof == undefined
-           
-           return dt;
-        }//end if typeof != object && != array
-        
-
-        return rtrn;
-     }//end function var_dump
+    }
 
 }
 
@@ -326,11 +299,11 @@ function log_message(msg) {
 function log_variable(msg, data) {
     if (msg != null && msg != '') {
         // write message + variable
-        Desktop.log_message(msg+' '+Desktop.var_dump(data));    
+        Desktop.log_message( msg+' '+$.dump(data) );    
     }
     else {
         // write only variable
-        Desktop.log_message(Desktop.var_dump(data));    
+        Desktop.log_message( $.dump(data) );    
     }
 }
 
