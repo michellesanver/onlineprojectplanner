@@ -7,7 +7,7 @@ ajaxTemplateWidget = {
     widgetTitle: 'AJAX template',
     widgetName: 'ajax_template', // also name of folder
 	
-		currentPartial: null,
+	currentPartial: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
     open: function(project_widget_id, widgetIconId) {
@@ -25,15 +25,15 @@ ajaxTemplateWidget = {
 			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
 			
 			// load the first page upon start
-      var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name/';
+            var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name/';
 			ajaxRequests.load(loadFirstPage, "ajaxTemplateWidget.setContent", "ajaxTemplateWidget.setAjaxError");
 		},
 		
 		
 		
 		
-		/* 
-		* The following functions are common for att widgets.
+	/* 
+	* The following functions are common for att widgets.
     * --------------------------------------------------------------------------------------- 
     */
 		
@@ -60,7 +60,7 @@ ajaxTemplateWidget = {
     // shows a message (example in start.php)
     example_showMessage: function(message) {
 			Desktop.show_message(message);    
-		},
+	},
     
     // wrapper-function that easily can be used inside views from serverside    
     loadURL: function(url) {
@@ -72,7 +72,7 @@ ajaxTemplateWidget = {
     },
 		
 		// Loads a ajaxrequest to specific partialclass, in this case "ajax_template_partial"
-		loadURLtoPartialTest: function(url) {
+	loadURLtoPartialTest: function(url) {
         // prepare url
         url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
 				
@@ -88,8 +88,8 @@ ajaxTemplateWidget = {
         // prepare url
         url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
 				
-				// catching the form data
-				var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();
+		// catching the form data
+		var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();
 				
         // send request
         ajaxRequests.post(postdata, url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');   
