@@ -18,9 +18,9 @@ chatWidget = {
             // change theese as needed
             title: chatWidget.widgetTitle,
             width: 600,
-            height: 350,
-            x: 30,
-            y: 30
+            height: 400,
+            x: 10,
+            y: 10
 
         };
 
@@ -30,7 +30,8 @@ chatWidget = {
 
         // Load the first page upon start
 
-        var loadFirstPage = SITE_URL+'/widget/' + chatWidget.widgetName + '/chat/cashetest/';
+        // var loadFirstPage = SITE_URL+'/widget/' + chatWidget.widgetName + '/chat/cashetest/';
+        var loadFirstPage = SITE_URL+'/widget/' + chatWidget.widgetName + '/';
 
         ajaxRequests.load(loadFirstPage, "chatWidget.setContent", "chatWidget.setAjaxError");
 

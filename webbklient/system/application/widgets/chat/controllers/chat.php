@@ -21,10 +21,17 @@ class Chat extends Controller {
 
         $base_url = $this->config->item('base_url');
 
+        // TEST FEED START
+
+        $cashe = $this->cashe_lib->ReadCashe('cashe_test');
+
+        // TEST FEED END
+
         $data = array(
             'base_url' => $base_url,
             'widget_url' => site_url("/widget/$widget_name").'/',
-            'widget_base_url' => $base_url."system/application/widgets/$widget_name/"
+            'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
+            'cashe' => $cashe
         );
 
         $this->load->view_widget('start', $data);
