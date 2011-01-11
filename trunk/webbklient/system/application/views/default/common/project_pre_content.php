@@ -11,6 +11,7 @@
   <script type="text/javascript" src="<?php echo site_url('project/common_variables'); ?>"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/window/jquery.window.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/common.js"></script> 
+  <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.dump.js"></script>
   <link href="<?php echo $base_url; ?>js/window/css/jquery.window.css" rel="Stylesheet" type="text/css" />
   <link href="<?php echo $base_url; ?>js/window/css/jquery.window-opp.css" rel="Stylesheet" type="text/css" />
   
