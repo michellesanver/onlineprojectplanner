@@ -16,28 +16,48 @@ class Widgets_model extends Model  {
      // is in development
      private $_deleteQuery_InDevMode = false;
      
-     function GetWidgetId($name)
+			/**
+			* Returns the widget_id. Inputs can be the id of the windowinstance (Project_Widget_id)
+			*	or the name of the widget (Widget_name).
+			* 
+			* @param mixed $inp
+			* @return mixed
+			*/
+     function GetWidgetId($inp)
      {
-     	$table2 = $this->_table2;
-     	$this->db->select("$table2.Widget_id");
-        $this->db->from($table2);
-        $this->db->where(array("$table2.Widget_name" => $name));
-        
-        $query = $this->db->get();
-        $row = $query->row();
-        
-        if(empty($row)) {
-        	return false;
-        } else {
-        	return $row->Widget_id;
-        }
+				if(is_int($inp)) {
+					$t1 = $this->_table;
+					$this->db->select("$t1.Widget_id");
+					$this->db->from($t1);
+					$this->db->where(array("$t1.Project_widgets_id" => $inp));
+				} else {
+					$table2 = $this->_table2;
+					$this->db->select("$table2.Widget_id");
+					$this->db->from($table2);
+					$this->db->where(array("$table2.Widget_name" => $inp));
+				}
+				
+				$query = $this->db->get();
+				$row = $query->row();
+				
+				if(empty($row)) {
+					return false;
+				} else {
+					return $row->Widget_id;
+				}
 
      }
      
+			/**
+			* Returns the name of an specific widget. 
+			* 
+			* @param mixed $inp
+			* @return mixed
+			*/
      function GetProjectWidgetName($project_widget_id)
      {
-     	$table2 = $this->_table2;
-     	$this->db->select("$table2.Widget_name");
+				$table2 = $this->_table2;
+				$this->db->select("$table2.Widget_name");
         $this->db->from($table2);
         $this->db->where(array("$table2.Project_widgets_id" => $project_widget_id));
         
@@ -48,24 +68,6 @@ class Widgets_model extends Model  {
         	return false;
         } else {
         	return $row->Widget_name;
-        }
-
-     }
-     
-     function GetProjectWidgetId($project_widget_id)
-     {
-     	$t1 = $this->_table;
-     	$this->db->select("$t1.Widget_id");
-        $this->db->from($t1);
-        $this->db->where(array("$t1.Project_widgets_id" => $project_widget_id));
-        
-        $query = $this->db->get();
-        $row = $query->row();
-        
-        if(empty($row)) {
-        	return false;
-        } else {
-        	return $row->Widget_id;
         }
 
      }

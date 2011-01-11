@@ -190,6 +190,7 @@ Desktop = {
 	{
 		this._widgetArray[Desktop.selectedWindowId].setSettingsContent(unescape(data));
 		$('#' + Desktop.selectedWindowId + '_settings').validate();
+		$( ".date" ).datepicker();
 	},
 	
 	ajaxSettingsWindowError: function(loadURL)
@@ -208,9 +209,17 @@ Desktop = {
 			for(var i = 0; i < settings.length; i++) {
 				var val = [];
 				val['name'] = settings[i]['name'];
-				val['value'] = settings[i]['value'];
+				if(settings[i]['type'] == "checkbox") {
+					val['value'] = $(settings[i]).attr('checked') ? 'true' : 'false';
+				} else {
+					val['value'] = settings[i]['value'];
+				}
 				formArray.push(val);
 			}
+			var id = [];
+			id['name'] = 'Project_widgets_id';
+			id['value'] = Desktop.selectedWindowId;
+			formArray.push(id);
 			
 			ajaxRequests.post(formArray, SITE_URL+'/Widget_settings/SaveProjectWidgetSettings', "Desktop.saveSettingsWindowSuccess", "Desktop.ajaxSettingsWindowError", true);
 		}
@@ -221,10 +230,12 @@ Desktop = {
 	//called when when the post ajax request are success
 	saveSettingsWindowSuccess: function(data)
 	{
+		data = unescape(data);
+		alert(data);
 		if(data == "true"){
 			Desktop.show_message("The settings has been saved. To return please click the settingsbutton!");
 		} else {
-			Desktop.show_errormessage("The settings did not get saved.");
+			Desktop.show_errormessage("The settings did not get saved.<br />" + data);
 		}
 	},
 	
