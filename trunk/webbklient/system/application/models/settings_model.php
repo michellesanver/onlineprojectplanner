@@ -30,6 +30,49 @@ class Settings_model extends Model
 		$t1 = $this->_table1;
 		$t2 = $this->_table2;
 		$t3 = $this->_table3;
+		
+		// Get all widget settings
+		$this->db->select("$t1.Settings_id, $t1.Name, $t2.Type_id, $t2.CI_rule");
+		$this->db->from($t1);
+		$this->db->where('Widget_id', $widget_id);
+		$this->db->join($t2, "$t1.Type_id = $t2.Type_id");
+		$squery = $this->db->get();
+		
+		// any result?
+		if ($squery && $squery->num_rows() > 0) {
+			$Sres = $squery->result_array();
+		} else {
+			return false;
+		}
+		
+		// Get all project widget values
+		$this->db->select("$t3.Widget_settings_value_id, $t3.Settings_id, $t3.Value");
+		$this->db->from($t3);
+		$this->db->where("$t3.Project_widgets_id", $projectWidgetId);
+		$vquery = $this->db->get();
+		
+		// any result?
+		if ($vquery && $vquery->num_rows() > 0) {
+			$Vres = $vquery->result_array();
+		} else {
+			return false;
+		}
+		
+		// Merge arrays
+		for($i = 0; $i < count($Sres); $i++) {
+			$Sres[$i]['Widget_settings_value_id'] = "";
+			$Sres[$i]['Value'] = "";
+			foreach($Vres as $V){
+				if($V['Settings_id'] == $Sres[$i]['Settings_id']) {
+					$Sres[$i]['Widget_settings_value_id'] = $V['Widget_settings_value_id'];
+					$Sres[$i]['Value'] = $V['Value'];
+				} 
+			}
+		}
+		
+		return $Sres;
+		
+		/*
 		$this->db->select("$t1.Settings_id, $t1.Name, $t2.Type_id, $t2.CI_rule, $t3.Widget_settings_value_id, $t3.Value");
 		$this->db->from($t1);
 		$this->db->where('Widget_id', $widget_id);
@@ -40,16 +83,13 @@ class Settings_model extends Model
 		$this->db->order_by("$t1.Order ASC");
 		$query = $this->db->get();
 		
-	 // any result?
-	 if ($query && $query->num_rows() > 0)
-	 {
+		// any result?
+		if ($query && $query->num_rows() > 0) {
 			$result = $query->result_array();
 			return $result;
-	 }
-	 else
-	 {
+		} else {
 			return false;
-	 }
+		}*/
 	}
 	
 	/**

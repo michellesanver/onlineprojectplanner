@@ -9,7 +9,7 @@
 					echo "<form id=\"" . $id . "_settings\" onsubmit=\"return Desktop.saveSettingsForm()\">";
 					for($i = 0; $i < count($settings); $i++) {
 						$val = isset($settings[$i]['Value']) ? $settings[$i]['Value'] : "";
-						$wsvi = isset($settings[$i]['Widget_settings_value_id']) ? (int)$settings[$i]['Widget_settings_value_id'] : "n".$settings[$i]['Settings_id'];
+						$wsvi = (!isset($settings[$i]['Widget_settings_value_id']) || $settings[$i]['Widget_settings_value_id'] == "") ? "n".$settings[$i]['Settings_id'] : (int)$settings[$i]['Widget_settings_value_id'];
 						
 						echo "<p><label for=\"" . $wsvi . "\">" . $settings[$i]['Name'] . " </label>";
 						switch($settings[$i]['Type_id']) {

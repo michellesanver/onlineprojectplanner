@@ -27,7 +27,7 @@ class Widget_settings extends Controller {
 		
 		if($widget_id > 0) {
 			$data['settings'] = $this->settings_model->GetProjectWidgetSettings($widget_id, $projectWidgetId);
-			
+			//var_dump($data['settings']);
 			$this->load->view('settings/form', $data);
 		} else {
 			echo "Problems with the widget_id.";
@@ -41,22 +41,24 @@ class Widget_settings extends Controller {
 	function SaveProjectWidgetSettings()
 	{
 		$post = $_POST;
+		$project_widget_id = array_pop($post);
 		$valueCount = count($post); 
 		
 		/*
 		* Preparing data
 		*/
 		$data = array();
-		$project_widget_id = array_pop($post);
 		$keys = array_keys($post);
 		for($i = 0; $i < $valueCount; $i++) {
 			$key = $keys[$i];
-			$tmp = array();
-			$tmp['Widget_settings_value_id'] = $key;
-			$tmp['Value'] = (string)$post[$key];
-			$data[] = $tmp;
+			if($post[$key] != ""){
+				$tmp = array();
+				$tmp['Widget_settings_value_id'] = $key;
+				$tmp['Value'] = (string)$post[$key];
+				$data[] = $tmp;
+			}
 		}
-		
+			
 		$res = true;
 		foreach($data as $row){
 			if(substr($row['Widget_settings_value_id'],0,1) == "n"){

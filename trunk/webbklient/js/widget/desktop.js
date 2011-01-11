@@ -231,7 +231,6 @@ Desktop = {
 	saveSettingsWindowSuccess: function(data)
 	{
 		data = unescape(data);
-		alert(data);
 		if(data == "true"){
 			Desktop.show_message("The settings has been saved. To return please click the settingsbutton!");
 		} else {
