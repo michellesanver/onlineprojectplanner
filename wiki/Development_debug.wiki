@@ -1,0 +1,65 @@
+= Debuggning =
+
+If firebug doesn't work with all the nested javascripts or if you simple want to use another debug to send messages to.. then you can use the integrated debugging functions. All messages will be written in the same window.
+
+== Functions ==
+
+_log_message( string )_
+
+This function will write a message into the debug-window (open a new if none exist) and also log the date/time.
+
+
+_log_variable( string, data )_
+
+This function will write a message and/or a variable into the debug-window (open a new if none exist) and also log the date/time.The first parameter (string) is optional.. if you just want to write the contents of an object (or array etc) just send en empty string.
+
+== Exemples ==
+*Log a simple message:*
+{{{
+function javascript_test() {
+
+    // do some stuff
+
+    if (error==true) {
+       // if variable error is true; send a message
+       log_message( 'Error; Unable to do stuff' );
+    }
+
+}
+}}}
+
+*Log a message and a variable:*
+{{{
+function javascript_testvar() {
+
+    // do some stuff
+
+    var dataDump = []; // mixed data
+    dataDump[0] = 'a value';
+    dataDump[1] = new Object();
+    dataDump[1].hello = 'world';
+
+    if (error==true) {
+       // if variable error is true; send a message and variable data
+       log_variable( 'Error; dumping data', dataDump );
+    }
+
+}
+}}}
+
+*Log a variable_*
+{{{
+function javascript_testvar2() {
+
+    // do some stuff
+
+    var dataDump = new Object();
+    dataDump.hello = 'world';
+
+    if (error==true) {
+       // if variable error is true; send variable data
+       log_variable( '', dataDump );
+    }
+
+}
+}}}
