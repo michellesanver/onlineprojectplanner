@@ -1,6 +1,8 @@
 
 krocktestdummyWidget = {
 
+    counter: 0,
+    
     pageContentDivClass: 'krocktestdummy_main_content',
     contentDivClass: 'krocktestdummy_content',
     
@@ -20,7 +22,8 @@ krocktestdummyWidget = {
          };
 
         Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, krocktestdummyWidget.partialContentDivClass);
-                    
+        
+        setInterval('krocktestdummyWidget.updateCounter()', 1000);
     },
     
     // set content in widgets div, called from the ajax request
@@ -30,22 +33,15 @@ krocktestdummyWidget = {
         Desktop.setWidgetContent(unescape(data));
     },
     
-    loadSecond: function() {
-        krocktestdummyWidget.setContent( krocktestdummyWidget.getSecondContent() );  
-    },
-   
-    loadInitial: function() {
-        krocktestdummyWidget.setContent( krocktestdummyWidget.getInitialContent() );  
+    updateCounter: function() {
+        krocktestdummyWidget.counter++;
+        krocktestdummyWidget.setContent( krocktestdummyWidget.getInitialContent() );    
     },
     
     // ----------------------------------------------------------------------------------------------------------------------
                      
     getInitialContent: function() {
-        return '<h1>Initial content</h1><p>Lorem ipsum hejsan hoppsan kalle kule var här och skrev lite grann....</p><a href="javascript:void(0);" onclick="krocktestdummyWidget.loadSecond();">Load another page (only JS)</a>';    
-    },
-    
-    getSecondContent: function() {
-        return '<h1>Second content</h1><p>Lorem ipsum....</p><a href="javascript:void(0);" onclick="krocktestdummyWidget.loadInitial();">Load initial page (only JS)</a>';            
-    }    
+        return '<h1>Initial content</h1><p>Lorem ipsum hejsan hoppsan kalle kule var här och skrev lite grann....</p> <p>counter: '+krocktestdummyWidget.counter;    
+    }   
     
 }
