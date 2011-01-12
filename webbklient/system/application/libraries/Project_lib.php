@@ -91,6 +91,31 @@ class Project_lib
 
         return false;
     }
+    
+    function listAllProjects($current_project_id)
+    {
+        $allProjects = $this->_CI->Project_member_model->getByUserId($this->_CI->session->userdata('UserID'));
+        $projects = array();
+        $current_project = $this->_CI->Project_model->getById($current_project_id);
+        $current_title = $current_project['Title'];
+        
+        if(!is_null($current_title)) {
+            $projects[$current_project_id] = $current_title;
+        }
+        
+        foreach($allProjects as $project) {
+            $id = $project['Project_id'];
+            $project = $this->_CI->Project_model->getById($id);
+            $title = $project['Title'];            
+            
+            if($id != $current_project_id || is_null($title)) {
+                $projects[$id] = $title;
+            }
+            
+        }
+        
+        return $projects;
+    }
 
     /**
     * Function: Register
