@@ -24,10 +24,18 @@ class Chat extends Controller {
 
         // TEST FEED START
 
-        $cashe = $this->cashe_lib->ReadCashe('cashe_test');
+        if($this->chat_lib->RegisterNewChatRoom($key = date("Y-m-d h:i:s")) != false)
+        {
+            $cashe = $this->cashe_lib->ReadCashe('cashe_test');
+        }
+        else
+        {
+            $cashe = NULL;
+        }
 
         // TEST FEED END
 
+        $rooms = $this->chat_lib->GetChatRoomsByProjectId();
         $members = $this->chat_lib->GetMembersByProjectId();
 
         $data = array(
@@ -35,6 +43,8 @@ class Chat extends Controller {
             'widget_url' => site_url("/widget/$widget_name").'/',
             'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
             'cashe' => $cashe,
+            'cashe' => $cashe,
+            'rooms' => $rooms,
             'members' => $members
         );
 

@@ -6,6 +6,7 @@ Class Chat_model extends Model
     private $_table_project_member = "Project_Member";
     private $_table_user = "User";
     private $_table_project_role = "Project_Role";
+    private $_table_chat_room = "WI_Chat_Room";
 
     /**
     * Used to read members
@@ -33,7 +34,44 @@ Class Chat_model extends Model
         }
         else
         {
-            return null;
+            return NULL;
+        }
+    }
+
+    /**
+    * Used to register a new chat room
+    * -
+    * -
+    */
+
+    function RegisterNewChatRoom($insert)
+    {
+        return $this->db->insert($this->_table_chat_room, $insert);
+    }
+
+    /**
+    * Used to read chat rooms
+    * -
+    * -
+    */
+
+    function GetChatRoomsByProjectId($projectId)
+    {
+        $table1 = $this->_table_chat_room;
+
+        $this->db->select("$table1.*");
+        $this->db->where(array('Project_id' => $projectId));
+        $this->db->from($table1);
+
+        $query = $this->db->get();
+
+        if($query && $query->num_rows() > 0 )
+        {
+            return $query->result_array();
+        }
+        else
+        {
+            return NULL;
         }
     }
 
