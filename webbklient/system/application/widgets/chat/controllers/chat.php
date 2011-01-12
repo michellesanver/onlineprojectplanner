@@ -7,6 +7,7 @@ class Chat extends Controller {
         parent::Controller();
 
         $this->load->library_widget('Cashe_lib', null, 'cashe_lib');
+        $this->load->library_widget('Chat_lib', null, 'chat_lib');
     }
 
     /**
@@ -27,11 +28,14 @@ class Chat extends Controller {
 
         // TEST FEED END
 
+        $members = $this->chat_lib->GetMembersByProjectId();
+
         $data = array(
             'base_url' => $base_url,
             'widget_url' => site_url("/widget/$widget_name").'/',
             'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
-            'cashe' => $cashe
+            'cashe' => $cashe,
+            'members' => $members
         );
 
         $this->load->view_widget('start', $data);

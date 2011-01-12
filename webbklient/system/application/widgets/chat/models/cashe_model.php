@@ -8,7 +8,9 @@ Class Cashe_model extends Model
     /**
     * Used to get cashe
     * -
+    * -
     */
+
     function _GetCasheURL($key)
     {
         // TODO: Move folder down to the protected system/cashe folder
