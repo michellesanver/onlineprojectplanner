@@ -24,8 +24,9 @@ class Theme
        $this->_theme = $this->_CI->config->item('theme', 'webclient');  
        $this->_base_url = $this->_CI->config->item('base_url');
        
-       // load library widgets
+       // load libraries
        $this->_CI->load->library('widgets');
+       $this->_CI->load->library('project_lib');
     }
     
     /**
@@ -54,6 +55,10 @@ class Theme
         
         // any project set as current?
         $current_project_id = $this->_CI->session->userdata('current_project_id');
+        $current_project = $this->_CI->project_lib->Select($current_project_id);
+        $current_project_name = $current_project['Title'];
+        $project_list = $this->_CI->project_lib->listAllProjects($current_project_id);
+        var_dump($project_list);
         
         // pre content
         $preContentData = array(
@@ -61,7 +66,9 @@ class Theme
             'theme_folder' => $this->_theme,
             'base_url' => $this->_base_url,
             'is_logged_in' => $this->_CI->user->isLoggedIn(),
-            'current_project_id' => $current_project_id
+            'current_project_id' => $current_project_id,
+            'current_project_name' => $current_project_name,
+            'project_list' => $project_list
         );
         
         // add page title?

@@ -31,24 +31,66 @@
   
     <div id="topbar">
         <span class="sitetitle"><?php echo "<a href=\"$base_url\" class=\"home_link\">$site_title</a>"; ?></span>
-        <?php
-            if($is_logged_in) {
-									echo "<div class=\"topbuttons\"><ul>";
-									
-									if(isset($username)){
-										echo "<li id='usertext'>" . $username . " [<a href='" . site_url('account/edit') . "'>edit</a>]</li>";
-									}
-									
-               		echo("<li><a href=\"" . site_url("project/update/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/Settings.png\"/></a></li>");
-					echo("<li><a href=\"" . site_url("project/members/{$current_project_id}") . "\"><img src=\"{$base_url}images/buttons/contacts.png\"/></a></li>");
-					echo("<li><a href=\"" . site_url('project/index') . "\"><img src=\"{$base_url}images/buttons/home.png\"/></a></li>");
-					echo("<li><a href=\"" . site_url('account/logout') . "\"><img src=\"{$base_url}images/buttons/logout.png\"/></a></li>");
+        
+        
+        <?php if($is_logged_in): ?>
+            
+            <div class="topbuttons">
+                
+                <div id="topbarbuttonwrapper">
+                    <a class="logoutbutton" href="<?php echo(site_url('account/logout')); ?>">
+				       <img src="<?php echo("{$base_url}images/buttons/logout.png"); ?>"/>
+				    </a>
+				    
+                    <div id="projectdropdown">
+                        <ul>
+                            <?php if(!is_null($current_project_name)): ?>
+                                <li class="top"><?php echo($current_project_name); ?></li>
+                            <?php else: ?>
+                                <li class="top">Choose project</li>
+                            <?php endif; ?>
+                            
+                            <?php foreach($project_list as $id => $name): ?>
+                                
+                                <?php if($current_project_id != $id): ?>
+                                    <li class="item">
+                                        <a href="<?php echo site_url('project/'.$id); ?>">
+                                            <?php echo($name); ?>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                                
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+    					   
+    				
+    				<div id="useredit">
+    					<?php if(isset($username)): ?>
+    				        <?php echo($username); ?>
+                            [<a href="<?php echo(site_url('account/edit')); ?>">edit</a>]
+                        <?php endif; ?>	
+                    </div>		
+					
+					<a href="<?php echo(site_url('project/index')); ?>">
+				       <img src="<?php echo("{$base_url}images/buttons/home.png"); ?>"/>
+				    </a>
+				    				
+                    <a href="<?php echo(site_url("project/update/{$current_project_id}")); ?>">
+           		       <img src="<?php echo($base_url . "images/buttons/Settings.png"); ?>" />
+                    </a>
+				
+				    <a href="<?php echo(site_url("project/members/{$current_project_id}")); ?>">
+				       <img src="<?php echo("{$base_url}images/buttons/contacts.png"); ?>"/>
+				    </a>
 
-                	
-                echo "</div></ul>";
-            }
-        ?>
-    </div>
+                </div>
+                
+                <br style="clear:both;" />
+            </div>
+
+        <?php endif; ?>
+
     
     <div id="widget_bar"><?php echo $widget_bar; ?></div>
     

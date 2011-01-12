@@ -1,4 +1,7 @@
-/* @override http://localhost/~Geekie/OPP/trunk/webbklient/css/default/style.css */
+/* @override 
+	http://localhost/~Geekie/OPP/trunk/webbklient/css/default/style.css
+	http://localhost/~geekie/OPP/trunk/webbklient/css/default/style.css
+*/
 
 /* @group User */
 
@@ -6,6 +9,73 @@
 /* @end */
 
 /* @group Project */
+
+#topbarbuttonwrapper {
+	width:500px;
+	float: right;
+	margin-right: 160px;
+	color: #efefef;
+	font-weight: bold;
+}
+
+#projectdropdown {
+	position: absolute;
+	margin:auto;
+	width: 150px;
+	margin-top:0px;
+	display:inline;
+	text-align: center;
+	float: right;
+	right: 20px;
+	
+}
+
+#projectdropdown ul .item {
+	display:none;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding-top:10px;
+}
+
+#projectdropdown ul:hover .item { 
+	display:block;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#projectdropdown ul:hover .item a {
+	color:#fff;
+	text-decoration:none;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#projectdropdown ul:hover .item a:hover {
+	color: #929292;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#projectdropdown ul {
+	width:150px;
+	height: 35px;
+	padding:2px;
+	background: #5e5e5e;
+	list-style:none;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+}
+
+#projectdropdown ul:hover {
+	height: auto;
+	
+}
 
 #projectlisting {
 	margin-left: auto;
@@ -200,6 +270,16 @@ a img {
 	border: 0;
 }
 
+#topbarbuttonwrapper a img {
+	padding-left: 5px;
+	padding-right: 5px;
+	
+}
+
+.logoutbutton {
+	float: right;
+}
+
 a {
 	color: #008e29;
 }
@@ -311,25 +391,18 @@ ul {
 
 .topbuttons {
 	text-align:right;
-	padding:10px 20px;
+	padding: 5px 20px;
 }
-.topbuttons ul {
-	margin:0;
-	padding:0;
-	list-style:none;
-	display:inline;
-	height:200px;
+
+.topbuttons a {
+	text-decoration: none;
 }
-.topbuttons ul li {
-	display:inline;
-	color:#fff;
-	font-weight:600;
-	margin-left:10px;
-	height:200px;
-}
-.topbuttons ul #usertext {
-	position:relative;
-	top:-10px;
+
+#useredit {
+	margin-top: 8px;
+	color: #fffeff;
+	font-weight: bold;
+	float: right;
 }
 
 span.sitetitle {
