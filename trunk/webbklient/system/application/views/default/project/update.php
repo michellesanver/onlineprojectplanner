@@ -36,11 +36,28 @@
         <?php } ?>
 	</div>                               
 	<div id="rightbox">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+	<?php $counter = 0; ?>
 		<?php foreach($allwidgets as $widget): ?>
+			<?php
+			if($counter == 0) {
+				echo "<tr width=\"25%\">";
+			}
+			echo "<td>";
+			?>
 			<div class="widget_listening">
-				<a href="<?php echo site_url("project/update/{$projectID}/{$widget['id']}"); ?>"><img src="<?php echo($widget['icon']); ?>" /></a><br/>
+				<a href="<?php echo site_url("project/update/{$projectID}/{$widget['id']}"); ?>"><img width="64px"alt="<?php echo($widget['icon_title']); ?>" src="<?php echo($widget['icon']); ?>" /></a><br/>
 				<?php echo($widget['icon_title']); ?>
 			</div>
+			<?php
+			echo "</td>";
+			$counter++;
+			if($counter == 4) {
+				$counter = 0;
+				echo "</tr>";
+			}
+			?>
 		<?php endforeach; ?>
+	</table>
 	</div>
 </div>

@@ -353,7 +353,7 @@ class Widgets
         
         $returnSTR = "";
         
-        $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
+        $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" width="55px" /></a><br />%s</div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
         
         // scan through all widgets that was found
@@ -448,7 +448,7 @@ class Widgets
        
         // prepare data
         $returnSTR = "";
-        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" width="'.$this->_icon_width.'" height="'.$this->_icon_height.'" /></a><br />%s</div>'."\n";
+        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" width="55px" /></a><br />%s</div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
      
         // loop trough all widgets for the project

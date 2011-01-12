@@ -3,6 +3,7 @@ Desktop = {
 	_widgetArray : new Array(),
 	_errorIcon: BASE_URL+'images/backgrounds/erroricon.png', 
 	selectedWindowId: null,
+	currentProjectId: null,
 	// Message properties
 	message_current_position: -100,
 	message_start_position: -100, // message_current_position will be set to this value after completion
@@ -297,7 +298,10 @@ Desktop = {
 
 }
 
-
+// fetches the current project_id
+$(document).ready(function() {
+	Desktop.currentProjectId = $("#desktop").attr("pid");
+});
 // ----------------------------------------------------------------
 
 // shorthand global function to wrap Desktop.log_message into log_message
