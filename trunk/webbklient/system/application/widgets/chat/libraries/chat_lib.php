@@ -36,27 +36,113 @@ Class Chat_lib
 
         // Add information about logged in user
 
-        foreach($members as $member) {
+        if($members != NULL)
+        {
+            foreach($members as $member) {
 
-            if($member['User_id'] == $userId)
-            {
-                $member['IsLoggedInUser'] = true;
-                array_push($membersWithInfo, $member);
-            }
-            else
-            {
-                $member['IsLoggedInUser'] = false;
-                array_push($membersWithInfo, $member);
-            }
+                if($member['User_id'] == $userId)
+                {
+                    $member['IsLoggedInUser'] = true;
+                    array_push($membersWithInfo, $member);
+                }
+                else
+                {
+                    $member['IsLoggedInUser'] = false;
+                    array_push($membersWithInfo, $member);
+                }
 
+            }
         }
-        if($membersWithInfo != null)
+
+        if($membersWithInfo != NULL)
         {
             return $membersWithInfo;
         }
 
         return false;
+    }
 
+    /**
+    * Used to register a new chat room
+    * -
+    * -
+    */
+
+    function RegisterNewChatRoom($title)
+    {
+        // Create Key
+
+        $key = date("Y-m-d h:i:s");
+
+        for($n = 0; $n < 10; $n++)
+        {
+            switch(rand(1,3))
+            {
+                // Numbers
+
+                case 1: $key .= chr(rand(49,57));
+                break;
+
+                // Lowecase letters
+
+                case 2: $key .= chr(rand(65,90));
+                break;
+
+                // Uppercase letters
+
+                case 3: $key .= chr(rand(97,122));
+                break;
+            }
+        }
+
+        // Encrypt (hash) key
+
+        $encryptedKey = md5('mychatroom'.$key);
+
+        // Fetch Project_id
+
+        $projectId = $this->_CI->project->checkCurrentProject();
+
+        // Create insert array
+
+        $insert = array(
+            "Key" => $encryptedKey,
+            "Title" => $title,
+            "Project_id" => $projectId
+            );
+
+        $result = $this->_CI->chat_model->RegisterNewChatRoom($insert);
+
+        if($result)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+    * Used to read chat rooms
+    * -
+    * -
+    */
+
+    function GetChatRoomsByProjectId()
+    {
+        // Fetch Project_id
+
+        $projectId = $this->_CI->project->checkCurrentProject();
+
+        // Fetch rooms
+
+        $rooms = $this->_CI->chat_model->GetChatRoomsByProjectId($projectId);
+
+        if($rooms != NULL)
+        {
+            return $rooms;
+        }
+
+        return false;
     }
 
 }

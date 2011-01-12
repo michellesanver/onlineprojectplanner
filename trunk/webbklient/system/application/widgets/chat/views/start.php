@@ -41,17 +41,23 @@
 
             <h3>Previous Discussions</h3>
 
-            <form action="" method="post">
+            <?php if(empty($rooms) == false ) { ?>
 
-                <select id="previouschatdiscussions" name="previouschatdiscussions">
+                <form action="" method="post">
 
-                    <option value="md5">Previous Discussion 1</option>
-                    <option value="md5">Previous Discussion 2</option>
-                    <option value="md5">Previous Discussion 3</option>
+                    <select id="previouschatdiscussions" name="previouschatdiscussions">
 
-                </select>
+                    <?php foreach ($rooms as $room) { ?>
 
-            </form>
+                        <option value="<?php echo $room["Key"]; ?>"><?php echo $room["Title"]; ?></option>
+
+                    <?php } ?>
+
+                    </select>
+
+                </form>
+
+            <?php } ?>
 
         </div>
 
