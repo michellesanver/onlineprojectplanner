@@ -59,10 +59,23 @@
 
             <h3>Project Members</h3>
 
-            <ul>
-                <li><span>Martin</span></li>
-                <li><span>Tobias</span></li>
-            </ul>
+            <?php if($members != NULL) { ?>
+
+                <ul>
+
+                <?php foreach($members as $member) { ?>
+
+                    <?php if($member['IsLoggedInUser'] != false) { ?>
+                    <li><span><?php echo($member['Username'])." (".$member['Role'].")" ?></span> (that's you)</li>
+                    <?php } else { ?>
+                    <li><span><?php echo($member['Username'])." (".$member['Role'].")" ?></span></li>
+                    <?php } ?>
+
+                <?php } ?>
+
+                </ul>
+
+            <?php } ?>
 
         </div>
 
