@@ -24,14 +24,7 @@ class Chat extends Controller {
 
         // TEST FEED START
 
-        if($this->chat_lib->RegisterNewChatRoom($key = date("Y-m-d h:i:s")) != false)
-        {
-            $cashe = $this->cashe_lib->ReadCashe('cashe_test');
-        }
-        else
-        {
-            $cashe = NULL;
-        }
+        $cashe = $this->cashe_lib->ReadCashe('cashe_test');
 
         // TEST FEED END
 
