@@ -6,7 +6,7 @@
 
     <h1>Create a new wiki-page</h1>
 
-    <form name="wiki_create_form" id="wiki_create_form">
+    <form name="wiki_create_form" class="wiki_create_form">
     
         <table cellpadding="3" cellspacing="3">
             <tr>
