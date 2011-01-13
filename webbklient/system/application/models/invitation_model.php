@@ -74,8 +74,8 @@ class Invitation_model extends Model
 
 	function insert($insert)
 	{
- 
-            return $this->db->insert($this->_table, $insert);
+		$this->db->insert($this->_table, $insert);
+		return $this->db->insert_id();
 
 	}
 	

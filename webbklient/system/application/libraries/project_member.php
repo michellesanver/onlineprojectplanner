@@ -37,7 +37,6 @@ class Project_Member
     }
 
     /**
-    * Function: SelectByUserId
     * This function will diliver the memberships
     * for the logged in user from the project_member_model.
     *
@@ -60,7 +59,6 @@ class Project_Member
     }
 
     /**
-    * Function: CheckIfExist
     * This function is used in the formvalidation. Searches the
     * database for a match and returns the answer as an bool.
     *
@@ -91,7 +89,6 @@ class Project_Member
     }
 
     /**
-    * Function: IsMember
     * This function is used in order to see if logged in user
     * is a member in selected project. Searches the
     * database for a match and returns the answer as an bool.
@@ -125,7 +122,6 @@ class Project_Member
     }
 
     /**
-    * Function: IsVictimMember
     * This function is used in order to see if kick out victim
     * is a member in selected project. Searches the
     * database for a match and returns the answer as an bool.
@@ -158,7 +154,6 @@ class Project_Member
     }
 
     /**
-    * Function: IsGeneralSchizophrenic
     * This function is used in order to see if General
     * is not trying to kick himself/herself out.
     *
@@ -177,7 +172,6 @@ class Project_Member
     }
 
     /**
-    * Function: HaveRoleInCurrentProject
     * This function is used in order to see if logged in user
     * have a certain role in selected project. Searches the
     * database for a match and returns the answer as an bool.
@@ -281,7 +275,6 @@ class Project_Member
     }
 
     /**
-    * Function: HaveSpecificRoleInCurrentProject
     * This function is used in order to see if logged in user
     * have a certain specific role in selected project. Searches the
     * database for a match and returns the answer as an bool.
@@ -329,23 +322,26 @@ class Project_Member
     }
 
     /**
-    * Function: GetMembersByProjectId
     * This function is used in order to get all members of a project.
-    * Adds information about which member is our logged in user
+    * Adds information about which member is our logged in user. Can be
+		* used from a widget.
     *
     * @param string $projectId
     * @return mixed
     */
 
     function GetMembersByProjectId($projectID) {
-
+				// Init, for the widgets
+				$CI = & get_instance();
+				$CI->load->model("project_member_model");
+				
         // Fetch userID
 
-        $userID = $this->_CI->session->userdata('UserID');
+        $userID = $CI->session->userdata('UserID');
 
         // Fetch members
 
-        $projectMembers = $this->_CI->project_member_model->getByProjectId($projectID);
+        $projectMembers = $CI->project_member_model->getByProjectId($projectID);
         $projectMembersWithInfo = array();
 
         // Add information about logged in user

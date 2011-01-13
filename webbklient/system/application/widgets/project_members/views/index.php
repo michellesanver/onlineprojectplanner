@@ -1,7 +1,7 @@
 
 <?php
     if(isset($status)) {
-        echo "<div class='" . $status . "'><b>" . $status_message . "</b>" . $this->validation->error_string . "<p>" . validation_errors() . "</p></div>";
+        echo "<div class='" . $status . "'><b>" . $status_message . "</b></p></div>";
     }
 ?>
                 
@@ -12,11 +12,10 @@
 	
 	        <h3>Invite a new member</h3>
 	
-	        <form action="<?php echo site_url('project/members/'.$projectID.''); ?>" method="POST">
-	            <input type="hidden" name="projectID" value="<?php echo (isset($projectID)) ? $projectID : ""; ?>" />
-	            <label for="email">E-mail: </label><input type="text" name="email" value="" />*<br/>
+	        <form id="<?php echo "proj_mem_".$projectID; ?>" onsubmit="return projectmembers.save();">
+	            <label for="email">E-mail: </label><input type="text" name="email" value="" id="email" class="required email" />*<br/>
 	            <label for="projectRoleID">Role in project: </label>
-	            <select name="projectRoleID">
+	            <select name="projectRoleID" id="projectRoleID">
 	
 	                <?php foreach($roles as $role): ?>
 	
