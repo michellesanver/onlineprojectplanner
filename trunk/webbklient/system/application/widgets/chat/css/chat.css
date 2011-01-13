@@ -115,6 +115,39 @@
     padding: 0px;
     }
 
+#chat_newdiscussionswrapper {
+    background: #FFFFFF;
+    color: #000000;
+    width: auto;
+    margin: 0px;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding: 10px;
+    -moz-border-radius: 0.8em;
+    border-radius: 0.8em;
+    -webkit-border-radius : 0.8em;
+    border: #CCCCCC solid 0.2em;
+    }
+
+#chat_newdiscussionswrapper form {
+    background: transparent;
+    color: #000000;
+    width: auto;
+    margin: 0px;
+    padding: 0px;
+    }
+
+#chat_createnewdiscussionsbutton {
+    background: #333333;
+    color: #FFFFFF;
+    font-family: Arial, Helvetiva, Verdana, san-serif;
+    font-size: 0.75em;
+    width: auto;
+    margin: 0px;
+    padding: 6px;
+    border: #666666 solid 1px;
+    }
+
 #chat_projectmemberswrapper {
     background: #FFFFFF;
     color: #000000;

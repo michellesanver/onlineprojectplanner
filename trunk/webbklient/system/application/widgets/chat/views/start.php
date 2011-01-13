@@ -61,6 +61,16 @@
 
         </div>
 
+        <div id="chat_newdiscussionswrapper">
+
+            <form action="" method="post">
+
+                <input type="submit" value="Create New Discussion" id="chat_createnewdiscussionsbutton" />
+
+            </form>
+
+        </div>
+
         <div id="chat_projectmemberswrapper">
 
             <h3>Project Members</h3>
@@ -104,5 +114,11 @@
         </div>
 
     </div>
+
+    <script type="text/javascript">
+
+        chatFunctions.init();
+
+    </script>
 
 </div>
