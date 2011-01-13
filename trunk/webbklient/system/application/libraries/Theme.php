@@ -57,19 +57,23 @@ class Theme
         $current_project_id = $this->_CI->session->userdata('current_project_id');
         $current_project = $this->_CI->project_lib->Select($current_project_id);
         $current_project_name = $current_project['Title'];
-        $project_list = $this->_CI->project_lib->listAllProjects($current_project_id);
-        var_dump($project_list);
+        
         
         // pre content
         $preContentData = array(
             'site_title' => $this->_site_title,
             'theme_folder' => $this->_theme,
             'base_url' => $this->_base_url,
-            'is_logged_in' => $this->_CI->user->isLoggedIn(),
-            'current_project_id' => $current_project_id,
-            'current_project_name' => $current_project_name,
-            'project_list' => $project_list
+            'is_logged_in' => $this->_CI->user->isLoggedIn()
         );
+        
+        if($this->_CI->user->isLoggedIn()) {
+            $project_list = $this->_CI->project_lib->listAllProjects($current_project_id);
+            
+            $preContentData['current_project_id'] = $current_project_id;
+            $preContentData['current_project_name'] = $current_project_name;
+            $preContentData['project_list'] = $project_list;
+        }
         
         // add page title?
         if (empty($page_title)==false) $preContentData['page_title'] = $page_title;

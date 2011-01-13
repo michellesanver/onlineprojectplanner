@@ -103,16 +103,19 @@ class Project_lib
             $projects[$current_project_id] = $current_title;
         }
         
-        foreach($allProjects as $project) {
-            $id = $project['Project_id'];
-            $project = $this->_CI->Project_model->getById($id);
-            $title = $project['Title'];            
-            
-            if($id != $current_project_id || is_null($title)) {
-                $projects[$id] = $title;
+        if(!is_null($allProjects)) {
+            foreach($allProjects as $project) {
+                $id = $project['Project_id'];
+                $project = $this->_CI->Project_model->getById($id);
+                $title = $project['Title'];            
+                
+                if($id != $current_project_id || is_null($title)) {
+                    $projects[$id] = $title;
+                }
+                
             }
-            
         }
+        
         
         return $projects;
     }
