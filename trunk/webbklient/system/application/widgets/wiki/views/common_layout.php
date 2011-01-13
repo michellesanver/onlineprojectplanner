@@ -6,6 +6,7 @@
             <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages');">Home</a></li> 
             <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/search', true);">Search</a></li>
             <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/create');">New page</a></li> 
+            <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/get/hubbas_bubba_med_lite_salt');">TEST; not a valid page</a></li>
         </ul>
         
         <br/>
