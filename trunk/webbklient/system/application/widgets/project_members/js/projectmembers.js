@@ -14,7 +14,7 @@ projectmembers = {
 			// set options for window
 			var windowOptions = {
 				// change theese as needed
-				title: ajaxTemplateWidget.widgetTitle,
+				title: projectmembers.widgetTitle,
 				width: 800,
 				height: 450,
 				x: 30,
@@ -22,11 +22,11 @@ projectmembers = {
 			};
 	      
 			// create window
-			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
+			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, projectmembers.partialContentDivClass);
 			
 			// load the first page upon start
-      var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/c/' + Desktop.currentProjectId;
-			ajaxRequests.load(loadFirstPage, "ajaxTemplateWidget.setContent", "ajaxTemplateWidget.setAjaxError");
+      var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/c/index/' + Desktop.currentProjectId;
+			ajaxRequests.load(loadFirstPage, "projectmembers.setContent", "projectmembers.setAjaxError");
 		},
 		
 		
@@ -65,34 +65,34 @@ projectmembers = {
     // wrapper-function that easily can be used inside views from serverside    
     loadURL: function(url) {
         // prepare url
-        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        url = SITE_URL+'/widget/'+projectmembers.widgetName+url;
 				
         // send request
-        ajaxRequests.load(url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');
+        ajaxRequests.load(url, 'projectmembers.setContent', 'projectmembers.setAjaxError');
     },
 		
 		// Loads a ajaxrequest to specific partialclass, in this case "ajax_template_partial"
 	loadURLtoPartialTest: function(url) {
         // prepare url
-        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        url = SITE_URL+'/widget/'+projectmembers.widgetName+url;
 				
         // set currentpartial to to the classname
-        this.currentPartial = ajaxTemplateWidget.partialContentDivClass;
+        this.currentPartial = projectmembers.partialContentDivClass;
         
         // send request, last parameter = true if this is a partial call. Will skip the loading image.
-        ajaxRequests.load(url, 'ajaxTemplateWidget.setPartialContent', 'ajaxTemplateWidget.setAjaxError', true);
+        ajaxRequests.load(url, 'projectmembers.setPartialContent', 'projectmembers.setAjaxError', true);
     },
 		
     // wrapper-function that easily can be used inside views from serverside
     postURL: function(formClass, url) {
         // prepare url
-        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        url = SITE_URL+'/widget/'+projectmembers.widgetName+url;
 				
 		// catching the form data
 		var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();
 				
         // send request
-        ajaxRequests.post(postdata, url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');   
+        ajaxRequests.post(postdata, url, 'projectmembers.setContent', 'projectmembers.setAjaxError');   
     }
     
 };
