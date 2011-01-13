@@ -61,14 +61,16 @@
 
 #projectdropdown ul {
 	width:210px;
-	height: 30px;
+	height: 20px;
 	list-style:none;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	padding-left: 10px;
-	padding-top:10px;
 	background: #5e5e5e url(../../images/buttons/dropdown.png) no-repeat;
+	font-size: 11.5px;
+	padding-top: 6px;
+	margin-top: 7px;
 }
 
 #projectdropdown ul:hover {
@@ -403,6 +405,7 @@ ul {
 
 #topbarimages {
 	float: right;
+	margin-top:6px;
 }
 
 
