@@ -92,8 +92,14 @@ class Theme
            // Should we load a custom widget bar or the default one?
            if(isset($vars['custom_bar'])) {
            		$preContentData['widget_bar'] = $vars['custom_bar'];
-           } else {
-           		$preContentData['widget_bar'] = $this->_CI->widgets->GetProjectIcons($current_project_id);  
+           } else {           		
+           		$widget_data = array(
+					"delete_icons" => $this->_CI->widgets->GetProjectIconsAsArray($current_project_id),
+					"projectID" => $current_project_id
+				);
+				
+                $preContentData['widget_bar'] = $this->_CI->load->view($this->_theme . '/widgets/delete_bar', $widget_data, true);
+           		 
            }
            
          
