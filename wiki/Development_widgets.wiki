@@ -178,6 +178,20 @@ Other than that, there are three types of funktions in this object.
  * *The success/error functions:* Thies are the function who will catch the data from the ajaxRequest and send the information to the Desktop object, so it can be displayed in the widget window. A importent thing to know here is, the successdata retrieved from the ajaxRequest is escaped(), make it a habit to alwais unescape() the data befor useage.
  * *The happening function:* Thies are your specific function that will alter the information some how.
 
+====Partial content====
+If you are in need of updating a partial area in your widget without messing with the other parts. You can in that case use the "Desktop.setPartialContent". 
+=====Create=====
+You must tell Desktop what partial areas you are going to use in you widget when you are creating the widget with the "Desktop.newWidgetWindow" command. Its posible to send a string or an array of strings in the parameter. 
+=====Use=====
+A good example of how you can easily use your partialareas after a ajax-request, is to use the "currentPartial" property. Befor the ajax-request is executed, assign the currentPartial to the area you want the data to be posted in. And in the ajax-success function you tell Desktop to update that area. Dont forget to reset the "currentPartial" when your done with it.
+
+{{{
+setPartialContent: function(data) {
+	Desktop.setWidgetPartialContent(this.currentPartial, unescape(data));
+	this.currentPartial = null;
+    },
+}}}
+====The code====
 Down below you will find the sourcecode of an widget template. Read it and you will understand it. :)
 
 {{{
