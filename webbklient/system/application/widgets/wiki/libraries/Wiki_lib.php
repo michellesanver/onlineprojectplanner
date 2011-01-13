@@ -59,10 +59,10 @@ Class Wiki_lib
     * 
     * @return array
     */
-    function GetMenuTitles()
+    function GetMenuTitles($instance_id)
     {
         // get results from db
-        $result = $this->_CI->Wiki_model->FetchAllMenuTitles($this->_Current_Project_id); 
+        $result = $this->_CI->Wiki_model->FetchAllMenuTitles($this->_Current_Project_id, $instance_id); 
         
         // sort children
         $unset_wiki_page_id = array();
@@ -120,9 +120,9 @@ Class Wiki_lib
     * 
     * @return array
     */
-    function GetNewPages()
+    function GetNewPages($instance_id)
     {
-         return $this->_CI->Wiki_model->FetchAllNewPages($this->_Current_Project_id);   
+         return $this->_CI->Wiki_model->FetchAllNewPages($this->_Current_Project_id, $instance_id);   
     }
     
     /**
@@ -132,9 +132,9 @@ Class Wiki_lib
     * 
     * @return array
     */
-    function GetLastUpdatedPages()
+    function GetLastUpdatedPages($instance_id)
     {
-        return $this->_CI->Wiki_model->FetchAllUpdatedPages($this->_Current_Project_id);  
+        return $this->_CI->Wiki_model->FetchAllUpdatedPages($this->_Current_Project_id, $instance_id);  
     }
     
     
@@ -145,10 +145,10 @@ Class Wiki_lib
     * @param int $id
     * @return mixed
     */
-    function GetPage($id)
+    function GetPage($id, $instance_id)
     {
         // get page
-        $page = $this->_CI->Wiki_model->FetchPage($id);     
+        $page = $this->_CI->Wiki_model->FetchPage($id, $instance_id);     
         
         // was page found?
         if ($page === false)
@@ -192,9 +192,9 @@ Class Wiki_lib
     * @param int $id
     * @return mixed  
     */
-    function GetHistory($id)
+    function GetHistory($id, $instance_id)
     {
-        return $this->_CI->Wiki_model->FetchHistory($id);    
+        return $this->_CI->Wiki_model->FetchHistory($id, $instance_id);    
     }
     
     /**
@@ -203,10 +203,10 @@ Class Wiki_lib
     * @param int $id
     * @return mixed  
     */
-    function GetHistoryPage($id)
+    function GetHistoryPage($id, $instance_id)
     {
         // get page 
-        $page = $this->_CI->Wiki_model->FetchHistoryPage($id);    
+        $page = $this->_CI->Wiki_model->FetchHistoryPage($id, $instance_id);    
         
         // get tags for page
         $page->Tags = $this->_CI->Wiki_model->FetchPageTagsHistory($id); 
@@ -221,14 +221,15 @@ Class Wiki_lib
     * 
     * @return mixed
     */
-    function GetTitlesWithoutChildren()
+    function GetTitlesWithoutChildren($instance_id)
     {
-        return $this->_CI->Wiki_model->FetchTitlesWithoutChildren();   
+        return $this->_CI->Wiki_model->FetchTitlesWithoutChildren($this->_Current_Project_id, $instance_id);   
     }
     
     /**
     * Save a new wikipage; will return false or new wiki_page_id
     * 
+    * @param int $instance_id
     * @param string $title
     * @param string $text
     * @param string $tags
@@ -236,7 +237,7 @@ Class Wiki_lib
     * @param int $order
     * @return mixed
     */
-    function SaveNewPage($title, $text, $tags, $parent, $order)
+    function SaveNewPage($instance_id, $title, $text, $tags, $parent, $order)
     {
         // apply business rules
         $author = $this->_CI->user->getUserID();
@@ -275,7 +276,7 @@ Class Wiki_lib
         }
         
         // save page in model
-        $new_wiki_page_id = $this->_CI->Wiki_model->SaveNewWikiPage($title, $text, $parent, $order, $version, $author, $project, $tags);
+        $new_wiki_page_id = $this->_CI->Wiki_model->SaveNewWikiPage($instance_id, $title, $text, $parent, $order, $version, $author, $project, $tags);
         
         // any error?
         if ( $new_wiki_page_id != false )
@@ -349,6 +350,7 @@ Class Wiki_lib
     * Update a page, tags, move current version to history
     * 
     * @param int $Wiki_page_id
+    * @param int $instance_id
     * @param string $title
     * @param string $text
     * @param string $tags
@@ -356,7 +358,7 @@ Class Wiki_lib
     * @param string $order
     * @return bool
     */
-    function UpdatePage($Wiki_page_id, $title, $text, $tags, $parent, $order)
+    function UpdatePage($Wiki_page_id, $instance_id, $title, $text, $tags, $parent, $order)
     {
         // business rules  
         $author = $this->_CI->user->getUserID();
@@ -392,7 +394,7 @@ Class Wiki_lib
         }
         
         // update
-        $result = $this->_CI->Wiki_model->UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order, $author, $updated);
+        $result = $this->_CI->Wiki_model->UpdatePageAndTags($Wiki_page_id, $instance_id, $title, $text, $tags, $parent, $order, $author, $updated);
         
         // what was the result?
         if ( $result == false )

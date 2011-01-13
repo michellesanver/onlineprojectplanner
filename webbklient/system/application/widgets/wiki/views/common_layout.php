@@ -3,10 +3,9 @@
         <div class="wiki_logo"></div>
         <strong>Wiki:</strong>
         <ul id="mainNavigation">
-            <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages');">Home</a></li> 
+            <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/index');">Home</a></li> 
             <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/search', true);">Search</a></li>
             <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/create');">New page</a></li> 
-            <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/get/hubbas_bubba_med_lite_salt');">TEST; not a valid page</a></li>
         </ul>
         
         <br/>

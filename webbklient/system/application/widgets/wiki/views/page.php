@@ -50,7 +50,7 @@
         Edit: <?php echo $page->Title; ?>
     </h1>
     
-    <form name="wiki_edit_form" id="wiki_edit_form">
+    <form name="wiki_edit_form" class="wiki_edit_form">
     
         <table cellpadding="3" cellspacing="3">
             <tr>
@@ -181,7 +181,7 @@
             buttons: {
                 "Continue": function() {
                     $( this ).dialog( "close" );
-                    wikiWidget.load('/pages/delete/<?php echo $page->Wiki_page_id; ?>/<?php echo $delete_token; ?>');
+                    wikiWidget.load('/pages/delete/<?php echo $page->Wiki_page_id; ?>/<?php echo $delete_token; ?>/<?php echo $instance_id; ?>');
                 },
                 Cancel: function() {
                     $( this ).dialog( "close" );

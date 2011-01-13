@@ -2,6 +2,8 @@
 // place widget in a namespace (javascript object simulates a namespace)
 wikiWidget = {
 
+    wiki_instance_id: null,
+    
     pageContentDivClass: 'wiki_main_content',
     contentDivClass: 'wiki_content',
     widgetTitle: 'Wiki 1.1',
@@ -12,7 +14,9 @@ wikiWidget = {
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
     open: function(project_widget_id, widgetIconId) {
-
+            // save unique id for database
+            wikiWidget.wiki_instance_id = project_widget_id;
+        
             // create the first view
             var initialContent = "<div class=\""+wikiWidget.contentDivClass+"\"></div>";
 
@@ -29,12 +33,11 @@ wikiWidget = {
             };
 
             // create window
-            Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, wikiWidget.partialContentDivClass);
+            Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, wikiWidget.pageContentDivClass);
 
             // load the first page upon start
-            var loadFirstPage = SITE_URL+'/widget/' + wikiWidget.widgetName + '/pages';
+            var loadFirstPage = SITE_URL+'/widget/' + wikiWidget.widgetName + '/pages/index/' + wikiWidget.wiki_instance_id;
             ajaxRequests.load(loadFirstPage, "wikiWidget.setContent", "wikiWidget.setAjaxError");
-        
      },
      
     // set content in widgets div, called from the ajax request
@@ -46,22 +49,16 @@ wikiWidget = {
 
     // set partial content in widgets div, called from the ajax request
     setPartialContent: function(data) {
-            // set currentpartial to to the classname
-            this.currentPartial = wikiWidget.partialContentDivClass;
-        
             // The success return function, the data must be unescaped befor use.
             // This is due to ILLEGAL chars in the string.
-            Desktop.setWidgetPartialContent(this.currentPartial, unescape(data));
-            this.currentPartial = null;
+            Desktop.setWidgetPartialContent(wikiWidget.pageContentDivClass, unescape(data));
     },
                 
     // set error-message in widgets div, called from the ajax request
     setAjaxError: function(loadURL) {
             Desktop.show_ajax_error_in_widget(loadURL);
     },           
-                
-                
-    
+
     // variable to save incoming value (link) for partial or not            
     loadData_Into_Partial: false,
                 
@@ -70,8 +67,8 @@ wikiWidget = {
     load: function(url, into_page_content) {
             
             // empty url?
-            if (url == "") {
-                wikiWidget.setAjaxError('Hey! :\'( Load data from which URL!? *confused*');
+            if (url == undefined || url == "") {
+                Desktop.show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
                 return;
             }
             
@@ -81,16 +78,26 @@ wikiWidget = {
             }  else {
                 wikiWidget.loadData_Into_Partial = false;
             }
+           
+            // prepare url; add instance id last to request
+            var urlToLoad = SITE_URL + '/widget/' + wikiWidget.widgetName + url + '/' + wikiWidget.wiki_instance_id; 
+            
             
             // do ajax request
-           var urlToLoad = SITE_URL+'/widget/' + wikiWidget.widgetName + url;
-           ajaxRequests.load(urlToLoad, "wikiWidget.loadCallback", "wikiWidget.setAjaxError"); 
+           if (wikiWidget.loadData_Into_Partial==false) {
+                // no partial
+                ajaxRequests.load(urlToLoad, "wikiWidget.load_callback", "wikiWidget.setAjaxError"); 
+           } else {
+               // use partial
+               wikiWidget.show_partial_ajax_loader();
+               ajaxRequests.load(urlToLoad, "wikiWidget.load_callback", "wikiWidget.setAjaxError", true); 
+           }
            
            return false; 
     },
     
     // callback-function to load; handle messages and status
-    loadCallback: function(data) {
+    load_callback: function(data) {
         
             var newHTML = "";
             var hasError = false;
@@ -116,64 +123,83 @@ wikiWidget = {
             }
     },
     
-    // post data
-    // if parameter into_page_content is set then the content is put into div.wiki_main_content    
-    post: function(formID, url, into_page_content)
-    {
-       /* var postdata = $('#'+formID ).serialize();
+    // create an ajax loader for partial
+    show_partial_ajax_loader: function()  {
+        container = $('.' + wikiWidget.pageContentDivClass);
+        var loadingHTML = "<div class='frame_loading'>Loading...</div>"; 
+        container.html(loadingHTML);
+        var loading = container.children(".frame_loading");
+        loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
+    },
+    
+    // variable to save incoming value (link) for partial or not            
+    postData_Into_Partial: false,
+    
+    // post data for create a new wikipage
+    post: function(formClass, url, into_page_content) {
       
+        // catching the form data
+        var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();
+        
         // empty url?
-        if (url == "")
-        {
-            show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
+        if (url == undefined || url == "") {
+            Desktop.show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
             return;
         }
         // empty postdata?
-        else if (postdata == "")
-        {
-            show_errormessage('Hey! :\'( No data found to submit? *confused*');
+        else if (postdata == "") {
+            Desktop.show_errormessage('Hey! :\'( No data found to submit? *confused*');
             return;
         }
-        
-        var whichDiv = wikiWidget.contentDivClass;
-        if (into_page_content != undefined && into_page_content == true)
-        {
-            whichDiv = wikiWidget.pageContentDivClass;
+       
+        // load data into partial content?
+        if (into_page_content != undefined && into_page_content == true) {
+            wikiWidget.postData_Into_Partial = true;
+        }  else {
+            wikiWidget.postData_Into_Partial = false;
+        }
+       
+        // prepare url; add instance id 
+        url = SITE_URL+'/widget/'+wikiWidget.widgetName+url+ '/' + wikiWidget.wiki_instance_id;
+               
+        // show ajax spinner
+        wikiWidget.show_partial_ajax_loader();               
+                                
+        // send request
+        if (wikiWidget.postData_Into_Partial==false) {
+            // no partial
+            ajaxRequests.post(postdata, url, 'wikiWidget.post_callback', 'wikiWidget.setAjaxError');  
+        } else {
+            ajaxRequests.post(postdata, url, 'wikiWidget.post_callback', 'wikiWidget.setAjaxError', true); 
         }
         
-        // show ajax spinner
-        show_ajax_loader(null, whichDiv);
-                 
-        // post with ajax
-        var loadURL = SITE_URL+'/widget/'+wikiWidget.widgetName+url;
-        $.ajax({
-          type: 'POST',
-          data: postdata,
-          url: loadURL,
-          success: function(data){
-                    // set new content if no error
-                    if (data != "PAGE NOT FOUND" && data != "NOT AUTHORIZED")
-                    {
-                        $('.'+whichDiv).html(data);
-                    }
-                    else if (data == "PAGE NOT FOUND")
-                    {
-                        var errorHtml = '<h1>Error 404</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>The requested Wiki-page was not found.';
-                        $('.'+whichDiv).html(errorHtml);     
-                    }
-                    else if (data == "NOT AUTHORIZED")
-                    {
-                        var errorHtml = '<h1>Error 401</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>Authorization failed! You must be logged in.';
-                        $('.'+whichDiv).html(errorHtml);     
-                    }
-          },
-          error: function(xhr, statusSTR, errorSTR) {
-                // display an error
-                show_ajax_error(null, whichDiv, loadURL, wikiWidget.errorIcon);
-          }
-       });
-       
-       return false;     */
+       return false; 
+    },
+    
+    // callback for creating a new page
+    post_callback: function(data) {
+            var newHTML = "";
+            var hasError = false;
+            
+            // set new content if no error
+            if (data != "PAGE%20NOT%20FOUND" && data != "NOT%20AUTHORIZED") {
+                newHTML = data;
+            }
+            else if (data == "PAGE%20NOT%20FOUND") {
+               newHTML = '<h1>Error 404</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>The requested Wiki-page was not found.';     
+               hasError = true;
+            }
+            else if (data == "NOT%20AUTHORIZED") {
+                newHTML = '<h1>Error 401</h1><span style="float:left;margin:5px;margin-top:-10px;"><img src="'+wikiWidget.errorIcon+'" /></span>Authorization failed! You must be logged in.';     
+                hasError = true;
+            }
+                        
+            // load into partial?
+            if (wikiWidget.postData_Into_Partial == true || hasError == true) {
+                wikiWidget.setPartialContent(newHTML);
+            } else {
+                wikiWidget.setContent(newHTML);    
+            } 
     },
     
     // search wiki by word or tag

@@ -19,7 +19,7 @@ class Pages extends Controller
     // this will load the startpage
     // (if used internally then $ok_message or $error_message can be set)
     //
-    function index($ok_message='', $error_message='')
+    function index($instance_id, $ok_message='', $error_message='')
     {
         // is user logged in?
         if ($this->user->IsLoggedIn() == false)
@@ -37,10 +37,10 @@ class Pages extends Controller
             'widget_url' => site_url("/widget/$widget_name").'/',
             'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
             
-            'wiki_menu' => $this->Wiki->GetMenuTitles(),
+            'wiki_menu' => $this->Wiki->GetMenuTitles($instance_id), // current project id is fetched in library
             
-            'new_pages' => $this->Wiki->GetNewPages(),
-            'last_updated_pages' => $this->Wiki->GetLastUpdatedPages(),
+            'new_pages' => $this->Wiki->GetNewPages($instance_id),  // current project id is fetched in library  
+            'last_updated_pages' => $this->Wiki->GetLastUpdatedPages($instance_id), // current project id is fetched in library  
             
             'changelog' => $this->Wiki->GetChangelog()
         );
@@ -70,8 +70,8 @@ class Pages extends Controller
    // new page is saved. will reload the view (just
    // as in index but load the specified page)
    //
-    private function _index_new_page($wiki_page_id, $ok_message='', $error_message='')
-    {
+    private function _index_new_page($wiki_page_id, $instance_id, $ok_message='', $error_message='')
+    {   
          // is user logged in?
         if ($this->user->IsLoggedIn() == false)
         {
@@ -88,10 +88,10 @@ class Pages extends Controller
             'widget_url' => site_url("/widget/$widget_name").'/',
             'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
             
-            'wiki_menu' => $this->Wiki->GetMenuTitles(),
+            'wiki_menu' => $this->Wiki->GetMenuTitles($instance_id),   // current project id is fetched in library 
             
-            'new_pages' => $this->Wiki->GetNewPages(),
-            'last_updated_pages' => $this->Wiki->GetLastUpdatedPages(),
+            'new_pages' => $this->Wiki->GetNewPages($instance_id), // current project id is fetched in library 
+            'last_updated_pages' => $this->Wiki->GetLastUpdatedPages($instance_id), // current project id is fetched in library 
             
             'changelog' => $this->Wiki->GetChangelog()
         );
@@ -109,12 +109,20 @@ class Pages extends Controller
         }
         
        // get page
-       $data['page'] = $this->Wiki->GetPage($wiki_page_id);
-     
+       $data['page'] = $this->Wiki->GetPage($wiki_page_id, $instance_id );
+    
+    
+    // TODO.. correct faked error 
+    // TODO.. correct faked error 
+    // TODO.. correct faked error 
+    // TODO.. correct faked error
+    $data['page'] = false; 
+    
+    
        // no page found? 
        if ( $data['page'] === false )
        {
-            $errorURL = $data['widget_url']."pages/get/$wiki_page_id";
+            $errorURL = $data['widget_url']."pages/get/$wiki_page_id/$instance_id";
            
             // fake content so javascript will display an error
             // note; wikiWidget.pageContentDivClass and wikiWidget.errorIcon is set in wiki.js
@@ -133,10 +141,10 @@ class Pages extends Controller
             $currentVersion->Lastname = $data['page']->Lastname;
             
             // get more data
-            $data['history'] = $this->Wiki->GetHistory($wiki_page_id);
+            $data['history'] = $this->Wiki->GetHistory($wiki_page_id, $instance_id );
             array_push($data['history'], $currentVersion);
             
-            $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren();
+            $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren($instance_id );
             $data['delete_token'] = $this->_GenerateDeleteCode($wiki_page_id); 
           
           
@@ -152,8 +160,8 @@ class Pages extends Controller
     //
     // get a new page (also edit and history)
     //
-    function get($Wiki_page_id)
-    {
+    function get($Wiki_page_id, $instance_id)
+    {     
         // is user logged in?
         if ($this->user->IsLoggedIn() == false)
         {
@@ -200,7 +208,7 @@ class Pages extends Controller
             }
             
             // save with library
-            if ( $this->Wiki->UpdatePage($Wiki_page_id, $form_title, $form_text, $form_tags, $form_parent, $form_order) != false )
+            if ( $this->Wiki->UpdatePage($Wiki_page_id, $instance_id, $form_title, $form_text, $form_tags, $form_parent, $form_order) != false )
             {
                 // all ok!
                 $data['status'] = "ok";
@@ -220,9 +228,12 @@ class Pages extends Controller
                 $data['form_order'] = $this->input->post('wiki_create_order');
             }
        }
+         
+        // add instance id for delete-link
+        $data['instance_id'] = $instance_id;
                 
         // package and fetch data for view
-        $data['page'] = $this->Wiki->GetPage($Wiki_page_id);
+        $data['page'] = $this->Wiki->GetPage($Wiki_page_id, $instance_id);
             
         // no page found?
         if ( $data['page'] === false )
@@ -243,17 +254,17 @@ class Pages extends Controller
         
         // get more data
         $data['history'] = array( $currentVersion );
-        $data['history'] = array_merge($data['history'], $this->Wiki->GetHistory($Wiki_page_id));
+        $data['history'] = array_merge($data['history'], $this->Wiki->GetHistory($Wiki_page_id, $instance_id));
         
-        $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren();
+        $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren($instance_id);
         $data['delete_token'] = $this->_GenerateDeleteCode($Wiki_page_id);
         
-       // any errors set?
+       // any errors set? 
        $errors = validation_errors();
        if ( empty($errors) == false || empty($this->validation->error_string) == false )
        {
             $data['status'] = "error";
-            $data['status_message'] = 'Error(s): '.strip_tags($errors.$this->validation->error_string);
+            $data['status_message'] = 'Error(s): '.$errors.$this->validation->error_string;
             
             // refill form data
             $data['form_title'] = $this->input->post('wiki_edit_title');
@@ -283,15 +294,15 @@ class Pages extends Controller
     //
     // alias of get to get a cleaner url for edit page
     //
-    function update($Wiki_page_id)
+    function update($Wiki_page_id, $instance_id)
     {
-        return $this->get($Wiki_page_id);
+        return $this->get($Wiki_page_id, $instance_id);
     }
     
     //
     // get a page from history
     //
-    function get_history($Wiki_page_history_id)
+    function get_history($Wiki_page_history_id, $instance_id)
     {
         // is user logged in?
         if ($this->user->IsLoggedIn() == false)
@@ -301,7 +312,7 @@ class Pages extends Controller
         }  
        
         // fetch page from history
-        $page = $this->Wiki->GetHistoryPage($Wiki_page_history_id);
+        $page = $this->Wiki->GetHistoryPage($Wiki_page_history_id, $instance_id);
        
         // no page found?
         if ( $page === false )
@@ -318,7 +329,7 @@ class Pages extends Controller
     //
     // create a new page
     //
-    function create()
+    function create($instance_id)
     {
         // is user logged in?
         if ($this->user->IsLoggedIn() == false)
@@ -359,13 +370,13 @@ class Pages extends Controller
             $form_order = strip_tags( $this->input->post('wiki_create_order', true) ); // also do xss_clean
             
             // send to library
-            $new_wiki_page_id = $this->Wiki->SaveNewPage($form_title, $form_text, $form_tags, $form_parent, $form_order);
+            $new_wiki_page_id = $this->Wiki->SaveNewPage($instance_id, $form_title, $form_text, $form_tags, $form_parent, $form_order);
             
             // what was the result?
             if ( $new_wiki_page_id != false )
             {
                 // all ok! show page then (also reload index and menu)
-                $this->_index_new_page($new_wiki_page_id, 'New page has been saved'); // since function create is called with ajax we can use this and it won't affect the url
+                $this->_index_new_page($new_wiki_page_id, $instance_id, 'New page has been saved'); // since function create is called with ajax we can use this and it won't affect the url
                 return;
             }
             else
@@ -393,7 +404,7 @@ class Pages extends Controller
        $data['base_url'] = $base_url;
        $data['widget_url'] = site_url("/widget/$widget_name").'/';
        $data['widget_base_url'] = $base_url."system/application/widgets/$widget_name/";
-       $data['wiki_menu'] = $this->Wiki->GetMenuTitles();
+       $data['wiki_menu'] = $this->Wiki->GetMenuTitles($instance_id);
        
        // any errors set?
        $errors = validation_errors();
@@ -411,7 +422,7 @@ class Pages extends Controller
        }
        
        // fetch all pages with no children for select
-       $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren();
+       $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren($instance_id);
     
        // show view
        $data['content'] = $this->load->view_widget('create', $data, true);
@@ -420,7 +431,7 @@ class Pages extends Controller
        $this->load->view_widget('common_layout', $data);
     }
     
-    function delete($Wiki_page_id, $token)
+    function delete($Wiki_page_id, $token, $instance_id)
     {
         // is user logged in?
         if ($this->user->IsLoggedIn() == false)
@@ -438,7 +449,7 @@ class Pages extends Controller
         if ( $saved_token!=$token || $saved_id!=$Wiki_page_id )
         {
             // error; they don't match
-            $this->_index_new_page($Wiki_page_id,'','Error in request - unable to delete page.');
+            $this->_index_new_page($Wiki_page_id, $instance_id, '', 'Error in request - unable to delete page.');
             return;
         }
         else
@@ -449,14 +460,14 @@ class Pages extends Controller
             if ( $this->Wiki->DeletePage($Wiki_page_id) )
             {
                 // all ok!
-                $this->index('Page was deleted.'); // delete is called with ajax so it won't affect the url
+                $this->index($instance_id, 'Page was deleted.'); // delete is called with ajax so it won't affect the url
                 return;
             }
             else
             {
                 // something went wrong..
                 $message = $this->Wiki->GetLastError();
-                $this->_index_new_page($Wiki_page_id,'',$message);
+                $this->_index_new_page($Wiki_page_id, $instance_id, '', $message);
                 return;
             }
         } 
@@ -491,7 +502,7 @@ class Pages extends Controller
     // parameters is empty then the searchform is
     // displayed.
     //
-    function search()
+    function search($instance_id)
     {
         $word = (isset($_POST['word']) ? $this->input->post('word',true) : '');
         $tag = (isset($_POST['tag']) ? $this->input->post('tag',true) : '');

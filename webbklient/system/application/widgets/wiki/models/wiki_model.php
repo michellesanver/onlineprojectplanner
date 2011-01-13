@@ -8,12 +8,12 @@ Class Wiki_model extends Model
     private $_table_tags_history = "WI_Wiki_Tags_History";
     private $_table_users = "User"; 
 
-    function FetchAllMenuTitles($projectID)
+    function FetchAllMenuTitles($projectID, $instance_id)
     {
         // fetch titles for menu
         $this->db->select('Wiki_page_id, Parent_wiki_page_id, Title');
         $this->db->order_by('Order ASC');
-        $this->db->where(array('Project_id'=> $projectID));
+        $this->db->where( array( 'Project_id' => $projectID, 'Instance_id' => $instance_id ) );
         $query = $this->db->get($this->_table_pages);  
   
          // any result?
@@ -29,7 +29,7 @@ Class Wiki_model extends Model
     }
 
     
-    function FetchAllNewPages($projectID)
+    function FetchAllNewPages($projectID, $instance_id)
     {
          $table1 = $this->_table_pages;
          $table2 = $this->_table_users;
@@ -39,7 +39,7 @@ Class Wiki_model extends Model
         $this->db->from($table1);
         $this->db->join($table2, "$table1.User_id = $table2.User_id");
         $this->db->order_by("Created DESC");
-        $this->db->where( array("Project_id" => $projectID) );
+        $this->db->where( array( "Project_id" => $projectID, 'Instance_id' => $instance_id ) );
         $this->db->limit(3);
         $query = $this->db->get();        
      
@@ -87,14 +87,14 @@ Class Wiki_model extends Model
     }
     
     
-    function FetchPage($Wiki_page_id)
+    function FetchPage($Wiki_page_id, $instance_id)
     {
         // use common function set table page
-        return $this->_commonFetchPage($this->_table_pages, array('Wiki_page_id'=>$Wiki_page_id));
+        return $this->_commonFetchPage($this->_table_pages, array('Wiki_page_id'=>$Wiki_page_id, 'Instance_id'=>$instance_id));
     }
     
     
-    function FetchHistory($Wiki_page_id)
+    function FetchHistory($Wiki_page_id, $instance_id)
     {
         // get table names
         $table1 = $this->_table_history;
@@ -104,7 +104,7 @@ Class Wiki_model extends Model
         $this->db->select("$table1.Wiki_page_history_id, $table1.Title, $table1.Version, $table1.Created, $table1.Updated, $table2.Firstname, $table2.Lastname");
         $this->db->from($table1);
         $this->db->join($table2, "$table1.User_id = $table2.User_id");
-        $this->db->where(array('Wiki_page_id'=>$Wiki_page_id)); 
+        $this->db->where(array('Wiki_page_id'=>$Wiki_page_id, 'Instance_id'=>$instance_id)); 
         $this->db->order_by("$table1.Version DESC");
         $query = $this->db->get();
         
@@ -119,10 +119,10 @@ Class Wiki_model extends Model
          }     
     }
     
-    function FetchHistoryPage($Wiki_page_history_id)
+    function FetchHistoryPage($Wiki_page_history_id, $instance_id)
     {
         // use common function set table history
-        return $this->_commonFetchPage($this->_table_history, array('Wiki_page_history_id'=>$Wiki_page_history_id));
+        return $this->_commonFetchPage($this->_table_history, array('Wiki_page_history_id'=>$Wiki_page_history_id, 'Instance_id'=>$instance_id));
     }
     
     private function _commonFetchPage($table1, $where)
@@ -178,11 +178,11 @@ Class Wiki_model extends Model
          } 
     }
     
-    function FetchTitlesWithoutChildren()
+    function FetchTitlesWithoutChildren($project_id, $instance_id)
     {
         // manual query since "is null" is not supported by active record
         $table = $this->_table_pages;
-        $sql = "SELECT `Wiki_page_id`, `Title` FROM (`$table`) WHERE `Parent_wiki_page_id` IS NULL ORDER BY `Title`;";
+        $sql = "SELECT `Wiki_page_id`, `Title` FROM (`$table`) WHERE `Parent_wiki_page_id` IS NULL AND `Project_id` = '$project_id' AND `Instance_id` = '$instance_id' ORDER BY `Title`;";
         
         $query = $this->db->query($sql);
         
@@ -198,13 +198,14 @@ Class Wiki_model extends Model
          }
     }
     
-    function SaveNewWikiPage($title, $text,  $parent, $order, $version, $author, $project, $tags)
+    function SaveNewWikiPage($instance_id, $title, $text,  $parent, $order, $version, $author, $project, $tags)
     {
         // start a transaction; all or nothing
         $this->db->trans_begin();
         
         // package data
         $data = array(
+            'Instance_id' => $instance_id,
             'Project_id' => $project,
             'User_id' => $author,
             'Title' => $title,
@@ -387,19 +388,20 @@ Class Wiki_model extends Model
     }
     
     
-    function UpdatePageAndTags($Wiki_page_id, $title, $text, $tags, $parent, $order, $author, $updated)
+    function UpdatePageAndTags($Wiki_page_id, $instance_id, $title, $text, $tags, $parent, $order, $author, $updated)
     {
         $this->db->trans_begin();     
         
         //---------------------------
         // get current version
-        $old_page = $this->FetchPage($Wiki_page_id);
+        $old_page = $this->FetchPage($Wiki_page_id, $instance_id);
         $old_tags = $this->FetchPageTags($Wiki_page_id);
         
         //---------------------------
         // copy page to history
         $data = array(
             'Wiki_page_id' => $old_page->Wiki_page_id,
+            'Instance_id' => $old_page->Instance_id,
             'Project_id' => $old_page->Project_id,
             'User_id' => $old_page->User_id,
             'Created' => $old_page->Created,
@@ -474,7 +476,7 @@ Class Wiki_model extends Model
         }
         
         // update db
-        $this->db->where('Wiki_page_id', $Wiki_page_id);
+        $this->db->where( array('Wiki_page_id' => $Wiki_page_id, 'Instance_id' => $instance_id) );
         $res = $this->db->update($this->_table_pages, $data);
         
         // check result
@@ -519,7 +521,7 @@ Class Wiki_model extends Model
         // delete old version(s) if more than 10
         
         $this->db->select('Wiki_page_history_id');
-        $this->db->where( array('Wiki_page_id' => $Wiki_page_id) );
+        $this->db->where( array('Wiki_page_id' => $Wiki_page_id, 'Instance_id' => $instance_id) );
         $this->db->order_by('Version DESC');
         $query = $this->db->get($this->_table_history);
         
