@@ -37,7 +37,9 @@ function Widget(id, wnd_options, partialClasses) {
 	this.wnd = $('#desktop').window(wnd_options);
 	
 	//TODO: SETTINGS IN THE FOOTER
-	this.wnd.setFooterContent("<a href=\"javascript:void(0);\" onclick=\"Desktop.openSettingsWindow()\"><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
+	if(wnd_options.allowSettings) {
+		this.wnd.setFooterContent("<a href=\"javascript:void(0);\" onclick=\"Desktop.openSettingsWindow()\"><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
+	}
 }
 
 // Will set the content in the widget

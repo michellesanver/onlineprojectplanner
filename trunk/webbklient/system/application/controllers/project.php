@@ -510,6 +510,8 @@ class Project extends Controller {
     /**
      * Lists all members and handle invites to
      * selected project
+		 * 
+		 * NOT IN USE
      */
 
     function Members($projectID)
@@ -802,60 +804,48 @@ class Project extends Controller {
     function Leave($projectID)
     {
         // Add a tracemessage to log
-
         log_message('debug','#### => Controller Project->Leave');
 
         // Is user logged in?
-
         if($this->user->IsLoggedIn()==false)
         {
             // Set errormessage (will be catched in login)
-
             $this->session->set_userdata('errormessage', 'Authentication error! You must be logged in.');
 
             // No, redirect
-
             redirect('account/login');
             return;
         }
 
         // Is user member in the project?
-
         if($this->project_member->IsMember($projectID)==false)
         {
             // Set errormessage (will be catched in view)
-
             $this->session->set_userdata('errormessage', 'Authentication error! You are not a member of this project.');
 
             // Show project start
-
             redirect("project/view/$projectID");
             return;
         }
 
         // And not a general
-
         if($this->project_member->HaveSpecificRoleInCurrentProject('General') != false)
         {
             // Set errormessage (will be catched in view)
-
             $this->session->set_userdata('errormessage', 'You are the General of this project! Firts give away your General role or choose to delete the entire project.');
 
             // Show project start
-
             redirect("project/view/$projectID");
             return;
         }
 
         // if any project is set; clear variable (project will not exist after this function)
-
         $this->project->clearCurrentProject();
 
 
         $data = array();
 
         // Make user leave
-
         if($this->project->Leave($projectID)) {
 
             $data = array(

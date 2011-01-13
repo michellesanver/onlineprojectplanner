@@ -12,7 +12,7 @@
 	
 	        <h3>Invite a new member</h3>
 	
-	        <form action="<?php echo site_url('project/members/'.$projectID.''); ?>" method="POST">
+	        <form action="http://localhost/projekt/webbklient/index.php/widget/project_members/pm_controller/save" method="POST">
 	            <input type="hidden" name="projectID" value="<?php echo (isset($projectID)) ? $projectID : ""; ?>" />
 	            <label for="email">E-mail: </label><input type="text" name="email" value="" />*<br/>
 	            <label for="projectRoleID">Role in project: </label>

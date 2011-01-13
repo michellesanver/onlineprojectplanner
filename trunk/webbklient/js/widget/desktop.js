@@ -29,6 +29,11 @@ Desktop = {
 			options.bookmarkable = false;
 		}
 		
+		if (options.allowSettings == undefined )
+		{
+			options.allowSettings = true;
+		}
+		
 		// save partialContentClass if it is set
 		var partialClasses = new Array();
 		if (partialContentClasses != undefined)
