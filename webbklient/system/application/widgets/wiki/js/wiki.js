@@ -46,6 +46,8 @@ wikiWidget = {
 
     // set partial content in widgets div, called from the ajax request
     setPartialContent: function(data) {
+            // set currentpartial to to the classname
+            this.currentPartial = wikiWidget.partialContentDivClass;
         
             // The success return function, the data must be unescaped befor use.
             // This is due to ILLEGAL chars in the string.
