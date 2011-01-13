@@ -38,9 +38,16 @@
             <div class="topbuttons">
                 
                 <div id="topbarbuttonwrapper">
-                    <a class="logoutbutton" href="<?php echo(site_url('account/logout')); ?>">
-				       <img src="<?php echo("{$base_url}images/buttons/logout.png"); ?>"/>
+                
+                    <a href="<?php echo(site_url("project/update/{$current_project_id}")); ?>">
+           		       <img src="<?php echo($base_url . "images/buttons/Settings.png"); ?>" />
+                    </a>
+				
+				    <a href="<?php echo(site_url("project/members/{$current_project_id}")); ?>">
+				       <img src="<?php echo("{$base_url}images/buttons/contacts.png"); ?>"/>
 				    </a>
+				    
+                    
 				    
                     <div id="projectdropdown">
                         <ul>
@@ -65,23 +72,18 @@
                     </div>
     					   
     				
-    				<div id="useredit">
-    					<?php if(isset($username)): ?>
-    				        <?php echo($username); ?>
-                            [<a href="<?php echo(site_url('account/edit')); ?>">edit</a>]
-                        <?php endif; ?>	
-                    </div>		
+    					
 					
 					<a href="<?php echo(site_url('project/index')); ?>">
 				       <img src="<?php echo("{$base_url}images/buttons/home.png"); ?>"/>
 				    </a>
-				    				
-                    <a href="<?php echo(site_url("project/update/{$current_project_id}")); ?>">
-           		       <img src="<?php echo($base_url . "images/buttons/Settings.png"); ?>" />
-                    </a>
-				
-				    <a href="<?php echo(site_url("project/members/{$current_project_id}")); ?>">
-				       <img src="<?php echo("{$base_url}images/buttons/contacts.png"); ?>"/>
+				    
+				    <a href="<?php echo(site_url('account/edit')); ?>">
+				       <img src="<?php echo("{$base_url}images/buttons/profile.png"); ?>"/>
+				    </a>
+				    
+				    <a class="logoutbutton" href="<?php echo(site_url('account/logout')); ?>">
+				       <img src="<?php echo("{$base_url}images/buttons/logout.png"); ?>"/>
 				    </a>
 
                 </div>
