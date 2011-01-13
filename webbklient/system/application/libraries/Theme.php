@@ -98,7 +98,8 @@ class Theme
 					"projectID" => $current_project_id
 				);
 				
-                $preContentData['widget_bar'] = $this->_CI->load->view($this->_theme . '/widgets/delete_bar', $widget_data, true);
+				$preContentData['widget_bar'] = $this->_CI->widgets->GetProjectIcons($current_project_id);
+                //$preContentData['widget_bar'] = $this->_CI->load->view($this->_theme . '/widgets/widget_bar', $widget_data, true);
            		 
            }
            
