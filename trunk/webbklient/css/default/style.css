@@ -13,7 +13,7 @@
 #topbarbuttonwrapper {
 	width:500px;
 	float: right;
-	margin-right: 160px;
+	margin-right: 210px;
 	color: #efefef;
 	font-weight: bold;
 }
@@ -24,10 +24,9 @@
 	width: 150px;
 	margin-top:0px;
 	display:inline;
-	text-align: center;
+	text-align: left;
 	float: right;
-	right: 20px;
-	
+	right: 73px;
 }
 
 #projectdropdown ul .item {
@@ -61,15 +60,15 @@
 }
 
 #projectdropdown ul {
-	width:150px;
-	height: 35px;
-	padding:2px;
-	background: #5e5e5e;
+	width:210px;
+	height: 30px;
 	list-style:none;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	
+	padding-left: 10px;
+	padding-top:10px;
+	background: #5e5e5e url(../../images/buttons/dropdown.png) no-repeat;
 }
 
 #projectdropdown ul:hover {
@@ -276,10 +275,6 @@ a img {
 	
 }
 
-.logoutbutton {
-	float: right;
-}
-
 a {
 	color: #008e29;
 }
@@ -399,11 +394,17 @@ ul {
 }
 
 #useredit {
-	margin-top: 8px;
 	color: #fffeff;
 	font-weight: bold;
 	float: right;
+	margin-top: 10px;
+	padding-right: 15px;
 }
+
+#topbarimages {
+	float: right;
+}
+
 
 span.sitetitle {
     float:left;
