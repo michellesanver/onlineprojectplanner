@@ -20,13 +20,15 @@ chatWidget = {
             width: 600,
             height: 400,
             x: 10,
-            y: 10
-
+            y: 10,
+            allowSettings: false,
+            resizable: false
         };
 
         // Create window
 
         Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId);
+        Desktop.selectedWindowId.resizable = false;
 
         // Load the first page upon start
 
