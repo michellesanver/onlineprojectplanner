@@ -4,9 +4,6 @@
         echo "<div class='" . $status . "'><b>" . $status_message . "</b></p></div>";
     }
 ?>
-                
-<h1 class="blackheader">Project members in "<?php echo (isset($title)) ? $title : ""; ?>"</h1>
-
 <div id="contentboxwrapper">
 	<div id="leftboxwide">
 	
@@ -42,9 +39,9 @@
                             <?php } else { ?>
 		            <h3><?php echo($member['Username'])." (".$member['Role'].")"; ?></h3>
                             <?php } ?>
-		            <p>Name: <?php echo($member['Firstname']);?></p>
-		            <p>Surname: <?php echo($member['Lastname']);?></p>
-		            <p>E-mail: <?php echo($member['Email']);?></p>
+		            <p>Name: <?php echo($member['Firstname']);?><br />
+		            Surname: <?php echo($member['Lastname']);?><br />
+		            E-mail: <?php echo($member['Email']);?></p>
                             <?php if($member['IsLoggedInUser'] == false && $isGeneral != false) { ?>
                             <p><a href="javascript:void(0);" onclick="projectmembers.kickout(<?php echo $member['User_id']; ?>);">Kick out</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0);" onclick="projectmembers.switchgeneral(<?php echo $member['User_id']; ?>);">Make General</a></p>
                             <?php } ?>
