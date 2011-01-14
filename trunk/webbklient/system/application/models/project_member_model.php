@@ -131,73 +131,73 @@ class Project_member_model extends Model
             return $this->db->insert($this->_table, $insert);
 	}
 
-        /**
-        * Function: delete
-        * Used to send the validated information
-        * which will delete the row in the database.
-        *
-        * @param int $projectID
-        * @param int $userID
-        * @return bool
-        */
+	/**
+	* Function: delete
+	* Used to send the validated information
+	* which will delete the row in the database.
+	*
+	* @param int $projectID
+	* @param int $userID
+	* @return bool
+	*/
 
-        function delete($projectID, $userID)
-        {
-            $result = $this->db->delete($this->_table, array('Project_id' => $projectID, 'User_id' => $userID));
-            return $result;
-        }
+	function delete($projectID, $userID)
+	{
+			$result = $this->db->delete($this->_table, array('Project_id' => $projectID, 'User_id' => $userID));
+			return $result;
+	}
 
-        /**
-        * Function: switch
-        * Used to send the validated information
-        * which will update the rows in the database.
-        *
-        * @param int $projectID
-        * @param int $userID
-        * @param int $victimID
-        * @param obj $adminRole
-        * @param obj $generalRole
-        * @return bool
-        */
+	/**
+	* Function: switch
+	* Used to send the validated information
+	* which will update the rows in the database.
+	*
+	* @param int $projectID
+	* @param int $userID
+	* @param int $victimID
+	* @param obj $adminRole
+	* @param obj $generalRole
+	* @return bool
+	*/
 
-        function switchGeneral($projectID, $userID, $victimID, $adminRole, $generalRole)
-        {
-            $res = false;
+	function switchGeneral($projectID, $userID, $victimID, $adminRole, $generalRole)
+	{
+			$res = false;
 
-            // start a transaction; all or nothing
+			// start a transaction; all or nothing
 
-            $this->db->trans_begin();
+			$this->db->trans_begin();
 
-            // update old general to admin
+			// update old general to admin
 
-            $this->db->where(array('Project_id' => $projectID, 'User_id' => $userID));
-            $this->db->update($this->_table, array('Project_role_id' => $adminRole->Project_role_id));
+			$this->db->where(array('Project_id' => $projectID, 'User_id' => $userID));
+			$this->db->update($this->_table, array('Project_role_id' => $adminRole->Project_role_id));
 
-            // nothing changed?
+			// nothing changed?
 
-            if($this->db->affected_rows() == 0)
-            {
-                // roll back transaction and return false
-                $this->db->trans_rollback();
-                return false;
-            }
+			if($this->db->affected_rows() == 0)
+			{
+					// roll back transaction and return false
+					$this->db->trans_rollback();
+					return false;
+			}
 
-            $this->db->where(array('Project_id' => $projectID, 'User_id' => $victimID));
-            $res = $this->db->update($this->_table, array('Project_role_id' => $generalRole->Project_role_id));
+			$this->db->where(array('Project_id' => $projectID, 'User_id' => $victimID));
+			$res = $this->db->update($this->_table, array('Project_role_id' => $generalRole->Project_role_id));
 
-            // was row updated?
+			// was row updated?
 
-            if ($res == false)
-            {
-                // roll back transaction and return false
-                $this->db->trans_rollback();
-                return false;
-            }
+			if ($res == false)
+			{
+					// roll back transaction and return false
+					$this->db->trans_rollback();
+					return false;
+			}
 
-            // else; all ok! commit transaction and return true
-            $this->db->trans_commit();
+			// else; all ok! commit transaction and return true
+			$this->db->trans_commit();
 
-            return true;
-        }
+			return true;
+	}
 
 }

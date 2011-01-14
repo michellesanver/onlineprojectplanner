@@ -25,6 +25,10 @@ projectmembers = {
 			// create window
 			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, projectmembers.partialContentDivClass);
 			
+			projectmembers.index();
+		},
+		
+		index: function() {
 			// load the first page upon start
       var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/index/' + Desktop.currentProjectId;
 			ajaxRequests.load(loadFirstPage, "projectmembers.setContent", "projectmembers.setAjaxError");
@@ -50,10 +54,33 @@ projectmembers = {
 				tmp3['value'] = role;
 				formArray.push(tmp3);
 				
-				var url = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/index/' + Desktop.currentProjectId;
-				ajaxRequests.post(formArray, url, "projectmembers.setContent", "projectmembers.setAjaxError", true);
+				var url = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/save/';
+				ajaxRequests.post(formArray, url, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
 			}
 			return false;
+		},
+		
+		kickout: function(victim) {
+			if(confirm("Are you sure you want to kick this member?")) {
+				var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/kickOut/'+ victim + '/' + Desktop.currentProjectId;
+				ajaxRequests.load(loadFirstPage, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
+				projectmembers.index();
+			}
+		},
+		
+		switchgeneral: function(victim) {
+			if(confirm("Are you sure you want to promote this member to general?")) {
+				var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/switchGeneral/'+ victim + '/' + Desktop.currentProjectId;
+				ajaxRequests.load(loadFirstPage, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
+				projectmembers.index();
+			}
+		},
+		
+		leave: function() {
+			if(confirm("Are you sure you want to leave this project?")) {
+				var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/leave/' + Desktop.currentProjectId;
+				ajaxRequests.load(loadFirstPage, "projectmembers.catchRedirectStatus", "projectmembers.setAjaxError", true);
+			}
 		},
 		
 		
@@ -61,20 +88,33 @@ projectmembers = {
 	* The following functions are common for att widgets.
     * --------------------------------------------------------------------------------------- 
     */
+		catchRedirectStatus: function(data) {
+			data = unescape(data);
+			var data_obj = $.parseJSON(data);
+			if(data_obj.status == "ok") {
+				projectmembers.index();
+			} else {
+				Desktop.show_errormessage(data_obj.status_message);
+			}
+		},
+		
+		catchStatus: function(data){
+			data = unescape(data);
+			var data_obj = $.parseJSON(data);
+			if(data_obj.status == "ok") {
+				Desktop.show_message(data_obj.status_message);
+			} else {
+				Desktop.show_errormessage(data_obj.status_message);
+			}
+		},
 		
     // set content in widgets div, called from the ajax request
     setContent: function(data) {
 			data = unescape(data);
-			if(data == "login_error") {
-				Desktop.show_errormessage("You are not authenticated. Please login!");
-			} else if(data == "member_error") {
-				Desktop.show_errormessage("You are not a member of this project");
-			} else {
-				// The success return function, the data must be unescaped befor use.
-				// This is due to ILLEGAL chars in the string.
-				Desktop.setWidgetContent(data);
-				$('#proj_mem_' + Desktop.currentProjectId).validate();
-			}
+			// The success return function, the data must be unescaped befor use.
+			// This is due to ILLEGAL chars in the string.
+			Desktop.setWidgetContent(data);
+			$('#proj_mem_' + Desktop.currentProjectId).validate();
     },
 
     // set partial content in widgets div, called from the ajax request

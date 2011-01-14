@@ -38,7 +38,7 @@
 		        <div class="projectmemberbox">
 
                             <?php if($member['IsLoggedInUser'] != false && $isGeneral == false) { ?>
-                            <h3><?php echo($member['Username'])." (".$member['Role'].")" ?> [<a href="<?php echo site_url('project/leave/'.$projectID.''); ?>">Leave</a>]</h3>
+                            <h3><?php echo($member['Username'])." (".$member['Role'].")" ?> [<a href="javascript:void(0);" onclick="projectmembers.leave();"">Leave</a>]</h3>
                             <?php } else { ?>
 		            <h3><?php echo($member['Username'])." (".$member['Role'].")"; ?></h3>
                             <?php } ?>
@@ -46,7 +46,7 @@
 		            <p>Surname: <?php echo($member['Lastname']);?></p>
 		            <p>E-mail: <?php echo($member['Email']);?></p>
                             <?php if($member['IsLoggedInUser'] == false && $isGeneral != false) { ?>
-                            <p><a href="<?php echo site_url('project/kickout/'.$member['User_id'].'/'.$projectID.''); ?>">Kick out</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?php echo site_url('project/switchgeneral/'.$member['User_id'].'/'.$projectID.''); ?>">Make General</a></p>
+                            <p><a href="javascript:void(0);" onclick="projectmembers.kickout(<?php echo $member['User_id']; ?>);">Kick out</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0);" onclick="projectmembers.switchgeneral(<?php echo $member['User_id']; ?>);">Make General</a></p>
                             <?php } ?>
 		
 		        </div>
