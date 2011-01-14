@@ -799,6 +799,8 @@ class Project extends Controller {
     * catch the Project_id from get.
     * In order to leave a project the logged user need to be
     * a member of the selected project and NOT a General.
+		*
+		* NOT IN USE
     */
 
     function Leave($projectID)
@@ -871,6 +873,8 @@ class Project extends Controller {
     * catch the Victim_id(User_id) and the Project_id from get.
     * In order to kick someone out of the project the logged user need to be
     * the General of the selected project
+		*
+		* NOT IN USE
     */
 
     function KickOut($victimID, $projectID)
@@ -978,6 +982,8 @@ class Project extends Controller {
     * catch the Victim_id(User_id) and the Project_id from get.
     * In order to make someone a General of the project the logged user need to be
     * the General himself/herself of the selected project
+		*
+		* NOT IN USE
     */
 
     function SwitchGeneral($victimID, $projectID)

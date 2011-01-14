@@ -235,9 +235,10 @@ class Project_lib
     }
 
     /**
-    * Function: Leave
     * This function is used when member wants
     * to leave a project.
+		*
+		* NOT IN USE
     *
     * @param string $projectID
     * @return bool
@@ -258,9 +259,10 @@ class Project_lib
     }
 
     /**
-    * Function: KickOut
     * This function is used when General wants
     * to kick out a project member.
+		*
+		* NOT IN USE
     *
     * @param string $projectID
     * @param string $victimID
@@ -280,10 +282,11 @@ class Project_lib
     }
 
     /**
-    * Function: SwitchGeneral
     * This function is used when General wants
     * make another project member General instead.
     *
+		* NOT IN USE
+		*
     * @param string $projectID
     * @param string $victimID
     * @return bool
