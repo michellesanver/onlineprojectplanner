@@ -23,6 +23,7 @@
     -->
     <load>
         <file type="javascript">js/chat.js</file>
+        <file type="javascript">js/chat_remote.js</file>
         <file type="javascript">js/chat_functions.js</file>
         <file type="css">css/chat.css</file>
     </load>
