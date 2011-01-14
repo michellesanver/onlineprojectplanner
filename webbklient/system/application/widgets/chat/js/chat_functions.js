@@ -2,7 +2,7 @@ chatFunctions = {
 
     init: function() {
 
-        $('#previouschatdiscussions').change(function() {
+        $('#chat_previousdiscussionswrapper form select').change(function() {
 
             alert('Här läser vi av cashe-nyckeln och läser in vald cashe i #chat_window samt kopplar mot en kanal...');
 

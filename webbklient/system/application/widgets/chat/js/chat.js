@@ -17,12 +17,13 @@ chatWidget = {
 
             // change theese as needed
             title: chatWidget.widgetTitle,
-            width: 600,
+            width: 650,
             height: 400,
-            x: 10,
-            y: 10,
+            x: 0,
+            y: 0,
             allowSettings: false,
-            resizable: false
+            resizable: false,
+            scrollable: false
         };
 
         // Create window
@@ -32,10 +33,11 @@ chatWidget = {
 
         // Load the first page upon start
 
-        // var loadFirstPage = SITE_URL+'/widget/' + chatWidget.widgetName + '/chat/cashetest/';
         var loadFirstPage = SITE_URL+'/widget/' + chatWidget.widgetName + '/';
 
         ajaxRequests.load(loadFirstPage, "chatWidget.setContent", "chatWidget.setAjaxError");
+
+        // Set overflow hidden
 
     },
 		
