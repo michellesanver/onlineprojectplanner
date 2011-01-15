@@ -3,7 +3,7 @@ chatWidget = {
     // Widget specific settings
 
     partialContentDivClass: 'chat_partial',
-    widgetTitle: 'Chat',
+    widgetTitle: 'Chat 1.0 (Beta)',
     widgetName: 'chat',
     currentPartial: null,
     

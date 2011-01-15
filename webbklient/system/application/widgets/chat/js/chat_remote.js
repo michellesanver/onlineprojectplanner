@@ -15,6 +15,26 @@ var chatRemote = {
 
         });
 
+    },
+
+    turnRight: function() {
+
+        chatRemote.currentPosition = chatRemote.currentPosition + 1;
+
+        $('#chat_chatwrapper').animate(
+            { 'marginLeft' : chatRemote.pageWidth * (-chatRemote.currentPosition) }
+        );
+
+    },
+
+    turnLeft: function() {
+
+        chatRemote.currentPosition = chatRemote.currentPosition - 1;
+
+        $('#chat_chatwrapper').animate(
+            { 'marginLeft' : chatRemote.pageWidth * (-chatRemote.currentPosition) }
+        );
+
     }
 
     // ...

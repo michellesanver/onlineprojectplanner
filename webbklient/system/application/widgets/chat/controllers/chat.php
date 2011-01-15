@@ -6,8 +6,9 @@ class Chat extends Controller {
     {
         parent::Controller();
 
-        $this->load->library_widget('Cashe_lib', null, 'cashe_lib');
-        $this->load->library_widget('Chat_lib', null, 'chat_lib');
+        $this->load->library_widget("Cashe_lib", null, "cashe_lib");
+        $this->load->library_widget("Chat_lib", null, "chat_lib");
+        $this->load->library("validation");
     }
 
     /**
@@ -18,80 +19,114 @@ class Chat extends Controller {
 
     function index()
     {
-        $widget_name = "chat";
-
-        $base_url = $this->config->item('base_url');
-
-        // TEST FEED START
-
-        $cashe = $this->cashe_lib->ReadCashe('cashe_test');
-
-        // TEST FEED END
-
         $rooms = $this->chat_lib->GetChatRoomsByProjectId();
         $members = $this->chat_lib->GetMembersByProjectId();
 
         $data = array(
-            'base_url' => $base_url,
-            'widget_url' => site_url("/widget/$widget_name").'/',
-            'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
-            'cashe' => $cashe,
-            'cashe' => $cashe,
-            'rooms' => $rooms,
-            'members' => $members
+            "rooms" => $rooms,
+            "members" => $members
         );
 
-        $this->load->view_widget('start', $data);
-        
+        $this->load->view_widget("start", $data);
     }
 
     /**
-    * Test function to be called for cashe test
+    * Function to be called for new chat room registration
     * -
     * -
     */
 
-    function CasheTest()
+    function RegisterNewChatRoom()
     {
-        $widget_name = "chat";
+        // Rules
 
-        $base_url = $this->config->item('base_url');
+        $rules = array (
+            "chat_createnewdiscussionstitle" => "required|max_length[200]|xss_clean"
+        );
 
-        $key = 'cashe_test';
-        $message = $key;
+        $this->validation->set_rules($rules);
 
-        if($this->cashe_lib->WriteCashe($key, $message) != false)
+        // Human names for the inputfields
+
+        $field = array(
+            "chat_createnewdiscussionstitle" => "Title"
+        );
+
+        $this->validation->set_fields($field);
+
+        $status = $this->validation->run();
+
+        $resultStatus = NULL;
+        $resultMessages = array();
+        $data = array();
+
+        // If have status
+
+        if($status != false)
         {
-            $result = 'Cashe was written to xml...';
+            // If success
 
-            $cashe = $this->cashe_lib->ReadCashe($key);
-
-            if($cashe != NULL)
+            if($this->chat_lib->RegisterNewChatRoom($this->validation->chat_createnewdiscussionstitle) != false)
             {
-                $result = 'Cashe found...';
+                $resultStatus = "ok";
+                array_push($resultMessages, "Registration was successful!");
             }
             else
             {
-                $result = 'No cashe found...';
+                $resultStatus = "error";
+                array_push($resultMessages, "Registration failed!");
             }
         }
-        else
-        {
-            $result = 'No cashe was written to xml...';
 
-            $cashe = NULL;
+        // If no status but post
+
+        if($status == false && isset($_POST["chat_createnewdiscussionsbutton"])) {
+
+            $resultStatus = "error";
+            array_push($resultMessages, "Registration failed!");
         }
 
         $data = array(
-            'base_url' => $base_url,
-            'widget_url' => site_url("/widget/$widget_name").'/',
-            'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
-            'result' => $result,
-            'cashe' => $cashe
+            "status" => $resultStatus,
+            "messages" => $resultMessages
         );
 
-        $this->load->view_widget('cashetest', $data);
-
+        $this->load->view_widget("resultview", $data);
     }
-  
+
+    /**
+    * Function to be called for chat room reload
+    * -
+    * -
+    */
+
+    function ReloadChatRooms()
+    {
+        $rooms = $this->chat_lib->GetChatRoomsByProjectId();
+        $resultStatus = NULL;
+        $resultMessages = array();
+        $data = array();
+
+        // If have rooms
+
+        if($rooms != false)
+        {
+            $resultStatus = "ok";
+            array_push($resultMessages, "Reload was successful!");
+        }
+        else
+        {
+            $resultStatus = "error";
+            array_push($resultMessages, "Reload failed!");
+        }
+
+        $data = array(
+            "status" => $resultStatus,
+            "messages" => $resultMessages,
+            "rooms" => $rooms
+        );
+
+        $this->load->view_widget("resultview", $data);
+    }
+
 }

@@ -9,7 +9,7 @@ Class Cashe_lib
     {
         $this->_CI = & get_instance();
 
-        $this->_CI->load->model_widget('cashe_model', 'cashe_model');
+        $this->_CI->load->model_widget("cashe_model", "cashe_model");
     }
 
     /**
@@ -42,11 +42,11 @@ Class Cashe_lib
 
         if($currentUserInformation != NULL)
         {
-            $currentUser = $currentUserInformation['Username'];
-            $currentId = $currentUserInformation['User_id'];
-            $currentDatetime = date("c");
+            $currentUser = $currentUserInformation["Username"];
+            $currentId = $currentUserInformation["User_id"];
+            $currentDateTime = date("Y-m-d h:i:s");
 
-            $cashe = $this->_CI->cashe_model->WriteCashe($key, $currentUser, $currentId, $currentMessage, $currentDatetime);
+            $cashe = $this->_CI->cashe_model->WriteCashe($key, $currentUser, $currentId, $currentMessage, $currentDateTime);
 
             if($cashe != false)
             {
