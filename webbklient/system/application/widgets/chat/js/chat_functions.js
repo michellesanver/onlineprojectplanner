@@ -1,10 +1,37 @@
 chatFunctions = {
 
+    key: null,
+
     init: function() {
 
         $('#chat_previousdiscussionswrapper form select').change(function() {
 
-            alert('Här läser vi av cashe-nyckeln och läser in vald cashe i #chat_window samt kopplar mot en kanal...');
+            var key = $(this).find('option:selected').val();
+
+            var keyRegEx = new RegExp(/^([a-zA-Z0-9]{32})$/);
+
+            // If key is key
+
+            if(keyRegEx.test(key) != false)
+            {
+                chatFunctions.key = key;
+
+                // Load cashe
+
+                chatFunctions.loadCashe();
+
+                // Enable post item form
+
+                $('#chat_postitembutton').removeAttr('disabled');
+            }
+            else
+            {
+                chatFunctions.key = null;
+
+                // Disable post item form
+
+                $('#chat_postitembutton').attr('disabled', 'disabled');
+            }
 
             return false;
 
@@ -79,7 +106,55 @@ chatFunctions = {
 
         $('#chat_postitemwrapper form').submit(function() {
 
-            alert('Här pushar vi ut ett nytt meddelande i #chat_window samt cashar meddelandet i xml-filen kopplad till diskussionens nyckel...');
+            var form = $(this);
+
+            $.ajax({
+
+            type: 'POST',
+            url: SITE_URL+'/widget/' + chatWidget.widgetName + '/chat/cashenewitem/',
+            data: 'chat_postchatitemkey=' + chatFunctions.key + '&chat_postchatitemmessage=' + form.find('#chat_postchatitemmessage').val(),
+            dataType: 'xml',
+
+            beforeSend: function() {
+
+                 form.find('.chat_messagebox').html('');
+
+            },
+
+            timeout: 5000,
+
+            error: function() {
+
+                form.find('.chat_messagebox').append('<p class="error">Something went wrong!</p>');
+
+            },
+
+            success: function(xml) {
+
+                // Find out status
+
+                var status = $(xml).find('status').text();
+
+                if(status == 'ok')
+                {
+                    // Clear input
+
+                    form.find('#chat_postchatitemmessage').val('');
+                }
+                else
+                {
+                    // Append error-messages
+
+                    $(xml).find('message').each(function() {
+
+                        form.find('.chat_messagebox').append('<p class="error">'+$(this).text()+'</p>');
+
+                    });
+                }
+
+            }
+
+            });
 
             return false;
 
@@ -122,11 +197,17 @@ chatFunctions = {
 
                 form.find('select').html('');
 
+                form.find('select').append('<option value="">-</option>');
+
                 $(xml).find('room').each(function() {
 
                     form.find('select').append('<option value="'+$(this).find('key').text()+'">'+$(this).find('title').text()+'</option>');
 
                 });
+
+                // Reset key
+
+                chatFunctions.key = null;
 
                 return true;
             }
@@ -146,6 +227,66 @@ chatFunctions = {
         }
 
         });
+
+    },
+
+    loadCashe: function() {
+
+        var target = $('#chat_window');
+
+        $.ajax({
+
+        type: 'POST',
+        url: SITE_URL+'/widget/' + chatWidget.widgetName + '/chat/loadcashe/',
+        data: 'chat_loadcashekey=' + chatFunctions.key,
+        dataType: 'xml',
+
+        beforeSend: function() {
+
+             target.html('');
+
+        },
+
+        timeout: 5000,
+
+        error: function() {
+
+            target.append('<p class="error">Something went wrong!</p>');
+
+        },
+
+        success: function(xml) {
+
+            // Find out status
+
+            var status = $(xml).find('status').text();
+
+            if(status == 'ok')
+            {
+                // Load
+
+                $(xml).find('item').each(function() {
+
+                    target.append('<div class="chat_itemwrapper"><p><span class="user">'+$(this).find('user').text()+'</span><span class="datetime">'+$(this).find('datetime').text()+'</span><span class="message">'+$(this).find('message').text()+'</span></p></div>');
+
+                });
+            }
+            else
+            {
+                // Append error-messages
+
+                $(xml).find('message').each(function() {
+
+                    target.append('<p class="error">'+$(this).text()+'</p>');
+
+                });
+            }
+
+        }
+
+        });
+
+        return false;
 
     }
 

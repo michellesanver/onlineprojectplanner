@@ -27,7 +27,7 @@ Class Cashe_lib
             return $cashe;
         }
 
-        return NULL;
+        return false;
     }
 
     /**

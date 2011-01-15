@@ -10,7 +10,7 @@ if(empty($messages) == false)
 {
     foreach($messages as $message)
     {
-        echo '<message>'.$message.'</message>';
+        echo '<message>'.htmlentities($message).'</message>';
     }
 }
 
@@ -21,12 +21,28 @@ if(isset($rooms) && empty($rooms) == false)
     foreach($rooms as $room)
     {
         echo '<room>';
-        echo '<key>'.$room["Key"].'</key>';
-        echo '<title>'.$room["Title"].'</title>';
+        echo '<key>'.htmlentities($room["Key"]).'</key>';
+        echo '<title>'.htmlentities($room["Title"]).'</title>';
         echo '</room>';
     }
 
     echo '</rooms>';
+}
+
+if(isset($cashe_loaded) && empty($cashe_loaded) == false)
+{
+    echo '<items>';
+
+    foreach ($cashe_loaded->items->item as $item)
+    {
+        echo '<item>';
+        echo '<user>'.htmlentities($item->user).'</user>';
+        echo '<message>'.htmlentities($item->message).'</message>';
+        echo '<datetime>'.htmlentities($item->datetime).'</datetime>';
+        echo '</item>';
+    }
+
+    echo '</items>';
 }
 
 echo '</result>';
