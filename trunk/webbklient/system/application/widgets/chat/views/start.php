@@ -7,6 +7,11 @@
 
                 <form action="" method="post">
 
+                    <div class="chat_messagebox"></div>
+
+                    <label for="chat_createnewdiscussionstitle">Title</label>
+                    <input type="text" id="chat_createnewdiscussionstitle" name="chat_createnewdiscussionstitle" value="" maxlength="200" />
+
                     <input type="submit" value="Create New Discussion" id="chat_createnewdiscussionsbutton" />
 
                 </form>
@@ -27,7 +32,7 @@
 
                 <!-- TEST FEED START -->
 
-                <?php if(empty($cashe) == false ) { ?>
+                <?php if(empty($cashe) == false) { ?>
 
                     <?php foreach ($cashe->items->item as $item) { ?>
 
@@ -59,11 +64,15 @@
 
                 <h3>Previous Discussions</h3>
 
-                <?php if(empty($rooms) == false ) { ?>
+                <form action="" method="post">
 
-                    <form action="" method="post">
+                    <div class="chat_messagebox"></div>
 
-                        <select id="previouschatdiscussions" name="previouschatdiscussions">
+                    <select id="previouschatdiscussions" name="previouschatdiscussions">
+
+                    <option value="">-</option>
+
+                    <?php if(empty($rooms) == false) { ?>
 
                         <?php foreach ($rooms as $room) { ?>
 
@@ -71,11 +80,11 @@
 
                         <?php } ?>
 
-                        </select>
+                    <?php } ?>
 
-                    </form>
+                    </select>
 
-                <?php } ?>
+                </form>
 
             </div>
 
@@ -89,6 +98,8 @@
             <div id="chat_postitemwrapper">
 
                 <form action="" method="post">
+
+                    <div class="chat_messagebox"></div>
 
                     <input type="text" id="postchatitem" name="postchatitem" value="" />
 
@@ -110,7 +121,7 @@
 
             <h3>Project Members</h3>
 
-            <?php if($members != NULL) { ?>
+            <?php if(empty($members) == false) { ?>
 
                 <ul>
 

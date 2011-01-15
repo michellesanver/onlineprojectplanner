@@ -4,13 +4,18 @@ Class Chat_lib
 {
 
     private $_CI = null;
+    private $_currentProjectId;
+    private $_currentUserId;
 
     function __construct()
     {
         $this->_CI = & get_instance();
 
-        $this->_CI->load->model_widget('chat_model', 'chat_model');
-        $this->_CI->load->library('Project_lib', null, 'project');
+        $this->_CI->load->model_widget("chat_model", "chat_model");
+        $this->_CI->load->library("Project_lib", null, "project");
+
+        $this->_currentProjectId = $this->_CI->project->checkCurrentProject();
+        $this->_currentUserId = $this->_CI->session->userdata("UserID");
     }
 
     /**
@@ -21,17 +26,9 @@ Class Chat_lib
 
     function GetMembersByProjectId()
     {
-        // Fetch Project_id
-
-        $projectId = $this->_CI->project->checkCurrentProject();
-
-        // Fetch User_id
-
-        $userId = $this->_CI->session->userdata('UserID');
-
         // Fetch members
 
-        $members = $this->_CI->chat_model->GetMembersByProjectId($projectId);
+        $members = $this->_CI->chat_model->GetMembersByProjectId($this->_currentProjectId);
         $membersWithInfo = array();
 
         // Add information about logged in user
@@ -40,14 +37,14 @@ Class Chat_lib
         {
             foreach($members as $member) {
 
-                if($member['User_id'] == $userId)
+                if($member["User_id"] == $this->_currentUserId)
                 {
-                    $member['IsLoggedInUser'] = true;
+                    $member["IsLoggedInUser"] = true;
                     array_push($membersWithInfo, $member);
                 }
                 else
                 {
-                    $member['IsLoggedInUser'] = false;
+                    $member["IsLoggedInUser"] = false;
                     array_push($membersWithInfo, $member);
                 }
 
@@ -99,16 +96,12 @@ Class Chat_lib
 
         $encryptedKey = md5('mychatroom'.$key);
 
-        // Fetch Project_id
-
-        $projectId = $this->_CI->project->checkCurrentProject();
-
         // Create insert array
 
         $insert = array(
             "Key" => $encryptedKey,
             "Title" => $title,
-            "Project_id" => $projectId
+            "Project_id" => $this->_currentProjectId
             );
 
         $result = $this->_CI->chat_model->RegisterNewChatRoom($insert);
@@ -129,13 +122,9 @@ Class Chat_lib
 
     function GetChatRoomsByProjectId()
     {
-        // Fetch Project_id
-
-        $projectId = $this->_CI->project->checkCurrentProject();
-
         // Fetch rooms
 
-        $rooms = $this->_CI->chat_model->GetChatRoomsByProjectId($projectId);
+        $rooms = $this->_CI->chat_model->GetChatRoomsByProjectId($this->_currentProjectId);
 
         if($rooms != NULL)
         {

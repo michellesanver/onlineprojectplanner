@@ -11,10 +11,8 @@ Class Cashe_model extends Model
     * -
     */
 
-    function _GetCasheURL($key)
+    private function _GetCasheURL($key)
     {
-        // TODO: Move folder down to the protected system/cashe folder
-
         $dir = dirname(__FILE__);
 
         return $dir.'/../cashe/'.$key.'.xml';
@@ -44,7 +42,7 @@ Class Cashe_model extends Model
     * -
     */
 
-    function WriteCashe($key, $currentUser, $currentId, $currentMessage, $currentDatetime)
+    function WriteCashe($key, $currentUser, $currentId, $currentMessage, $currentDateTime)
     {
         $file = $this->_GetCasheURL($key);
         $cashe = NULL;
@@ -58,15 +56,15 @@ Class Cashe_model extends Model
                 // Cashe item
 
                 $items = $cashe->items[0];
-                $item = $items->addChild("item", '');
+                $item = $items->addChild("item", "");
                 $user = $item->addChild("user", $currentUser);
-                $user->addAttribute('id', $currentId);
+                $user->addAttribute("id", $currentId);
                 $item->addChild("message", $currentMessage);
-                $item->addChild("datetime", $currentDatetime);
+                $item->addChild("datetime", $currentDateTime);
 
                 // Update <lastupdated>
 
-                $cashe->lastupdated[0] = $currentDatetime;
+                $cashe->lastupdated[0] = $currentDateTime;
 
                 // Save
 
@@ -86,15 +84,15 @@ Class Cashe_model extends Model
                 // Cashe item
 
                 $items = $cashe->items[0];
-                $item = $items->addChild("item", '');
+                $item = $items->addChild("item", "");
                 $user = $item->addChild("user", $currentUser);
-                $user->addAttribute('id', $currentId);
+                $user->addAttribute("id", $currentId);
                 $item->addChild("message", $currentMessage);
-                $item->addChild("datetime", $currentDatetime);
+                $item->addChild("datetime", $currentDateTime);
 
                 // Update <lastupdated>
 
-                $cashe->lastupdated[0] = $currentDatetime;
+                $cashe->lastupdated[0] = $currentDateTime;
 
                 // Save
 
