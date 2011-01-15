@@ -5,7 +5,7 @@
 
         <div id="chat_newdiscussionswrapper">
 
-                <form action="" method="post">
+                <form action="">
 
                     <div class="chat_messagebox"></div>
 
@@ -32,25 +32,7 @@
 
                 <!-- TEST FEED START -->
 
-                <?php if(empty($cashe) == false) { ?>
-
-                    <?php foreach ($cashe->items->item as $item) { ?>
-
-                        <div class="chat_itemwrapper">
-
-                        <p>
-                            <span class="user"><?php echo $item->user; ?></span>
-                            <span class="datetime"><?php echo $item->datetime; ?></span>
-                            <span class="message"><?php echo $item->message; ?></span>
-                        </p>
-
-                        </div>
-
-                    <?php } ?>
-
-                <?php } ?>
-
-                <!-- TEST FEED END -->
+                
 
                 </div>
 
@@ -64,11 +46,11 @@
 
                 <h3>Previous Discussions</h3>
 
-                <form action="" method="post">
+                <form action="">
 
                     <div class="chat_messagebox"></div>
 
-                    <select id="previouschatdiscussions" name="previouschatdiscussions">
+                    <select id="chat_previouschatdiscussions" name="chat_previouschatdiscussions">
 
                     <option value="">-</option>
 
@@ -97,13 +79,13 @@
 
             <div id="chat_postitemwrapper">
 
-                <form action="" method="post">
+                <form action="">
 
                     <div class="chat_messagebox"></div>
 
-                    <input type="text" id="postchatitem" name="postchatitem" value="" />
+                    <input type="text" id="chat_postchatitemmessage" name="chat_postchatitem" value="" maxlength="300" />
 
-                    <input type="submit" value="Send" id="chat_postitembutton" />
+                    <input type="submit" value="Send" id="chat_postitembutton" disabled="disabled" />
 
                     <div id="chat_clearpostitemwrapper">&nbsp;</div>
 

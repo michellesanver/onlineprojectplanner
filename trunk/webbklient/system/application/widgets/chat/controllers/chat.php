@@ -129,4 +129,138 @@ class Chat extends Controller {
         $this->load->view_widget("resultview", $data);
     }
 
+    /**
+    * Function to be called for cashe of new item
+    * -
+    * -
+    */
+
+    function CasheNewItem()
+    {
+        // Rules
+
+        $rules = array (
+            "chat_postchatitemkey" => "required|max_length[32]",
+            "chat_postchatitemmessage" => "required|max_length[300]|xss_clean"
+        );
+
+        $this->validation->set_rules($rules);
+
+        // Human names for the inputfields
+
+        $field = array(
+            "chat_postchatitemkey" => "Key",
+            "chat_postchatitemmessage" => "Message"
+        );
+
+        $this->validation->set_fields($field);
+
+        $status = $this->validation->run();
+
+        $resultStatus = NULL;
+        $resultMessages = array();
+        $data = array();
+
+        // If have status
+
+        if($status != false)
+        {
+            // If success
+
+            if($this->cashe_lib->WriteCashe($this->validation->chat_postchatitemkey, $this->validation->chat_postchatitemmessage) != false)
+            {
+                $resultStatus = "ok";
+                array_push($resultMessages, "Cashe was successful!");
+            }
+            else
+            {
+                $resultStatus = "error";
+                array_push($resultMessages, "Cashe failed!");
+            }
+        }
+
+        // If no status but post
+
+        if($status == false && isset($_POST["chat_createnewdiscussionsbutton"])) {
+
+            $resultStatus = "error";
+            array_push($resultMessages, "Cashe failed!");
+        }
+
+        $data = array(
+            "status" => $resultStatus,
+            "messages" => $resultMessages
+        );
+
+        $this->load->view_widget("resultview", $data);
+    }
+
+    /**
+    * Function to be called for cashe load
+    * -
+    * -
+    */
+
+    function LoadCashe()
+    {
+        // Rules
+
+        $rules = array (
+            "chat_loadcashekey" => "required|max_length[32]"
+        );
+
+        $this->validation->set_rules($rules);
+
+        // Human names for the inputfields
+
+        $field = array(
+            "chat_loadcashekey" => "Key"
+        );
+
+        $this->validation->set_fields($field);
+
+        $status = $this->validation->run();
+
+        $cashe = NULL;
+        $resultStatus = NULL;
+        $resultMessages = array();
+        $data = array();
+
+        // If have status
+
+        if($status != false)
+        {
+            $cashe = $this->cashe_lib->ReadCashe($this->validation->chat_loadcashekey);
+
+            // If success
+
+            if($cashe != false)
+            {
+                $resultStatus = "ok";
+                array_push($resultMessages, "Load was successful!");
+            }
+            else
+            {
+                $resultStatus = "error";
+                array_push($resultMessages, "Load failed!");
+            }
+        }
+
+        // If no status but post
+
+        if($status == false && isset($_POST["chat_loadcashekey"])) {
+
+            $resultStatus = "error";
+            array_push($resultMessages, "Load failed!");
+        }
+
+        $data = array(
+            "status" => $resultStatus,
+            "messages" => $resultMessages,
+            "cashe_loaded" => $cashe
+        );
+
+        $this->load->view_widget("resultview", $data);
+    }
+
 }
