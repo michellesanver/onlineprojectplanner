@@ -344,18 +344,56 @@ Class Wiki_model extends Model
          } 
     }
     
-    function SearchByWord($word)
+    function SearchByWord($word, $project_id, $instance_id)
     {
         $word = $this->db->escape("%$word%");
         
         $table = $this->_table_pages;
-        $sql = "SELECT Title, Wiki_page_id FROM $table WHERE `Text` LIKE $word OR `Title` LIKE $word;";
+        $sql = "SELECT Title, Wiki_page_id, Project_id, Instance_id FROM $table WHERE `Text` LIKE $word OR `Title` LIKE $word;";
         $query = $this->db->query($sql);
         
          // any result?
          if ($query && $query->num_rows() > 0)
          {
+             // get results
             $result = $query->result();
+            
+            // security check; validate project_id and instance_id
+            // (sql-query would be very, very complicated if added there)
+            $len = count($result);
+            
+            //log_message('debug', '### => SearchByWord security check has count: '.$len);
+            
+            $has_changes = false;
+            for ($n=0; $n<$len; $n++) {
+                if ( $result[$n]->Project_id != $project_id || $result[$n]->Instance_id != $instance_id ) {
+                    
+                    //log_message('debug', '### => SearchByWord security check found something.. $result[$n]->Project_id: '.$result[$n]->Project_id.' compared to $project_id: '.$project_id.' and $result[$n]->Instance_id: '.$result[$n]->Instance_id.' compared to $instance_id: '.$instance_id);
+                    
+                    unset($result[$n]);
+                    $has_changes = true;
+                }
+            }
+            
+           // any changes? (rebuild result?
+           if ($has_changes) {
+                $new_result = array();
+                
+                // loop through all results
+                foreach($result as $row) {
+                    // if not empty; copy to new array
+                    if (empty($row)==false) {
+                        array_push($new_result, $row);
+                    }
+                }
+                
+              // copy new array to old  
+              $result = $new_result;
+           }
+           
+           //log_message('debug', '### => SearchByWord security check has count (AFTER): '.count($result)); 
+           
+            // return search results
             return $result;
          }
          else
@@ -365,13 +403,13 @@ Class Wiki_model extends Model
          } 
     }
     
-    function SearchByTag($tag)
+    function SearchByTag($tag, $project_id, $instance_id)
     {       
         $tag = $this->db->escape("%$tag%");
             
         $table1 = $this->_table_tags;
         $table2 = $this->_table_pages;
-        $sql = "SELECT $table2.Title, $table2.Wiki_page_id FROM $table1 JOIN $table2 ON $table1.Wiki_page_id = $table2.Wiki_page_id WHERE $table1.`Tag` LIKE $tag;";
+        $sql = "SELECT $table2.Title, $table2.Wiki_page_id FROM $table1 JOIN $table2 ON $table1.Wiki_page_id = $table2.Wiki_page_id WHERE $table1.`Tag` LIKE $tag AND `Project_id` = '$project_id' AND `Instance_id` = '$instance_id';";
         $query = $this->db->query($sql);
         
          // any result?

@@ -111,22 +111,11 @@ class Pages extends Controller
        // get page
        $data['page'] = $this->Wiki->GetPage($wiki_page_id, $instance_id );
     
-    
-    // TODO.. correct faked error 
-    // TODO.. correct faked error 
-    // TODO.. correct faked error 
-    // TODO.. correct faked error
-    $data['page'] = false; 
-    
-    
        // no page found? 
        if ( $data['page'] === false )
        {
-            $errorURL = $data['widget_url']."pages/get/$wiki_page_id/$instance_id";
-           
             // fake content so javascript will display an error
-            // note; wikiWidget.pageContentDivClass and wikiWidget.errorIcon is set in wiki.js
-            $data['content'] = '<script type="text/javascript">show_ajax_error(null, wikiWidget.pageContentDivClass, "'.$errorURL.'", wikiWidget.errorIcon);</script>';
+            $data['content'] = '<script type="text/javascript">wikiWidget.show_page_not_found();</script>';
        }
        else
        {    
@@ -147,6 +136,14 @@ class Pages extends Controller
             $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren($instance_id );
             $data['delete_token'] = $this->_GenerateDeleteCode($wiki_page_id); 
           
+            // add instance id for delete-link
+            $data['instance_id'] = $instance_id;
+        
+            // get images for wysiwyg
+            $data['wysiwyg_images'] = $this->Wiki->getUploadedImages($instance_id);
+       
+            // create path for uploaded images
+            $data['wysiwyg_upload_path'] = $this->Wiki->getUploadedPath($instance_id);
           
             // load content
             $data['content'] = $this->load->view_widget('page', $data, true);
@@ -198,7 +195,7 @@ class Pages extends Controller
             $form_text = $this->input->post('wiki_edit_text');
             $form_parent = strip_tags( $this->input->post('wiki_edit_parent', true) ); // also do xss_clean
             $form_order = strip_tags( $this->input->post('wiki_edit_order', true) ); // also do xss_clean
-            
+         
             // update tags or not?
             $form_tags = "";
             $tags_update = $this->input->post('wiki_edit_tags_update');
@@ -231,6 +228,12 @@ class Pages extends Controller
          
         // add instance id for delete-link
         $data['instance_id'] = $instance_id;
+        
+        // get images for wysiwyg
+        $data['wysiwyg_images'] = $this->Wiki->getUploadedImages($instance_id);
+       
+        // create path for uploaded images
+        $data['wysiwyg_upload_path'] = $this->Wiki->getUploadedPath($instance_id);
                 
         // package and fetch data for view
         $data['page'] = $this->Wiki->GetPage($Wiki_page_id, $instance_id);
@@ -421,6 +424,15 @@ class Pages extends Controller
             $data['form_order'] = $this->input->post('wiki_create_order');
        }
        
+        // add instance id for delete-link
+        $data['instance_id'] = $instance_id;
+        
+        // get images for wysiwyg
+        $data['wysiwyg_images'] = $this->Wiki->getUploadedImages($instance_id);
+       
+        // create path for uploaded images
+        $data['wysiwyg_upload_path'] = $this->Wiki->getUploadedPath($instance_id);
+       
        // fetch all pages with no children for select
        $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren($instance_id);
     
@@ -521,12 +533,12 @@ class Pages extends Controller
             if ($word != '' && $tag == '')
             {
                 $term = $word;
-                $results = $this->Wiki->SearchByWord($word);    
+                $results = $this->Wiki->SearchByWord($word, $instance_id);    
             }
             else if ($word == '' && $tag != '')
             {
                 $term = $tag;
-                $results = $this->Wiki->SearchByTag($tag);    
+                $results = $this->Wiki->SearchByTag($tag, $instance_id);    
             }
             
 
@@ -553,6 +565,74 @@ class Pages extends Controller
         $returnData = "<h1>$title</h1><span style=\"float:left;margin:5px;margin-top:-10px;\"><img src=\"$erroricon\" /></span>$message";
     
         return $returnData;
+    }
+    
+    /**
+    * Show an upload-form
+    */
+    function upload($instance_id) {
+        $this->load->view_widget('upload_form',array('instance_id' => $instance_id));    
+    }
+    
+    /**
+    * Process upload
+    */
+    function do_upload($instance_id) {
+        
+        // use library since path to upload is stored there
+        $result = $this->Wiki->processUpload($instance_id);
+        
+        // handle result
+        if ( $result === false ) {
+           
+            // something went wrong
+            $data = array(
+                'instance_id' => $instance_id,
+                'error' => $this->Wiki->GetLastError()
+            );
+            
+            $this->load->view_widget('upload_form', $data);  
+            
+        } else {
+            
+           // all ok
+            $data = array(
+                'instance_id' => $instance_id,
+                'result' => $result
+            );
+            
+           $this->load->view_widget('upload_success', $data);
+           
+        }
+        
+    }
+    
+    /**
+    * Delete an uploaded image
+    * 
+    */
+    function delete_image() {
+        
+         // check delete token
+         if ( $this->Wiki->checkMD5Token() )    {
+             
+            // delete with library since path to upload is stored there  
+            if ( $this->Wiki->deleteImage() )    {
+                
+                echo 'Ok';
+                
+             } else {
+                 
+                 echo 'Error';
+                 
+             }  
+              
+         } else {
+             
+             echo 'Error';
+             
+         }
+        
     }
     
 }
