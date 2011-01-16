@@ -207,19 +207,17 @@ ajaxTemplateWidget = {
 		currentPartial: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(project_widget_id, widgetIconId) {
+    open: function(project_widget_id, widgetIconId, last_position) {
 			// set options for window
 			var windowOptions = {
 				// change theese as needed
 				title: ajaxTemplateWidget.widgetTitle,
 				width: 800,
-				height: 450,
-				x: 30,
-				y: 15
+				height: 450
 			};
 	      
 			// create window
-			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass);
+			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass, last_position);
 			
 			// load the first page upon start
       var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name/';
