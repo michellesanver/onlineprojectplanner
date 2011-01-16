@@ -10,7 +10,7 @@ krocktestdummyWidget = {
     widgetName: 'krocktestdummy', // also name of folder
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(project_widget_id, widgetIconId) {
+    open: function(project_widget_id, widgetIconId, last_position) {
     
         var windowOptions = {
              title: krocktestdummyWidget.widgetTitle,
@@ -21,7 +21,7 @@ krocktestdummyWidget = {
              content: krocktestdummyWidget.getInitialContent()
          };
 
-        Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, krocktestdummyWidget.partialContentDivClass);
+        Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, krocktestdummyWidget.partialContentDivClass, last_position);
         
         setInterval('krocktestdummyWidget.updateCounter()', 1000);
     },

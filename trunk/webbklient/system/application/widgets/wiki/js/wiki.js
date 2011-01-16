@@ -13,7 +13,7 @@ wikiWidget = {
     currentPartial: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(project_widget_id, widgetIconId) {
+    open: function(project_widget_id, widgetIconId, last_position) {
             // save unique id for database
             wikiWidget.wiki_instance_id = project_widget_id;
         
@@ -27,13 +27,11 @@ wikiWidget = {
                 title: wikiWidget.widgetTitle,
                 content: initialContent, 
                 width: 650,
-                height: 425,
-                x: 30,
-                y: 15
+                height: 425
             };
 
             // create window
-            Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, wikiWidget.pageContentDivClass);
+            Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, wikiWidget.pageContentDivClass, last_position);
 
             // load the first page upon start
             var loadFirstPage = SITE_URL+'/widget/' + wikiWidget.widgetName + '/pages/index/' + wikiWidget.wiki_instance_id;
