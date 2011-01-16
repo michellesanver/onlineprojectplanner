@@ -19,6 +19,13 @@ class Chat extends Controller {
 
     function index()
     {
+        // If not logged in
+
+        if($this->user->IsLoggedIn() == false)
+        {
+            die();
+        }
+
         $rooms = $this->chat_lib->GetChatRoomsByProjectId();
         $members = $this->chat_lib->GetMembersByProjectId();
 
@@ -38,6 +45,13 @@ class Chat extends Controller {
 
     function RegisterNewChatRoom()
     {
+        // If not logged in
+
+        if($this->user->IsLoggedIn() == false)
+        {
+            die();
+        }
+
         // Rules
 
         $rules = array (
@@ -102,6 +116,13 @@ class Chat extends Controller {
 
     function ReloadChatRooms()
     {
+        // If not logged in
+
+        if($this->user->IsLoggedIn() == false)
+        {
+            die();
+        }
+
         $rooms = $this->chat_lib->GetChatRoomsByProjectId();
         $resultStatus = NULL;
         $resultMessages = array();
@@ -137,6 +158,13 @@ class Chat extends Controller {
 
     function CasheNewItem()
     {
+        // If not logged in
+
+        if($this->user->IsLoggedIn() == false)
+        {
+            die();
+        }
+
         // Rules
 
         $rules = array (
@@ -203,6 +231,13 @@ class Chat extends Controller {
 
     function LoadCashe()
     {
+        // If not logged in
+
+        if($this->user->IsLoggedIn() == false)
+        {
+            die();
+        }
+
         // Rules
 
         $rules = array (
@@ -271,6 +306,13 @@ class Chat extends Controller {
 
     function ReloadCashe()
     {
+        // If not logged in
+
+        if($this->user->IsLoggedIn() == false)
+        {
+            die();
+        }
+
         // Rules
 
         $rules = array (
