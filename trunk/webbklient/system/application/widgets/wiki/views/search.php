@@ -18,10 +18,6 @@
         </tr>
     </table>
     
-    <p><hr /><br /></p>
-    
-    <div class="wiki_search_results">Waiting for input...</div>
-    
     <script type="text/javascript">
         function do_search()
         {

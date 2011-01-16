@@ -26,5 +26,7 @@
         <file type="css">css/wiki.css</file>
         <file type="javascript">js/jquery.treeview.js</file>
         <file type="css">css/jquery.treeview.css</file>
+        <file type="css">css/jquery.wysiwyg.css</file>
+        <file type="javascript">js/jquery.wysiwyg.js</file>
     </load>
 </settings>

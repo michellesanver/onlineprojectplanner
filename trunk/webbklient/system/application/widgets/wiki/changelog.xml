@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
 <root>
+    <news>
+        <author>Fredrik Johansson</author>
+        <date>2011-01-15</date>
+        <title>First version</title>
+        <text>Wiki 1.1 has been released with several improvements like WYSIWYG when creating or editing a page.</text>
+    </news>
 	<news>
 		<author>Fredrik Johansson</author>
 		<date>2010-12-11</date>
-		<title>First entry</title>
-		<text>Some important newstext here for the first entry :P</text>
+		<title>First version</title>
+		<text>Wiki 1.0 has been released</text>
 	</news>
 </root>

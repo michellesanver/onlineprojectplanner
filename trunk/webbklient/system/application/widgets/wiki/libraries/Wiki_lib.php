@@ -6,6 +6,8 @@ Class Wiki_lib
     private $_Current_Project_id = "";
     private $_changelog_filename = "../changelog.xml"; // relative to this file
     private $_last_error = "";
+    private $_upload_dir = "uploads/project_%s/instance_%s"; // from base widget-dir
+    private $_upload_dir_project = "uploads/project_%s"; // from base widget-dir  
     
     function __construct()
     {
@@ -327,10 +329,11 @@ Class Wiki_lib
     * @param string $word
     * @return mixed
     */
-    function SearchByWord($word)
+    function SearchByWord($word, $instance_id)
     {
+        $project_id = $this->_Current_Project_id;
         $word = strtolower($word);
-        return $this->_CI->Wiki_model->SearchByWord($word);
+        return $this->_CI->Wiki_model->SearchByWord($word, $project_id, $instance_id);
     }
     
     /**
@@ -340,10 +343,11 @@ Class Wiki_lib
     * @param string $tag
     * @return mixed
     */
-    function SearchByTag($tag)
+    function SearchByTag($tag, $instance_id)
     {
+        $project_id = $this->_Current_Project_id;
         $tag = strtolower($tag);
-        return $this->_CI->Wiki_model->SearchByTag($tag);   
+        return $this->_CI->Wiki_model->SearchByTag($tag, $project_id, $instance_id);   
     }
     
     /**
@@ -410,5 +414,142 @@ Class Wiki_lib
         }
     }
     
+    /**
+    * Get uploaded images for project and instance.
+    * Files are uploaded to widgets/wiki/uploads/project_[ID:int]/instance_[ID:int]/[filename]
+    * 
+    * @param int $instance_id
+    * @return array
+    */
+    function getUploadedImages($instance_id) {
+        
+        $returnImages = array();
+        
+        // prepare path 
+        $dir = dirname(__FILE__).'/../'.sprintf($this->_upload_dir, $this->_Current_Project_id, $instance_id);    
+        
+        // does path exist?
+        if ( file_exists($dir) ) {
+            // read dir
+            if ($dh = opendir($dir)) {
+                while (($file = readdir($dh)) !== false) { 
+                    if ($file != '.' &&  $file != ".." && $file != ".svn") {
+                        array_push($returnImages, $file);    
+                    }
+                }    
+            }
+        }
+        
+        // return result
+        return $returnImages;
+    }
+    
+    /**
+    * Return the path to uploaded files
+    * 
+    * @param int $instance_id 
+    * @return string
+    */
+    function getUploadedPath($instance_id) {
+        return base_url().'system/application/widgets/wiki/'.sprintf($this->_upload_dir, $this->_Current_Project_id, $instance_id);    
+    }
+    
+    /**
+    * Process a upload form. will return false or en array
+    * 
+    * @param int $instance_id
+    * @return mixed
+    */
+    function processUpload($instance_id) {
+        // prepare directory names
+        $full_upload_dir = dirname(__FILE__).'/../'.sprintf($this->_upload_dir, $this->_Current_Project_id, $instance_id);
+        $project_upload_dir = dirname(__FILE__).'/../'.sprintf($this->_upload_dir_project, $this->_Current_Project_id);
+        
+        // create directories if not found
+        if (file_exists($project_upload_dir) == false || file_exists($full_upload_dir) == false) {
+        
+            // create project directory also?
+            if (file_exists($project_upload_dir) == false) {
+                mkdir($project_upload_dir);
+            }
+            
+            // create for instance
+            mkdir($full_upload_dir);
+        }
+        
+        
+        // prepare CI upload library         
+        $config['upload_path'] = $full_upload_dir;
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|tif|bmp|wmf';
+        $config['max_size']    = '1500';
+        $config['max_width']  = '2048';
+        $config['max_height']  = '1024';
+        
+        // load dir and set preferences
+        $this->_CI->load->library('upload', $config);
+        
+        // do upload
+        if ( $this->_CI->upload->do_upload() == false )
+        {
+            // get error(s) and return false
+            $this->_last_error = $this->_CI->upload->display_errors();
+            return false;
+        }    
+        else
+        {
+            // all ok, return saved data
+            return $this->_CI->upload->data();
+        }
+    }
+	
+	/**
+	* Calculate a md5-token (10 chars) for delete image
+	*
+	* @param string $image_filename
+	* @param int $instance_id
+	* @return string
+	*/
+	function getImageMD5($image_filename, $instance_id) {
+		$full_upload_dir = dirname(__FILE__).'/../'.sprintf($this->_upload_dir, $this->_Current_Project_id, $instance_id);
+		$md5 = md5($full_upload_dir.'/'.$image_filename);
+		return substr($md5, 17, 10); // md5 is 32 chars
+	}
+    
+    /**
+    * Check MD5-token that was returned
+    * 
+    * @return bool 
+    */
+    function checkMD5Token() {
+        $filename = $this->_CI->input->post('filename', true);    
+        $token = $this->_CI->input->post('token', true);    
+        $instance_id = $this->_CI->input->post('instance_id', true);
+        
+        $full_upload_dir = dirname(__FILE__).'/../'.sprintf($this->_upload_dir, $this->_Current_Project_id, $instance_id);
+        $md5 = md5($full_upload_dir.'/'.$filename);
+        $md5 = substr($md5, 17, 10);
+        
+        if ( $md5  == $token ) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
+    /**
+    * Delete an image
+    * 
+    * @return bool 
+    */
+    function deleteImage() {
+        $filename = $this->_CI->input->post('filename', true);      
+        $instance_id = $this->_CI->input->post('instance_id', true);  
+        
+        $full_upload_dir = dirname(__FILE__).'/../'.sprintf($this->_upload_dir, $this->_Current_Project_id, $instance_id);
+        $filename = $full_upload_dir.'/'.$filename;
+       
+        return unlink($filename); 
+    }
 }
   
