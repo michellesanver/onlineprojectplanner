@@ -10,7 +10,7 @@ projectmembers = {
 		currentPartial: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(project_widget_id, widgetIconId) {
+    open: function(project_widget_id, widgetIconId, last_position) {
 			// set options for window
 			var windowOptions = {
 				// change theese as needed
@@ -23,7 +23,7 @@ projectmembers = {
 			};
 	      
 			// create window
-			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, projectmembers.partialContentDivClass);
+			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, projectmembers.partialContentDivClass, last_position);
 			
 			projectmembers.index();
 		},

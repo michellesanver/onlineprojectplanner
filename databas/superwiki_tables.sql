@@ -181,3 +181,31 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
     PRIMARY KEY ( `Widget_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
+-- 
+-- table `Widget_Positions`
+-- 
+CREATE TABLE IF NOT EXISTS `Widget_Positions` (
+    `Widget_postions_id` INT NOT NULL AUTO_INCREMENT,
+    `Project_widgets_id` INT NOT NULL COMMENT 'also used with name instance_id',
+    `Project_id` INT NOT NULL COMMENT 'used in select-query',
+    `User_id` INT NOT NULL ,
+    `Last_x_position` INT NOT NULL DEFAULT '0',
+    `Last_y_position` INT NOT NULL DEFAULT '0',
+    `Is_maximized` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
+    PRIMARY KEY ( `Widget_postions_id` ),
+  CONSTRAINT `widget_positions_ibfk_1` 
+    FOREIGN KEY (`Project_widgets_id`)
+    REFERENCES `Project_Widgets` (`Project_widgets_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `widget_positions_ibfk_2`
+    FOREIGN KEY (`User_id` )
+    REFERENCES `User` (`User_id` )
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `widget_positions_ibfk_3` 
+    FOREIGN KEY (`Project_id`)
+    REFERENCES `Project` (`Project_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;  

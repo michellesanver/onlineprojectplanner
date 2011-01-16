@@ -9,7 +9,7 @@ chatWidget = {
     
     // Function that will be called upon start (REQUIRED)
 
-    open: function(project_widget_id, widgetIconId) {
+    open: function(project_widget_id, widgetIconId, last_position) {
 
         // Set options for window
 
@@ -28,7 +28,7 @@ chatWidget = {
 
         // Create window
 
-        Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId);
+        Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, last_position);
         Desktop.selectedWindowId.resizable = false;
 
         // Load the first page upon start

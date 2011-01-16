@@ -1,3 +1,4 @@
+
 Desktop = {
 	
 	_widgetArray : new Array(),
@@ -13,14 +14,21 @@ Desktop = {
 	message_width: 500, // also in css
   
 	// Will open a new window and add it to the windowlist
-	newWidgetWindow : function(project_widget_id, options, widgetIconId, partialContentClasses) {
+	newWidgetWindow : function(project_widget_id, options, widgetIconId, partialContentClasses, last_position) {
 	
 		// set id
 		Desktop.selectedWindowId = project_widget_id;
 		
+        // get position from object (new position has been saved)?
+        if ( this._widgetArray[Desktop.selectedWindowId] != undefined && this._widgetArray[Desktop.selectedWindowId].last_position != undefined ) {
+            
+            // override parameter to function with saved position
+            last_position = this._widgetArray[Desktop.selectedWindowId].last_position;
+        }
+        
 		// add more options
 		options.onMinimize = function(){ Desktop.close_widget(widgetIconId); };
-		options.onClose = function(){ Desktop.reset_widget(widgetIconId); };
+		options.onClose = function(){ Desktop.reset_widget(widgetIconId); Desktop.save_position(project_widget_id); };
 		options.checkBoundary = true;
 		options.maxWidth = $('#desktop').width();
 		options.maxHeight = $('#desktop').height();
@@ -34,6 +42,12 @@ Desktop = {
 			options.allowSettings = true;
 		}
 		
+        // use last position from database if no override?
+        if (options.x == undefined || options.y == undefined) {
+            options.x = last_position.last_x;      
+            options.y = last_position.last_y;
+        } 
+        
 		// save partialContentClass if it is set
 		var partialClasses = new Array();
 		if (partialContentClasses != undefined)
@@ -48,6 +62,15 @@ Desktop = {
 		// create window
 		this._widgetArray[Desktop.selectedWindowId] = new Widget(Desktop.selectedWindowId, options, partialClasses);
 		
+        // use last position (maximized) from database if no override?
+        if (options.maximize == undefined) {
+            if (last_position.is_maximized == true) {
+                this._widgetArray[Desktop.selectedWindowId].wnd.maximize();    
+            }      
+        } else if (options.maximize == true) {
+            this._widgetArray[Desktop.selectedWindowId].wnd.maximize();                
+        }
+        
 		// return new id
 		return Desktop.selectedWindowId;
 	},
@@ -65,16 +88,17 @@ Desktop = {
 	// --------------------------------------------------------------------------------------------------
 	// open and close widgets in widget bar
 	
-	open_widget: function(widgetCallback, widgetIconId, wObject, project_widget_id)
+	open_widget: function(widgetCallback, widgetIconId, wObject, project_widget_id, last_position)
 	{
 		// which state?
 		var state = $('#'+widgetIconId).attr('state');
 		if ( state == "" )
 		{
 			// no state!
-			
+            
 			// run callback to open widget
-			eval(wObject+'.open("'+project_widget_id+'", "'+widgetIconId+'")');
+            var widgetObj = eval(wObject);
+            widgetObj.open(project_widget_id, widgetIconId, last_position);
 			
 			// set state as open and transparency for icon to 20%
 			$('#'+widgetIconId).attr('state', 'open');
@@ -299,14 +323,54 @@ Desktop = {
     // callback to close a debug window
     close_debug_window: function() {
       Desktop.debug_win = null;  
-    }
+    },
+    
+    // on close window; save last position to database
+    save_position: function(project_widget_id) {
+       
+       // get desktop position (offset from window) 
+       var desktop_offset = this._widgetArray[Desktop.selectedWindowId].wnd.getContainer().parent().offset();
+        
+        // get current window status 
+       var is_maximized = this._widgetArray[Desktop.selectedWindowId].wnd.isMaximized(); 
+       var offset = this._widgetArray[Desktop.selectedWindowId].wnd.getContainer().offset();
+       
+       // calcuate new offset for top
+       offset.top = offset.top - desktop_offset.top;
+       
+       // prepare url and postdata
+       var url = SITE_URL + '/widget_position/save';
+       var postdata = { 'is_maximized': is_maximized, 'last_x': offset.left, 'last_y': offset.top, 'project_widget_id': project_widget_id };
+       
+       // save new position to object
+       this._widgetArray[Desktop.selectedWindowId].last_position = { 'is_maximized': is_maximized, 'last_x': offset.left, 'last_y': offset.top };
+       
+       // save to database
+       ajaxRequests.post(postdata, url, 'Desktop.save_position_callback_ok', 'Desktop.save_position_callback_error', true);  
+        
+    },
+    
+    save_position_callback_ok: function(data) {
+        // check if result is not "Ok"
+        if (unescape(data)!='Ok') {
+            Desktop.show_errormessage('Unable to save window position! Data: '+unescape(data));    
+        }
+    },
 
+    save_position_callback_error: function(data) {
+        Desktop.show_errormessage('Unable to save window position! Data: '+unescape(data));    
+    }
+    
 }
+
+
+// ----------------------------------------------------------------
 
 // fetches the current project_id
 $(document).ready(function() {
-	Desktop.currentProjectId = $("#desktop").attr("pid");
+    Desktop.currentProjectId = $("#desktop").attr("pid");
 });
+
 // ----------------------------------------------------------------
 
 // shorthand global function to wrap Desktop.log_message into log_message

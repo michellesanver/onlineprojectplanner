@@ -16,7 +16,7 @@ stopwatchWidget = {
     onClose:null,
     currentPartial: null,
     // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(project_widget_id, widgetIconId) {
+    open: function(project_widget_id, widgetIconId, last_position) {
         			
 					var windowOptions = {
 		                 title: stopwatchWidget.widgetTitle,
@@ -27,7 +27,7 @@ stopwatchWidget = {
 		             };
 		
 		
-					Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, stopwatchWidget.partialContentDivClass);
+					Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, stopwatchWidget.partialContentDivClass, last_position);
 					
 					var loadFirstPage = SITE_URL+'/widget/' + stopwatchWidget.widgetName + '/Pages/';
 				                        ajaxRequests.load(loadFirstPage, "stopwatchWidget.setContent", "stopwatchWidget.setAjaxError");

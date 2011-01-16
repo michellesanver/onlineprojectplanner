@@ -446,6 +446,11 @@ class Widgets
         // any widgets for current project?
         if ( empty($project_widgets) ) return ""; // return just empty then
        
+        // get all settings for last position
+        // (all widgets for this project and the current user)
+        $uid = $this->_CI->user->getUserID();
+        $positions = $this->_CI->Widgets_model->GetWidgetPositions($uid, $projectID);
+       
         // prepare data
         $returnSTR = "";
         $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" width="55px" /></a><br />%s</div>'."\n";
@@ -460,11 +465,30 @@ class Widgets
             {   
                 if ( (string)$row2->name == (string)$row->Widget_name )    
                 {
+                    // get saved position
+                    $last_x = 30; //default value
+                    $last_y = 15; //default value
+                    $is_maximized = 'false'; //default value
+                    
+                    if (empty($positions)==false) {
+                        foreach($positions as $row3) {
+                            // any match?
+                            if ($row3->Project_widgets_id == $row->Project_widgets_id) {
+                                $last_x = (int)$row3->Last_x_position;    
+                                $last_y = (int)$row3->Last_y_position;
+                                $is_maximized = ((int)$row3->Is_maximized == 1 ? 'true' : 'false');
+                            }
+                        }
+                    }
+                    
+                    // create a javascript-object for last position
+                    $last_position = "{ 'last_x': $last_x, 'last_y': $last_y, 'is_maximized': $is_maximized }";
+                    
                     // prepare data
                     $widget_object = $row2->widget_object;
                     $about = $row2->about;
                     $icon_div = "widget_icon".($found_count+1);
-                    $function = "Desktop.open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."', '".$row->Project_widgets_id."')"; // open_widget is a global function in common.js
+                    $function = "Desktop.open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."', '".$row->Project_widgets_id."', $last_position)"; // open_widget is a global function in common.js
                     $title = ($row2->icon_title != "" ? $row2->icon_title : "");
                     $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
                     

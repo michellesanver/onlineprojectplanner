@@ -11,6 +11,7 @@ class Widgets_model extends Model  {
     
      private $_table = "Project_Widgets";
      private $_table2 = "Widgets";
+     private $_table3 = "Widget_Positions";
      
      // will be set to true in delete-query if widget
      // is in development
@@ -254,5 +255,89 @@ class Widgets_model extends Model  {
         $return_value = $this->_deleteQuery_InDevMode;
         $this->_deleteQuery_InDevMode = false;   
         return $return_value;
+    }
+    
+    /**
+    * Get all widget positions for a specific user and
+    * project.
+    * 
+    * @param int $User_id
+    * @param int $Project_id
+    * @return mixed
+    */
+    function GetWidgetPositions($User_id, $Project_id) {
+        
+          $query = $this->db->get_where( $this->_table3, array( 'User_id' => $User_id, 'Project_id' => $Project_id ) ); 
+          
+          // any result?
+          if ($query && $query->num_rows() > 0)
+          {
+             $result = $query->result();
+             return $result;
+          }
+          else
+          {
+             return false;
+          }
+    }
+    
+    /**
+    * Save last position of window for a specific
+    * user and project.
+    * 
+    * @param int $current_project_id
+    * @param int $uid
+    * @param int $project_widget_id
+    * @param int $is_maximized
+    * @param int $last_x
+    * @param int $last_y
+    * @return bool
+    */
+    function SaveWidgetPosition($current_project_id, $uid, $project_widget_id, $is_maximized, $last_x, $last_y) {
+        
+        // query if we should insert or update
+        $query = $this->db->get_where( $this->_table3, array( 'Project_widgets_id' => $project_widget_id, 'User_id' => $uid, 'Project_id' => $current_project_id ) );
+        
+        // handle result
+        if ($query && $query->num_rows() > 0) {
+            // update    
+            
+            $data = array(
+                'Is_maximized' => $is_maximized,
+                'Last_x_position' => $last_x,
+                'Last_y_position' => $last_y
+            ); 
+            
+            $this->db->where( array( 'Project_widgets_id' => $project_widget_id, 'User_id' => $uid, 'Project_id' => $current_project_id ) );
+            return $this->db->update($this->_table3, $data);
+            
+        } else {
+            // save new
+            
+            $data = array(
+                'Project_id' => $current_project_id,
+                'Project_widgets_id' => $project_widget_id,
+                'User_id' => $uid,
+                'Is_maximized' => $is_maximized,
+                'Last_x_position' => $last_x,
+                'Last_y_position' => $last_y
+            );
+            
+            $this->db->insert($this->_table3, $data);
+         
+            // nothing changed?
+            if ( $this->db->affected_rows() == 0 )
+            {   
+                // something went wrong
+                return false;
+                
+            } else {
+                
+                // all ok
+                return true;
+                
+            }
+            
+        }            
     }
 }
