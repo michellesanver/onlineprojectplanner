@@ -33,7 +33,7 @@ chatWidget = {
 
         // Load the first page upon start
 
-        var loadFirstPage = SITE_URL+'/widget/' + chatWidget.widgetName + '/';
+        var loadFirstPage = SITE_URL+'/widget/' + chatWidget.widgetName + '/chat/index/';
 
         ajaxRequests.load(loadFirstPage, "chatWidget.setContent", "chatWidget.setAjaxError");
 
