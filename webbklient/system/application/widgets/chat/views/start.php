@@ -68,6 +68,8 @@
 
                 </form>
 
+                <span class="chat_reloadpreviousdiscussions">Reload discussions</span>
+
             </div>
 
             <span class="chat_turnpage chat_turnleft">Create new discussion</span>
