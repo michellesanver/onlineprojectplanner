@@ -257,7 +257,77 @@ class Chat extends Controller {
         $data = array(
             "status" => $resultStatus,
             "messages" => $resultMessages,
-            "cashe_loaded" => $cashe
+            "cashe" => $cashe
+        );
+
+        $this->load->view_widget("resultview", $data);
+    }
+
+    /**
+    * Function to be called for cashe reload
+    * -
+    * -
+    */
+
+    function ReloadCashe()
+    {
+        // Rules
+
+        $rules = array (
+            "chat_reloadcashekey" => "required|max_length[32]",
+            "chat_reloadcasheupdated" => "required"
+        );
+
+        $this->validation->set_rules($rules);
+
+        // Human names for the inputfields
+
+        $field = array(
+            "chat_reloadcashekey" => "Key",
+            "chat_reloadcasheupdated" => "Updated"
+        );
+
+        $this->validation->set_fields($field);
+
+        $status = $this->validation->run();
+
+        $cashe = NULL;
+        $resultStatus = NULL;
+        $resultMessages = array();
+        $data = array();
+
+        // If have status
+
+        if($status != false)
+        {
+            $cashe = $this->cashe_lib->ReadLatestCashe($this->validation->chat_reloadcashekey, $this->validation->chat_reloadcasheupdated);
+
+            // If success
+
+            if($cashe != false)
+            {
+                $resultStatus = "ok";
+                array_push($resultMessages, "Reload was successful!");
+            }
+            else
+            {
+                $resultStatus = "error";
+                array_push($resultMessages, "Reload failed!");
+            }
+        }
+
+        // If no status but post
+
+        if($status == false && isset($_POST["chat_reloadcashekey"])) {
+
+            $resultStatus = "error";
+            array_push($resultMessages, "Reload failed!");
+        }
+
+        $data = array(
+            "status" => $resultStatus,
+            "messages" => $resultMessages,
+            "cashe" => $cashe
         );
 
         $this->load->view_widget("resultview", $data);

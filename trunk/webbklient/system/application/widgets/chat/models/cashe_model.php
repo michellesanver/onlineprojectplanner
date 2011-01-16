@@ -37,6 +37,53 @@ Class Cashe_model extends Model
     }
 
     /**
+    * Used to read latest cashe
+    * -
+    * -
+    */
+
+    function ReadLatestCashe($key, $updated)
+    {
+        $file = $this->_GetCasheURL($key);
+
+        if(file_exists($file) != false)
+        {
+            $cashe = @simplexml_load_file($file);
+
+            if($cashe != false)
+            {
+                if(strtotime($updated) < strtotime($cashe->lastupdated[0]))
+                {
+                    // Create sorted xml from template
+
+                    $template = $this->_GetCasheURL($this->_template);
+
+                    if(file_exists($file) != false)
+                    {
+                        $latest = @simplexml_load_file($template);
+                        $items = $latest->items[0];
+
+                        foreach ($cashe->items->item as $cashed)
+                        {
+                            if(strtotime($cashed->datetime) > strtotime($updated))
+                            {
+                                $item = $items->addChild("item", "");
+                                $item->addChild("user", $cashed->user);
+                                $item->addChild("message", $cashed->message);
+                                $item->addChild("datetime", $cashed->datetime);
+                            }
+                        }
+                    }
+
+                    return $latest;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
     * Used to write cashe
     * -
     * -
@@ -57,14 +104,14 @@ Class Cashe_model extends Model
 
                 $items = $cashe->items[0];
                 $item = $items->addChild("item", "");
-                $user = $item->addChild("user", $currentUser);
-                $user->addAttribute("id", $currentId);
-                $item->addChild("message", $currentMessage);
-                $item->addChild("datetime", $currentDateTime);
+                $user = $item->addChild("user", htmlspecialchars($currentUser));
+                $user->addAttribute("id", htmlspecialchars($currentId));
+                $item->addChild("message", htmlspecialchars($currentMessage));
+                $item->addChild("datetime", htmlspecialchars($currentDateTime));
 
                 // Update <lastupdated>
 
-                $cashe->lastupdated[0] = $currentDateTime;
+                $cashe->lastupdated[0] = htmlspecialchars(($currentDateTime));
 
                 // Save
 
@@ -85,14 +132,14 @@ Class Cashe_model extends Model
 
                 $items = $cashe->items[0];
                 $item = $items->addChild("item", "");
-                $user = $item->addChild("user", $currentUser);
-                $user->addAttribute("id", $currentId);
-                $item->addChild("message", $currentMessage);
-                $item->addChild("datetime", $currentDateTime);
+                $user = $item->addChild("user", htmlspecialchars($currentUser));
+                $user->addAttribute("id", htmlspecialchars($currentId));
+                $item->addChild("message", htmlspecialchars($currentMessage));
+                $item->addChild("datetime", htmlspecialchars($currentDateTime));
 
                 // Update <lastupdated>
 
-                $cashe->lastupdated[0] = $currentDateTime;
+                $cashe->lastupdated[0] = htmlspecialchars($currentDateTime);
 
                 // Save
 

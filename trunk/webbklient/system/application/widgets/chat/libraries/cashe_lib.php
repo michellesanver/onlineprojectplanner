@@ -31,6 +31,24 @@ Class Cashe_lib
     }
 
     /**
+    * Used to read latest cashe
+    * -
+    * -
+    */
+
+    function ReadLatestCashe($key, $updated)
+    {
+        $cashe = $this->_CI->cashe_model->ReadLatestCashe($key, $updated);
+
+        if($cashe != false)
+        {
+            return $cashe;
+        }
+
+        return false;
+    }
+
+    /**
     * Used to write cashe
     * -
     * -

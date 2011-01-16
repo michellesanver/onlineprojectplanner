@@ -1,6 +1,7 @@
 chatFunctions = {
 
     key: null,
+    interval: null,
 
     init: function() {
 
@@ -23,6 +24,13 @@ chatFunctions = {
                 // Enable post item form
 
                 $('#chat_postitembutton').removeAttr('disabled');
+
+                // Set interval for update (Reload cashe)
+
+                if(chatFunctions.interval == null)
+                {
+                    chatFunctions.interval = setInterval('chatFunctions.reloadCashe()', 5000);
+                }
             }
             else
             {
@@ -31,6 +39,14 @@ chatFunctions = {
                 // Disable post item form
 
                 $('#chat_postitembutton').attr('disabled', 'disabled');
+
+                // Clear interval for update (Reload cashe)
+
+                if(chatFunctions.interval != null)
+                {
+                    clearInterval(chatFunctions.interval);
+                    chatFunctions.interval = null;
+                }
             }
 
             return false;
@@ -160,6 +176,14 @@ chatFunctions = {
 
         });
 
+        $('#chat_previousdiscussionswrapper .chat_reloadpreviousdiscussions').bind('click', function() {
+
+            // Reload previous discussions
+
+            chatFunctions.reloadDiscussions();
+
+        });
+
     },
 
     reloadDiscussions: function() {
@@ -281,6 +305,58 @@ chatFunctions = {
 
                 });
             }
+
+        },
+
+        complete: function() {
+
+            target.scrollTop = target.scrollHeight;
+
+        }
+
+        });
+
+        return false;
+
+    },
+
+    reloadCashe: function() {
+
+        var target = $('#chat_window');
+
+        var updated = $('.chat_itemwrapper:last .datetime').html();
+
+        $.ajax({
+
+        type: 'POST',
+        url: SITE_URL+'/widget/' + chatWidget.widgetName + '/chat/reloadcashe/',
+        data: 'chat_reloadcashekey=' + chatFunctions.key + '&chat_reloadcasheupdated=' + updated,
+        dataType: 'xml',
+
+        timeout: 5000,
+
+        success: function(xml) {
+
+            // Find out status
+
+            var status = $(xml).find('status').text();
+
+            if(status == 'ok')
+            {
+                // Append new items
+
+                $(xml).find('item').each(function() {
+
+                    target.append('<div class="chat_itemwrapper"><p><span class="user">'+$(this).find('user').text()+'</span><span class="datetime">'+$(this).find('datetime').text()+'</span><span class="message">'+$(this).find('message').text()+'</span></p></div>');
+
+                });
+            }
+
+        },
+
+        complete: function() {
+
+            target.scrollTop = target.scrollHeight;
 
         }
 
