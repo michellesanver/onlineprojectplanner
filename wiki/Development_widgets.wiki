@@ -332,3 +332,17 @@ ajaxTemplateWidget = {
 			};
 
 }}}
+
+
+*Example 5:* if you want to override maximize, in the function open just set the variable maximize:
+{{{
+
+			var windowOptions = {
+				// change theese as needed
+				title: ajaxTemplateWidget.widgetTitle,
+				width: 800,
+				height: 450,
+				maximize: false // optional; set to the value that you want (true or false)
+			};
+
+}}}
