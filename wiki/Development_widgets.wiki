@@ -317,3 +317,18 @@ ajaxTemplateWidget = {
         <p><input type="button" value="Save" onclick="ajaxTemplateWidget.postURL('form1', '/some_controller_name/save_edit_user');" /> (hit save to view an example of post)</p>
     </form>
 }}}
+
+
+*Example 4:* if you want to override the startposition, in the function open just set the variables x and y:
+{{{
+
+			var windowOptions = {
+				// change theese as needed
+				title: ajaxTemplateWidget.widgetTitle,
+				width: 800,
+				height: 450,
+				x: 30, // optional; set to the value that you want
+				y: 15 // optional; set to the value 
+			};
+
+}}}
