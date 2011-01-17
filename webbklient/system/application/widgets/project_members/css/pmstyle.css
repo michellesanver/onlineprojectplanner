@@ -1,19 +1,21 @@
-
-.ajaxTemplateContent {
-    padding: 10px;
+#projectmember_wrapper h3 {
+	margin-top:20px;
 }
 
-.ajaxTemplateWidget_Error {
-    color: red;
-    font-weight:bold;
+#projectmember_wrapper label {
+	width:150px;
+	text-align:right;
 }
 
-.ajaxTemplateWidget_Error img {
-    float:left;
-    margin:5px;
-    margin-top:-10px;
+#projectmember_wrapper {
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
-.ajaxTemplateWidget_Error small {
-    margin-left:45px;    
+#projectmember_memberlist a {
+	color: blue;
+}
+
+#projectmember_memberlist li {
+	margin-bottom: 10px;
 }
