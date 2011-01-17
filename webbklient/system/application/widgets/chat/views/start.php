@@ -3,36 +3,34 @@
 
     <div class="chat_chatpage">
 
+        <div class="chat_secondmenu"><span class="chat_turnpage chat_turnright">Back to chat &raquo;</span></div>
+
         <div id="chat_newdiscussionswrapper">
 
-                <form action="">
+            <form action="">
 
-                    <div class="chat_messagebox"></div>
+                <div class="chat_messagebox"></div>
 
-                    <label for="chat_createnewdiscussionstitle">Title</label>
-                    <input type="text" id="chat_createnewdiscussionstitle" name="chat_createnewdiscussionstitle" value="" maxlength="200" />
+                <label for="chat_createnewdiscussionstitle">Title</label>
+                <input type="text" id="chat_createnewdiscussionstitle" name="chat_createnewdiscussionstitle" value="" maxlength="200" />
 
-                    <input type="submit" value="Create New Discussion" id="chat_createnewdiscussionsbutton" />
+                <input type="submit" value="Create New Discussion" id="chat_createnewdiscussionsbutton" />
 
-                </form>
+            </form>
 
         </div>
-
-        <span class="chat_turnpage chat_turnright">Back to chat</span>
 
     </div>
 
     <div class="chat_chatpage">
 
-        <div id="chat_leftcolumn">
+        <div id="chat_mainleftcolumn">
 
             <div id="chat_windowwrapper">
 
                 <div id="chat_window">
 
-                <!-- TEST FEED START -->
-
-                
+                    &nbsp;
 
                 </div>
 
@@ -40,7 +38,7 @@
 
         </div>
 
-        <div id="chat_rightcolumn">
+        <div id="chat_mainrightcolumn">
 
             <div id="chat_previousdiscussionswrapper">
 
@@ -72,8 +70,13 @@
 
             </div>
 
-            <span class="chat_turnpage chat_turnleft">Create new discussion</span>
-            <span class="chat_turnpage chat_turnright">View project members</span>
+            <div id="chat_mainmenu">
+
+                <span class="chat_turnpage chat_turnleft">Create a new discussion</span>
+                <span class="chat_turnpage chat_turnright">View project members</span>
+                <div class="chat_clearboth"><span class="chat_donotdisplay">&nbsp;</span></div>
+
+            </div>
 
         </div>
 
@@ -87,9 +90,11 @@
 
                     <input type="text" id="chat_postchatitemmessage" name="chat_postchatitem" value="" maxlength="300" />
 
+                    <div id="chat_postchatitemstatus"></div>
+
                     <input type="submit" value="Send" id="chat_postitembutton" disabled="disabled" />
 
-                    <div id="chat_clearpostitemwrapper">&nbsp;</div>
+                    <div class="chat_clearboth"><span class="chat_donotdisplay">&nbsp;</span></div>
 
                 </form>
 
@@ -100,6 +105,8 @@
     </div>
 
     <div class="chat_chatpage">
+
+        <div class="chat_secondmenu"><span class="chat_turnpage chat_turnleft">&laquo; Back to chat</span></div>
 
         <div id="chat_projectmemberswrapper">
 
@@ -125,11 +132,9 @@
 
         </div>
 
-        <span class="chat_turnpage chat_turnleft">Back to chat</span>
-
     </div>
 
-    <div id="chat_clearchatwrapper">&nbsp;</div>
+    <div class="chat_clearleft"><span class="chat_donotdisplay">&nbsp;</span><</div>
 
     <script type="text/javascript">
 
