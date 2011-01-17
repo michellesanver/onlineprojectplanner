@@ -15,7 +15,7 @@ projectmembers = {
 			var windowOptions = {
 				// change theese as needed
 				title: projectmembers.widgetTitle,
-				width: 700,
+				width: 400,
 				height: 450,
 				x: 30,
 				y: 15,
