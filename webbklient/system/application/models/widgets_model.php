@@ -73,6 +73,34 @@ class Widgets_model extends Model  {
 
      }
      
+     function getDefaultWidgets()
+     {
+        $defaultWidgets = $this->db->select("Default_Widgets.Widgets_id");
+        $this->db->from("Default_Widgets");
+        $query = $this->db->get();
+        
+        // any result?
+         if ($query && $query->num_rows() > 0)
+         {
+            $result = $query->result();
+            return $result;
+         }
+         else
+         {
+            return false;
+         }
+     }
+     
+     function addDefaultWidgets($project_id)
+     {
+        $default_widgets = $this->getDefaultWidgets();
+        
+        foreach($default_widgets as $widget) {
+            $id = $widget->Widgets_id;
+            $this->AddProjectWidget($project_id, $id);
+        }
+     }
+     
     /**
     * Get all widgets for a specific project
     * 
@@ -221,17 +249,40 @@ class Widgets_model extends Model  {
         return true;
     }
     
+    function isDefault($widgetid)
+    {
+        // run query
+         $query = $this->db->get_where('Default_Widgets', array('Widgets_id' => $widgetid));
+         
+         // any result?
+         if ($query && $query->num_rows() > 0) {
+            return true;
+         } else {
+            return false;
+         }
+    }
+    
     function DeleteProjectWidget($project_widget_id)
     {
         // start transaction (function will FAIL if transaction is not used)
         $this->db->trans_begin();  
         
-        // delete in db
+        $widgetid = $this->GetWidgetId((int) $project_widget_id);
+        $isDefault = $this->isDefault($widgetid);
+        
+
         $res = $this->db->delete($this->_table, array('Project_widgets_id' => $project_widget_id) );
+
         
         // nothing changed?
         if ($res == false )
         {   
+            // rollbak db and return false
+            $this->db->trans_rollback();
+            return false;
+        }
+        
+        if($isDefault) {
             // rollbak db and return false
             $this->db->trans_rollback();
             return false;

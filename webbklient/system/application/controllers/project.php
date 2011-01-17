@@ -26,6 +26,7 @@ class Project extends Controller {
 
     function Register()
     {
+    
         // add a tracemessage to log
         log_message('debug','#### => Controller Project->Register');
         
