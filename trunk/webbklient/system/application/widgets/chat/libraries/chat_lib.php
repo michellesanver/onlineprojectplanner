@@ -69,7 +69,7 @@ Class Chat_lib
     {
         // Create Key
 
-        $key = date("Y-m-d h:i:s");
+        $key = date("Y-m-d H:i:s");
 
         for($n = 0; $n < 10; $n++)
         {

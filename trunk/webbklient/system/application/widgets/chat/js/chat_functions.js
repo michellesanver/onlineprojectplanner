@@ -2,6 +2,8 @@ chatFunctions = {
 
     key: null,
     interval: null,
+    updated: null,
+    pending: false,
 
     init: function() {
 
@@ -156,6 +158,11 @@ chatFunctions = {
                     // Clear input
 
                     form.find('#chat_postchatitemmessage').val('');
+
+                    // Handle pending
+
+                    chatFunctions.pending = true;
+                    chatFunctions.handlePending();
                 }
                 else
                 {
@@ -229,10 +236,6 @@ chatFunctions = {
 
                 });
 
-                // Reset key
-
-                chatFunctions.key = null;
-
                 return true;
             }
             else
@@ -289,21 +292,17 @@ chatFunctions = {
             {
                 // Load
 
+                var date = null;
+
                 $(xml).find('item').each(function() {
 
                     target.append('<div class="chat_itemwrapper"><p><span class="user">'+$(this).find('user').text()+'</span><span class="datetime">'+$(this).find('datetime').text()+'</span><span class="message">'+$(this).find('message').text()+'</span></p></div>');
 
-                });
-            }
-            else
-            {
-                // Append error-messages
-
-                $(xml).find('message').each(function() {
-
-                    target.append('<p class="error">'+$(this).text()+'</p>');
+                    date = $(this).find('datetime').text();
 
                 });
+
+                chatFunctions.updated = date;
             }
 
         },
@@ -324,13 +323,11 @@ chatFunctions = {
 
         var target = $('#chat_window');
 
-        var updated = $('.chat_itemwrapper:last .datetime').html();
-
         $.ajax({
 
         type: 'POST',
         url: SITE_URL+'/widget/' + chatWidget.widgetName + '/chat/reloadcashe/',
-        data: 'chat_reloadcashekey=' + chatFunctions.key + '&chat_reloadcasheupdated=' + updated,
+        data: 'chat_reloadcashekey=' + chatFunctions.key + '&chat_reloadcasheupdated=' + chatFunctions.updated,
         dataType: 'xml',
 
         timeout: 5000,
@@ -345,11 +342,22 @@ chatFunctions = {
             {
                 // Append new items
 
+                var date = null;
+
                 $(xml).find('item').each(function() {
 
                     target.append('<div class="chat_itemwrapper"><p><span class="user">'+$(this).find('user').text()+'</span><span class="datetime">'+$(this).find('datetime').text()+'</span><span class="message">'+$(this).find('message').text()+'</span></p></div>');
 
+                    date = $(this).find('datetime').text();
+
                 });
+
+                chatFunctions.updated = date;
+
+                // Handle pending
+
+                chatFunctions.pending = false;
+                chatFunctions.handlePending();
             }
 
         },
@@ -363,6 +371,21 @@ chatFunctions = {
         });
 
         return false;
+
+    },
+
+    handlePending: function() {
+
+        if(chatFunctions.pending != false && $('#chat_postchatitemstatus').html() == '')
+        {
+            $('#chat_postchatitemstatus').html('<span>&nbsp;</span>');
+            $('#chat_postitembutton').attr('disabled', 'disabled');
+        }
+        else
+        {
+            $('#chat_postchatitemstatus').html('');
+            $('#chat_postitembutton').removeAttr('disabled');
+        }
 
     }
 

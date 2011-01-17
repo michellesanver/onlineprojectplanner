@@ -62,7 +62,7 @@ Class Cashe_lib
         {
             $currentUser = $currentUserInformation["Username"];
             $currentId = $currentUserInformation["User_id"];
-            $currentDateTime = date("Y-m-d h:i:s");
+            $currentDateTime = date("Y-m-d H:i:s");
 
             $cashe = $this->_CI->cashe_model->WriteCashe($key, $currentUser, $currentId, $currentMessage, $currentDateTime);
 
