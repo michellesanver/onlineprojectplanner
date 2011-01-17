@@ -26,7 +26,6 @@ $(document).ready(function(){
                 <li>
                     <img height="50px" src="<?php echo($widget['icon']); ?>" /><br />
                     <?php echo($widget['icon_title']); ?><br />
-                    <?php echo($widget['id']); ?>
                 </li>
             </a>
         <?php endforeach; ?>
