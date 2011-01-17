@@ -309,7 +309,7 @@ chatFunctions = {
 
         complete: function() {
 
-            target.scrollTop = target.scrollHeight;
+            $('#chat_windowwrapper').scrollTop(target.height() - $('#chat_windowwrapper').height());
 
         }
 
@@ -322,6 +322,7 @@ chatFunctions = {
     reloadCashe: function() {
 
         var target = $('#chat_window');
+        var scroll = false;
 
         $.ajax({
 
@@ -329,6 +330,15 @@ chatFunctions = {
         url: SITE_URL+'/widget/' + chatWidget.widgetName + '/chat/reloadcashe/',
         data: 'chat_reloadcashekey=' + chatFunctions.key + '&chat_reloadcasheupdated=' + chatFunctions.updated,
         dataType: 'xml',
+
+        beforeSend: function() {
+
+             if((target.height() - $('#chat_windowwrapper').height()) == $('#chat_windowwrapper').scrollTop())
+             {
+                 scroll = true;
+             }
+
+        },
 
         timeout: 5000,
 
@@ -364,7 +374,10 @@ chatFunctions = {
 
         complete: function() {
 
-            target.scrollTop = target.scrollHeight;
+            if(scroll != false)
+            {
+                $('#chat_windowwrapper').scrollTop(target.height() - $('#chat_windowwrapper').height());
+            }
 
         }
 

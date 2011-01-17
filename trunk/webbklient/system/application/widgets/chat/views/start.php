@@ -7,14 +7,18 @@
 
         <div id="chat_newdiscussionswrapper">
 
+            <h3>Create A New Discussion</h3>
+
             <form action="">
 
                 <div class="chat_messagebox"></div>
 
                 <label for="chat_createnewdiscussionstitle">Title</label>
-                <input type="text" id="chat_createnewdiscussionstitle" name="chat_createnewdiscussionstitle" value="" maxlength="200" />
+                <input type="text" id="chat_createnewdiscussionstitle" name="chat_createnewdiscussionstitle" value="" maxlength="50" />
 
-                <input type="submit" value="Create New Discussion" id="chat_createnewdiscussionsbutton" />
+                <input type="submit" value="Create" id="chat_createnewdiscussionsbutton" />
+
+                <div class="chat_clearboth"><span class="chat_donotdisplay">&nbsp;</span></div>
 
             </form>
 
@@ -26,15 +30,19 @@
 
         <div id="chat_mainleftcolumn">
 
-            <div id="chat_windowwrapper">
+            <div id="chat_windowcontainer">
 
-                <div id="chat_window">
+                <div id="chat_windowwrapper">
 
-                    &nbsp;
+                    <div id="chat_window">
+
+                        &nbsp;
+
+                    </div>
 
                 </div>
 
-            </div>
+            </div
 
         </div>
 

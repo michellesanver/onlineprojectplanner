@@ -61,6 +61,7 @@ Class Cashe_model extends Model
                     if(file_exists($file) != false)
                     {
                         $latest = @simplexml_load_file($template);
+
                         $items = $latest->items[0];
 
                         foreach ($cashe->items->item as $cashed)
