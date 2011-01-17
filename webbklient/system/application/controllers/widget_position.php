@@ -14,7 +14,10 @@ class Widget_position extends Controller {
     * Save last position for a user and widget instance.
     */
     function save() {
-        
+        log_message('debug', '#### => Controller Widget_position->save');
+		
+		log_message('debug', '#### => $_POST: '.var_export($_POST,true));
+		
         // fetch current project id
         $this->load->library('Project_lib', null, 'Project');
         $current_project_id = $this->Project->checkCurrentProject();
