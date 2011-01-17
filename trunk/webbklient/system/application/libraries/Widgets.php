@@ -24,6 +24,7 @@ class Widgets
         
        // load database model
        $this->_CI->load->model('Widgets_model');
+       $this->_CI->load->library('project_member');
        
        // any widget error?
        $widget_error = $this->_CI->session->userdata('widget_save_error');
@@ -424,10 +425,9 @@ class Widgets
             	$widget_array[$widget->Project_widgets_id]['icon'] = $icon;
             	$widget_array[$widget->Project_widgets_id]['widgetid'] = $widgetid;
                 $widget_array[$widget->Project_widgets_id]['default'] = $this->_CI->Widgets_model->isDefault($widgetid);
-            	
-	        }
-   		}
-        
+
+   		   }
+        }
    		return $widget_array;
    }
    
@@ -463,6 +463,7 @@ class Widgets
         $found_count = 0;
         foreach ($project_widgets as $row)
         {   
+        
             // match current widget for project with a row in all widgets
             foreach ($this->_widgets as $row2)      
             {   
@@ -496,7 +497,15 @@ class Widgets
                     $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
                     
                     // replace %s with the real value
-                    $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                    
+                    if(is_null($row->Minimum_role)) {
+                        $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                    } else {
+                        if($this->_CI->project_member->HaveRoleInCurrentProject($row->Minimum_role)) {
+                            $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                        }
+                    }
+                    
 
                     // add one widget found
                     $found_count++;
