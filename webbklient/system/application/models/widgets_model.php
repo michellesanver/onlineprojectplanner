@@ -57,8 +57,8 @@ class Widgets_model extends Model  {
 			*/
      function GetProjectWidgetName($project_widget_id)
      {
-				$table2 = $this->_table2;
-				$this->db->select("$table2.Widget_name");
+		$table2 = $this->_table2;
+		$this->db->select("$table2.Widget_name");
         $this->db->from($table2);
         $this->db->where(array("$table2.Project_widgets_id" => $project_widget_id));
         
@@ -242,6 +242,7 @@ class Widgets_model extends Model  {
         return true;
 
     }
+    
     
     /**
     * Checks if last delete-query returned
