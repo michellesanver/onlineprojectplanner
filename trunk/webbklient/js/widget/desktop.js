@@ -63,7 +63,7 @@ Desktop = {
 		this._widgetArray[Desktop.selectedWindowId] = new Widget(Desktop.selectedWindowId, options, partialClasses);
 		
         // use last position (maximized) from database if no override?
-        if (options.maximize == undefined) {
+        if (last_position && last_position.is_maximized  && options.maximize == undefined) {
             if (last_position.is_maximized == true) {
                 this._widgetArray[Desktop.selectedWindowId].wnd.maximize();    
             }      
@@ -328,6 +328,11 @@ Desktop = {
     // on close window; save last position to database
     save_position: function(project_widget_id) {
        
+	   if (Desktop.selectedWindowId == undefined || Desktop.selectedWindowId == "" || Desktop.selectedWindowId == null) {
+	         // just return and do not update.. nothing selected
+		     return;
+	   }
+	   
        // get desktop position (offset from window) 
        var desktop_offset = this._widgetArray[Desktop.selectedWindowId].wnd.getContainer().parent().offset();
         
