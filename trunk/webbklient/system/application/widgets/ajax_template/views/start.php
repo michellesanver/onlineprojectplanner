@@ -1,122 +1,53 @@
 
-    <style type="text/css">
-        pre.code {margin-top:20px; margin-left:10px; padding:5px; background-color:#d9d9d9; border:2px dashed #f0f0f0;}
-    </style>
-
-
-    
-    <h1>AJAX template</h1>
-
-    <p>This AJAX template uses the style <strong>AJAX</strong> in jquery window.</p>
-    <p>This view is loaded from the subfolder 'views' inside the folder for the widget.</p>
-    
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/show_documentation');">show jquery.window documentation</a></p>
-
-
-
-    <h2>Data sent to view</h2>
-
-    <p><strong>base_url:</strong><br /><?php echo $base_url; ?></p>
-
-    <p><strong>widget_url:</strong><br /><?php echo $widget_url; ?></p>
-
-    <p><strong>widget_base_url:</strong><br /><?php echo $widget_base_url; ?></p>  
-
-
-
-    <h2>Examples</h2>
-    
-<pre class="code"> 
-CODE (Error "page not found"):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/this_is_an_url_that_does_not_work');">error "page not found"&lt;/a>&lt;/p>
-</pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/this_is_an_url_that_does_not_work');">Error "page not found"</a></p>    
-    
-<pre class="code"> 
-CODE (Call to a function inside the namespace):
-    &lt;p>&lt;a href="javascript:ajaxTemplateWidget.example_showMessage('Hello World');">Call to a function inside the namespace&lt;/a>&lt;/p>
-</pre>
-    <p><a href="javascript:ajaxTemplateWidget.example_showMessage('Hello World');">Call to a function inside the namespace</a></p>
-
-<pre class="code"> 
-CODE (Call to a global function - error):
-    &lt;p>&lt;a href="javascript:show_errormessage('This is a error message');">Call to a global function - error&lt;/a>&lt;/p>
-</pre>
-    <p><a href="javascript:Desktop.show_errormessage('This is a error message');">Call to a global function - error</a></p>  
-
-<pre class="code"> 
-CODE (database-model test):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/show_documentation');">database-model test&lt;/a>&lt;/p>
-</pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/model_test');">database-model test</a></p>
- 
-<pre class="code"> 
-CODE (library test):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/library_test');">library test&lt;/a>&lt;/p>        
-</pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/library_test');">library test</a></p>        
-   
-<pre class="code"> 
-CODE (parameter and post test):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/edit_user/&lt;?php echo $userID; ?>');">parameter and post test&lt;/a>&lt;/p>
-</pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/edit_user/<?php echo $userID; ?>');">parameter and post test</a></p>   
-
-<pre class="code"> 
-CODE (setPartialContent test):
-    &lt;p>&lt;a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/partial');">setPartialContent test&lt;/a>&lt;/p>
-</pre>
-    <p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/partial');">setPartialContent test</a></p>   
-    
-    
-<pre class="code">
-CODE (Image from widget-folder):
-    &lt;p>&lt;img src="&lt;?php echo $widget_base_url; ?>images/Why_NORAD_Tracks_Santa.jpg" />&lt;/p>
-</pre>
-    
-    <p><img src="<?php echo $widget_base_url; ?>images/Why_NORAD_Tracks_Santa.jpg" /></p>
-
-
-<h2>Debug message</h2>
-
-<pre class="code">
-CODE:
-    &lt;p>&lt;a href="javascript:void(0);" onclick="log_message('Just a message');">Log a message (1)&lt;/a>&lt;/p>
-</pre>
-<p><a href="javascript:void(0);" onclick="log_message('Just a message');">Log a message (1)</a></p>
-
-<pre class="code">
-CODE:
-    &lt;p>&lt;a href="javascript:void(0);" onclick="log_message('Anooother message');">Log a message (2)&lt;/a>&lt;/p>
-</pre>
-<p><a href="javascript:void(0);" onclick="log_message('Anooother message');">Log a message (2)</a></p>
-
 <script type="text/javascript">
-    function test_dump1() {
-        var testArray = [];
-        testArray[0] = 'value1';
-        testArray[1] = 'something else';
-        testArray[2] = true;
-        
-        log_variable(null, testArray);
-    }
+
+$(document).ready(function(){
+
+    $("#your_widgets").sortable({
+        opacity: 0.6,
+        cursor: 'move',
+        update: function () {  
+           var order = $('#your_widgets').sortable('serialize');
+            $.post("<?php echo($widget_url . 'widgets_handler/sort'); ?>", order);
+        }
+    }); 
+
+});
+
 </script>
 
-<pre class="code">
-CODE:
-    &lt;script type="text/javascript">
-        function test_dump1() {
-            var testArray = [];
-            testArray[0] = 'value1';
-            testArray[1] = 'something else';
-            testArray[2] = true;
-        
-                log_variable(null, testArray);
-            }
-    &lt;/script>
-    
-    &lt;p>&lt;a href="javascript:void(0);" onclick="test_dump1();">Log an array&lt;/a>&lt;/p> 
-</pre>
-<p><a href="javascript:void(0);" onclick="test_dump1();">Log an array (3)</a></p>
+<div id="available_widgets_box">
+    <h1>Available widgets</h1>
+    <p>Click on a widget to add it to your project.</p>
+    <ul>
+        <?php foreach($allWidgets as $widget): ?>
+            <?php $id = $widget['id']; ?>
+            <a href="#" onclick="widgethandler.loadURL('/widgets_handler/<?php echo($id); ?>');">
+                <li>
+                    <img height="50px" src="<?php echo($widget['icon']); ?>" /><br />
+                    <?php echo($widget['icon_title']); ?><br />
+                    <?php echo($widget['id']); ?>
+                </li>
+            </a>
+        <?php endforeach; ?>
+    </ul>
+</div>
 
-<br /><br /><br />
+<div id="your_widgets_box">
+    <h1>Your widgets</h1>
+    <p>Drag widgets around to sort them.</p>
+    <ul id="your_widgets">
+        <?php foreach($projectWidgets as $id => $widget): ?>
+            <li id="widgetslist_<?php echo($id); ?>">
+                <img height="50px" src="<?php echo($widget['icon']); ?>" /><br />
+                <?php echo($widget['name']); ?><br />
+                
+                <form method="post" action="" onsubmit="return false" class="deleteform<?php echo($id); ?>">
+
+                <input type="hidden" value="<?php echo($id); ?>" name="deleteid" />
+                    <input type="button" value="Delete" onclick="widgethandler.deleteWidget('deleteform<?php echo($id); ?>', '/widgets_handler');" />
+                </form>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
