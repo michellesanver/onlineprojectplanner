@@ -116,7 +116,7 @@ class Widgets_model extends Model  {
          // run query
          $table1 = $this->_table;
          $table2 = $this->_table2;
-         $this->db->select("$table1.*, $table2.Widget_name");
+         $this->db->select("$table1.*, $table2.*");
          $this->db->from($this->_table);
          $this->db->join($table2, "$table1.Widget_id = $table2.Widget_id");
          $this->db->where(array("$table1.Is_active" => $active, "$table1.Project_id" => $projectID));
