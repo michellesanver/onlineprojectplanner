@@ -42,11 +42,13 @@ $(document).ready(function(){
                 <img height="50px" src="<?php echo($widget['icon']); ?>" /><br />
                 <?php echo($widget['name']); ?><br />
                 
-                <form method="post" action="" onsubmit="return false" class="deleteform<?php echo($id); ?>">
-
-                <input type="hidden" value="<?php echo($id); ?>" name="deleteid" />
-                    <input type="button" value="Delete" onclick="widgethandler.deleteWidget('deleteform<?php echo($id); ?>', '/widgets_handler');" />
-                </form>
+                <?php if($widget['default'] == false): ?>
+                    <form method="post" action="" onsubmit="return false" class="deleteform<?php echo($id); ?>">
+    
+                    <input type="hidden" value="<?php echo($id); ?>" name="deleteid" />
+                        <input type="button" value="Delete" onclick="widgethandler.deleteWidget('deleteform<?php echo($id); ?>', '/widgets_handler');" />
+                    </form>
+                <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>

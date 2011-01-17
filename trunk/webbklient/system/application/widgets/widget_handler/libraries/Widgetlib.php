@@ -31,6 +31,7 @@ class Widgetlib
         
         //Check so that the widget is removable
         
+        
         //Delete widget
         $this->_CI->Widgets_model->DeleteProjectWidget($project_widget_id);
     }

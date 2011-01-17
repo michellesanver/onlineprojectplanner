@@ -125,9 +125,7 @@ class Project_model extends Model
         // else; all ok! commit transaction and return true
         $this->db->trans_commit();
 		
-
-		
-        return true;
+        return $projectID;
     }
 
     /**

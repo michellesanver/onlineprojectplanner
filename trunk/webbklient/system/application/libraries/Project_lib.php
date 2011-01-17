@@ -19,7 +19,7 @@ class Project_lib
 
         // load model for library
 
-        $this->_CI->load->model(array('Project_model', 'Project_member_model', 'Project_role_model', 'Invitation_model'));
+        $this->_CI->load->model(array('Project_model', 'Project_member_model', 'Project_role_model', 'Invitation_model', 'Widgets_model'));
     }
 
     /**
@@ -139,9 +139,14 @@ class Project_lib
         $role = $this->_CI->Project_role_model->getByRole(ucfirst(strtolower('General')));
 
         $result = $this->_CI->Project_model->insert($insert, $userID, $role);
-
+        
+        
         if($result) {
-
+            $projectID = $result;
+            
+            //Add default widgets
+            $this->_CI->Widgets_model->addDefaultWidgets($projectID);
+            
             return true;
 
         }

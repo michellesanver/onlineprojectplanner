@@ -417,10 +417,13 @@ class Widgets
    		{
    			foreach ($project_widgets as $widget)
 	        {
+	           $project_widgets_id = (int) $widget->Project_widgets_id;
+	            $widgetid = $this->_CI->Widgets_model->GetWidgetId($project_widgets_id);
             	$icon = $allicons[$widget->Widget_name]['icon'];
             	$widget_array[$widget->Project_widgets_id]['name'] = $allicons[$widget->Widget_name]['icon_title'];
             	$widget_array[$widget->Project_widgets_id]['icon'] = $icon;
-         
+            	$widget_array[$widget->Project_widgets_id]['widgetid'] = $widgetid;
+                $widget_array[$widget->Project_widgets_id]['default'] = $this->_CI->Widgets_model->isDefault($widgetid);
             	
 	        }
    		}
