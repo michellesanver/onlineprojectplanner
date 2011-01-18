@@ -24,6 +24,7 @@ clockWidget = {
 	                     height: 130,
 	                     x: 10,
 	                     y: 15,
+	                     allowSettings: false
 		             };
 		
 					Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, clockWidget.partialContentDivClass, last_position);
