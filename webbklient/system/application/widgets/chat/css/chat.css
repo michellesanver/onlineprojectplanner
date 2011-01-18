@@ -38,7 +38,7 @@
 
 .chat_clearright {
     background: transparent;
-    height: 0px;
+    width: 0px;
     clear: right;
     margin: 0px;
     padding: 0px;
@@ -302,6 +302,7 @@
 #chat_previousdiscussionswrapper span {
     background: transparent;
     color: #3399CC;
+    width: 198px;
     display: block;
     text-align: right;
     font-family: Arial, Helvetiva, Verdana, san-serif;
@@ -462,7 +463,7 @@
 #chat_projectmemberswrapper ul {
     background: transparent;
     color: #3399CC;
-    width: auto;
+    width: 608px;
     margin: 0px;
     margin-top: 10px;
     padding: 0px;
@@ -472,7 +473,7 @@
 #chat_projectmemberswrapper ul li {
     background: transparent;
     color: #3399CC;
-    width: auto;
+    width: 608px;
     font-family: Arial, Helvetiva, Verdana, san-serif;
     font-size: 0.7em;
     margin: 0px;
