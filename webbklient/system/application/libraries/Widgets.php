@@ -536,38 +536,40 @@ class Widgets
    private function _GetProjectWidgets($projectID, $forecedReload=false)
    {
        // any cached data?
-       $cached_project_widgets = ($forecedReload == true ? false : $this->_CI->session->userdata('cache_project_widgets') );
+       /*$cached_project_widgets = ($forecedReload == true ? false : $this->_CI->session->userdata('cache_project_widgets') );
        $cache_project_widgets_timeout = ($forecedReload == true ? false : $this->_CI->session->userdata('cache_project_widgets_timeout') );
        
        // check timeout if found
        if ( $cached_project_widgets != false && $cache_project_widgets_timeout != false)
        {
-            //log_message('debug','Widgets->_GetProjectWidgets() has found cached data');
+            log_message('debug','Widgets->_GetProjectWidgets() has found cached data');
            
             $cached_project_widgets = unserialize($cached_project_widgets);
             $current_time = time();
             
-            //log_message('debug','Widgets->_GetProjectWidgets() has timeout values: $cache_project_widgets_timeout '.$cache_project_widgets_timeout.' ('.date('Y-m-d H:i:s',$cache_project_widgets_timeout).') > $current_time '.$current_time.' ('.date('Y-m-d H:i:s',$current_time).')');
+            log_message('debug','Widgets->_GetProjectWidgets() has timeout values: $cache_project_widgets_timeout '.$cache_project_widgets_timeout.' ('.date('Y-m-d H:i:s',$cache_project_widgets_timeout).') > $current_time '.$current_time.' ('.date('Y-m-d H:i:s',$current_time).')');
             
             if ( (int)$cache_project_widgets_timeout > $current_time && empty($cached_project_widgets) == false )
             {
-                //log_message('debug','Widgets->_GetProjectWidgets() have found valid cache data');
+                log_message('debug','Widgets->_GetProjectWidgets() have found valid cache data');
                 
                 // all good! return cached data
                 return $cached_project_widgets;
             }
             else
             {
-                //log_message('debug','Widgets->_GetProjectWidgets() will clear cashed data');
+                log_message('debug','Widgets->_GetProjectWidgets() will clear cashed data');
                 
                 // old data; clear! 
                 $this->_ClearWidgetCache();
             }
-       }
+       }*/
        
        // get from model
        $project_widgets = $this->_CI->Widgets_model->GetProjectWidgets($projectID); 
-       
+   
+       log_message('debug','Widgets->_GetProjectWidgets() has $project_widgets: '.var_export($project_widgets,true));
+        
        // cache data (we will probably use it again very soon, loading icons and loading javascripts for example)
        $this->_CI->session->set_userdata('cache_project_widgets', serialize($project_widgets));
        $this->_CI->session->set_userdata('cache_project_widgets_timeout', strtotime('+2min'));
