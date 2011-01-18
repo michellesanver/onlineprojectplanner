@@ -18,12 +18,15 @@ apechatWidget = {
     // function that will be called upon start (REQUIRED - do NOT change the name)
     open: function(project_widget_id, widgetIconId, last_position) {
         			
+                    var initialContent = "<div class=\""+apechatWidget.contentDivClass+"\"></div>";  
+        
 					var windowOptions = {
 		                 title: apechatWidget.widgetTitle,
 	                     width: 600,
 	                     height: 450,
 	                     x: 10,
 	                     y: 15,
+                         content: initialContent
 		             };
 		
 					Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, apechatWidget.partialContentDivClass, last_position);
@@ -44,21 +47,22 @@ apechatWidget = {
                                        
 
 										
- 										$.ajax({
+ 										/*$.ajax({
 										  url: "http://www.pppp.nu/ape-jsf/Demos/Chat/demo.html",
 										  cache: false,
 										  success: function(html){
 										    $("#apechat").append(html);
 										  }
-										});
-										
+										}); */
+										    
 										
 										
                                         /*
                                         OLD CODE; does not work with multiple instances
                                         $('.digiapechat').jdigiapechat({ });
                                         */
-										//Desktop.setWidgetContent(unescape(data));
+                                        
+										Desktop.setWidgetContent(unescape(data));
 				    },
 
 				    // set partial content in widgets div, called from the ajax request
