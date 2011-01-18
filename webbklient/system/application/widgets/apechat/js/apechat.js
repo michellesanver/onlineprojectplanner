@@ -40,27 +40,7 @@ apechatWidget = {
 				    setContent: function(data) {
 				                        // The success return function, the data must be unescaped befor use.
 				                        // This is due to ILLEGAL chars in the string.	
-				                        
-										
-                                        // find which .digiapechat to use through selected window's children
-                                        //$('#widget_' + Desktop.selectedWindowId ).find('.digiapechat').jdigiapechat({ }); 
-                                       
 
-										
- 										/*$.ajax({
-										  url: "http://www.pppp.nu/ape-jsf/Demos/Chat/demo.html",
-										  cache: false,
-										  success: function(html){
-										    $("#apechat").append(html);
-										  }
-										}); */
-										    
-										
-										
-                                        /*
-                                        OLD CODE; does not work with multiple instances
-                                        $('.digiapechat').jdigiapechat({ });
-                                        */
                                         
 										Desktop.setWidgetContent(unescape(data));
 				    },
