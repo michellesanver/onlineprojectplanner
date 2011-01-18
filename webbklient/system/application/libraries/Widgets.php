@@ -456,7 +456,7 @@ class Widgets
        
         // prepare data
         $returnSTR = "";
-        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" width="55px" /></a><br />%s</div>'."\n";
+        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" height="55px" /></a><br />%s</div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
      
         // loop trough all widgets for the project
