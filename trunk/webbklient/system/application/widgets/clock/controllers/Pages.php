@@ -5,7 +5,7 @@ class Pages extends Controller
 {
     
     
-    private $_widget_name = "clock";
+    private $_widget_name = "apechat";
     
     function __construct()
     {
