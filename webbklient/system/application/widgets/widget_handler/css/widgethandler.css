@@ -9,10 +9,6 @@
 	border-right: 1px solid #aaa;
 }
 
-#your_widgets_box  {
-	width: 60%;
-	float: left;
-}
 
 #available_widgets_box ul {
 	display: inline;
@@ -38,6 +34,10 @@
 	background-color: #eaeaea;
 }
 
+#your_widgets_box  {
+	width: 55%;
+	float: left;
+}
 
 #your_widgets_box ul {
 	text-align: center;
