@@ -95,4 +95,4 @@ stopwatchWidget = {
 				        ajaxRequests.post(postdata, url, 'stopwatchWidget.setContent', 'stopwatchWidget.setAjaxError');   
 				    }
 
-				};stopwatch
+				};
