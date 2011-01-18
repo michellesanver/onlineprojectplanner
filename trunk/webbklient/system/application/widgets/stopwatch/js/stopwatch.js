@@ -24,7 +24,8 @@ stopwatchWidget = {
 	                     height: 153,
 	                     x: 10,
 	                     y: 160,
-	                     allowSettings: false
+	                     allowSettings: false,
+	                     resizable: false
 		             };
 		
 		
