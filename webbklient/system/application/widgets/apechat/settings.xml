@@ -24,5 +24,10 @@
 	<load>
         <file type="javascript">js/apechat.js</file>
 		<file type="css">css/style.css</file>
+        <file type="javascript">Chat/mootools/mootools-core.js</file>
+        <file type="javascript">Chat/mootools/MooTools.js</file>
+        <file type="javascript">Chat/config.js</file>
+        <file type="javascript">Chat/demo.js</file>
+        <file type="css">Chat/demo.css</file>
     </load>
 </settings>
