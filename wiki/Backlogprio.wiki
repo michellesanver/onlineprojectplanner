@@ -1,19 +1,11 @@
 = Product backlog prioritet = 
 
+ * Lägga till dölj/visa funktion på widget-listen i toppen, samt förmiska.
  * Spara position samt bibehålla fönster öppna
- * Specifiera att vissa widgets måste vara med i ett projekt. 
- * Ta bort medlem
- * Ändra medlemsbehörighet
-  * Skapare
-  * Hanterare
-  * Medlem
-  * Ta bort användare
-
- * Wiki 1.1
-  * wysiywig (html-syntax)
-  * bilduppladdning via wysiwyg
-  * fler säkerhetskontroller
-  * anpassa till ny widgetstruktur
+ * Promote medlems projektbehörighet
+ * Projektinställningar som en widget
+ * Demote medlems projektbehörighet
+ * Lägga till hinder så vissa widget inte kan läggas till fler gånger.
  * Chatt  50h
  * Burndown chart 100h
  * Whiteboard  150h
