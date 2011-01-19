@@ -1,5 +1,6 @@
 = Product backlog prioritet = 
 
+ * Spara position samt bibehålla fönster öppna
  * Specifiera att vissa widgets måste vara med i ett projekt. 
  * Ta bort medlem
  * Ändra medlemsbehörighet
