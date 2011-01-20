@@ -1,6 +1,6 @@
 <?php
 
-class Widget_settings extends Controller {
+class widget_settings extends Controller {
 	
 	function Widget_settings()
 	{
@@ -24,7 +24,6 @@ class Widget_settings extends Controller {
 		$data['id'] = $projectWidgetId;
 		
 		$widget_id = $this->Widgets_model->GetWidgetId($projectWidgetId);
-		
 		if($widget_id > 0) {
 			$data['settings'] = $this->settings_model->GetProjectWidgetSettings($widget_id, $projectWidgetId);
 			//var_dump($data['settings']);

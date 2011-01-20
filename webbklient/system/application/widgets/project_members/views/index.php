@@ -32,7 +32,12 @@
 								echo "<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.leave();\">Leave</a>";
 							}
 							if($member['IsLoggedInUser'] == false && $isGeneral != false) { 
-								echo "<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.kickout(".$member['User_id'].");\">Kick out</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"javascript:void(0);\" onclick=\"projectmembers.switchgeneral(".$member['User_id'].");\">Make General</a></p>";
+								if($member['Project_role_id'] == "2"){
+									echo"<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.promoteToAdmin(".$member['Project_member_id'].");\">Promote to admin</a>";
+								} else if($member['Project_role_id'] == "1") {
+									echo"<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.demoteToMember(".$member['Project_member_id'].");\">Demote to member</a>";
+								}
+								echo "&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"javascript:void(0);\" onclick=\"projectmembers.kickout(".$member['User_id'].");\">Kick out</a><br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.switchgeneral(".$member['User_id'].");\">Make general</a>";
 							} 
 						?>
 				</li>

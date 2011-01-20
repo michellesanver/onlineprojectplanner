@@ -209,7 +209,7 @@ Desktop = {
 	openSettingsWindow: function()
 	{
 		if(this._widgetArray[Desktop.selectedWindowId].getSettingsState() == false) {
-			ajaxRequests.load(SITE_URL+'/Widget_settings/GetProjectWidgetSettings/'+Desktop.selectedWindowId, "Desktop.openSettingsWindowSuccess", "Desktop.ajaxSettingsWindowError", true);
+			ajaxRequests.load(SITE_URL+'/widget_settings/GetProjectWidgetSettings/'+Desktop.selectedWindowId, "Desktop.openSettingsWindowSuccess", "Desktop.ajaxSettingsWindowError", true);
 		} else {
 			this._widgetArray[Desktop.selectedWindowId].closeSettings();
 		}
@@ -251,7 +251,7 @@ Desktop = {
 			id['value'] = Desktop.selectedWindowId;
 			formArray.push(id);
 			
-			ajaxRequests.post(formArray, SITE_URL+'/Widget_settings/SaveProjectWidgetSettings', "Desktop.saveSettingsWindowSuccess", "Desktop.ajaxSettingsWindowError", true);
+			ajaxRequests.post(formArray, SITE_URL+'/widget_settings/SaveProjectWidgetSettings', "Desktop.saveSettingsWindowSuccess", "Desktop.ajaxSettingsWindowError", true);
 		}
 		
 		return false;
