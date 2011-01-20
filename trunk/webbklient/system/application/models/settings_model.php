@@ -52,10 +52,9 @@ class Settings_model extends Model
 		$vquery = $this->db->get();
 		
 		// any result?
+		$Vres = array();
 		if ($vquery && $vquery->num_rows() > 0) {
 			$Vres = $vquery->result_array();
-		} else {
-			return false;
 		}
 		
 		// Merge arrays

@@ -70,7 +70,11 @@ class pm_controller extends Controller {
 		
 		$this->load->view_widget('index', $data);
 	}
-  
+	
+	/*
+	* Catches invitation post-data and executes the needed functions
+	* for the invitation email to be sant.
+	*/
 	function save() {
 		$data = array();
 		
@@ -198,16 +202,17 @@ class pm_controller extends Controller {
 		// Kick out victim
 		if($this->Project_member_model->delete($projectID, $victimID)) {
 			$data = array(
-							"status" => "ok",
-							"status_message" => "Member is kicked out!"
+				"status" => "ok",
+				"status_message" => "Member is kicked out!",
+				"reload" => "yes"
 			);
 		}
 		
 		// Else, if something went wrong
 		else {
 			$data = array(
-							"status" => "error",
-							"status_message" => "Something went wrong, the user is still a member of the project!"
+				"status" => "error",
+				"status_message" => "Something went wrong, the user is still a member of the project!"
 			);
 			$this->error->log('Kick out member failed.', $_SERVER['REMOTE_ADDR'], 'Project/KickOut', 'project_member/Delete', array('Project_id' => $userID, 'User_id' => $victimID));
 		}
@@ -270,7 +275,8 @@ class pm_controller extends Controller {
 		if($this->Project_member_model->switchGeneral($projectID, $userID, $victimID, $adminRole, $generalRole)) {
 			$data = array(
 				"status" => "ok",
-				"status_message" => "You are no longer the general of this project!"
+				"status_message" => "You are no longer the general of this project!",
+				"reload" => "yes"
 			);
 		} else {
 			$data = array(
@@ -317,7 +323,8 @@ class pm_controller extends Controller {
 		if($this->Project_member_model->delete($projectID, $userID)) {
 			$data = array(
 				"status" => "ok",
-				"status_message" => "You have left the project!"
+				"status_message" => "You have left the project!",
+				"reload" => "yes"
 			);
 		} else {
 			$data = array(
@@ -325,6 +332,104 @@ class pm_controller extends Controller {
 				"status_message" => "Something went wrong, you are still a member of the project!"
 			);
 			$this->error->log('Leave project failed.', $_SERVER['REMOTE_ADDR'], 'Project/Leave', 'project_member/Delete', array('Project_id' => $projectID));
+		}
+		
+		echo json_encode($data);
+	}
+	
+	/*
+	* Executed with a ajax-request when the general 
+	* has clicked the "Promote to admin" link in the
+	* project member list. 
+	*
+	* @param $proj_mem_id
+	*/
+	function promoteToAdmin($proj_mem_id, $projectID) {
+		
+		// Add a tracemessage to log
+		log_message('debug','#### => Controller Project->promoteToAdmin');
+
+		// If User is not logged in
+		if($this->user->IsLoggedIn()==false)
+		{
+			echo json_encode(array("status" => "error", "status_message" => "You are not authenticated. Please login!"));
+			return;
+		}
+
+		// Is user is not member in selected project
+		if($this->project_member->IsMember($projectID)==false)
+		{
+			echo json_encode(array("status" => "error", "status_message" => "You are not a member of this project"));
+			return;
+		}
+
+		// Is logged in user General of selected project?
+		if ($this->project_member->HaveRoleInCurrentProject('general')==false)
+		{
+			echo json_encode(array("status" => "error", "status_message" => "You are not an project general."));
+			return;
+		}
+		
+		if($this->Project_member_model->switchRole($proj_mem_id, 1)) {
+			$data = array(
+				"status" => "ok",
+				"status_message" => "The user has been promoted to admin!",
+				"reload" => "yes"
+			);
+		} else {
+			$data = array(
+				"status" => "error",
+				"status_message" => "An error occurred while trying to promote!"
+			);
+		}
+		
+		echo json_encode($data);
+	}
+	
+	/*
+	* Executed with a ajax-request when the general 
+	* has clicked the "Demote to member" link in the
+	* project member list. 
+	*
+	* @param $proj_mem_id
+	*/
+	function demoteToMember($proj_mem_id, $projectID) {
+		
+		// Add a tracemessage to log
+		log_message('debug','#### => Controller Project->promoteToAdmin');
+
+		// If User is not logged in
+		if($this->user->IsLoggedIn()==false)
+		{
+			echo json_encode(array("status" => "error", "status_message" => "You are not authenticated. Please login!"));
+			return;
+		}
+
+		// Is user is not member in selected project
+		if($this->project_member->IsMember($projectID)==false)
+		{
+			echo json_encode(array("status" => "error", "status_message" => "You are not a member of this project"));
+			return;
+		}
+
+		// Is logged in user General of selected project?
+		if ($this->project_member->HaveRoleInCurrentProject('general')==false)
+		{
+			echo json_encode(array("status" => "error", "status_message" => "You are not an project general."));
+			return;
+		}
+		
+		if($this->Project_member_model->switchRole($proj_mem_id, 2)) {
+			$data = array(
+				"status" => "ok",
+				"status_message" => "The user has been promoted to admin!",
+				"reload" => "yes"
+			);
+		} else {
+			$data = array(
+				"status" => "error",
+				"status_message" => "An error occurred while trying to promote!"
+			);
 		}
 		
 		echo json_encode($data);

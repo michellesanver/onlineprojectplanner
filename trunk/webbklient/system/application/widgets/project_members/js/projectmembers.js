@@ -30,7 +30,7 @@ projectmembers = {
 		
 		index: function() {
 			// load the first page upon start
-      var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/index/' + Desktop.currentProjectId;
+			var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/index/' + Desktop.currentProjectId;
 			ajaxRequests.load(loadFirstPage, "projectmembers.setContent", "projectmembers.setAjaxError");
 		},
 		
@@ -83,6 +83,16 @@ projectmembers = {
 			}
 		},
 		
+		promoteToAdmin: function(proj_mem_id) {
+			var url = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/promoteToAdmin/' + proj_mem_id + '/' + Desktop.currentProjectId;
+			ajaxRequests.load(url, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
+		},
+		
+		demoteToMember: function(proj_mem_id) {
+			var url = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/demoteToMember/' + proj_mem_id + '/' + Desktop.currentProjectId;
+			ajaxRequests.load(url, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
+		},
+		
 		
 	/* 
 	* The following functions are common for att widgets.
@@ -100,11 +110,18 @@ projectmembers = {
 		
 		catchStatus: function(data){
 			data = unescape(data);
-			var data_obj = $.parseJSON(data);
-			if(data_obj.status == "ok") {
-				Desktop.show_message(data_obj.status_message);
+			var data_obj;
+			if(data_obj = $.parseJSON(data)) {
+				if(data_obj.status == "ok") {
+					Desktop.show_message(data_obj.status_message);
+					if(data_obj.reload == "yes") {
+						projectmembers.index();
+					}
+				} else {
+					Desktop.show_errormessage(data_obj.status_message);
+				}
 			} else {
-				Desktop.show_errormessage(data_obj.status_message);
+				Desktop.show_errormessage("A error has occurred! Admins has been informed.");
 			}
 		},
 		

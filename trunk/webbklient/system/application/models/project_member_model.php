@@ -199,5 +199,18 @@ class Project_member_model extends Model
 
 			return true;
 	}
+	
+	/**
+	* Updates the member of a project to a new role. Can
+	* only be executed by a general
+	*
+	* @param int $Project_member_id
+	* @param int $new_role
+	* @return bool
+	*/
+	function switchRole($Project_member_id, $new_role) {
+		$this->db->where('Project_member_id', $Project_member_id);
+		return $this->db->update($this->_table, array('Project_role_id' => $new_role));
+	}
 
 }
