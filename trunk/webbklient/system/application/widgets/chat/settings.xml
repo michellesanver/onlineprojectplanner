@@ -12,9 +12,11 @@
     <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
 	<icon>chat-icon.png</icon>
     <!-- title of widget; will be placed under icon (can be left empty) -->
-    <icon_title>Chat</icon_title>
+        <icon_title>Chat</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
-    <widget_object>chatWidget</widget_object>
+        <widget_object>chatWidget</widget_object>
+    <!-- allow multiple instances (true or false) -->
+        <allow_multiple>true</allow_multiple>
     <!--
         list of files to be loaded relative to main folder of widgets
         (theese files will be loaded upon project start)
