@@ -177,7 +177,8 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
  CREATE TABLE IF NOT EXISTS `Widgets` (
     `Widget_id` INT NOT NULL AUTO_INCREMENT,
     `Widget_name` VARCHAR( 50 ) NOT NULL ,
-    `In_development` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'set to 1 if widget is in development; will not be deleted when syncing', 
+    `In_development` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'set to 1 if widget is in development; will not be deleted when syncing',
+    `Allow_multiple` BOOL NOT NULL DEFAULT '0',
     PRIMARY KEY ( `Widget_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
