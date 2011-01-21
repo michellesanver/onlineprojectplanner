@@ -76,6 +76,7 @@ class Widgets
                         $w->icon_title = (string)$settings->icon_title;
                         $w->widget_startfunction = (string)$settings->widget_startfunction;
                         $w->widget_object = (string)$settings->widget_object;
+                        $w->allow_multiple = (string)$settings->allow_multiple;
                         
                         $w->files = array();
                         
