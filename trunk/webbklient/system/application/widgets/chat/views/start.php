@@ -142,7 +142,7 @@
 
     </div>
 
-    <div class="chat_clearleft"><span class="chat_donotdisplay">&nbsp;</span><</div>
+    <div class="chat_clearleft"><span class="chat_donotdisplay">&nbsp;</span></div>
 
     <script type="text/javascript">
 
