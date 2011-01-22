@@ -460,6 +460,8 @@ class Widgets
         $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" height="55px" /></a><br />%s</div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
      
+        $openScriptSTR = ""; // restore desktop
+     
         // loop trough all widgets for the project
         $found_count = 0;
         foreach ($project_widgets as $row)
@@ -474,6 +476,10 @@ class Widgets
                     $last_x = 30; //default value
                     $last_y = 15; //default value
                     $is_maximized = 'false'; //default value
+                    $width = 0; //default value 
+                    $height = 0; //default value 
+                    
+                    $is_open = false; //default value
                     
                     if (empty($positions)==false) {
                         foreach($positions as $row3) {
@@ -482,12 +488,15 @@ class Widgets
                                 $last_x = (int)$row3->Last_x_position;    
                                 $last_y = (int)$row3->Last_y_position;
                                 $is_maximized = ((int)$row3->Is_maximized == 1 ? 'true' : 'false');
+                                $is_open = ((int)$row3->Is_open == 1 ? true : false);
+                                $width = (int)$row3->Width;
+                                $height = (int)$row3->Height;
                             }
                         }
                     }
                     
                     // create a javascript-object for last position
-                    $last_position = "{ 'last_x': $last_x, 'last_y': $last_y, 'is_maximized': $is_maximized }";
+                    $last_position = "{ 'last_x': $last_x, 'last_y': $last_y, 'is_maximized': $is_maximized, 'width': $width, 'height': $height }";
                     
                     // prepare data
                     $widget_object = $row2->widget_object;
@@ -498,12 +507,31 @@ class Widgets
                     $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
                     
                     // replace %s with the real value
-                    
                     if(is_null($row->Minimum_role)) {
-                        $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                        
+                        // parse string for open
+                        $callSTR = sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                        $returnSTR .= $callSTR;
+                        
+                        // open upon start?
+                        if ($is_open==true) {
+                            // save call
+                            $openScriptSTR .= $function.'; ';     
+                        }
+                        
                     } else {
+                        // check role
                         if($this->_CI->project_member->HaveRoleInCurrentProject($row->Minimum_role)) {
-                            $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                            
+                            // parse string for open
+                            $callSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                            $returnSTR .= $callSTR;
+                            
+                            // open upon start?
+                            if ($is_open==true) {
+                                // save call
+                                $openScriptSTR .= $function.'; '; 
+                            }
                         }
                     }
                     
@@ -518,6 +546,11 @@ class Widgets
         // any mismatch with added widgets and widgets in project (=error in data, problably widget name)
         if ( count($project_widgets) != $found_count) return "ERROR IN WIDGET DATA; all was not added";
         
+        // add script for restore desktop?
+        if ( empty($openScriptSTR)==false ){
+            $returnSTR .= '<script type="text/javascript">$(document).ready(function(){ '.$openScriptSTR.' });</script>';    
+        }
+             
         // return the result
         return $returnSTR; 
     }

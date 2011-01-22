@@ -191,7 +191,10 @@ CREATE TABLE IF NOT EXISTS `Widget_Positions` (
     `User_id` INT NOT NULL ,
     `Last_x_position` INT NOT NULL DEFAULT '0',
     `Last_y_position` INT NOT NULL DEFAULT '0',
+    `Width` INT NOT NULL DEFAULT '0',
+    `Height` INT NOT NULL DEFAULT '0',
     `Is_maximized` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
+    `Is_open` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0', 
     PRIMARY KEY ( `Widget_postions_id` ),
   CONSTRAINT `widget_positions_ibfk_1` 
     FOREIGN KEY (`Project_widgets_id`)
