@@ -26,9 +26,17 @@ Desktop = {
             last_position = this._widgetArray[Desktop.selectedWindowId].last_position;
         }
         
-		// add more options
+		// add events for close
 		options.onMinimize = function(){ Desktop.close_widget(widgetIconId); };
 		options.onClose = function(){ Desktop.reset_widget(widgetIconId); Desktop.save_position(project_widget_id); };
+        
+        // add events for updating status and position
+        options.afterDrag = function() { Desktop.update_position(project_widget_id); };
+        options.afterCascade = function() { Desktop.update_position(project_widget_id); };
+        options.afterMaximize = function() { Desktop.update_position(project_widget_id); }; 
+        options.afterResize = function() { Desktop.update_position(project_widget_id); }; 
+        
+        // set boundries for window
 		options.checkBoundary = true;
 		options.maxWidth = $('#desktop').width();
 		options.maxHeight = $('#desktop').height();
@@ -47,6 +55,12 @@ Desktop = {
             options.x = last_position.last_x;      
             options.y = last_position.last_y;
         } 
+        
+        // use last position from database? (default value is 0 from database)
+        if (last_position.width != 0 && last_position.height != 0) {
+            options.width = last_position.width;      
+            options.height = last_position.height;
+        }
         
 		// save partialContentClass if it is set
 		var partialClasses = new Array();
@@ -70,6 +84,9 @@ Desktop = {
         } else if (options.maximize == true) {
             this._widgetArray[Desktop.selectedWindowId].wnd.maximize();                
         }
+        
+        // set status as open for widget
+        Desktop.update_position(project_widget_id);
         
 		// return new id
 		return Desktop.selectedWindowId;
@@ -325,30 +342,62 @@ Desktop = {
       Desktop.debug_win = null;  
     },
     
+    // called on event afterDrag and afterMaximize and afterCascade and afterResize
+    update_position: function(project_widget_id) {   
+        
+       // get current status
+       var window_status = Desktop.get_current_window_status();
+      
+       // no data?
+       if (window_status == null || window_status == false) {
+           // quit; nothing to save
+           return;
+       }
+       
+       // this window is OPEN
+       window_status.is_open = true;
+       
+       // prepare url and postdata
+       var url = SITE_URL + '/widget_position/update';
+       var postdata = { 'height': window_status.height, 'width': window_status.width, 'is_open': window_status.is_open, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top, 'project_widget_id': project_widget_id };
+       
+       // save new position to object
+       this._widgetArray[Desktop.selectedWindowId].last_position = { 'height': window_status.height, 'width': window_status.width, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top };
+       
+       // save to database
+       ajaxRequests.post(postdata, url, 'Desktop.update_position_callback_ok', 'Desktop.update_position_callback_error', true); 
+         
+    },
+    
+    update_position_callback_ok: function(data) { 
+        // not used but a requirement for ajaxRequests
+    },
+    
+    update_position_callback_error: function(data) { 
+        // not used but a requirement for ajaxRequests
+    },
+    
     // on close window; save last position to database
     save_position: function(project_widget_id) {
        
-	   if (Desktop.selectedWindowId == undefined || Desktop.selectedWindowId == "" || Desktop.selectedWindowId == null) {
-	         // just return and do not update.. nothing selected
-		     return;
-	   }
-	   
-       // get desktop position (offset from window) 
-       var desktop_offset = this._widgetArray[Desktop.selectedWindowId].wnd.getContainer().parent().offset();
-        
-        // get current window status 
-       var is_maximized = this._widgetArray[Desktop.selectedWindowId].wnd.isMaximized(); 
-       var offset = this._widgetArray[Desktop.selectedWindowId].wnd.getContainer().offset();
+       // get current status
+       var window_status = Desktop.get_current_window_status();
+      
+       // no data?
+       if (window_status == null || window_status == false) {
+           // quit; nothing to save
+           return;
+       }
        
-       // calcuate new offset for top
-       offset.top = offset.top - desktop_offset.top;
+       // this window is closed (event is onClose)
+       window_status.is_open = false;
        
        // prepare url and postdata
        var url = SITE_URL + '/widget_position/save';
-       var postdata = { 'is_maximized': is_maximized, 'last_x': offset.left, 'last_y': offset.top, 'project_widget_id': project_widget_id };
+       var postdata = { 'height': window_status.height, 'width': window_status.width, 'is_open': window_status.is_open, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top, 'project_widget_id': project_widget_id };
        
        // save new position to object
-       this._widgetArray[Desktop.selectedWindowId].last_position = { 'is_maximized': is_maximized, 'last_x': offset.left, 'last_y': offset.top };
+       this._widgetArray[Desktop.selectedWindowId].last_position = { 'height': window_status.height, 'width': window_status.width, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top };
        
        // save to database
        ajaxRequests.post(postdata, url, 'Desktop.save_position_callback_ok', 'Desktop.save_position_callback_error', true);  
@@ -366,6 +415,43 @@ Desktop = {
 		if (data != "") { // if data is empty; supress error (can occur if ajax request is not completed)
 			Desktop.show_errormessage('Unable to save window position! Data: '+unescape(data));    
 		}
+    },
+    
+    // get status of current window (position etc)
+    get_current_window_status: function() {
+        
+       if (Desktop.selectedWindowId == undefined || Desktop.selectedWindowId == "" || Desktop.selectedWindowId == null) {
+             // just return and do not update.. nothing selected
+             return null;
+       }
+       
+       // setup default values (will be replaced)
+       var returnData = {
+            'is_open': true,  // allways true
+            'is_maximized': false,
+            'offset': { 'top':0, 'left': 0 },
+            'width': 0,
+            'height': 0
+       };
+       
+       var container = this._widgetArray[Desktop.selectedWindowId].wnd.getContainer();
+       
+       // get desktop position (offset from window) 
+       var desktop_offset = container.parent().offset();
+        
+        // get current window status 
+       returnData.is_maximized = this._widgetArray[Desktop.selectedWindowId].wnd.isMaximized(); 
+       returnData.offset = container.offset();
+       
+       // calcuate new offset for top
+       returnData.offset.top = returnData.offset.top - desktop_offset.top;   
+       
+       // get width and height
+       returnData.width = container.width();
+       returnData.height = container.height(); 
+              
+       // return the data we got
+       return returnData; 
     }
     
 }

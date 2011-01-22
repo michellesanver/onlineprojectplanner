@@ -341,11 +341,14 @@ class Widgets_model extends Model  {
     * @param int $uid
     * @param int $project_widget_id
     * @param int $is_maximized
+    * @param int $is_open 
     * @param int $last_x
     * @param int $last_y
+    * @param int $width
+    * @param int $height
     * @return bool
     */
-    function SaveWidgetPosition($current_project_id, $uid, $project_widget_id, $is_maximized, $last_x, $last_y) {
+    function SaveWidgetPosition($current_project_id, $uid, $project_widget_id, $is_maximized, $last_x, $last_y, $is_open, $width, $height) {
         
         // query if we should insert or update
         $query = $this->db->get_where( $this->_table3, array( 'Project_widgets_id' => $project_widget_id, 'User_id' => $uid, 'Project_id' => $current_project_id ) );
@@ -357,7 +360,10 @@ class Widgets_model extends Model  {
             $data = array(
                 'Is_maximized' => $is_maximized,
                 'Last_x_position' => $last_x,
-                'Last_y_position' => $last_y
+                'Last_y_position' => $last_y,
+                'Is_open' => $is_open,
+                'Width' => $width,
+                'Height' => $height
             ); 
             
             $this->db->where( array( 'Project_widgets_id' => $project_widget_id, 'User_id' => $uid, 'Project_id' => $current_project_id ) );
@@ -371,8 +377,11 @@ class Widgets_model extends Model  {
                 'Project_widgets_id' => $project_widget_id,
                 'User_id' => $uid,
                 'Is_maximized' => $is_maximized,
+                'Is_open' => $is_open,
                 'Last_x_position' => $last_x,
-                'Last_y_position' => $last_y
+                'Last_y_position' => $last_y,
+                'Width' => $width,
+                'Height' => $height
             );
             
             $this->db->insert($this->_table3, $data);
@@ -391,5 +400,58 @@ class Widgets_model extends Model  {
             }
             
         }            
+    }
+    
+    /**
+    * Save status for a window (open or not)
+    * @param int $project_id
+    * @param int $uid
+    * @param int $project_widget_id
+    * @param int $is_open
+    * @param int $last_x
+    * @param int $last_y
+    * @param int $width
+    * @param int $height
+    */
+    function UpdateWidgetStatus($project_widget_id, $project_id, $uid, $is_open, $is_maximized, $last_x, $last_y, $width, $height) {
+    
+        // query if we should insert or update
+        $query = $this->db->get_where( $this->_table3, array( 'Project_widgets_id' => $project_widget_id, 'User_id' => $uid, 'Project_id' => $project_id ) );
+        
+        // handle result
+        if ($query && $query->num_rows() > 0) {
+            // update 
+            
+            $data = array(
+                'Is_maximized' => $is_maximized,
+                'Last_x_position' => $last_x,
+                'Last_y_position' => $last_y,
+                'Is_open' => $is_open,
+                'Width' => $width,
+                'Height' => $height
+            ); 
+            
+            $this->db->where( array( 'Project_widgets_id' => $project_widget_id, 'User_id' => $uid, 'Project_id' => $project_id ) );
+            return $this->db->update($this->_table3, $data);
+        
+        } else {
+            // save new
+            
+            $data = array(
+                'Project_id' => $project_id,
+                'Project_widgets_id' => $project_widget_id,
+                'User_id' => $uid,
+                'Is_maximized' => $is_maximized,
+                'Is_open' => $is_open,
+                'Last_x_position' => $last_x,
+                'Last_y_position' => $last_y,
+                'Width' => $width,
+                'Height' => $height
+            );
+            
+            $this->db->insert($this->_table3, $data);
+ 
+        }
+        
     }
 }
