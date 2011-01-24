@@ -524,7 +524,7 @@ class Widgets
                         if($this->_CI->project_member->HaveRoleInCurrentProject($row->Minimum_role)) {
                             
                             // parse string for open
-                            $callSTR = sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                            $callSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
                             $returnSTR .= $callSTR;
                             
                             // open upon start?
