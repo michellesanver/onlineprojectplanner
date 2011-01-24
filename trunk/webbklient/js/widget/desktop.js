@@ -51,13 +51,13 @@ Desktop = {
 		}
 		
         // use last position from database if no override?
-        if (options.x == undefined || options.y == undefined) {
+        if ( (options.x == undefined || options.y == undefined) && last_position != undefined) {
             options.x = last_position.last_x;      
             options.y = last_position.last_y;
         } 
         
         // use last position from database? (default value is 0 from database)
-        if (last_position.width != 0 && last_position.height != 0) {
+        if ( last_position != undefined && (last_position.width != 0 && last_position.height != 0) ) {
             options.width = last_position.width;      
             options.height = last_position.height;
         }
@@ -77,7 +77,7 @@ Desktop = {
 		this._widgetArray[Desktop.selectedWindowId] = new Widget(Desktop.selectedWindowId, options, partialClasses);
 		
         // use last position (maximized) from database if no override?
-        if (last_position && last_position.is_maximized  && options.maximize == undefined) {
+        if ( last_position != undefined && last_position.is_maximized  && options.maximize == undefined) {
             if (last_position.is_maximized == true) {
                 this._widgetArray[Desktop.selectedWindowId].wnd.maximize();    
             }      
