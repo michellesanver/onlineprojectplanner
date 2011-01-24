@@ -2,20 +2,18 @@
 	http://localhost/~geekie/OPP/trunk/webbklient/system/application/widgets/widget_handler/css/widgethandler.css
 	http://localhost/~Geekie/OPP/trunk/webbklient/system/application/widgets/widget_handler/css/widgethandler.css
 */
-
 #available_widgets_box {
 	width: 34%;
 	float: left;
 	padding-left: 1%;
 	padding-right: 2%;
 	margin-right: 3%;
-	border-right: 1px solid #aaa;
+	border-right: 1px solid #aaa
 }
-
 
 #available_widgets_box ul {
 	display: inline;
-	text-align: center;
+	text-align: center
 }
 
 #available_widgets_box li {
@@ -29,21 +27,21 @@
 	margin-top: 2%;
 	border: 1px solid #424242;
 	background-color: #f4f4f4;
-	text-align: center;
+	text-align: center
 }
 
 #available_widgets_box li:hover {
-	background-color: #eaeaea;
+	background-color: #eaeaea
 }
 
-#your_widgets_box  {
+#your_widgets_box {
 	width: 55%;
-	float: left;
+	float: left
 }
 
 #your_widgets_box ul {
 	text-align: center;
-	display: inline;
+	display: inline
 }
 
 #your_widgets_box li {
@@ -53,17 +51,17 @@
 	margin-right: 5px;
 	margin-bottom: 5px;
 	margin-top: 5px;
-	height:  125px;
+	height: 125px;
 	list-style-type: none;
 	border: 1px solid #424242;
 	background-color: #f4f4f4;
-	text-align: center;
+	text-align: center
 }
 
-#available_widgets_box ul a{
-	text-decoration: none;
+#available_widgets_box ul a {
+	text-decoration: none
 }
 
 #your_widgets_box li:hover {
-	background-color: #eaeaea;
+	background-color: #eaeaea
 }
