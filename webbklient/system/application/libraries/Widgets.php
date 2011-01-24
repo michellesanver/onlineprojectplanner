@@ -609,5 +609,98 @@ class Widgets
        // return
        return $project_widgets;
    }
+
+   /**
+    * This function will return false if Widget already exists in
+    * Project and the Widgets settings.xml not allow multiple instances.
+    *
+    * @param int $projectId
+    * @param int $widgetId
+    * @return BOOL
+    */
+
+   function AllowedToInstanceProjectWidget($projectId, $widgetId)
+   {
+        // Get from model
+
+        $projectWidgets = $this->_CI->Widgets_model->GetProjectWidgets($projectId);
+        $widgetName = $this->_CI->Widgets_model->GetWidgetName($widgetId);
+        $allowMultiple = true;
+
+        if($widgetName != false)
+        {
+            // Get setting
+
+            foreach($this->_widgets as $widget)
+            {
+                if($widget->name == $widgetName && $widget->allow_multiple == 'no')
+                {
+                    $allowMultiple = false;
+                }
+            }
+        }
+
+        // If not allowing multible instances, see if Project_widget exists
+
+        if($allowMultiple != true && $projectWidgets != false)
+        {
+            foreach($projectWidgets as $projectWidget)
+            {
+                if($projectWidget->Widget_id == $widgetId)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+    * This function will return all Widget icons
+    * allowed to instance.
+    *
+    * @param int $projectId
+    * @return array
+    */
+
+    function GetAllIconsAsArrayAllowedToInstance($projectId)
+    {
+        $widgetArray = array();
+        $base_url = $this->_CI->config->item('base_url')."system/";
+
+        // Get from model
+
+        $projectWidgets = $this->_CI->Widgets_model->GetProjectWidgets($projectId);
+
+        foreach($this->_widgets as $widget)
+        {
+            $allowed = true;
+
+            // If  Widget exists in Project and not allowing multible instances, do not allow
+
+            foreach($projectWidgets as $projectWidget)
+            {
+                if($projectWidget->Widget_name == $widget->name)
+                {
+                    if($widget->allow_multiple == 'no')
+                    {
+                        $allowed = false;
+                    }
+                }
+                
+            }
+
+            if($allowed != false)
+            {
+                $icon = ($widget->icon != "" ? $base_url.$this->_widget_dir.'/'.$widget->name.'/'.$widget->icon : $base_url."../".$this->_generic_icon_image);
+                $widgetArray[$widget->name]['icon'] = $icon;
+                $widgetArray[$widget->name]['icon_title'] = $widget->icon_title;
+                $widgetArray[$widget->name]['id'] = $this->_CI->Widgets_model->GetWidgetId($widget->name);
+            }
+        }
+
+        return $widgetArray;
+    }
    
 }

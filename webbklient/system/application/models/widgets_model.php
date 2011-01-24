@@ -48,6 +48,34 @@ class Widgets_model extends Model  {
 				}
 
      }
+
+     /**
+     * Returns the name of an specific widget.
+     *
+     * @param int $widgetId
+     * @return string
+     */
+
+     function GetWidgetName($widgetId)
+     {
+        $table2 = $this->_table2;
+        $this->db->select("$table2.Widget_name");
+        $this->db->from($table2);
+        $this->db->where(array("$table2.Widget_id" => $widgetId));
+
+        $query = $this->db->get();
+        $row = $query->row();
+
+        if(empty($row))
+        {
+            return false;
+        }
+        else
+        {
+            return $row->Widget_name;
+        }
+
+     }
      
 			/**
 			* Returns the name of an specific widget. 

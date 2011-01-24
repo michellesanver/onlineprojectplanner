@@ -15,8 +15,8 @@
         <icon_title>Chat</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
         <widget_object>chatWidget</widget_object>
-    <!-- allow multiple instances (true or false) -->
-        <allow_multiple>true</allow_multiple>
+    <!-- allow multiple instances (yes or no) -->
+        <allow_multiple>no</allow_multiple>
     <!--
         list of files to be loaded relative to main folder of widgets
         (theese files will be loaded upon project start)
