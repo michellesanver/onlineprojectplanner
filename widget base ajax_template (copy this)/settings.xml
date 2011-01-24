@@ -12,9 +12,9 @@
     <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
 	<icon>help-desk-icon2.png</icon>
     <!-- title of widget; will be placed under icon (can be left empty) -->
-    <icon_title>AJAX Template</icon_title>
+    <icon_title>AJAX Template2</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
-    <widget_object>ajaxTemplateWidget</widget_object>
+    <widget_object>ajaxTemplateWidget2</widget_object>
     <!--
         list of files to be loaded relative to main folder of widgets
         (theese files will be loaded upon project start)
@@ -22,7 +22,7 @@
         valid types are; javascript, css
     -->
 	<load>
-        <file type="javascript">js/ajax_template.js</file>
-        <file type="css">css/ajaxtpl.css</file>
+        <file type="javascript">js/ajax_template2.js</file>
+        <file type="css">css/ajaxtpl2.css</file>
     </load>
 </settings>

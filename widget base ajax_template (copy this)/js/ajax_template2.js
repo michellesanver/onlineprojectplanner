@@ -1,6 +1,6 @@
    
 // place widget in a namespace (javascript object simulates a namespace)
-ajaxTemplateWidget = {
+ajaxTemplateWidget22 = {
 
     // widget specific settings
     partialContentDivClass: 'ajax_template_partial', // optional
@@ -14,17 +14,17 @@ ajaxTemplateWidget = {
 			// set options for window
 			var windowOptions = {
 				// change theese as needed
-				title: ajaxTemplateWidget.widgetTitle,
+				title: ajaxTemplateWidget2.widgetTitle,
 				width: 800,
 				height: 450
 			};
 	      
 			// create window
-			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass, last_position);
+			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, ajaxTemplateWidget2.partialContentDivClass, last_position);
 			
 			// load the first page upon start
-            var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name/';
-			ajaxRequests.load(loadFirstPage, "ajaxTemplateWidget.setContent", "ajaxTemplateWidget.setAjaxError");
+            var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget2.widgetName + '/some_controller_name/';
+			ajaxRequests.load(loadFirstPage, "ajaxTemplateWidget2.setContent", "ajaxTemplateWidget2.setAjaxError");
 		},
 		
 		
@@ -63,34 +63,34 @@ ajaxTemplateWidget = {
     // wrapper-function that easily can be used inside views from serverside    
     loadURL: function(url) {
         // prepare url
-        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        url = SITE_URL+'/widget/'+ajaxTemplateWidget2.widgetName+url;
 				
         // send request
-        ajaxRequests.load(url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');
+        ajaxRequests.load(url, 'ajaxTemplateWidget2.setContent', 'ajaxTemplateWidget2.setAjaxError');
     },
 		
 		// Loads a ajaxrequest to specific partialclass, in this case "ajax_template_partial"
 	loadURLtoPartialTest: function(url) {
         // prepare url
-        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        url = SITE_URL+'/widget/'+ajaxTemplateWidget2.widgetName+url;
 				
         // set currentpartial to to the classname
-        this.currentPartial = ajaxTemplateWidget.partialContentDivClass;
+        this.currentPartial = ajaxTemplateWidget2.partialContentDivClass;
         
         // send request, last parameter = true if this is a partial call. Will skip the loading image.
-        ajaxRequests.load(url, 'ajaxTemplateWidget.setPartialContent', 'ajaxTemplateWidget.setAjaxError', true);
+        ajaxRequests.load(url, 'ajaxTemplateWidget2.setPartialContent', 'ajaxTemplateWidget2.setAjaxError', true);
     },
 		
     // wrapper-function that easily can be used inside views from serverside
     postURL: function(formClass, url) {
         // prepare url
-        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
+        url = SITE_URL+'/widget/'+ajaxTemplateWidget2.widgetName+url;
 				
 		// catching the form data
 		var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();
 				
         // send request
-        ajaxRequests.post(postdata, url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');   
+        ajaxRequests.post(postdata, url, 'ajaxTemplateWidget2.setContent', 'ajaxTemplateWidget2.setAjaxError');   
     }
     
 };
