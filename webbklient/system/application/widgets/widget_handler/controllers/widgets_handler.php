@@ -30,7 +30,10 @@ class Widgets_handler extends Controller {
             $this->load->library_widget('Widgetlib');
             
             if(isset($addid)) {
+                if($this->widgetlib->allowedToInstanceProjectWidget($addid) != false)
+                {
                 $this->widgetlib->addWidgetToProject($addid);
+                }
             }
             
             if(isset($_POST["deleteid"])) {
