@@ -43,7 +43,7 @@ class Widgetlib
     
     public function getAvailableWidgets()
     {
-        return $this->_CI->Widgets->getAllIconsAsArray();
+        return $this->_CI->Widgets->GetAllIconsAsArrayAllowedToInstance($this->_current_project_id);
     }
     
     public function getProjectIcons()
@@ -54,6 +54,11 @@ class Widgetlib
     public function addTest($array)
     {
        $this->_CI->Widget_model->testSort($array);
+    }
+
+    public function allowedToInstanceProjectWidget($widgetid)
+    {
+        return $this->_CI->Widgets->AllowedToInstanceProjectWidget($this->_current_project_id, $widgetid);
     }
     
 }
