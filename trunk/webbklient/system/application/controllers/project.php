@@ -170,19 +170,26 @@ class Project extends Controller {
         
         // ----------------------------------
         // continue
-		if($widgetid != 0) {
-    		//Add widget to current project
-    		$this->widgets_model->AddProjectWidget($projectID, $widgetid);	
-    		
-    		//Go back to update
-    		redirect("project/update/$projectID"); 
-            return; 
-    	} else if($deleteid != 0) {
-    		//Delete widget from current project
-    		$this->widgets_model->DeleteProjectWidget($deleteid);	
-    		
-    		//Go back to update
-    		redirect("project/update/$projectID"); 
+
+        if($widgetid != 0)
+        {
+            if($this->widgets->AllowedToInstanceProjectWidget($projectID, $widgetid) != false)
+            {
+                //Add widget to current project
+                $this->widgets_model->AddProjectWidget($projectID, $widgetid);
+            }
+
+            //Go back to update
+            redirect("project/update/$projectID");
+            return;
+    	}
+        else if($deleteid != 0)
+        {
+            //Delete widget from current project
+            $this->widgets_model->DeleteProjectWidget($deleteid);
+
+            //Go back to update
+            redirect("project/update/$projectID");
             return; 
     	}
     	
@@ -235,7 +242,7 @@ class Project extends Controller {
                             "projectID" => $this->validation->projectID,
                             "title" => $savedData['Title'],
                             "description" => $this->validation->description,
-                            "allwidgets" => $this->widgets->GetAllIconsAsArray(),
+                            "allwidgets" => $this->widgets->GetAllIconsAsArrayAllowedToInstance($projectID),
                             "status" => "ok",
                             "status_message" => "Update was successful!"
                     );
@@ -250,7 +257,7 @@ class Project extends Controller {
                             "title" => $savedData['Title'],
                             "description" => $this->validation->description,
                             "status" => "error",
-                            "allwidgets" => $this->widgets->GetAllIconsAsArray(),
+                            "allwidgets" => $this->widgets->GetAllIconsAsArrayAllowedToInstance($projectID),
                             "status_message" => "Update failed!"
                     );
 										$this->error->log('Project update failed.', $_SERVER['REMOTE_ADDR'], 'Project/Update', 'project/Update', $update);
@@ -267,7 +274,7 @@ class Project extends Controller {
                     "title" => $savedData['Title'],
                     "description" => $this->validation->description,
                     "status" => "error",
-                    "allwidgets" => $this->widgets->GetAllIconsAsArray(),
+                    "allwidgets" => $this->widgets->GetAllIconsAsArrayAllowedToInstance($projectID),
                     "status_message" => "Update failed!"
                 );
             }
@@ -284,7 +291,7 @@ class Project extends Controller {
                     "projectID" => $savedData['Project_id'],
                     "title" => $savedData['Title'],
                     "description" => $savedData['Description'],
-                    "allwidgets" => $this->widgets->GetAllIconsAsArray(),
+                    "allwidgets" => $this->widgets->GetAllIconsAsArrayAllowedToInstance($projectID),
                     "custom_bar" => $this->load->view($this->theme->GetThemeFolder() . '/widgets/delete_bar', $widget_data, true)
                 );
             }
