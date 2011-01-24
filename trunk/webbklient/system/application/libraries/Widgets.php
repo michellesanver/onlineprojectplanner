@@ -510,7 +510,7 @@ class Widgets
                     if(is_null($row->Minimum_role)) {
                         
                         // parse string for open
-                        $returnSTR = sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                        $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
                         
                         // open upon start?
                         if ($is_open==true) {
@@ -523,7 +523,7 @@ class Widgets
                         if($this->_CI->project_member->HaveRoleInCurrentProject($row->Minimum_role)) {
                             
                             // parse string for open
-                            $returnSTR = sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
+                            $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
                             
                             // open upon start?
                             if ($is_open==true) {
