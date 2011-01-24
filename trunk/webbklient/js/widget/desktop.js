@@ -405,16 +405,11 @@ Desktop = {
     },
     
     save_position_callback_ok: function(data) {
-        // check if result is not "Ok"
-        if (unescape(data)!='Ok' && data != "") { // if data is empty; supress error (can occur if ajax request is not completed)
-            Desktop.show_errormessage('Unable to save window position! Data: '+unescape(data));    
-        }
+        // not used but a requirement for ajaxRequests
     },
 
     save_position_callback_error: function(data) {
-		if (data != "") { // if data is empty; supress error (can occur if ajax request is not completed)
-			Desktop.show_errormessage('Unable to save window position! Data: '+unescape(data));    
-		}
+		// not used but a requirement for ajaxRequests
     },
     
     // get status of current window (position etc)

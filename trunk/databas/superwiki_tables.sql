@@ -212,3 +212,15 @@ CREATE TABLE IF NOT EXISTS `Widget_Positions` (
     ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;  
+
+-- 
+-- table `Default_Widgets`
+-- 
+CREATE TABLE `Default_Widgets` (
+  `Default_widgets_id` int NOT NULL auto_increment,
+  `Widgets_id` int default '0',
+  PRIMARY KEY  (`Default_widgets_id`),
+  KEY `Widgets_id_key` (`Widgets_id`),
+  CONSTRAINT `Widgets_id_key` FOREIGN KEY (`Widgets_id`) REFERENCES `Widgets` (`Widget_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
