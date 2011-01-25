@@ -229,14 +229,7 @@ class Project_lib
         // add a tracemessage to log
         log_message('debug','#### => Library Project_lib->Update');
         
-        $projectID = $this->_CI->Project_model->update($update);
-
-        if($projectID > 0) {
-
-            return true;
-        }
-
-        return false;
+        return $this->_CI->Project_model->update($update);
     }
 
     /**
