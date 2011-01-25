@@ -196,15 +196,12 @@ class Project extends Controller {
         $data = array();
 
         // Get saved data
-
         $savedData = $this->project->Select($projectID);
 
         // If saved data exists
-
         if($savedData) {
 
             // Rules for the inputfields
-
             $rules = array (
                 "projectID" => "required|integer",
                 "description" => "required|max_length[300]|xss_clean"
@@ -213,7 +210,6 @@ class Project extends Controller {
             $this->validation->set_rules($rules);
 
             // Human names for the inputfields
-
             $field = array(
                 "projectID" => "Project_id",
                 "description" => "Description"
@@ -224,18 +220,15 @@ class Project extends Controller {
             $status = $this->validation->run();
 
             // If have status
-
             if($status) {
 
                 // Set updates
-
                 $update = array(
                         "Project_id" => $this->validation->projectID,
                         "Description" => $this->validation->description
                 );
 
                 // If validation is ok => send to library
-
                 if($this->project->Update($update)) {
 
                     $data = array(
@@ -249,7 +242,6 @@ class Project extends Controller {
                 }
 
                 // Else, if something went wrong
-
                 else {
 
                     $data = array(
@@ -266,9 +258,7 @@ class Project extends Controller {
             }
 
             // If no status but post
-
             else if($status == false && isset($_POST['update_btn'])) {
-
                 $data = array(
                     "projectID" => $this->validation->projectID,
                     "title" => $savedData['Title'],
@@ -280,7 +270,6 @@ class Project extends Controller {
             }
 
             // Else, present saved data
-
             else {
 				$widget_data = array(
 					"delete_icons" => $this->widgets->GetProjectIconsAsArray($savedData['Project_id']),
