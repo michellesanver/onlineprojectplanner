@@ -1,46 +1,32 @@
-
 <?php
     if(isset($status)) {
-        echo "<div class='" . $status . "'><b>" . $status_message . "</b></p></div>";
+        echo "<div class='" . $status . " widget_status'><b>" . $status_message . "</b></p>";
+		echo $this->validation->error_string. "</div>";
     }
 ?>
-<div id="projectmember_wrapper">
-	<h3>Invite a new member</h3>
-	<form id="<?php echo "proj_mem_".$projectID; ?>" onsubmit="return projectmembers.save();">
-		<label for="email">E-mail: </label><input type="text" name="email" value="" id="email" class="required email" />*<br/>
-		<label for="projectRoleID">Role in project: </label>
-		<select name="projectRoleID" id="projectRoleID">
-
-		<?php foreach($roles as $role): ?>
-
-			<option value="<?php echo($role['Project_role_id']);?>"><?php echo($role['Role']);?></option>
-
-		<?php endforeach; ?>
-
-		</select>
-		<br/>
-		<input type="submit" value="Invite" name="invite_btn" />
-	</form>
-	
-	<h3>Current members of this project</h3>
-	<ul id="projectmember_memberlist">
-			<?php foreach($members as $member): ?>
-				<li>
-						<?php 
-							echo "<b>" . $member['Username'] . "</b>, " .$member['Firstname'] . " " . $member['Lastname'] ." (".$member['Role'].")<br /><em>" . $member['Email'] . "</em>";
-							if($member['IsLoggedInUser'] != false && $isGeneral == false) {
-								echo "<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.leave();\">Leave</a>";
-							}
-							if($member['IsLoggedInUser'] == false && $isGeneral != false) { 
-								if($member['Project_role_id'] == "2"){
-									echo"<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.promoteToAdmin(".$member['Project_member_id'].");\">Promote to admin</a>";
-								} else if($member['Project_role_id'] == "1") {
-									echo"<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.demoteToMember(".$member['Project_member_id'].");\">Demote to member</a>";
-								}
-								echo "&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"javascript:void(0);\" onclick=\"projectmembers.kickout(".$member['User_id'].");\">Kick out</a><br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.switchgeneral(".$member['User_id'].");\">Make general</a>";
-							} 
-						?>
-				</li>
-			<?php endforeach; ?>
-	</ul>
-</div>
+<div id="projectsettings_wrapper">
+	<?php if(isset($Project_id)) { ?>
+		<p>
+			<h2>Project settings</h2>
+			<ul>
+				<li>To change the description of the project type the new description in the box below and click "Update".</li>
+				<li>To Delete the project click the "Delete" button below.</li>
+			</ul>
+		</p>
+		<p>
+			<form id="proj_desc_<?php echo $Project_id; ?>" onsubmit="return projectsettings.saveDescription();">
+				<textarea rows="5" cols="45" name="Description" class="required" id="Description"><?php echo $Description; ?></textarea><br />
+				<input type="submit" value="Update" name="update_btn" />
+			</form>
+		</p>
+		<p>
+			<h2>Delete project</h2>
+			<p>
+				Press the button below to delete this project, it can not be undone!
+				<p><input type="button" value="Delete this project" name="delete_btn" onclick="return projectsettings.deleteProj();" /></p>
+			</p>
+		</p>
+	<?php } else { ?>
+		<p><b>No project was found...</b></p>
+	<?php } ?>
+</div>  

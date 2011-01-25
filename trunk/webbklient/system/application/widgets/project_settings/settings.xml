@@ -10,9 +10,9 @@
     <!-- name of author -->
 	<author>Dennis Sangmo</author>
     <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
-	<icon>project_settings.jpg</icon>
+	<icon>project_settings.png</icon>
     <!-- title of widget; will be placed under icon (can be left empty) -->
-    <icon_title>Project Members</icon_title>
+    <icon_title>Project Settings</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
     <widget_object>projectsettings</widget_object>
     <!--

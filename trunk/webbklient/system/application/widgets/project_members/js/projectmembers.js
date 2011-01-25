@@ -145,44 +145,5 @@ projectmembers = {
     // set error-message in widgets div, called from the ajax request
     setAjaxError: function(loadURL) {
 			Desktop.show_ajax_error_in_widget(loadURL);
-    },
-    
-    // shows a message (example in start.php)
-    example_showMessage: function(message) {
-			Desktop.show_message(message);    
-	},
-    
-    // wrapper-function that easily can be used inside views from serverside    
-    loadURL: function(url) {
-        // prepare url
-        url = SITE_URL+'/widget/'+projectmembers.widgetName+url;
-				
-        // send request
-        ajaxRequests.load(url, 'projectmembers.setContent', 'projectmembers.setAjaxError');
-    },
-		
-		// Loads a ajaxrequest to specific partialclass, in this case "ajax_template_partial"
-	loadURLtoPartialTest: function(url) {
-        // prepare url
-        url = SITE_URL+'/widget/'+projectmembers.widgetName+url;
-				
-        // set currentpartial to to the classname
-        this.currentPartial = projectmembers.partialContentDivClass;
-        
-        // send request, last parameter = true if this is a partial call. Will skip the loading image.
-        ajaxRequests.load(url, 'projectmembers.setPartialContent', 'projectmembers.setAjaxError', true);
-    },
-		
-    // wrapper-function that easily can be used inside views from serverside
-    postURL: function(formClass, url) {
-        // prepare url
-        url = SITE_URL+'/widget/'+projectmembers.widgetName+url;
-				
-		// catching the form data
-		var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();
-				
-        // send request
-        ajaxRequests.post(postdata, url, 'projectmembers.setContent', 'projectmembers.setAjaxError');   
     }
-    
 };

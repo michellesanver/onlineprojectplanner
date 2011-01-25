@@ -1,21 +1,16 @@
-#projectmember_wrapper h3 {
+#projectsettings_wrapper h3 {
 	margin-top:20px;
 }
 
-#projectmember_wrapper label {
-	width:150px;
-	text-align:right;
+#projectsettings_wrapper p {
+	display:block;
 }
 
-#projectmember_wrapper {
+#projectsettings_wrapper textarea {
+	float:none;
+}
+
+#projectsettings_wrapper {
 	padding-left: 10px;
 	padding-right: 10px;
-}
-
-#projectmember_memberlist a {
-	color: blue;
-}
-
-#projectmember_memberlist li {
-	margin-bottom: 10px;
 }
