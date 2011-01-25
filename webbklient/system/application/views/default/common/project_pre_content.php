@@ -60,11 +60,7 @@
                             <?php endforeach; ?>
                         </ul>
                     </div>
-    				
-    				<a href="<?php echo(site_url("project/update/{$current_project_id}")); ?>">
-           		       <img src="<?php echo($base_url . "images/buttons/Settings.png"); ?>" />
-                    </a>
-				     
+    			   
     				<div id="topbarimages">
     				    <a href="<?php echo(site_url('project/index')); ?>">
     				       <img src="<?php echo("{$base_url}images/buttons/home.png"); ?>"/>
