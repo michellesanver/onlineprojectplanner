@@ -24,6 +24,12 @@ class ps_controller extends Controller {
 		// add a tracemessage to log
 		log_message('debug','#### => Controller ps_controller->index');
 		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
+		
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
 		{
@@ -57,6 +63,12 @@ class ps_controller extends Controller {
 	function saveDescription() {
 		// add a tracemessage to log
 		log_message('debug','#### => Controller ps_controller->saveDescription');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
 		
 		$Pid = (int)$_POST['Project_id'];
 
@@ -122,6 +134,12 @@ class ps_controller extends Controller {
 	{
 		// Add a tracemessage to log
 		log_message('debug','#### => Controller ps_controller>delete');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
 
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
