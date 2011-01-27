@@ -87,6 +87,6 @@
 
     
     <div id="widget_bar"><?php echo($widget_bar); ?></div>
-    
+
     <div id="desktop" pid="<?php echo $current_project_id; ?>">
 
