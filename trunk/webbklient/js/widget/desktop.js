@@ -120,7 +120,11 @@ Desktop = {
 			// set state as open and transparency for icon to 20%
 			$('#'+widgetIconId).attr('state', 'open');
 			$('#'+widgetIconId).css({ 'opacity':'0.2', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=20)"', 'filter':'alpha(opacity=20)' });
-		}
+
+                        // update desktop size
+
+                        this.updateContentSize();
+                    }
 		
 	},
 
@@ -129,9 +133,8 @@ Desktop = {
 	{
 		// close widget
         this._widgetArray[Desktop.selectedWindowId].closeWidget();
-		
 		// reset icon
-		reset_widget(widgetIconId);    
+		reset_widget(widgetIconId);
 	},
 
 	// callback for close
@@ -447,6 +450,16 @@ Desktop = {
               
        // return the data we got
        return returnData; 
+    },
+
+    updateContentSize: function()
+    {
+        var docHeight = $(document).height();
+        var topBarHeight = $('#topbar').height();
+        var wBarHeight = $('#widget_bar').height();
+        var contentHeight = (((docHeight - topBarHeight) - wBarHeight) - 20); // 20 is for margins
+
+        $('#desktop').css('height',contentHeight+'px');
     }
     
 }
