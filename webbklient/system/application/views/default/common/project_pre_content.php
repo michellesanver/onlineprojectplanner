@@ -29,11 +29,11 @@
 <div id="wrapper">
     
     <div id="fullpage_overlay"></div><div id="message"></div> 
-  
+
     <div id="topbar">
+
         <span class="sitetitle"><?php echo "<a href=\"$base_url\" class=\"home_link\">$site_title</a>"; ?></span>
-        
-        
+
         <?php if($is_logged_in): ?>
             
             <div class="topbuttons">
@@ -62,30 +62,32 @@
                         </ul>
                     </div>
     			   
-    				<div id="topbarimages">
-    				    <a href="<?php echo(site_url('project/index')); ?>">
-    				       <img src="<?php echo("{$base_url}images/buttons/home.png"); ?>"/>
-    				    </a>
-    				    
-    				    <a href="<?php echo(site_url('account/edit')); ?>">
-    				       <img src="<?php echo("{$base_url}images/buttons/profile.png"); ?>"/>
-    				    </a>
-    				    
-    				    <a href="<?php echo(site_url('account/logout')); ?>">
-    				       <img src="<?php echo("{$base_url}images/buttons/logout.png"); ?>"/>
-    				    </a>
-    				    
-    				</div>	
-					
-					
+                    <div id="topbarimages">
+                        <a href="<?php echo(site_url('project/index')); ?>">
+                           <img src="<?php echo("{$base_url}images/buttons/home.png"); ?>"/>
+                        </a>
+
+                        <a href="<?php echo(site_url('account/edit')); ?>">
+                           <img src="<?php echo("{$base_url}images/buttons/profile.png"); ?>"/>
+                        </a>
+
+                        <a href="<?php echo(site_url('account/logout')); ?>">
+                           <img src="<?php echo("{$base_url}images/buttons/logout.png"); ?>"/>
+                        </a>
+
+                    </div>
 
                 </div>
                 
                 <br style="clear:both;" />
+
             </div>
+
+            <br style="clear:both;" />
 
         <?php endif; ?>
 
+    </div>
     
     <div id="widget_bar"><?php echo($widget_bar); ?></div>
 

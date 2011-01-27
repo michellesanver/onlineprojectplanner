@@ -17,7 +17,7 @@ function setContentSize()
     var docHeight = $(document).height();
     var topBarHeight = $('#topbar').height();
     var wBarHeight = $('#widget_bar').height();
-    var contentHeight = (((docHeight - topBarHeight) - wBarHeight) - 20); // 20 is for margins
+    var contentHeight = (((docHeight - topBarHeight) - wBarHeight) - 21); // 21 is for margins
     
     $('#desktop').css('height',contentHeight+'px');  
 }
