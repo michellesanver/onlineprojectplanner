@@ -20,9 +20,14 @@ class pm_controller extends Controller {
 	*/
 	function index($Pid)
 	{
-		
 		// add a tracemessage to log
 		log_message('debug','#### => Controller pm_controller->index');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
 		
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
@@ -78,6 +83,12 @@ class pm_controller extends Controller {
 	function save() {
 		// add a tracemessage to log
 		log_message('debug','#### => Controller pm_controller->save');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
 		
 		if(isset($_POST['projectID'])) {
 			$Pid = $_POST['projectID'];
@@ -180,7 +191,13 @@ class pm_controller extends Controller {
 	function kickOut($victimID, $projectID)
 	{
 		// Add a tracemessage to log
-		log_message('debug','#### => Controller Project->KickOut');
+		log_message('debug','#### => Controller pm_controller->kickOut');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
 
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
@@ -248,7 +265,13 @@ class pm_controller extends Controller {
 	function switchGeneral($victimID, $projectID)
 	{
 		// Add a tracemessage to log
-		log_message('debug','#### => Controller Project->SwitchGeneral');
+		log_message('debug','#### => Controller pm_controller->switchGeneral');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
 
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
@@ -318,6 +341,12 @@ class pm_controller extends Controller {
 	{
 		// Add a tracemessage to log
 		log_message('debug','#### => Controller Project->Leave');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
 
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
@@ -368,6 +397,12 @@ class pm_controller extends Controller {
 		
 		// Add a tracemessage to log
 		log_message('debug','#### => Controller Project->promoteToAdmin');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
 
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
@@ -417,6 +452,12 @@ class pm_controller extends Controller {
 		
 		// Add a tracemessage to log
 		log_message('debug','#### => Controller Project->promoteToAdmin');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
 
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
