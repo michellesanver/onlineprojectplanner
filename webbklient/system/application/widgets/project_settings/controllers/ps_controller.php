@@ -82,7 +82,7 @@ class ps_controller extends Controller {
 		}
 		
 		// Rules for the inputfields
-		$this->validation->set_rules(array ("Description" => "required|max_length[300]|xss_clean"));
+		$this->validation->set_rules(array("Description" => "required|max_length[300]|xss_clean"));
 		
 		// Human names for the inputfields
 		$this->validation->set_fields(array("Description" => "Description"));
