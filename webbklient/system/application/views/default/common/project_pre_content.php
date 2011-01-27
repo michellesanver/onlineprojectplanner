@@ -17,6 +17,7 @@
   
   <!-- widgets -->
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/desktop.js"></script>
+  <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/desktop_remote.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/widget.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/ajax_requests.js"></script>
   <?php echo $widget_javascript; ?>
