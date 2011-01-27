@@ -1,4 +1,3 @@
-   
 // place widget in a namespace (javascript object simulates a namespace)
 projectmembers = {
 

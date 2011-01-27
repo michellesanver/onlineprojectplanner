@@ -8,7 +8,7 @@ class pm_controller extends Controller {
 	function __construct()
 	{
 		parent::Controller();
-		$this->load->library(array('project_member', 'emailsender', 'invitation', 'project_lib'));
+		$this->load->library(array('project_member', 'validation', 'emailsender', 'invitation', 'project_lib'));
 		$this->load->model(array("project_model", "Invitation_model", "Project_member_model", "Project_role_model"));
 	}
 	
@@ -22,7 +22,7 @@ class pm_controller extends Controller {
 	{
 		
 		// add a tracemessage to log
-		log_message('debug','#### => Controller Project->Members');
+		log_message('debug','#### => Controller pm_controller->index');
 		
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
@@ -76,19 +76,45 @@ class pm_controller extends Controller {
 	* for the invitation email to be sant.
 	*/
 	function save() {
+		// add a tracemessage to log
+		log_message('debug','#### => Controller pm_controller->save');
+		
+		if(isset($_POST['projectID'])) {
+			$Pid = $_POST['projectID'];
+		} else {
+			echo json_encode(array("status" => "error", "status_message" => "An error has occurred with the project."));
+			return;
+		}
+		
+		// If User is not logged in
+		if($this->user->IsLoggedIn()==false)
+		{
+			echo json_encode(array("status" => "error", "status_message" => "You are not authenticated. Please login!"));
+			return;
+		}
+
+		// Is user is not member in selected project
+		if($this->project_member->IsMember($Pid)==false)
+		{
+			echo json_encode(array("status" => "error", "status_message" => "You are not a member of this project"));
+			return;
+		}
+		
 		$data = array();
 		
-		if(count($_POST) > 0) {
-			$post = $_POST;
-			
+		// Rules for the inputfields
+		$this->validation->set_rules(array("email" => "required|valid_email"));
+		
+		// Human names for the inputfields
+		$this->validation->set_fields(array("email" => "Email"));
+		
+		if($this->validation->run()) {
 			// Set invitation
 			// Create invitation code
 			$code = "";
 
-			for($n = 0; $n < 10; $n++)
-			{
-				switch (rand(1,3))
-				{
+			for($n = 0; $n < 10; $n++) {
+				switch (rand(1,3)) {
 					// numbers
 					case 1: $code .= chr( rand(49,57) ); break;
 
@@ -105,29 +131,23 @@ class pm_controller extends Controller {
 			
 			$invitation = array(
 				"Code" => $encryptedCode,
-				"Project_id" => $post['projectID'],
-				"Project_role_id" => $post['projectRoleID']
+				"Project_id" => $_POST['projectID'],
+				"Project_role_id" => $_POST['projectRoleID']
 			);
-			//var_dump($invitation);
+			
 			// If validation is ok => send to library
 			$invitationId = $this->Invitation_model->insert($invitation);;
 			
-			if($invitationId > 0)
-			{
+			if($invitationId > 0) {
 				// Send an invitation by email
-				if($this->emailsender->SendInvitationMail($post['email'], $encryptedCode) == false)
-				{
+				$email = (isset($this->validation->email)) ? $this->validation->email : "";
+				if($email == "" || $this->emailsender->SendInvitationMail($email, $encryptedCode) == false) {
 					$data = array(
 						"status" => "error",
 						"status_message" => "Failed to send invitation email"
 					);
-
-					$status = false;
-
-					$this->invitation_model->delete($invitationId);
-				}
-				else
-				{
+					$this->Invitation_model->delete($invitationId);
+				} else {
 					$data = array(
 						"status" => "ok",
 						"status_message" => "Invite was successful!"
@@ -227,8 +247,8 @@ class pm_controller extends Controller {
 
 	function switchGeneral($victimID, $projectID)
 	{
-			// Add a tracemessage to log
-			log_message('debug','#### => Controller Project->SwitchGeneral');
+		// Add a tracemessage to log
+		log_message('debug','#### => Controller Project->SwitchGeneral');
 
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
