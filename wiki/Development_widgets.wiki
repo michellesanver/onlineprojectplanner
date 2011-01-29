@@ -44,8 +44,8 @@ Each widget is required to have the file settings.xml inside the root-folder of 
     <icon_title>Iframe Template</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
     <widget_object>iframeTemplateWidget</widget_object>
-    <!-- optional setting; Minimun role for this widget. Defaults to NULL (=Member) -->
-    <minimun_role>Admin</minimun_role>
+    <!-- optional setting; Minimum role for this widget. Defaults to NULL (=Member) -->
+    <minimum_role>Admin</minimum_role>
     <!-- optional setting; In_development is flag if this widget is under development (defaults to false). Used in syncronization of widgets. -->
     <in_development>true</in_development>
     <!--
