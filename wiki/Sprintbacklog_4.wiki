@@ -7,3 +7,5 @@
  * Bygga chattserver, fixa klienten. 65h Ma/T
  * Ändra namn på en widget-instans 20h F
  * Burndown chart 50h Mi
+
+Notis; refactoring om tid finns över (gäller alla)
