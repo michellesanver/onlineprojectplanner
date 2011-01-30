@@ -16,6 +16,10 @@ class Widgetlib
         $this->_CI->load->library('Widgets', null, 'Widgets');
         $this->_CI->load->model('Widgets_model', null, 'Widgets_model');
         $this->_current_project_id = $this->_CI->Project->checkCurrentProject();
+        
+        // manually read widgets (widgets library has an override if an
+        // ajax call has been made; so override and read folders)
+        $this->_CI->Widgets->ManualReadWidgets();
     }
     
     public function addWidgetToProject($widget_id)

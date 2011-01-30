@@ -37,10 +37,16 @@
 $active_group = "default";
 $active_record = TRUE;
 
+//$db['default']['hostname'] = 'localhost';
+//$db['default']['database'] = "superwiki";
+//$db['default']['username'] = "root";
+//$db['default']['password'] = '';
+
 $db['default']['hostname'] = "91.142.190.36";
+$db['default']['database'] = "superwiki";
 $db['default']['username'] = "root";
 $db['default']['password'] = "cs3C8s48";
-$db['default']['database'] = "superwiki";
+
 $db['default']['dbdriver'] = "mysqli";
 $db['default']['dbprefix'] = "";
 $db['default']['pconnect'] = TRUE;

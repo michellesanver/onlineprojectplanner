@@ -32,6 +32,18 @@ $config['webclient']['theme'] = "default";
 
 
 /* ---------------------------------------
+* Delay Widgets-syncronization
+* 
+* - if true, then sync to database will be
+*   delayed by 15 minutes (default) and
+*   lower the number of database requests
+* --------------------------------------- */
+
+$config['webclient']['delay_widgets_sync'] = false;
+$config['webclient']['delay_widgets_sync_minutes'] = 15;
+
+
+/* ---------------------------------------
 * System email (reset password etc)
 * - will be used as a "from-address"
 * --------------------------------------- */

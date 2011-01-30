@@ -17,8 +17,10 @@ class Widgets
     private $_icon_height = 48;
     private $_icon_width = 48;
     
-	function __construct()
-	{
+    private $_delay_widgets_sync = false; // default value
+    private $_delay_widgets_sync_minutes = 15; // default value
+    
+    function __construct() {
         // get CI instance
         $this->_CI = & get_instance();
         
@@ -30,15 +32,52 @@ class Widgets
        $widget_error = $this->_CI->session->userdata('widget_save_error');
        if ($widget_error == false) 
        {
-            // read all folders with widgets at start
-	        $this->_readWidgets();
+	    // get settings from config about widgets sync
+	    $this->_delay_widgets_sync = (bool)$this->_CI->config->item('delay_widgets_sync', 'webclient');
+	    $this->_delay_widgets_sync_minutes = (int)$this->_CI->config->item('delay_widgets_sync_minutes', 'webclient');
+
+	    // is it a ajax_call from the user?
+	    if ( defined('IS_AJAX') && IS_AJAX == true ) {
+		
+		// log a message
+	        log_message('debug', 'Scanning for widgets have been disabled due to AJAX call');
+		
+	    // does uri contain "common_variables" ?
+	    } else if ( preg_match('/common_variables/', $_SERVER['REQUEST_URI']) ) {		
+		
+		// log a message
+	        log_message('debug', 'Scanning for widgets have been disabled due to call from URI "common_variables"');
+		
+	    // read all folders with widgets at start
+	    } else {
+		
+		$this->_readWidgets();
+	    }
        }
        else
        {
            // clear error
            $this->_CI->session->unset_userdata('widget_save_error');
        }
+    }
+
+
+    /**
+    * Read Widgets from folders
+    * 
+    * - used in widgethandler to bypass IS_AJAX override
+    */
+    function ManualReadWidgets() {
+	// if empty; read widgets
+	if (empty($this->_widgets)) {
+	    
+	    // log a message
+	    log_message('debug', 'Manually reading widgets folder');
+	    
+	    // read all folders with widget
+	    $this->_readWidgets();   
 	}
+    }
 
     /**
     * Initializer; will read and store information
@@ -46,8 +85,12 @@ class Widgets
     */
     function _readWidgets()
     {
-        $folder_widget_names = array(); // save names here for delete-search in db
-        
+	// log a message
+	log_message('debug', 'Scanning widgets folder');
+	
+	// save names here
+        $folder_widget_names = array(); 
+      
         // set folder
         $dir = BASEPATH . $this->_widget_dir;
       
@@ -91,11 +134,45 @@ class Widgets
                             array_push($w->files, $ws);
                         }
                         
+			// does setting in_development exist?
+			if ($settings->in_development) {
+			    
+			    // is it true or false?
+			    if ((string)$settings->in_development=='true') {
+				$w->in_development = true;
+			    } else {
+				$w->in_development = false;
+			    }
+			    
+			} else {
+			    
+			    // default value; false
+			    $w->in_development = false;
+			    
+			}
+			
+			// does setting minimum_role exist?
+			if ($settings->minimum_role) {
+			    
+			    // copy value
+			    $w->minimum_role = (string)$settings->minimum_role;
+			    
+			} else {
+			    
+			    // default value; NULL
+			    $w->minimum_role = 'NULL';
+			    
+			}
+			
                         // save to private array for the class
                         array_push($this->_widgets, $w);    
                         
-                        // just save the name for delete-search in db
-                        array_push($folder_widget_names, $w->name);
+                        // save name and in_development for delete-search in db
+			$obj = new stdClass();
+			$obj->name = $w->name;
+			$obj->in_development = $w->in_development;
+			$obj->minimum_role = $w->minimum_role;
+                        array_push($folder_widget_names, $obj );
                     }
                 }
             }
@@ -103,54 +180,102 @@ class Widgets
             
             // also fetch rows from database and update if needed
             $stored_widgets = $this->_CI->Widgets_model->GetStoredWidgets();
+	    
+	    // log a message
+	    log_message('debug', 'Running widgets syncronization');
+	    
+	    // check delay of sync
+	    if ( $this->_delay_widgets_sync == true ) {
+	    
+		$next_sync = $this->_CI->session->userdata('next_widgets_sync');
+		if ( $next_sync != false ) { // compare time if not false (session->userdata returns false if not set)
+	    
+		    $current_time = time();
+		    if ( (int)$next_sync > $current_time ) {
+			
+			// ------------
+			//
+			// abort sync    
+			//
+			// ------------
+			 
+			log_message('debug', 'Widgets syncronization has been delayed');
+			return;
+		    
+		    } else {
+			// time to do a new sync; set new time
+			$this->_CI->session->set_userdata('next_widgets_sync', strtotime('+'.$this->_delay_widgets_sync_minutes.'min'));
+		    }
+		    
+		} else {
+		    // nothing set; save new time
+		    $this->_CI->session->set_userdata('next_widgets_sync', strtotime('+'.$this->_delay_widgets_sync_minutes.'min'));
+		}
+	    }
+	    
+	    // run sync or not (add and delete)?
             if (count($stored_widgets) != count($this->_widgets))
             {
-                // -------------------------------
-                // update database
-                // -------------------------------
-                
+		
+                // -------------------------------------------
+                // update database (widgets syncronization)
+                // -------------------------------------------
                 
                 // storage for widgets to delete or add
                 $widget_delete = array(); 
                 $widget_add = array();
-                
-                // add all folders?
+	        
+                // any widgets in database?
                 if ($stored_widgets!=false)
                 {
-                    // store just names of widgets from the db here
-                    // in the first loop so we can compare for add
-                    $db_widget_names = array();
-                        
-                    //--------------------------------------- 
-                    // loop thru db results
+                   
+                    //-------------------------------------------------------
+                    // loop thru db results (scan for widgets to delete in database)
                     foreach ($stored_widgets as $row)
                     {
-                    
+			// search if name exist
+			$current_row = null;
+			foreach ($folder_widget_names as $row2) {
+			    
+			    if ($row2->name == $row->Widget_name) {
+				// set flag and exist
+				$current_row = $row2;
+				break;
+			    }
+			    
+			}
+	
                         // does the name from database exist in folders?
-                        if (in_array($row->Widget_name, $folder_widget_names)==false)
-                        {
-                            // push to array for delete from db
-                            array_push($widget_delete, $row->Widget_name);    
+                        if ( is_null($current_row) ) { // is_null returns true or mixed
+                            
+			    // push to array for delete from db
+                            array_push($widget_delete, $row->Widget_name);
+			    
                         }
-                        else
-                        {
-                            // store name from db
-                            array_push($db_widget_names, $row->Widget_name);
-                        }
+			
                     }
                     
-                    //---------------------------------------
-                    // loop thru folder results
+                    //--------------------------------------------------------
+                    // loop thru folder results (scan for folders to add)
                     foreach ($folder_widget_names as $row)
                     {
-                    
+			$current_row = null;
+			foreach($stored_widgets as $row2) {
+			    if ($row->name == $row2->Widget_name) {
+				$current_row = $row2;
+				break;
+			    }
+			}
+		    
                         // does the name from database exist in folders?
-                        if (in_array($row, $db_widget_names)==false)
-                        {
+			if ( is_null($current_row) ) { // is_null returns true or mixed
+                        
                             // push to array for add to db
-                            array_push($widget_add, $row);    
+                            array_push($widget_add, $row);
+			    
                         }
                     }
+		    
                 }
                 else
                 {
@@ -159,12 +284,17 @@ class Widgets
                      
                      $widget_add = $folder_widget_names;
                 }
-                
-                
+  
+  
+		/*log_message('debug', '##### => $widget_add has '.var_export($widget_add,true));
+		log_message('debug', '##### => $widget_delete has '.var_export($widget_delete,true));*/
+   
+  
                 //---------------------------------------
                 // delete from db?    
                 if ( empty($widget_delete) == false)
                 {
+
                     if ($this->_CI->Widgets_model->DeleteStoredWidgets($widget_delete) == false )
                     {
                         // development mode?
@@ -194,10 +324,10 @@ class Widgets
                     }
                     else
                     {
-                        log_message('debug','#### => Notice: Class Widgets deleted '.count($widget_delete).' widgets from database.');
-                    }
+                        log_message('debug','Class Widgets deleted '.count($widget_delete).' widgets from database.');
+                    } 
                 }
-                
+ 
                 //---------------------------------------
                 // add new widget-names to db?
                 if ( empty($widget_add) == false )
@@ -226,14 +356,101 @@ class Widgets
                     }
                     else
                     {
-                        log_message('debug','#### => Notice: Class Widgets added '.count($widget_add).' new widgets to database.');
-                    }
+                        log_message('debug','Class Widgets added '.count($widget_add).' new widgets to database.');
+                    } 
                 }
-                
   
-            }
+		//--------------------------------------------------------------
+		log_message('debug', 'Widgets syncronization completed');
+	
+	    // count matched, check if db is empty; then check for updates
+	    } else if ($stored_widgets!=false) {
+		
+		// storage for widgets to update
+                $widget_update = array();
+		
+		//---------------------------------------------------------------
+		// loop thru db results (scan for widgets to update in database)
+		foreach ($stored_widgets as $row)
+		{
+		    // search if name exist
+		    $current_row = null;
+		    foreach ($folder_widget_names as $row2) {
+			
+			if ($row2->name == $row->Widget_name) {
+			    // set flag and exist
+			    $current_row = $row2;
+			    break;
+			}
+			
+		    }
+		    
+		    // does the name from database exist in folders?
+		    if ( empty($current_row) == false ) { // is_null returns true or mixed
+			
+			$row_update = false;
+			
+			// does in_development match in database and settings.xml?
+			if ($row->In_development == '1' && $current_row->in_development != true) {
+			
+			    // set flag
+			    $row_update = true;
+			    
+			}
+			
+			// minium_role; convert null to string 'null'
+			$db_role = ( empty($row->Minimum_role) ? 'NULL' : $row->Minimum_role );
+			
+			// minium_role; check if rows does not match    
+			if ( strtolower($db_role) != strtolower($current_row->minimum_role) ) {
+			
+			    // set flag
+			    $row_update = true;
+			    
+			}
+			
+			// any update?
+			if ($row_update === true) {
+			    
+			    // add id for easier update in
+			    $current_row->widget_id = $row->Widget_id; 
+			    
+			    // push for update
+			    array_push($widget_update, $current_row);
+			    
+			}
+		    }
+		    
+		}
+		
+		//log_message('debug', '##### => $widget_update has '.var_export($widget_update,true));
+		
+                //---------------------------------------
+                // update widgets in db?    
+                if ( empty($widget_update) == false)
+                {
+		   if ($this->_CI->Widgets_model->UpdateStoredWidgets($widget_update) == false) {
+		    
+                        // failed to update
+                        log_message('Error','#### => Panic! Failed to update widgets in database.');
+		    
+		   } else {
+		    
+                        log_message('debug','Class Widgets updated '.count($widget_update).' widgets in database.');
+                   }
+		}
+		
+		//--------------------------------------------------------------
+		log_message('debug', 'Widgets syncronization completed');
+		
+            } else { // end if (count($stored_widgets) != count($this->_widgets)) ..
+		
+		// log a message
+	        log_message('debug', 'No widgets to syncronize');
+		
+	    }
             
-        }       
+        } // end if ($dh = opendir($dir)) ..      
     
     }
     
@@ -600,7 +817,7 @@ class Widgets
        // get from model
        $project_widgets = $this->_CI->Widgets_model->GetProjectWidgets($projectID); 
    
-       log_message('debug','Widgets->_GetProjectWidgets() has $project_widgets: '.var_export($project_widgets,true));
+       //log_message('debug','Widgets->_GetProjectWidgets() has $project_widgets: '.var_export($project_widgets,true));
         
        // cache data (we will probably use it again very soon, loading icons and loading javascripts for example)
        $this->_CI->session->set_userdata('cache_project_widgets', serialize($project_widgets));
