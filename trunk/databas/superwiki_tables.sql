@@ -156,6 +156,7 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
 	`Project_widgets_id` INT NOT NULL AUTO_INCREMENT,
 	`Project_id` INT NOT NULL ,
     `Widget_id` INT NOT NULL,
+    `Widget_instance_name` VARCHAR( 30 ) NOT NULL ,
 	`Is_active` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
     `Order` SMALLINT UNSIGNED NOT NULL DEFAULT '0',
 	PRIMARY KEY ( `Project_widgets_id` ),

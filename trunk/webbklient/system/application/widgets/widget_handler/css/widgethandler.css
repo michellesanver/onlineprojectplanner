@@ -51,11 +51,15 @@
 	margin-right: 5px;
 	margin-bottom: 5px;
 	margin-top: 5px;
-	height: 125px;
+	height: 150px;
 	list-style-type: none;
 	border: 1px solid #424242;
 	background-color: #f4f4f4;
 	text-align: center
+}
+
+input.widgets_handler_formbutton {
+	margin-top:5px;
 }
 
 #available_widgets_box ul a {

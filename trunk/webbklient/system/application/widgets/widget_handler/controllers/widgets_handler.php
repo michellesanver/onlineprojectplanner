@@ -32,12 +32,13 @@ class Widgets_handler extends Controller {
             if(isset($addid)) {
                 if($this->widgetlib->allowedToInstanceProjectWidget($addid) != false)
                 {
-                $this->widgetlib->addWidgetToProject($addid);
+                    $this->widgetlib->addWidgetToProject($addid);
                 }
             }
             
-            if(isset($_POST["deleteid"])) {
-                $this->widgetlib->removeWidgetFromProject($_POST["deleteid"]);
+            if(isset($_POST["widgetid"])) {
+                $widget_id = $this->input->post('widgetid', true);
+                $this->widgetlib->removeWidgetFromProject($widget_id);
             }
             
             $widgets = $this->widgetlib->getAvailableWidgets();
@@ -83,5 +84,26 @@ class Widgets_handler extends Controller {
     }
     
   
-  
+    function rename() {
+       
+        $this->load->library('project_member');
+        
+         // check authorization
+        if ($this->project_member->HaveRoleInCurrentProject('Admin')) {
+            
+            $widget_name = "widget_handler";
+            $this->load->library_widget('Widgetlib');
+            
+            
+            
+            
+            
+            
+            
+        } else {
+            
+            die("You have no permission to view this widget.");
+        }
+        
+    }
 }

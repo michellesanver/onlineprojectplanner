@@ -321,13 +321,41 @@ class Widgets_model extends Model  {
         return true;
     }
     
-    function AddProjectWidget($projectid, $widgetid)
+	/**
+	 * Add a widget to a project. If $instance_name is empty (default value)
+	 * then the instance will have the same name as the widget.
+	 *
+	 * @param int $projectid
+	 * @param int $widgetid
+	 * @param string $instancename (default empty)
+	 **/
+    function AddProjectWidget($projectid, $widgetid, $instancename="")
     {
         // start transaction (function will FAIL if transaction is not used)  
         $this->db->trans_begin();  
         
+		// empty name?
+		if (empty($instancename)) {
+		  
+		  // fetch default name and handle result
+		  $query = $this->db->get_where($this->_table2, array('Widget_id'=>$widgetid));
+		  if ($query->num_rows()==1) {
+			   
+			   // save name
+			   $result = $query->row(0);
+			   $instancename = $result->Widget_name;
+			   
+		  } else {
+			   
+			   // failsafe; should not happen
+			   $instancename = "Unkown (DB Err)";
+			   
+		  }
+		  
+		}
+		
         // insert row
-        $this->db->insert($this->_table, array('Project_id' => $projectid, 'Widget_id' => $widgetid, 'Is_active' => 1));
+        $this->db->insert($this->_table, array('Project_id' => $projectid, 'Widget_id' => $widgetid, 'Is_active' => 1, 'Widget_instance_name' => $instancename));
      
         // nothing changed?
         if ( $this->db->affected_rows() == 0 )
