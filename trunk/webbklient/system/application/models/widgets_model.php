@@ -187,7 +187,7 @@ class Widgets_model extends Model  {
     /**
     * This will add a list of names to the database (table Widgets)
     * 
-    * @param array $names
+    * @param array $names (array of objects, one object has attribute name(string) and in_development(bool))
     * @return bool
     */
     function AddStoredWidgets($names)
@@ -197,15 +197,29 @@ class Widgets_model extends Model  {
         
         foreach($names as $row)
         {
-            $this->db->insert($this->_table2, array('Widget_name' => $row) );
+	       // escape and process values for db
+	       $widget_name = $this->db->escape($row->name); 
+	       $in_development = ($row->in_development==true ? "'1'" : "'0'" ); // saved as tinyint in database
+	       $minimum_role = $row->minimum_role;
+	       
+	       // is minimum_role NOT null?
+	       if (strtolower($minimum_role) != 'null') {
+		    $minimum_role = $this->db->escape( ucfirst(strtolower($minimum_role)) ); // add qoutes
+	       }
+	       
+	       // create sql-query (active db will fail beause of 'Minimum_role' has a default value of null)
+	       $sql = "INSERT INTO `".$this->_table2."` (`Widget_name`, `In_development`, `Minimum_role`) VALUES ($widget_name, $in_development, $minimum_role)";
+	  
+	       // run query
+	       $this->db->query($sql);
         
-            // nothing changed?
-            if ( $this->db->affected_rows() == 0 )
-            {
-                // roll back transaction and return false
-                $this->db->trans_rollback();
-                return false;
-            }
+	       // nothing changed?
+	       if ( $this->db->affected_rows() == 0 )
+	       {
+		   // roll back transaction and return false
+		   $this->db->trans_rollback();
+		   return false;
+	       }
         } 
         
         // else; all ok! commit transaction and return true
@@ -216,7 +230,7 @@ class Widgets_model extends Model  {
     /**
     * This will delete a list of names to the database (table Widgets)
     * 
-    * @param array $names
+    * @param array $names (array of strings)
     * @return bool
     */
     function DeleteStoredWidgets($names)
@@ -227,33 +241,84 @@ class Widgets_model extends Model  {
         
         foreach($names as $row)
         {
-            // is widget in devmode?
-            $query = $this->db->get_where($this->_table2, array('Widget_name' => $row));
-            $result = $query->result();
-            if ($result[0]->In_development == '1')
-            {
-                // yes, do a override
-                $this->_deleteQuery_InDevMode = true;
-				$this->db->trans_rollback();
-                return false;
-            }
+          // is widget in devmode?
+          $query = $this->db->get_where($this->_table2, array('Widget_name' => $row));
             
-            
-            $res = $this->db->delete($this->_table2, array('Widget_name' => $row) );
-        
-            // nothing changed?
-            if ( $res == false )
-            {
-                // roll back transaction and return false
-                $this->db->trans_rollback();
-                return false;
-            }
+	  // test if query returned one match (this may fail if multiple people are
+	  // in the system at the same time and more than one has a delete in progress)
+	  if ($query && $query->num_rows() == 1) {
+	       
+	       $result = $query->row(0);
+	       if ($result->In_development == '1')
+	       {
+		   // yes, do a override
+		   $this->_deleteQuery_InDevMode = true;
+		   $this->db->trans_rollback();
+		   return false;
+	       }
+	  
+	       $res = $this->db->delete($this->_table2, array('Widget_name' => $row) );
+	   
+	       // nothing changed?
+	       if ( $res == false )
+	       {
+		   // roll back transaction and return false
+		   $this->db->trans_rollback();
+		   return false;
+	       }
+	  }
+	    
         } 
         
         // else; all ok! commit transaction and return true
         $this->db->trans_commit();
         return true;
          
+    }
+    
+    /**
+     * Will update table 'Widgets' with new values (from syncronization)
+     *
+     * @param array $widgets (array of objects)
+     * @return bool
+     */
+    function UpdateStoredWidgets($widgets)
+    {
+        // start transaction (function will FAIL if transaction is not used)  
+        $this->db->trans_begin();
+	
+	// loop thru array
+	foreach ($widgets as $row) {
+	
+	       // escape and process values for db
+	       $widget_id = $this->db->escape($row->widget_id); 
+	       $in_development = ($row->in_development==true ? "'1'" : "'0'" ); // saved as tinyint in database
+	       $minimum_role = $row->minimum_role;
+	       
+	       // is minimum_role NOT null?
+	       if (strtolower($minimum_role) != 'null') {
+		    $minimum_role = $this->db->escape( ucfirst(strtolower($minimum_role)) ); // add qoutes
+	       }
+	  
+	       // create sql
+	       $sql = "UPDATE `".$this->_table2."` SET `In_development` = $in_development, `Minimum_role` = $minimum_role WHERE `Widget_id` = $widget_id";
+	  
+	       // run query
+	       $this->db->query($sql);
+        
+	       // nothing changed?
+	       if ( $this->db->affected_rows() == 0 )
+	       {
+		   // roll back transaction and return false
+		   $this->db->trans_rollback();
+		   return false;
+	       }
+	  
+	}
+	
+        // else; all ok! commit transaction and return true
+        $this->db->trans_commit(); 
+        return true;
     }
     
     function AddProjectWidget($projectid, $widgetid)
