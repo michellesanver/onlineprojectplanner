@@ -41,11 +41,118 @@ widgethandler = {
 			this.currentPartial = null;
     },
     
-    deleteWidget: function(formClass, url) {
-		if(confirm("Are you sure you want to delete this widget?")) {
-			widgethandler.postURL(formClass, url);
-		}
-	},
+    // confirm that user really wants to delete
+    deleteWidget: function(formClass, url, dialog_id) {
+        
+        // show dialog to confirm or cancel       
+        $( "#"+dialog_id ).dialog({
+            resizable: false,
+            height: 185 ,
+            width: 400,
+            modal: true,
+            zIndex: 3999,
+            buttons: {
+                    
+                    // action to continue and delete
+                    "Continue": function() {
+                        $( this ).dialog( "close" );
+                        widgethandler.postURL(formClass, url);
+                    },
+                    
+                    // action to cancel
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                    }
+                    
+            }
+        });     
+                
+    },
+    
+    // set new name for a widget
+    rename_last_validation_error_id: "",
+    rename_has_new_height: false,
+    renameWidget: function(formClass, url, dialog_id, input_id, id_invalid_chars, id_invalid_length, id_invalid_empty, current_name) {
+        
+        // new height of dialog on validation error
+        var dialog_error_height = 270;
+            
+        // copy name to input
+        document.getElementById(input_id).value = current_name;
+            
+            // show dialog
+        $( "#"+dialog_id ).dialog({
+            resizable: false,
+            height: 215,
+            width: 350,
+            modal: true,
+            zIndex: 3999,
+            buttons: {
+                    
+                    // action to save new name
+                    "Save": function() {
+                        
+                        // clear old validation error if set
+                        if (widgethandler.rename_last_validation_error_id != "") {
+                            $('#'+widgethandler.rename_last_validation_error_id).hide();
+                            widgethandler.rename_last_validation_error_id = "";
+                        }
+                        
+                        // get new value
+                        var postValue = document.getElementById(input_id).value;
+                        
+                        // validate as not empty
+                        if ( postValue == "" ) {
+                            
+                            // show error
+                            widgethandler.rename_last_validation_error_id = id_invalid_empty;
+                            $('#'+id_invalid_empty).show();
+                            
+                            // set new height
+                            if (widgethandler.rename_has_new_height==false) {
+                                $( "#"+dialog_id ).dialog( "option", "height", dialog_error_height );
+                                widgethandler.rename_has_new_height = true;
+                            }
+                            
+                            // exit function
+                            return;
+                        
+                        // validate as max 30 chars
+                        } else if (postValue.length > 30) {
+                            
+                            // show error
+                            widgethandler.rename_last_validation_error_id = id_invalid_chars;
+                            $('#'+id_invalid_chars).show();
+                            
+                            // set new height
+                            if (widgethandler.rename_has_new_height==false) {
+                                $( "#"+dialog_id ).dialog( "option", "height", dialog_error_height );
+                                widgethandler.rename_has_new_height = true;
+                            }
+                            
+                            // exit function
+                            return;
+                        
+                        }
+                        
+                        // all ok; close and save to database
+                        $( this ).dialog( "close" );
+                        
+                        
+                        alert('not implemented');
+                        
+                        
+                    },
+                    
+                    // action to cancel
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                    }
+ 
+            }
+        }); 
+ 
+    },
     
     // set error-message in widgets div, called from the ajax request
     setAjaxError: function(loadURL) {
@@ -55,7 +162,7 @@ widgethandler = {
     // shows a message (example in start.php)
     example_showMessage: function(message) {
 			Desktop.show_message(message);    
-	},
+    },
     
     // wrapper-function that easily can be used inside views from serverside    
     loadURL: function(url) {

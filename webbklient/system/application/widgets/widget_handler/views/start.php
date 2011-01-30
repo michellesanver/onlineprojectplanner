@@ -32,6 +32,17 @@ $(document).ready(function(){
     </ul>
 </div>
 
+<div id="widgets-handler-dialog-confirm" title="Delete?" style="display:none;">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you sure you want to delete this widget?</p>
+</div>
+
+<div id="widgets-handler-dialog-new-name" title="Rename widget" style="display:none;">
+    <p>Name of instance:<br /><input id="widget_new_name" type="text" size="30" /></p>
+    <p id="widget_new_name_error" style="display:none;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><strong>Only letters, spaces, numbers, ( and ) is allowed.</strong></p>
+    <p id="widget_new_name_error2" style="display:none;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><strong>Maximum length is 30 characters.</strong></p>
+    <p id="widget_new_name_error3" style="display:none;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><strong>Name is required.</strong></p>
+</div>
+
 <div id="your_widgets_box">
     <h1>Your widgets</h1>
     <p>Drag widgets around to sort them.</p>
@@ -42,10 +53,12 @@ $(document).ready(function(){
                 <?php echo($widget['name']); ?><br />
                 
                 <?php if($widget['default'] == false): ?>
-                    <form method="post" action="" onsubmit="return false" class="deleteform<?php echo($id); ?>">
+                    <form method="post" action="" onsubmit="return false" class="actionform<?php echo($id); ?>">
     
-                    <input type="hidden" value="<?php echo($id); ?>" name="deleteid" />
-                        <input type="button" value="Delete" onclick="widgethandler.deleteWidget('deleteform<?php echo($id); ?>', '/widgets_handler');" />
+                        <input type="hidden" value="<?php echo($id); ?>" name="widgetid" />
+
+                        <input class="widgets_handler_formbutton" type="button" value="Delete" onclick="widgethandler.deleteWidget('actionform<?php echo($id); ?>', '/widgets_handler', 'widgets-handler-dialog-confirm');" />
+                        <input class="widgets_handler_formbutton" type="button" value="Rename" onclick="widgethandler.renameWidget('actionform<?php echo($id); ?>', '/widgets_handler/rename', 'widgets-handler-dialog-new-name', 'widget_new_name', 'widget_new_name_error', 'widget_new_name_error2', 'widget_new_name_error3', '<?php echo addslashes($widget['name']); ?>');" />
                     </form>
                 <?php endif; ?>
             </li>
