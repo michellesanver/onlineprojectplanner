@@ -55,8 +55,9 @@ $(document).ready(function(){
     <ul id="your_widgets">
         <?php foreach($projectWidgets as $id => $widget): ?>
             <li id="widgetslist_<?php echo($id); ?>">
-                <img height="50px" src="<?php echo($widget['icon']); ?>" /><br />
-                <?php echo($widget['instance_name']); ?><br />
+                
+                <img height="40px" src="<?php echo($widget['icon']); ?>" />
+                <span class="widget_handler_instance_name"><?php echo($widget['instance_name']); ?></span>
                 
                 <?php if($widget['default'] == false): ?>
                     <form method="post" action="" onsubmit="return false" class="actionform<?php echo($id); ?>">
