@@ -43,6 +43,12 @@ $(document).ready(function(){
     <p id="widget_new_name_error3" style="display:none;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><strong>Name is required.</strong></p>
 </div>
 
+<div id="widgets-handler-dialog-processing" title="Please wait" style="display:none;">
+    <p>Please wait while handling request...</p>
+</div>
+
+<div id="widgets-handler-processing-message" title="Message" style="display:none;"><p></p></div>
+
 <div id="your_widgets_box">
     <h1>Your widgets</h1>
     <p>Drag widgets around to sort them.</p>
@@ -50,7 +56,7 @@ $(document).ready(function(){
         <?php foreach($projectWidgets as $id => $widget): ?>
             <li id="widgetslist_<?php echo($id); ?>">
                 <img height="50px" src="<?php echo($widget['icon']); ?>" /><br />
-                <?php echo($widget['name']); ?><br />
+                <?php echo($widget['instance_name']); ?><br />
                 
                 <?php if($widget['default'] == false): ?>
                     <form method="post" action="" onsubmit="return false" class="actionform<?php echo($id); ?>">
@@ -58,7 +64,7 @@ $(document).ready(function(){
                         <input type="hidden" value="<?php echo($id); ?>" name="widgetid" />
 
                         <input class="widgets_handler_formbutton" type="button" value="Delete" onclick="widgethandler.deleteWidget('actionform<?php echo($id); ?>', '/widgets_handler', 'widgets-handler-dialog-confirm');" />
-                        <input class="widgets_handler_formbutton" type="button" value="Rename" onclick="widgethandler.renameWidget('actionform<?php echo($id); ?>', '/widgets_handler/rename', 'widgets-handler-dialog-new-name', 'widget_new_name', 'widget_new_name_error', 'widget_new_name_error2', 'widget_new_name_error3', '<?php echo addslashes($widget['name']); ?>');" />
+                        <input class="widgets_handler_formbutton" type="button" value="Rename" onclick="widgethandler.renameWidget('actionform<?php echo($id); ?>', '/widgets_handler/rename', 'widgets-handler-processing-message', 'widgets-handler-dialog-processing', 'widgets-handler-dialog-new-name', 'widget_new_name', 'widget_new_name_error', 'widget_new_name_error2', 'widget_new_name_error3', '<?php echo addslashes($widget['instance_name']); ?>');" />
                     </form>
                 <?php endif; ?>
             </li>

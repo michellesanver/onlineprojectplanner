@@ -72,7 +72,7 @@ widgethandler = {
     // set new name for a widget
     rename_last_validation_error_id: "",
     rename_has_new_height: false,
-    renameWidget: function(formClass, url, dialog_id, input_id, id_invalid_chars, id_invalid_length, id_invalid_empty, current_name) {
+    renameWidget: function(formClass, url, dialog_message_id, dialog_processing_id, dialog_id, input_id, id_invalid_chars, id_invalid_length, id_invalid_empty, current_name) {
         
         // new height of dialog on validation error
         var dialog_error_height = 270;
@@ -98,11 +98,15 @@ widgethandler = {
                             widgethandler.rename_last_validation_error_id = "";
                         }
                         
-                        // get new value
-                        var postValue = document.getElementById(input_id).value;
+                        // get value from form
+                        var widgetName = document.getElementById(input_id).value;
+                        var widgetId = $("." + formClass + " input[name='widgetid']").val();
+                        
+                        // create regexp for validation
+                        var charPattern = /[^a-z0-9()\sедц]/i  // all except allowed chars
                         
                         // validate as not empty
-                        if ( postValue == "" ) {
+                        if ( widgetName == "" ) {
                             
                             // show error
                             widgethandler.rename_last_validation_error_id = id_invalid_empty;
@@ -118,8 +122,24 @@ widgethandler = {
                             return;
                         
                         // validate as max 30 chars
-                        } else if (postValue.length > 30) {
+                        } else if (widgetName.length > 30) {
                             
+                            // show error
+                            widgethandler.rename_last_validation_error_id = id_invalid_length;
+                            $('#'+id_invalid_length).show();
+                            
+                            // set new height
+                            if (widgethandler.rename_has_new_height==false) {
+                                $( "#"+dialog_id ).dialog( "option", "height", dialog_error_height );
+                                widgethandler.rename_has_new_height = true;
+                            }
+                            
+                            // exit function
+                            return;
+                        
+                        // check for invalid characters
+                        } else if ( widgetName.match(charPattern) ) {
+                         
                             // show error
                             widgethandler.rename_last_validation_error_id = id_invalid_chars;
                             $('#'+id_invalid_chars).show();
@@ -132,15 +152,30 @@ widgethandler = {
                             
                             // exit function
                             return;
-                        
+                            
                         }
-                        
+                       
                         // all ok; close and save to database
                         $( this ).dialog( "close" );
                         
+                        // show processing dialog (no buttons)
+                        $('#'+dialog_processing_id).dialog({
+                            resizable: false,     
+                            height: 175,
+                            width: 350,
+                            modal: true,
+                            zIndex: 3999, 
+                            buttons: { }
+                        });
                         
-                        alert('not implemented');
-                        
+                        // prepare url
+                        url = SITE_URL+'/widget/'+widgethandler.widgetName+url;
+                                
+                        // prepare data to send
+                        var postdata = { 'widgetId': widgetId, 'widgetName': widgetName, 'dialogProcessingId': dialog_processing_id, 'dialogMessageId': dialog_message_id };
+                                
+                        // send request
+                        ajaxRequests.post(postdata, url, 'widgethandler.rename_callback', 'widgethandler.setAjaxError', true);
                         
                     },
                     
@@ -152,6 +187,33 @@ widgethandler = {
             }
         }); 
  
+    },
+    
+    // callback-function for ajax-request rename
+    rename_callback: function(data) {
+        
+        // parse string as json
+        var dataJSON = JSON.parse(unescape(data));    
+        
+        // hide processing message
+        $('#'+dataJSON.dialogProcessingId).dialog( "close" );
+        
+        // set message
+        $('#'+dataJSON.dialogMessageId).find('p').text(dataJSON.message);
+        
+        // show message
+        $('#'+dataJSON.dialogMessageId).dialog({
+            resizable: false,     
+            height: 200,
+            width: 350,
+            modal: true,
+            zIndex: 3999,
+            buttons: {
+                "Ok": function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
     },
     
     // set error-message in widgets div, called from the ajax request
