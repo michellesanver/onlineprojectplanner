@@ -10,6 +10,13 @@ DesktopRemote = {
 
     init:function() {
 
+        $('.dektop_remote_object').tooltip({track: true,
+    delay: 0,
+    opacity: 0.5,
+    fade: 250,
+    top: -40,
+    left: 0});
+
         $('.dektop_remote_object').bind('click', function() {
 
             DesktopRemote.topBarHeight = $(DesktopRemote.topBar).height();
