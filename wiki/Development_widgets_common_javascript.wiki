@@ -16,8 +16,8 @@ Theese scripts are always loaded when a project is opened:
 
 === Plugins ===
 
- * Window(plugin)
- * Dump (plugin)
+ * Window
+ * Dump
  * Validate
  * JSON2
 
