@@ -1,4 +1,4 @@
-= Folders =
+= Development Widgets: Folders =
 
 Each widget is placed in _*system/application/widgets/(name)*_ where _*(name)*_ is the name of the widget without (). Inside the folder for the widget the structure is just like Codeigniter:
     
