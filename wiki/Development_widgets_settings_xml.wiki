@@ -1,4 +1,4 @@
-== Development Widgets: Settings.xml ==
+= Development Widgets: Settings.xml =
 Each widget is required to have the file settings.xml inside the root-folder of the widget. Here is an example with comments:
     
 {{{
@@ -35,3 +35,5 @@ Each widget is required to have the file settings.xml inside the root-folder of 
 	</load>
 </settings>
 }}}
+
+<p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
