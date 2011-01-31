@@ -42,10 +42,10 @@ $active_record = TRUE;
 //$db['default']['username'] = "root";
 //$db['default']['password'] = '';
 
-$db['default']['hostname'] = "91.142.190.36";
-$db['default']['database'] = "superwiki";
-$db['default']['username'] = "root";
-$db['default']['password'] = "cs3C8s48";
+$db['default']['hostname'] = "91.142.190.25";
+$db['default']['database'] = "c2superwiki";
+$db['default']['username'] = "c2opp";
+$db['default']['password'] = "deb-yap-yip";
 
 $db['default']['dbdriver'] = "mysqli";
 $db['default']['dbprefix'] = "";
