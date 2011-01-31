@@ -1,0 +1,24 @@
+#tooltip {
+    background: #000000;
+    color: #FFFFFF;
+    z-index: 10000;
+    position: absolute;
+    margin: 0px;
+    padding: 5px;
+    border: #FFFFFF solid 1px;
+    }
+
+#tooltip div {
+    margin: 0px;
+    padding: 0px;
+    }
+
+#tooltip h3 {
+    background: transparent;
+    color: #FFFFFF;
+    font-family: Arial, Helvetica, Geneva, sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+    margin: 0px;
+    padding: 0px;
+    }

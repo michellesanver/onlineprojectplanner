@@ -580,9 +580,8 @@ div#widget_bar div.icon {
 
 #desktop_remote {
     background: transparent;
-    width: auto;
-    float: right;
-    margin: 0px;
+    width: 80px;
+    margin: auto;
     padding: 0px;
     }
 
@@ -593,17 +592,18 @@ div#widget_bar div.icon {
     display: block;
     float: left;
     margin: 0px;
-    margin-right: 10px;
     padding: 0px;
     cursor: pointer;
     }
 
 #desktop_remote span#single_up {
     background: url(../../images/backgrounds/single_up.png) top left no-repeat;
+    margin-right: 10px;
     }
 
 #desktop_remote span#single_down {
     background: url(../../images/backgrounds/single_down.png) top left no-repeat;
+    margin-right: 10px;
     }
 
 #desktop_remote span#double_up {
@@ -619,10 +619,10 @@ div#widget_bar div.icon {
     }
 
 #desktop_remote_clear {
-    background: #CCCCCC;
+    background: #000000;
     width: 100%;
     height: 1px;
-    clear: both;
+    clear: left;
     margin: 0px;
     padding: 0px;
     }
