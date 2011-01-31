@@ -3,24 +3,10 @@
 
 The jquery plugin window can be used in two modes; Iframe och content/AJAX. Observe that the two modes cannot be switched if a window is created with one mode. For example: if a window is created with calling an URL then it is not possible to use setContent.
 
+== Contents ==
+ * [Development_widgets_folders]
+ * [Development_widgets_urls]
 
-==Folders==
-Each widget is placed in _*system/application/widgets/(name)*_ where _*(name)*_ is the name of the widget without (). Inside the folder for the widget the structure is just like Codeigniter:
-    
- * _*(name)/controllers*_ controller-classes (inherit from CI Controller)
- * _*(name)/js*_ external javascript (recommended, not an requirement)
- * _*(name)/css*_ external stylesheets (recommended, not an requirement)
- * _*(name)/libraries*_ libraries
- * _*(name)/models*_ models (database, inherit from CI model)
- * _*(name)/views*_ views (Iframe requires full html-pages for each view)
-
-==URL's==
-Codeigniter has an extension in the library Router to make it possible to have another folder-structure and URL's. When calling for a controller for a widget, use this syntax:
-    
-_*SITE_URL + "/widget/(name)/(controller)"*_ where _*(name)*_ is the name of the widget and _*(controller)*_ is the name of the controller.
-
-*Example*:<br>
-SITE_URL + "/widget/iframe_template/main"; this will call the controller main for the widget iframe_template.
     
 
 ==Settings.xml==
