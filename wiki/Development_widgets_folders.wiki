@@ -9,4 +9,4 @@ Each widget is placed in _*system/application/widgets/(name)*_ where _*(name)*_ 
  * _*(name)/models*_ models (database, inherit from CI model)
  * _*(name)/views*_ views (Iframe requires full html-pages for each view)
 
-<p><br /><a href="https://code.google.com/p/onlineprojectplanner/w/edit/Development_widgets"><< back to Development Widgets</a></p>
+<p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
