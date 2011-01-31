@@ -1,4 +1,4 @@
-== Development Widgets: URL's ==
+= Development Widgets: URL's =
 Codeigniter has an extension in the library Router to make it possible to have another folder-structure and URL's. When calling for a controller for a widget, use this syntax:
     
 _*SITE_URL + "/widget/(name)/(controller)"*_ where _*(name)*_ is the name of the widget and _*(controller)*_ is the name of the controller.
