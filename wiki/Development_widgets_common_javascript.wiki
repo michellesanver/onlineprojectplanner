@@ -2,9 +2,23 @@
     
 Online Project Planner provides a number of common global functions and variables that can be used:
     
-===Variables===
+== Variables ==
  * _*BASE_URL*_ base_url from CI (no index.php)
  * _*SITE_URL*_ site_url from CI (WITH index.php)
  * _*CURRENT_PROJECT_ID*_ ID to current project
 
 <p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
+
+== Scripts ==
+
+Theese scripts are always loaded when a project is opened:
+
+ * Jquery
+ * Jquery UI (complete)
+
+=== Plugins ===
+
+ * Window(plugin)
+ * Dump (plugin)
+ * Validate
+ * JSON2
