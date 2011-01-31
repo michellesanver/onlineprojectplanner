@@ -7,8 +7,6 @@ Online Project Planner provides a number of common global functions and variable
  * _*SITE_URL*_ site_url from CI (WITH index.php)
  * _*CURRENT_PROJECT_ID*_ ID to current project
 
-<p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
-
 == Scripts ==
 
 Theese scripts are always loaded when a project is opened:
@@ -22,3 +20,6 @@ Theese scripts are always loaded when a project is opened:
  * Dump (plugin)
  * Validate
  * JSON2
+
+
+<p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
