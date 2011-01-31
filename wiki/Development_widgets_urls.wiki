@@ -6,4 +6,4 @@ _*SITE_URL + "/widget/(name)/(controller)"*_ where _*(name)*_ is the name of the
 *Example*:<br>
 SITE_URL + "/widget/iframe_template/main"; this will call the controller main for the widget iframe_template.
 
-<p><br /><a href="https://code.google.com/p/onlineprojectplanner/w/edit/Development_widgets"><< back to Development Widgets</a></p>
+<p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
