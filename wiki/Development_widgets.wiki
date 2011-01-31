@@ -1,104 +1,15 @@
 #labels Docs
-=AJAX template; Widget help=
-
-The jquery plugin window can be used in two modes; Iframe och content/AJAX. Observe that the two modes cannot be switched if a window is created with one mode. For example: if a window is created with calling an URL then it is not possible to use setContent.
+= Development Widgets =
 
 == Contents ==
- * [Development_widgets_folders]
- * [Development_widgets_urls]
+ * [Development_widgets_folders Folders]
+ * [Development_widgets_urls URL's]
+ * [Development_widgets_settings_xml Settings.xml]
+ * [Development_widgets_other_settings Other setttings]    
+ * [Development_widgets_common_javascript Common javascript]
 
-    
+   
 
-==Settings.xml==
-Each widget is required to have the file settings.xml inside the root-folder of the widget. Here is an example with comments:
-    
-{{{
-<?xml version="1.0"?>
-<!-- root -->
-<settings>
-    <!--  short description of the widget -->
-	<about>A template and help for developing widgets with Iframe-style</about>
-    <!-- version of widget-->
-	<version>1.0</version>
-    <!-- link to website -->
-	<link>none</link>
-    <!-- name of author -->
-	<author>Fredrik Johansson</author>
-    <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
-	<icon>help-desk-icon.png</icon>
-    <!-- title of widget; will be placed under icon (can be left empty) -->
-    <icon_title>Iframe Template</icon_title>
-    <!-- namespace of widget (namespace = javascript object) -->
-    <widget_object>iframeTemplateWidget</widget_object>
-    <!-- optional setting; Minimum role for this widget. Defaults to NULL (=Member) -->
-    <minimum_role>Admin</minimum_role>
-    <!-- optional setting; In_development is flag if this widget is under development (defaults to false). Used in syncronization of widgets. -->
-    <in_development>true</in_development>
-    <!--
-        list of files to be loaded relative to main folder of widgets
-        (theese files will be loaded upon project start)
-        
-        valid types are; javascript, css
-    -->
-	<load>
-		<file type="javascript">js/iframe-template.js</file>
-		<file type="css">css/iframe-styles.css</file>
-	</load>
-</settings>
-}}}
-
-==Other widget-settings==
-There is a way, here in "Online Project Planner, for you to add settings to your widget wich the user will be able to change during the usage. All the user has to do is to click the little settings-icon in the down-left hand side. 
-
-===Different settingtypes===
- # Integer
- # Alpha-chars
- # Boolean
- # Float
- # Date
- # Mixed
- # IP-adress
-
-===How to?===
-The easiest way to initialize a specific settings for your widget, is to add a row in the table "Widget_Settings" with the information. There is no way in todays version to handle default values.
-
-===The tables===
-====Widget_Settings====
- * *Settings_id:* (int) Identifier.
- * *Widget_id:* (int) Referense to the widget who owns the setting.
- * *Type_id:* (int) Referense to the type of this setting.
- * *Internal_id:* (int) The developer settings_id. A way for the widget to alwais refere to the right setting. This identifier is importent for you as widgetdeveloper.
- * *Name:* (string) The name of the widget.
- * *Order:* (int) The order of the settings when they are shown to the user.
-
-====Widget_Settings_Value====
- * *Widget_settings_value_id:* (int) Identifier.
- * *Project_widgets_id:* (int) Referense to the instance of an widget wich this value shall be applied.
- * *Settings_id:* (int) Referense to the setting.
- * *Value:* (string) The actual value.
-
-===Useing the values===
-Now when you know how to initialize the settings, it's time for the explination of how to acually use the value if the setting in the php-code in your widget. 
-
-This is done by useing the library "Settings_provider", wich you can load with the command: "{{{$this->load->library("Settings_provider");}}}". When that is done you will be able to call the functions of this class. In this case the intresting function is named "getSettingValue", and have the mission to provide you with the value of an specific setting of and widget_window instance. There are 3 important parameters for this function, they are:
- # Widget: The name of the ID of the widget.
- # Internal_id: The exact settingspointer.
- # Project_widget_id: The id of the widget instance.
-
-====Example====
-{{{$this->Settings_provider->getSettingValue("My widget", 2, 154);}}}
- * "My widget" is the name of my widget.
- * 2 is the settinginternlid (ex 1:name, 2:description, 3:ip) only known by you.
- * 154 is the id of my window instance. Easiest way to get this id, is to provide it from the javascript-code.
-    
-==Common Javascript==
-    
-Online Project Planner provides a number of common global functions and variables that can be used:
-    
-===Variables===
- * _*BASE_URL*_ base_url from CI (no index.php)
- * _*SITE_URL*_ site_url from CI (WITH index.php)
- * _*CURRENT_PROJECT_ID*_ ID to current project
 
 ==Objects==
 I will here explain the role of the objects that are involved. 
