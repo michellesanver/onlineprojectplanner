@@ -643,6 +643,7 @@ class Widgets
             	$widget_array[$widget->Project_widgets_id]['icon'] = $icon;
             	$widget_array[$widget->Project_widgets_id]['widgetid'] = $widgetid;
                 $widget_array[$widget->Project_widgets_id]['default'] = $this->_CI->Widgets_model->isDefault($widgetid);
+				$widget_array[$widget->Project_widgets_id]['instance_name'] = $widget->Widget_instance_name;
 
    		   }
         }
@@ -720,7 +721,7 @@ class Widgets
                     $about = $row2->about;
                     $icon_div = "widget_icon".($found_count+1);
                     $function = "Desktop.open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."', '".$row->Project_widgets_id."', $last_position)"; // open_widget is a global function in common.js
-                    $title = ($row2->icon_title != "" ? $row2->icon_title : "");
+                    $title = $row->Widget_instance_name;
                     $icon = ($row2->icon != "" ? $base_url.$this->_widget_dir.'/'.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
                     
                     // replace %s with the real value

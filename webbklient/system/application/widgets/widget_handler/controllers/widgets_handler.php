@@ -86,23 +86,104 @@ class Widgets_handler extends Controller {
   
     function rename() {
        
+        // not an ajax request?
+        if (!IS_AJAX) {
+            die('Invalid request');
+        }
+       
         $this->load->library('project_member');
         
          // check authorization
         if ($this->project_member->HaveRoleInCurrentProject('Admin')) {
             
+            // save new name
+            
+            // load librari
             $widget_name = "widget_handler";
             $this->load->library_widget('Widgetlib');
+
+            // get values from post
+            $widgetId = $this->input->post('widgetId', true);
+            $widgetName = $this->input->post('widgetName', true);
             
+            // prepare result json
+            $jsonResult = array(
+                            'dialogProcessingId' => $this->input->post('dialogProcessingId', true),
+                            'dialogMessageId' => $this->input->post('dialogMessageId', true)
+            );
             
+            // check so they are not empty
+            if ( empty($widgetName) ) {
+
+                // set message to user
+                $jsonResult['result'] = 'error';
+                $jsonResult['message'] = 'Name ais required';
+                
+            // check if id is numeric and not empty
+            } else if ( empty($widgetId) || is_numeric($widgetId) != true ) { // returns true or string
+
+                // set message to user
+                $jsonResult['result'] = 'error';
+                $jsonResult['message'] = 'Error in values (Id)';
+                
+            // check length of name
+            }  else if ( strlen($widgetName) > 30 ) {
+           
+                // set message to user
+                $jsonResult['result'] = 'error';
+                $jsonResult['message'] = 'Maximum length is 30 characters';
+                
+            // check character types
+            }  else if ( preg_match('/[^a-z0-9()\sедц]/i', $widgetName) ) {
+           
+                // set message to user
+                $jsonResult['result'] = 'error';
+                $jsonResult['message'] = 'Only letters, spaces, numbers, ( and ) is allowed';
             
+            // else; SAVE!    
+            } else {
+                
+               //
+               // save to database
+               //
+               
+               if ( $this->widgetlib->saveNewInstanceName($widgetId, $widgetName) == false )  {
+                
+                    // unable to save
+                    $jsonResult['result'] = 'error';
+                    $jsonResult['message'] = 'Unable to save to database';
+                    
+               } else {
+                
+                    // all ok
+                    $jsonResult['result'] = 'ok';
+                    $jsonResult['message'] = 'New name has been saved';
+                    
+               }
+                
+            }
             
-            
+            // output result as json
+            header("Content-type: text/plain");
+            echo json_encode($jsonResult);
             
             
         } else {
+            //
+            // no authorization
+            //
             
-            die("You have no permission to view this widget.");
+            // output result as json
+            $jsonResult = array(
+                            'result' => 'error',
+                            'message' => 'You have no permission to view this widget.',
+                            
+                            'dialogProcessingId' => $this->input->post('dialogProcessingId', true),
+                            'dialogMessageId' => $this->input->post('dialogMessageId', true)
+                        );
+            
+            header("Content-type: text/plain");
+            echo json_encode($jsonResult);
         }
         
     }

@@ -22,6 +22,20 @@ class Widgetlib
         $this->_CI->Widgets->ManualReadWidgets();
     }
     
+    /**
+     * Save new name for a widget (instance name)
+     *
+     * @param int $widgetId
+     * @param string $widgetName
+     * @return bool
+     */
+    public function saveNewInstanceName($widgetId, $widgetName) {
+    
+        // use model to save
+        return $this->_CI->Widget_model->SaveNewInstanceName($widgetId, $widgetName);
+    
+    }
+    
     public function addWidgetToProject($widget_id)
     {
         $this->_CI->Widgets_model->AddProjectWidget($this->_current_project_id, $widget_id);
