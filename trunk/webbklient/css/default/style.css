@@ -451,8 +451,8 @@ span.sitetitle a:hover {
 
 #desktop, #content {
     z-index: 2;
-	margin-left:10px;
-	margin-right: 10px;
+    margin-left:10px;
+    margin-right: 10px;
 }
 
 #innercontent {
@@ -567,10 +567,11 @@ div#widget_bar div.icon {
     background: transparent;
     width: 100%;
     height: 31px;
-    z-index: 5000;
+    /*z-index: 5000;
     position: relative;
     margin: 0px;
-    margin-top: -20px;
+    margin-top: -20px;*/
+    margin: 0px;
     padding: 0px;
     }
 
@@ -619,7 +620,7 @@ div#widget_bar div.icon {
     }
 
 #desktop_remote_clear {
-    background: #000000;
+    background: #CCCCCC;
     width: 100%;
     height: 1px;
     clear: left;
