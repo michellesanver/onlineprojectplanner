@@ -17,7 +17,7 @@ DesktopRemote = {
         opacity: 0.5,
         fade: 250,
         top: -40,
-        left: 0});
+        left: 20});
 
         $('.dektop_remote_object').bind('click', function() {
 
@@ -31,7 +31,8 @@ DesktopRemote = {
 
             if($(this).hasClass('locked') == false)
             {
-                $(this).addClass('locked');
+                $('.dektop_remote_object').addClass('locked');
+                $(DesktopRemote.remoteWrapper).animate({'margin-left': -50});
 
                 if(order == 'single_up' || order == 'single_down' )
                 {
@@ -64,7 +65,11 @@ DesktopRemote = {
 
             });
 
-            $('#single_up').delay(1000).removeClass('locked').attr('id', 'single_down');
+            setTimeout(function() {
+                $('#single_up').attr('id', 'single_down');
+                $('.dektop_remote_object').removeClass('locked');
+                $(DesktopRemote.remoteWrapper).animate({'margin-left': 0});
+            }, 1000);
         }
         else if(order == 'single_down')
         {
@@ -81,7 +86,11 @@ DesktopRemote = {
 
             });
 
-            $('#single_down').delay(1500).removeClass('locked').attr('id', 'single_up');
+            setTimeout(function() {
+                $('#single_down').attr('id', 'single_up');
+                $('.dektop_remote_object').removeClass('locked');
+                $(DesktopRemote.remoteWrapper).animate({'margin-left': 0});
+            }, 1500);
         }
 
     },
@@ -122,9 +131,12 @@ DesktopRemote = {
                 });
             }
 
-            $('#double_up').delay(1000).removeClass('locked').attr('id', 'double_down');
-            $('#single_up').delay(1000).attr('id', 'single_down');
-
+            setTimeout(function() {
+                $('#double_up').attr('id', 'double_down');
+                $('#single_up').attr('id', 'single_down');
+                $('.dektop_remote_object').removeClass('locked');
+                $(DesktopRemote.remoteWrapper).animate({'margin-left': 0});
+            }, 1000);
         }
         else if(order == 'double_down')
         {
@@ -160,8 +172,12 @@ DesktopRemote = {
                 });
             }
 
-            $('#double_down').delay(1500).removeClass('locked').attr('id', 'double_up');
-            $('#single_down').delay(1500).attr('id', 'single_up');
+            setTimeout(function() {
+                $('#double_down').attr('id', 'double_up');
+                $('#single_down').attr('id', 'single_up');
+                $('.dektop_remote_object').removeClass('locked');
+                $(DesktopRemote.remoteWrapper).animate({'margin-left': 0});
+            }, 1500);
         }
 
     }
