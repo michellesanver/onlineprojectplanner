@@ -567,10 +567,10 @@ div#widget_bar div.icon {
     background: transparent;
     width: 100%;
     height: 31px;
-    /*z-index: 5000;
+    z-index: 5000;
     position: relative;
     margin: 0px;
-    margin-top: -20px;*/
+    margin-top: -20px;
     margin: 0px;
     padding: 0px;
     }
