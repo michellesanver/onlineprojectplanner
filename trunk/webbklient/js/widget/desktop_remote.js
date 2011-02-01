@@ -58,7 +58,7 @@ DesktopRemote = {
             $(DesktopRemote.widgetPanel).each(function(index) {
 
                 var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                var newWidgetPanelTop = (widgetPanelTop - DesktopRemote.widgetBarHeight) - 10;
+                var newWidgetPanelTop = (widgetPanelTop - DesktopRemote.widgetBarHeight) + 10;
 
                 $(this).delay(500).animate({'top': newWidgetPanelTop});
 
@@ -75,7 +75,7 @@ DesktopRemote = {
             $(DesktopRemote.widgetPanel).each(function(index) {
 
                 var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                var newWidgetPanelTop = (widgetPanelTop + DesktopRemote.widgetBarHeight) + 10;
+                var newWidgetPanelTop = (widgetPanelTop + DesktopRemote.widgetBarHeight) - 10;
 
                 $(this).delay(500).animate({'top': newWidgetPanelTop});
 
@@ -100,7 +100,7 @@ DesktopRemote = {
                 $(DesktopRemote.widgetPanel).each(function(index) {
 
                     var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                    var newWidgetPanelTop = ((widgetPanelTop - DesktopRemote.topBarHeight) - DesktopRemote.widgetBarHeight) - 10;
+                    var newWidgetPanelTop = ((widgetPanelTop - DesktopRemote.topBarHeight) - DesktopRemote.widgetBarHeight) + 10;
 
                     $(this).delay(500).animate({'top': newWidgetPanelTop});
 
@@ -153,7 +153,7 @@ DesktopRemote = {
                 $(DesktopRemote.widgetPanel).each(function(index) {
 
                     var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                    var newWidgetPanelTop = ((widgetPanelTop + DesktopRemote.topBarHeight) + DesktopRemote.widgetBarHeight) + 10;
+                    var newWidgetPanelTop = ((widgetPanelTop + DesktopRemote.topBarHeight) + DesktopRemote.widgetBarHeight) - 10;
 
                     $(this).delay(500).animate({'top': newWidgetPanelTop});
 
