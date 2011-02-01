@@ -570,7 +570,7 @@ div#widget_bar div.icon {
     z-index: 5000;
     top: 200px;
     left: 0px;
-    position: absolute;
+    position: fixed;
     margin: 0px;
     padding: 0px;
     }
