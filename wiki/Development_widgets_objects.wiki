@@ -3,6 +3,20 @@ I will here explain the role of the objects that are involved.
 
 [http://dennissangmo.se/JS_Widget_Str.jpg]
 
+
+===Widget object example (ajax_template)===
+   
+====In theory====
+This klass represent your widget and all the function that will interact with it. It will inherit the "Widget"-prototype wich allow "Desktop" to use it as an widget. This is done with the command 
+{{{yourKlassName.Inherits(Widget);}}} 
+
+=====Create=====
+There is an important step that cant be skipped in your widget-constructor or els the widget cant be used. This is the execution of the "create"-function wich is located in the widget-prototype-object. Here's an example {{{this.create(id, wnd_options, partialClasses);}}}.
+
+====Partial content====
+If you are in need of updating a partial area in your widget without messing with the other parts. You can do that with the inherted "Widget"-object prototype function named "setPartialContent". See [Development_widgets_objects#setPartialContent setPartialContent] for more info!
+
+
 ===Widget===
 Widget is an object that will represent the widgetwindow and contains all the functions that are common for all diffrent kind of widgets that are developed. This klass must be inherited in your widget-klass in order for you to be able to use its prototype-functions, and allowing "Desktop" to be able to use it as an widget.
 
@@ -15,16 +29,16 @@ The examples downbelow if from your perspective... That means when im useing the
  * wnd (object): The google window object. {{{this.wnd}}}
 
 ====Functions====
-=====_*index()*_=====
+=====index=====
 _Explanation:_ This function is ment for you as an developer to overwrite with e new index function. This is the first function to be executed.
 
 <hr>
 
-_*setWindowContent(data)*_ <br>
+=====setWindowContent=====
 _Explanation:_ Allows you to change the html in the widget window. This will remove the current content.<br>
 _Parameters:_
  * data (string): This is the html document to be inserted.
-_Example: this.setWindowContent("<b>Hello World</b>");_
+_Example: {{{this.setWindowContent("<b>Hello World</b>");}}}_
 
 <hr>
 
@@ -37,39 +51,41 @@ _Example: {{{this.setPartialContent("meny_content", "<ul><li>meny1</li><li>meny2
 
 <hr>
 
-_*catchStatus(data)*_ <br>
+=====catchStatus=====
 _Explanation:_ This function is great to use as a ajax-success function, if you dont want to update the widow content but only give the ok or the eroor message of the ajax-request. If you are using this function as a success-function the data from your php-code needs to be as a JSON object, containing up to 3 variables. First we have the "status" field wich cointais "ok" or "error", the "status_message" wich contains the message. Last we have the "load" field wich is opional and can contail a function name, that function will be executed.<br>
 _Parameters:_
  * data (string): A JSON object with 3 differrent fields.
-_Example: this.catchStatus('{"status":"ok","status_message":"Everything went ok!"});_
+_Example: {{{this.catchStatus('{"status":"ok","status_message":"Everything went ok!"});}}}_
+
+<hr>
 
 ===Desktop===
 Desktop is a static object that represent the real-life "desktop-area" where all the widget windows will be. It does not only take care of all the widget object, that i talked earlier about, it also know wich object that is the current one (the selected one). I will explain the variables and functions that are relevant for the widget-development. 
 
 ====Functions====
-_*callWidgetFunction(pwID, func, param1, param2, ...)*_ <br>
+=====callWidgetFunction=====
 _Explanation:_ Will execute the function with the name as the "func" parameter. Its posible to send parameters to the function in "func", all parameters after the "func"-parameter will be passed.<br>
 _Parameters:_
  * pwID (int): The widget project_widget_id.
  * func (string): The name of the function to be executed.
  * params (mixed): The parameters to be passed into the function. If you send more than one it will be cought in the widget-function as one array-parameter.
-_Example: Desktop.callWidgetFunction(152, "saveForm", 1, "test");_
+_Example: {{{Desktop.callWidgetFunction(152, "saveForm", 1, "test");}}}_
 
 <hr>
 
-_*show_message(message)*_ <br>
+=====show_message=====
 _Explanation:_ this function will display an ok-message<br>
 _Parameters:_
  * message (String): The message to be displayed
-_Example: Desktop.show_message("Everything went ok!");_
+_Example: {{{Desktop.show_message("Everything went ok!");}}}_
 
 <hr>
 
-_*show_errormessage(message)*_<br>
+=====show_errormessage(message)=====
 _Explanation:_ this function will display an error-message<br>
 _Parameters:_
  * message (String): The message to be displayed
-_Example: Desktop.show_errormessage("A error has occurred!");_
+_Example: {{{Desktop.show_errormessage("A error has occurred!");}}}_
 
 <hr>
 
@@ -79,7 +95,7 @@ This static object is more of a helperobject, all to make it easier for the widg
 _Example: ajaxRequest.load("http://thisproject.com/index.php/controller/function", "myWidget.ajaxSuccess", "myWidget.ajaxError", false);_
 
 ====Functions====
-_*load(pwID, loadURL, successFunction, partial)*_<br>
+=====load=====
 _Explanation:_ Makes a ajax request for the specified loadURL and calls the successFunction inside the widget-object.<br>
 _Parameters:_
  * pwID (int): The widget project_widget_id.
@@ -89,7 +105,7 @@ _Parameters:_
 
 <hr>
 
-_*post(pwID, postdata, loadURL, successFunction, partial)*_<br>
+=====post=====
 _Explanation:_ Makes a ajax request for the specified loadURL with the postdata and calls the successFunction inside the widget-object.
 _Parameters:_
  * pwID (int): The widget project_widget_id.
@@ -99,25 +115,5 @@ _Parameters:_
  * partial (boolean): If this param is true, the loader will skipp to show the loading image, wich otherwise will remove the content.
 
 <hr>
-
-===Widget object example (ajax_template)===
-   
-====In theory====
-This klass represent your widget and all the function that will interact with it. It will inherit the "Widget"-prototype wich allow "Desktop" to use it as an widget. This is done with the command 
-{{{yourKlassName.Inherits(Widget);}}} 
-
-=====Create=====
-There is an important step that cant be skipped in your widget-constructor or els the widget cant be used. This is the execution of the "create"-function wich is located in the widget-prototype-object. Here's an example {{{this.create(id, wnd_options, partialClasses);}}}.
-====Partial content====
-If you are in need of updating a partial area in your widget without messing with the other parts. You can do that with the inherted "Widget"-object prototype function named "setPartialContent". [Development_widgets_objects#setPartialContent setPartialContent] for more info!
-=====Use=====
-A good example of how you can easily use your partialareas after a ajax-request, is to use the "currentPartial" property. Befor the ajax-request is executed, assign the currentPartial to the area you want the data to be posted in. And in the ajax-success function you tell Desktop to update that area. Dont forget to reset the "currentPartial" when your done with it.
-
-{{{
-setPartialContent: function(data) {
-	Desktop.setWidgetPartialContent(this.currentPartial, unescape(data));
-	this.currentPartial = null;
-    },
-}}}
 
 <p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
