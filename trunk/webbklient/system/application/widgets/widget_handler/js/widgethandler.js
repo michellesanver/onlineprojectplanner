@@ -193,7 +193,7 @@ widgethandler = {
     rename_callback: function(data) {
         
         // parse string as json
-        var dataJSON = JSON.parse(unescape(data));    
+        var dataJSON =$.parseJSON(unescape(data));    
         
         // hide processing message
         $('#'+dataJSON.dialogProcessingId).dialog( "close" );
