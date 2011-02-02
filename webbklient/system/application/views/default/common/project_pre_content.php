@@ -20,7 +20,6 @@
   <link href="<?php echo $base_url; ?>js/window/css/jquery.window.css" rel="Stylesheet" type="text/css" />
   <link href="<?php echo $base_url; ?>js/window/css/jquery.window-opp.css" rel="Stylesheet" type="text/css" />
   <script type="text/javascript" src="<?php echo $base_url; ?>js/common.js"></script>
-  <script type="text/javascript" src="<?php echo $base_url; ?>js/json2.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.tooltip.js"></script>
   
   <!-- online project planner scripts -->
