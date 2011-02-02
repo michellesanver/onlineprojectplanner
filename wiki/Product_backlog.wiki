@@ -5,13 +5,13 @@
 ==Övrigt==
 300h
  * ~~Alla felmeddelanden loggade och/eller mailade.~~ 
- * Motor för placering av widgets  
- * Debug-funktion för widgets i javascript (10h)
+ * ~~Motor för placering av widgets~~  
+ * ~~Debug-funktion för widgets i javascript (10h)~~
  * Webbklient
  * Mobilklient
  ~~* Gör en "snabblista" för att användaren snabbt ska kunna byta mellan projekt.~~
  * Inloggning via Google och Facebook (30h)
-
+ * Eget Jquery-plugin med en enkel wrapper för confirm-dialog med jquery ui
 
 ==Användarhantering==
  * ~~Registrering~~
@@ -38,7 +38,7 @@
 ==Widgets==
  * Widgethantering
   * ~~Minimera / Maximera~~
-  * Spara positionering på desktop
+  * ~~Spara positionering på desktop~~
   * ~~Flytta / Ändra storlek~~
   * ~~Lägga till / ta bort~~
   * ~~Specifiera att vissa widgets måste vara med i ett projekt. ~~
@@ -53,8 +53,8 @@
   * Implementera google docs  60h 
   * Meddelandecentral, kunna skicka SMS och epost till medlemmar i projektet och kunden.  40 h
   * Widgethanterarwidget där man kan ta bort, sortera och lägga till widgets.  20h  
-  * Användarhanterarwidget där man kan bjuda in användare. 20h
-  * Kontaktlistewidget där man ser alla medlemmarna i projektet.  40h
+  * ~~Användarhanterarwidget där man kan bjuda in användare. 20h~~
+  * ~~Kontaktlistewidget där man ser alla medlemmarna i projektet.  40h~~
   * Burndown chart 100h
   * Whiteboard  150h
   * Scrumboard /postis 100h 
@@ -62,8 +62,8 @@
   * Rssflöde 50h
 
 == Vidareutveckling Widgets==
- * Wiki 1.1
-  * wysiywig (html-syntax)
-  * bilduppladdning via wysiwyg
-  * fler säkerhetskontroller
-  * anpassa till ny widgetstruktur
+ * ~~Wiki 1.1~~
+  * ~~wysiywig (html-syntax)~~
+  * ~~bilduppladdning via wysiwyg~~
+  * ~~fler säkerhetskontroller~~
+  * ~~anpassa till ny widgetstruktur~~
