@@ -19,7 +19,7 @@ Theese scripts are always loaded when a project is opened:
  * Window
  * Dump
  * Validate
- * JSON2
+ * Tooltip
 
 
 <p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
