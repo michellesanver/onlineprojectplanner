@@ -90,7 +90,7 @@ DesktopRemote = {
                 $('#single_down').attr('id', 'single_up');
                 $('.dektop_remote_object').removeClass('locked');
                 $(DesktopRemote.remoteWrapper).animate({'margin-left': 0});
-            }, 1500);
+            }, 1000);
         }
 
     },
@@ -177,7 +177,7 @@ DesktopRemote = {
                 $('#single_down').attr('id', 'single_up');
                 $('.dektop_remote_object').removeClass('locked');
                 $(DesktopRemote.remoteWrapper).animate({'margin-left': 0});
-            }, 1500);
+            }, 1000);
         }
 
     }
