@@ -3,80 +3,120 @@
 	http://localhost/~geekie/OPP/trunk/webbklient/css/default/style.css
 */
 
-/* @group User */
+/* @group Topbar */
 
+#topbar {
+    background-color: #000;
+    width: 100%;
+    min-width: 900px;
+    height: 50px;
+    margin: 0px;
+    padding: 0px;
+    z-index: 3;
+    }
+
+span.sitetitle {
+    color:#fafafa;
+    width: auto;
+    float:left;
+    font-size:18pt;
+    font-weight:bold;
+    padding: 7px;
+    }
+
+span.sitetitle a {
+    color:#fafafa;
+    text-decoration:none;
+    }
+
+span.sitetitle a:visited, span.sitetitle a:active {
+    text-decoration:none;
+    color:#fafafa;
+    }
+
+span.sitetitle a:hover {
+    text-decoration:underline;
+    }
+
+#topbarbuttonwrapper {
+    color: #efefef;
+    width:auto;
+    float: right;
+    font-weight: bold;
+    padding-top: 5px;
+    }
+
+#topbarbuttonwrapper a {
+    margin: 0px;
+    margin-left: 10px;
+    padding: 0px;
+    }
+
+#topbarbuttonwrapper a img {
+    margin: 0px;
+    padding: 0px;
+    }
+
+#topbarimages {
+    float: left;
+    margin-top:6px;
+    }
+
+#projectdropdown {
+    width: auto;
+    float: right;
+    text-align: left;
+    margin: 0px;
+    padding: 0px;
+    padding-left: 15px;
+    padding-right: 20px;
+    }
+
+#projectdropdown ul {
+    background: #5e5e5e url(../../images/buttons/dropdown.png) no-repeat;
+    width: 210px;
+    height: 20px;
+    list-style: none;
+    font-size: 11.5px;
+    padding: 0px;
+    padding-top: 6px;
+    padding-left: 10px;
+    margin: 0px;
+    margin-top: 7px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    }
+
+#projectdropdown ul:hover {
+    height: auto;
+    padding-bottom: 10px;
+    }
+
+#projectdropdown ul .item {
+    display:none;
+    }
+
+#projectdropdown ul:hover .item {
+    display: block;
+    padding: 0px;
+    padding-top: 10px;
+    }
+
+#projectdropdown ul:hover .item a {
+    color:#fff;
+    text-decoration:none;
+    margin: 0px;
+    padding: 0px;
+    }
+
+#projectdropdown ul:hover .item a:hover {
+    color: #929292;
+    }
 
 /* @end */
 
 /* @group Project */
-
-#topbarbuttonwrapper {
-	width:500px;
-	float: right;
-	margin-right: 210px;
-	color: #efefef;
-	font-weight: bold;
-}
-
-#projectdropdown {
-	position: absolute;
-	margin:auto;
-	width: 150px;
-	margin-top:0px;
-	display:inline;
-	text-align: left;
-	float: right;
-	right: 73px;
-}
-
-#projectdropdown ul .item {
-	display:none;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	padding-top:10px;
-}
-
-#projectdropdown ul:hover .item { 
-	display:block;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-
-#projectdropdown ul:hover .item a {
-	color:#fff;
-	text-decoration:none;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-
-#projectdropdown ul:hover .item a:hover {
-	color: #929292;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-
-#projectdropdown ul {
-	width:210px;
-	height: 20px;
-	list-style:none;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	padding-left: 10px;
-	background: #5e5e5e url(../../images/buttons/dropdown.png) no-repeat;
-	font-size: 11.5px;
-	padding-top: 6px;
-	margin-top: 7px;
-}
-
-#projectdropdown ul:hover {
-	height: auto;
-	
-}
 
 #projectlisting {
 	margin-left: auto;
@@ -283,12 +323,6 @@ a img {
 	border: 0;
 }
 
-#topbarbuttonwrapper a img {
-	padding-left: 5px;
-	padding-right: 5px;
-	
-}
-
 a {
 	color: #008e29;
 }
@@ -398,49 +432,12 @@ ul {
 	padding-top: 0px;
 }
 
-.topbuttons {
-	text-align:right;
-	padding: 5px 20px;
-}
-
-.topbuttons a {
-	text-decoration: none;
-}
-
 #useredit {
 	color: #fffeff;
 	font-weight: bold;
 	float: right;
 	margin-top: 10px;
 	padding-right: 15px;
-}
-
-#topbarimages {
-	float: right;
-	margin-top:6px;
-}
-
-
-span.sitetitle {
-    float:left;
-    color:#fafafa;
-    font-size:18pt;
-    font-weight:bold;    
-    padding: 7px;
-}
-
-span.sitetitle a {
-    color:#fafafa;
-    text-decoration:none;    
-}
-
-span.sitetitle a:visited, span.sitetitle a:active {
-    text-decoration:none;
-    color:#fafafa;    
-}
-
-span.sitetitle a:hover {
-    text-decoration:underline;    
 }
 
 #wrapper {
@@ -457,15 +454,6 @@ span.sitetitle a:hover {
 
 #innercontent {
     padding:15px;
-    z-index: 3;
-}
-
-#topbar {
-    width: 100%;
-    height: 50px;
-    background-color: #000;
-    margin: 0px;
-    padding: 0px;
     z-index: 3;
 }
 
