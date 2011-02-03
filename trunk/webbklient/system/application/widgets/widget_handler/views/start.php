@@ -38,7 +38,7 @@ $(document).ready(function(){
 	</div>
 	
 	<div id="widgets-handler-dialog-new-name" title="Rename widget" style="display:none;">
-	    <p>Name of instance:<br /><input id="widget_new_name" type="text" size="30" /></p>
+	    <p>Name of instance:<br /><input id="widget_new_name" type="text" size="30" maxlength="30"/></p>
 	    <p id="widget_new_name_error" style="display:none;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><strong>Only letters, spaces, numbers, ( and ) is allowed.</strong></p>
 	    <p id="widget_new_name_error2" style="display:none;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><strong>Maximum length is 30 characters.</strong></p>
 	    <p id="widget_new_name_error3" style="display:none;"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><strong>Name is required.</strong></p>
