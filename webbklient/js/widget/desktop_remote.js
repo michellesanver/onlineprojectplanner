@@ -17,7 +17,8 @@ DesktopRemote = {
         opacity: 0.5,
         fade: 250,
         top: -40,
-        left: 20});
+        left: 20,
+        extraClass: 'desktop_remote_tooltip'});
 
         $('.dektop_remote_object').bind('click', function() {
 
@@ -181,6 +182,5 @@ DesktopRemote = {
         }
 
     }
-
 
 }

@@ -572,7 +572,7 @@ class Widgets
         
         $returnSTR = "";
         
-        $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" width="55px" /></a><br />%s</div>'."\n";
+        $divSTR = '<div class="icon"><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" alt="" /></a><p>%s</p></div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
         
         // scan through all widgets that was found
@@ -600,8 +600,8 @@ class Widgets
              // print and replace %s with the real value
             $returnSTR .= sprintf($divSTR, $function, $icon, $title);   */
             
-        } 
-        
+        }
+
         // return the result
         return $returnSTR; 
     }
@@ -675,7 +675,7 @@ class Widgets
        
         // prepare data
         $returnSTR = "";
-        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" height="55px" /></a><br />%s</div>'."\n";
+        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" alt="" /></a><p>%s</p></div>'."\n";
         $base_url = $this->_CI->config->item('base_url')."system/";
      
         $openScriptSTR = ""; // restore desktop

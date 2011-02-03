@@ -15,6 +15,7 @@
 
     <script type="text/javascript">
 
+        WidgetRemote.init();
         DesktopRemote.init();
 
     </script>

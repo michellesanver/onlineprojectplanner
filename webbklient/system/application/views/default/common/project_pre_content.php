@@ -28,6 +28,7 @@
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/desktop.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/desktop_remote.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/widget.js"></script>
+  <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/widget_remote.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/ajax_requests.js"></script>
   
   <!-- widget scripts -->
@@ -96,7 +97,7 @@
 
     </div>
     
-    <div id="widget_bar"><?php echo($widget_bar); ?></div>
+    <div id="widget_bar"><div class="icon_container"><div class="icon_wrapper"><?php echo($widget_bar); ?></div><br style="clear: left;" /></div></div>
 
     <div id="desktop" pid="<?php echo $current_project_id; ?>">
 

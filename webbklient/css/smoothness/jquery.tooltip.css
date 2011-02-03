@@ -1,4 +1,37 @@
-#tooltip {
+/* @group Widgets */
+
+#tooltip.widget_bar_tooltip {
+    background: #000000;
+    color: #FFFFFF;
+    width: 150px;
+    z-index: 10000;
+    position: absolute;
+    margin: 0px;
+    padding: 5px;
+    border: #FFFFFF solid 1px;
+    }
+
+#tooltip.widget_bar_tooltip div {
+    margin: 0px;
+    padding: 0px;
+    }
+
+#tooltip.widget_bar_tooltip h3 {
+    background: transparent;
+    color: #FFFFFF;
+    text-align: center;
+    font-family: Arial, Helvetica, Geneva, sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+    margin: 0px;
+    padding: 0px;
+    }
+
+/* @end */
+
+/* @group desktop remote */
+
+#tooltip.desktop_remote_tooltip {
     background: #000000;
     color: #FFFFFF;
     z-index: 10000;
@@ -8,17 +41,20 @@
     border: #FFFFFF solid 1px;
     }
 
-#tooltip div {
+#tooltip.desktop_remote_tooltip div {
     margin: 0px;
     padding: 0px;
     }
 
-#tooltip h3 {
+#tooltip.desktop_remote_tooltip h3 {
     background: transparent;
     color: #FFFFFF;
+    text-align: center;
     font-family: Arial, Helvetica, Geneva, sans-serif;
     font-size: 10px;
     font-weight: normal;
     margin: 0px;
     padding: 0px;
     }
+
+/* @end */
