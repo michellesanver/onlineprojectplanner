@@ -1,0 +1,229 @@
+/* @override http://127.0.0.1/~Geekie/OPP/webbklient/system/application/widgets/sprint_planner/css/sprint_planner.css */
+
+#stories_table {
+	border-collapse: collapse;
+}
+
+#stories_table tbody.ui-widget-content tr td {
+	padding: 10px;
+}
+
+#stories_table thead.ui-widget-header tr th {
+	padding: 10px;
+	
+}
+
+#stories_table tbody.ui-widget-content tr:hover {
+	padding: 10px;
+	background-color: #eaeaea;
+}
+
+#stories_table thead.ui-widget-header tr th.add {
+	text-align: center;
+	vertical-align: middle;
+}
+
+#stories_table thead.ui-widget-header tr th.add{
+
+}
+
+div#tabs.ui-tabs.ui-widget.ui-widget-content.ui-corner-all {
+	border-style: none;
+}
+
+
+button.edit {
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	border: 1px solid #797979;
+	padding: 3px;
+	padding-left: 15px;
+	background: #eaeaea url(edit.png) no-repeat 1px;
+	font-weight: bold;
+	color: #424242;
+	font-size: 0.8em;
+}
+
+button.edit:hover {
+	background: #fffeff url(editred.png) no-repeat 1px;
+
+}
+
+button.delete {
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	border: 1px solid #797979;
+	padding: 3px;
+	padding-left: 15px;
+	background: #eaeaea url(delete.png) no-repeat 1px;
+	font-weight: bold;
+	color: #424242;
+	font-size: 0.8em;
+}
+
+button.delete:hover {
+	background: #fffeff url(deletered.png) no-repeat 1px;	
+}
+
+button.points {
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	border: 1px solid #797979;
+	padding: 3px;
+	background: #eaeaea;
+	font-weight: bold;
+	color: #424242;
+	font-size: 0.8em;
+}
+
+button.points:hover {
+	background-color: #fffeff;
+	
+}
+
+#points-story-dialog-form {
+	font-size: 0.72em;
+}
+
+#points-story-dialog-form label, input { 
+	display:block; 
+}
+
+#points-story-dialog-form input.text { 
+	height: 15px;
+}
+		
+#points-story-dialog-form fieldset { 
+	padding:0; 
+	border:0; 
+}
+
+#points-story-dialog-form .ui-dialog .ui-state-error { 
+	padding: .3em; 
+}
+
+#points-story-dialog-form .validateTips { 
+	border: 1px solid transparent; 
+	padding: 0.3em;
+}
+
+#story-dialog-form {
+	font-size: 0.82em;
+}
+
+#story-dialog-form label, input { 
+	display:block; 
+}
+
+#story-dialog-form input.text { 
+	margin-bottom:12px; 
+	width:95%; 
+	padding: .4em; 
+}
+		
+#story-dialog-form fieldset { 
+	padding:0; 
+	border:0; 
+	margin-top:25px; 
+}
+
+#story-dialog-form h1 { 
+	font-size: 1.2em; 
+	margin: .6em 0; 
+}
+
+#story-dialog-form .ui-dialog .ui-state-error { 
+	padding: .3em; 
+}
+
+#story-dialog-form .validateTips { 
+	border: 1px solid transparent; 
+	padding: 0.3em;
+}
+
+#edit-story-dialog-form {
+	font-size: 0.82em;
+}
+
+#edit-story-dialog-form label, input { 
+	display:block; 
+}
+
+#edit-story-dialog-form input.text { 
+	margin-bottom:12px; 
+	width:95%; 
+	padding: .4em; 
+}
+		
+#edit-story-dialog-form fieldset { 
+	padding:0; 
+	border:0; 
+	margin-top:25px; 
+}
+
+#edit-story-dialog-form h1 { 
+	font-size: 1.2em; 
+	margin: .6em 0; 
+}
+
+#edit-story-dialog-form .ui-dialog .ui-state-error { 
+	padding: .3em; 
+}
+
+#edit-story-dialog-form .validateTips { 
+	border: 1px solid transparent; 
+	padding: 0.3em;
+}
+
+
+
+
+#create-story.add {
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	border: 1px solid #797979;
+	padding-left: 10px;
+	background: #eaeaea url(add.png) no-repeat 3px 5px;
+	font-weight: bold;
+	color: #424242;
+	font-size: 0.9em;
+}
+
+#create-story.add:hover {
+	background-color: #fffeff;
+	
+}
+
+.ui-tabs-nav, .ui-accordion-header {
+  font-size: 12px;
+}
+
+.ui-tabs-panel, .ui-accordion-content {
+  font-size: 14px;
+}
+
+.jqplot-target {
+  font-size: 18px;
+}
+
+body > table {
+  margin-left:auto;
+  margin-right: auto;
+}
+
+body > table, body > table > tr, body > table > td {
+  border none;
+}
+
+td>p {
+  font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;
+  font-size: 14px;
+}
+
+th#sprint_planner_create_button_container {
+	text-align: right;
+}
