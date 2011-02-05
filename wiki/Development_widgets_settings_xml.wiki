@@ -8,13 +8,13 @@ Each widget is required to have the file settings.xml inside the root-folder of 
     <!--  short description of the widget -->
 	<about>A template and help for developing widgets with Iframe-style</about>
     <!-- version of widget-->
-	<version>1.0</version>
+    <version>1.0</version>
     <!-- link to website -->
-	<link>none</link>
+    <link>none</link>
     <!-- name of author -->
-	<author>Fredrik Johansson</author>
+    <author>Fredrik Johansson</author>
     <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
-	<icon>help-desk-icon.png</icon>
+    <icon>help-desk-icon.png</icon>
     <!-- title of widget; will be placed under icon (can be left empty) -->
     <icon_title>Iframe Template</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
@@ -23,6 +23,8 @@ Each widget is required to have the file settings.xml inside the root-folder of 
     <minimum_role>Admin</minimum_role>
     <!-- optional setting; In_development is flag if this widget is under development (defaults to false). Used in syncronization of widgets. -->
     <in_development>true</in_development>
+    <!-- allow multiple instances (yes or no) -->
+    <allow_multiple>no</allow_multiple>
     <!--
         list of files to be loaded relative to main folder of widgets
         (theese files will be loaded upon project start)
