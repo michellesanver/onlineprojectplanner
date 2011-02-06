@@ -15,9 +15,20 @@ class MY_Loader extends CI_Loader {
     {
         parent::CI_Loader();
         
-        // create widget basepath
-        // (constant WIDGET_NAME is set in extended CI core library Router)
-		if ( defined('WIDGET_NAME') ) $this->_widget_base_path = "../widgets/".WIDGET_NAME."/";
+		// core widget or not?
+		if ( defined('WIDGET_IS_CORE') && WIDGET_IS_CORE === true ) {
+		
+			// create CORE widget basepath
+			// (constant WIDGET_NAME is set in extended CI core library Router)
+			if ( defined('WIDGET_NAME') ) $this->_widget_base_path = "../widgets/_core/".WIDGET_NAME."/";
+		
+		} else {
+		
+			// create widget basepath
+			// (constant WIDGET_NAME is set in extended CI core library Router)
+			if ( defined('WIDGET_NAME') ) $this->_widget_base_path = "../widgets/".WIDGET_NAME."/";
+			
+		}
     }
     
     /**
@@ -107,7 +118,7 @@ class MY_Loader extends CI_Loader {
 		
         // set new path
         $view = $this->_widget_base_path."views/$view";    
-              
+      
         // use function in core library then
         return $this->_ci_load(array('_ci_view' => $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
     }

@@ -35,7 +35,7 @@ projectsettings = {
 	// Fist function to be executed
 	index: function() {
 		// load the first page upon start
-		var loadFirstPage = SITE_URL+'/widget/' + projectsettings.widgetName + '/ps_controller/index/' + Desktop.currentProjectId;
+		var loadFirstPage = SITE_URL+'/widget/_core/' + projectsettings.widgetName + '/ps_controller/index/' + Desktop.currentProjectId;
 		ajaxRequests.load(loadFirstPage, "projectsettings.setContent", "projectsettings.setAjaxError");
 	},
 	
@@ -55,7 +55,7 @@ projectsettings = {
 			tmp2['value'] = desc;
 			formArray.push(tmp2);
 			
-			var url = SITE_URL+'/widget/' + projectsettings.widgetName + '/ps_controller/saveDescription/';
+			var url = SITE_URL+'/widget/_core/' + projectsettings.widgetName + '/ps_controller/saveDescription/';
 			ajaxRequests.post(formArray, url, "projectsettings.catchStatus", "projectsettings.setAjaxError", true);
 		}
 		return false;
@@ -64,7 +64,7 @@ projectsettings = {
 	//If the delete button was clicked this function is executed
 	deleteProj: function() {
 		if(confirm("Are you sure you want to delete this project?")) {
-			var loadFirstPage = SITE_URL+'/widget/' + projectsettings.widgetName + '/ps_controller/delete/'+ Desktop.currentProjectId;
+			var loadFirstPage = SITE_URL+'/widget/_core/' + projectsettings.widgetName + '/ps_controller/delete/'+ Desktop.currentProjectId;
 			ajaxRequests.load(loadFirstPage, "projectsettings.catchStatus", "projectsettings.setAjaxError", true);
 			projectsettings.index();
 		}

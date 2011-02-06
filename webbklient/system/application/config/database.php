@@ -37,10 +37,10 @@
 $active_group = "default";
 $active_record = TRUE;
 
-//$db['default']['hostname'] = 'localhost';
-//$db['default']['database'] = "superwiki";
-//$db['default']['username'] = "root";
-//$db['default']['password'] = '';
+/*$db['default']['hostname'] = 'localhost';
+$db['default']['database'] = "superwiki";
+$db['default']['username'] = "root";
+$db['default']['password'] = '';*/
 
 $db['default']['hostname'] = "91.142.190.25";
 $db['default']['database'] = "c2superwiki";

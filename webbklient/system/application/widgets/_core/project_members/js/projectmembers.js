@@ -6,7 +6,7 @@ projectmembers = {
     widgetTitle: 'Project Members',
     widgetName: 'project_members', // also name of folder
 	
-		currentPartial: null,
+	currentPartial: null,
     
     // function that will be called upon start (REQUIRED - do NOT change the name)
     open: function(project_widget_id, widgetIconId, last_position) {
@@ -29,7 +29,7 @@ projectmembers = {
 		
 		index: function() {
 			// load the first page upon start
-			var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/index/' + Desktop.currentProjectId;
+			var loadFirstPage = SITE_URL+'/widget/_core/' + projectmembers.widgetName + '/pm_controller/index/' + Desktop.currentProjectId;
 			ajaxRequests.load(loadFirstPage, "projectmembers.setContent", "projectmembers.setAjaxError");
 		},
 		
@@ -53,7 +53,7 @@ projectmembers = {
 				tmp3['value'] = role;
 				formArray.push(tmp3);
 				
-				var url = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/save/';
+				var url = SITE_URL+'/widget/_core/' + projectmembers.widgetName + '/pm_controller/save/';
 				ajaxRequests.post(formArray, url, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
 			}
 			return false;
@@ -61,7 +61,7 @@ projectmembers = {
 		
 		kickout: function(victim) {
 			if(confirm("Are you sure you want to kick this member?")) {
-				var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/kickOut/'+ victim + '/' + Desktop.currentProjectId;
+				var loadFirstPage = SITE_URL+'/widget/_core/' + projectmembers.widgetName + '/pm_controller/kickOut/'+ victim + '/' + Desktop.currentProjectId;
 				ajaxRequests.load(loadFirstPage, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
 				projectmembers.index();
 			}
@@ -69,7 +69,7 @@ projectmembers = {
 		
 		switchgeneral: function(victim) {
 			if(confirm("Are you sure you want to promote this member to general?")) {
-				var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/switchGeneral/'+ victim + '/' + Desktop.currentProjectId;
+				var loadFirstPage = SITE_URL+'/widget/_core/' + projectmembers.widgetName + '/pm_controller/switchGeneral/'+ victim + '/' + Desktop.currentProjectId;
 				ajaxRequests.load(loadFirstPage, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
 				projectmembers.index();
 			}
@@ -77,18 +77,18 @@ projectmembers = {
 		
 		leave: function() {
 			if(confirm("Are you sure you want to leave this project?")) {
-				var loadFirstPage = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/leave/' + Desktop.currentProjectId;
+				var loadFirstPage = SITE_URL+'/widget/_core/' + projectmembers.widgetName + '/pm_controller/leave/' + Desktop.currentProjectId;
 				ajaxRequests.load(loadFirstPage, "projectmembers.catchRedirectStatus", "projectmembers.setAjaxError", true);
 			}
 		},
 		
 		promoteToAdmin: function(proj_mem_id) {
-			var url = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/promoteToAdmin/' + proj_mem_id + '/' + Desktop.currentProjectId;
+			var url = SITE_URL+'/widget/_core/' + projectmembers.widgetName + '/pm_controller/promoteToAdmin/' + proj_mem_id + '/' + Desktop.currentProjectId;
 			ajaxRequests.load(url, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
 		},
 		
 		demoteToMember: function(proj_mem_id) {
-			var url = SITE_URL+'/widget/' + projectmembers.widgetName + '/pm_controller/demoteToMember/' + proj_mem_id + '/' + Desktop.currentProjectId;
+			var url = SITE_URL+'/widget/_core/' + projectmembers.widgetName + '/pm_controller/demoteToMember/' + proj_mem_id + '/' + Desktop.currentProjectId;
 			ajaxRequests.load(url, "projectmembers.catchStatus", "projectmembers.setAjaxError", true);
 		},
 		

@@ -179,6 +179,7 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
     `Widget_id` INT NOT NULL AUTO_INCREMENT,
     `Widget_name` VARCHAR( 50 ) NOT NULL ,
     `In_development` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'set to 1 if widget is in development; will not be deleted when syncing'
+	`Is_core` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'if widget is core-widget (another folder)',
     PRIMARY KEY ( `Widget_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
@@ -220,6 +221,7 @@ CREATE TABLE IF NOT EXISTS `Widget_Positions` (
 CREATE TABLE `Default_Widgets` (
   `Default_widgets_id` int NOT NULL auto_increment,
   `Widgets_id` int default '0',
+  `Is_core` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'if widget is core-widget (another folder)',
   PRIMARY KEY  (`Default_widgets_id`),
   KEY `Widgets_id_key` (`Widgets_id`),
   CONSTRAINT `Widgets_id_key` FOREIGN KEY (`Widgets_id`) REFERENCES `Widgets` (`Widget_id`)
