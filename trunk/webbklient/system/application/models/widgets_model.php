@@ -17,13 +17,13 @@ class Widgets_model extends Model  {
      // is in development
      private $_deleteQuery_InDevMode = false;
      
-			/**
-			* Returns the widget_id. Inputs can be the id of the windowinstance (Project_Widget_id)
-			*	or the name of the widget (Widget_name).
-			* 
-			* @param mixed $inp
-			* @return mixed
-			*/
+	/**
+	* Returns the widget_id. Inputs can be the id of the windowinstance (Project_Widget_id)
+	*	or the name of the widget (Widget_name).
+	* 
+	* @param mixed $inp
+	* @return mixed
+	*/
      function GetWidgetId($inp)
      {
 				if(is_int($inp)) {
@@ -55,34 +55,33 @@ class Widgets_model extends Model  {
      * @param int $widgetId
      * @return string
      */
+	 function GetWidgetName($widgetId)
+	 {
+		$table2 = $this->_table2;
+		$this->db->select("$table2.Widget_name");
+		$this->db->from($table2);
+		$this->db->where(array("$table2.Widget_id" => $widgetId));
 
-     function GetWidgetName($widgetId)
-     {
-        $table2 = $this->_table2;
-        $this->db->select("$table2.Widget_name");
-        $this->db->from($table2);
-        $this->db->where(array("$table2.Widget_id" => $widgetId));
+		$query = $this->db->get();
+		$row = $query->row();
 
-        $query = $this->db->get();
-        $row = $query->row();
+		if(empty($row))
+		{
+			return false;
+		}
+		else
+		{
+			return $row->Widget_name;
+		}
 
-        if(empty($row))
-        {
-            return false;
-        }
-        else
-        {
-            return $row->Widget_name;
-        }
-
-     }
+	 }
      
-			/**
-			* Returns the name of an specific widget. 
-			* 
-			* @param mixed $inp
-			* @return mixed
-			*/
+	/**
+	* Returns the name of an specific widget. 
+	* 
+	* @param mixed $inp
+	* @return mixed
+	*/
      function GetProjectWidgetName($project_widget_id)
      {
 		$table2 = $this->_table2;
@@ -101,9 +100,25 @@ class Widgets_model extends Model  {
 
      }
      
-     function getDefaultWidgets()
+	 /**
+	 * Get all default widgets
+	 *
+	 * @param bool $allColumns (default false -> only returns Widgets_id)
+	 * @return mixed
+	 */
+     function getDefaultWidgets($allColumns=false)
      {
-        $defaultWidgets = $this->db->select("Default_Widgets.Widgets_id");
+		
+		// all columns?
+		if ($allColumns===false) {
+			// only Widgets_id
+			$this->db->select("Default_Widgets.Widgets_id");
+		} else {
+			// all columns
+			$this->db->select("Default_Widgets.*");
+		}
+		
+		// get from db
         $this->db->from("Default_Widgets");
         $query = $this->db->get();
         
@@ -200,6 +215,7 @@ class Widgets_model extends Model  {
 	       // escape and process values for db
 	       $widget_name = $this->db->escape($row->name); 
 	       $in_development = ($row->in_development==true ? "'1'" : "'0'" ); // saved as tinyint in database
+		   $is_core = ($row->is_core===true ? "'1'" : "'0'" ); // saved as tinyint in database
 	       $minimum_role = $row->minimum_role;
 	       
 	       // is minimum_role NOT null?
@@ -208,7 +224,7 @@ class Widgets_model extends Model  {
 	       }
 	       
 	       // create sql-query (active db will fail beause of 'Minimum_role' has a default value of null)
-	       $sql = "INSERT INTO `".$this->_table2."` (`Widget_name`, `In_development`, `Minimum_role`) VALUES ($widget_name, $in_development, $minimum_role)";
+	       $sql = "INSERT INTO `".$this->_table2."` (`Widget_name`, `In_development`, `Minimum_role`, `Is_core`) VALUES ($widget_name, $in_development, $minimum_role, $is_core)";
 	  
 	       // run query
 	       $this->db->query($sql);
@@ -287,34 +303,35 @@ class Widgets_model extends Model  {
         // start transaction (function will FAIL if transaction is not used)  
         $this->db->trans_begin();
 	
-	// loop thru array
-	foreach ($widgets as $row) {
-	
-	       // escape and process values for db
-	       $widget_id = $this->db->escape($row->widget_id); 
-	       $in_development = ($row->in_development==true ? "'1'" : "'0'" ); // saved as tinyint in database
-	       $minimum_role = $row->minimum_role;
-	       
-	       // is minimum_role NOT null?
-	       if (strtolower($minimum_role) != 'null') {
-		    $minimum_role = $this->db->escape( ucfirst(strtolower($minimum_role)) ); // add qoutes
-	       }
-	  
-	       // create sql
-	       $sql = "UPDATE `".$this->_table2."` SET `In_development` = $in_development, `Minimum_role` = $minimum_role WHERE `Widget_id` = $widget_id";
-	  
-	       // run query
-	       $this->db->query($sql);
-        
-	       // nothing changed?
-	       if ( $this->db->affected_rows() == 0 )
-	       {
-		   // roll back transaction and return false
-		   $this->db->trans_rollback();
-		   return false;
-	       }
-	  
-	}
+		// loop thru array
+		foreach ($widgets as $row) {
+		
+			   // escape and process values for db
+			   $widget_id = $this->db->escape($row->widget_id); 
+			   $in_development = ($row->in_development==true ? "'1'" : "'0'" ); // saved as tinyint in database
+			   $is_core = ($row->is_core=true ? "'1'" : "'0'" ); // saved as tinyint in database
+			   $minimum_role = $row->minimum_role;
+			   
+			   // is minimum_role NOT null?
+			   if (strtolower($minimum_role) != 'null') {
+				$minimum_role = $this->db->escape( ucfirst(strtolower($minimum_role)) ); // add qoutes
+			   }
+		  
+			   // create sql
+			   $sql = "UPDATE `".$this->_table2."` SET  `Is_core` = $is_core, `In_development` = $in_development, `Minimum_role` = $minimum_role WHERE `Widget_id` = $widget_id";
+		  
+			   // run query
+			   $this->db->query($sql);
+			
+			   // nothing changed?
+			   if ( $this->db->affected_rows() == 0 )
+			   {
+			   // roll back transaction and return false
+			   $this->db->trans_rollback();
+			   return false;
+			   }
+		  
+		}
 	
         // else; all ok! commit transaction and return true
         $this->db->trans_commit(); 

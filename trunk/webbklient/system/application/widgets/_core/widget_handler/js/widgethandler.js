@@ -22,7 +22,7 @@ widgethandler = {
 			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, widgethandler.partialContentDivClass, last_position);
 			
 			// load the first page upon start
-            var loadFirstPage = SITE_URL+'/widget/' + widgethandler.widgetName + '/widgets_handler/';
+            var loadFirstPage = SITE_URL+'/widget/_core/' + widgethandler.widgetName + '/widgets_handler/';
 			ajaxRequests.load(loadFirstPage, "widgethandler.setContent", "widgethandler.setAjaxError");
 		},
 			
@@ -169,7 +169,7 @@ widgethandler = {
                         });
                         
                         // prepare url
-                        url = SITE_URL+'/widget/'+widgethandler.widgetName+url;
+                        url = SITE_URL+'/widget/_core/'+widgethandler.widgetName+url;
                                 
                         // prepare data to send
                         var postdata = { 'widgetId': widgetId, 'widgetName': widgetName, 'dialogProcessingId': dialog_processing_id, 'dialogMessageId': dialog_message_id };
@@ -229,7 +229,7 @@ widgethandler = {
     // wrapper-function that easily can be used inside views from serverside    
     loadURL: function(url) {
         // prepare url
-        url = SITE_URL+'/widget/'+widgethandler.widgetName+url;
+        url = SITE_URL+'/widget/_core/'+widgethandler.widgetName+url;
 				
         // send request
         ajaxRequests.load(url, 'widgethandler.setContent', 'widgethandler.setAjaxError');
@@ -238,7 +238,7 @@ widgethandler = {
 		// Loads a ajaxrequest to specific partialclass, in this case "ajax_template_partial"
 	loadURLtoPartialTest: function(url) {
         // prepare url
-        url = SITE_URL+'/widget/'+widgethandler.widgetName+url;
+        url = SITE_URL+'/widget/_core/'+widgethandler.widgetName+url;
 				
         // set currentpartial to to the classname
         this.currentPartial = widgethandler.partialContentDivClass;
@@ -251,7 +251,7 @@ widgethandler = {
     // wrapper-function that easily can be used inside views from serverside
     postURL: function(formClass, url) {
         // prepare url
-        url = SITE_URL+'/widget/'+widgethandler.widgetName+url;
+        url = SITE_URL+'/widget/_core/'+widgethandler.widgetName+url;
 				
 		// catching the form data
 		var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();

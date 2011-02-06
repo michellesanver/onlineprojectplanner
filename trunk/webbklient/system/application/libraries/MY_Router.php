@@ -41,18 +41,48 @@ class MY_Router extends CI_Router {
             // remove trigger-word "widget"
 			$segments = array_slice($segments, 1); 
 		
-            // get name of widget
+			// core-widget?
+			$is_core = false;
+			if ( $segments[0] == '_core' ) {
+			
+				// yes, set flag and remove from array
+				$is_core = true;
+				$segments = array_slice($segments, 1); 
+				
+				// define a constant that is used in MY_Loader
+				define('WIDGET_IS_CORE', true);
+				
+			} else {
+			
+				// define a constant (TO FALSE) that is used in MY_Loader
+				define('WIDGET_IS_CORE', false);
+				
+			}
+		
+            // get name of widget and remove from array
             $name = $segments[0];
-        
-            // remove name of widget
             $segments = array_slice($segments, 1);
         
 		    // set path to widget-folder
-		    $widget_path = "widgets/$name/";
+			$widget_path = "";
+			if ( $is_core === true ) {
+			
+				// core-widget
+				$widget_path = "widgets/_core/$name/";
             
-            // set directory to widget (traverse up one level so this library is compatible with CI base files)
-            $this->set_directory("../widgets/$name/controllers");
+				// set directory to widget (traverse up one level so this library is compatible with CI base files)
+				$this->set_directory("../widgets/_core/$name/controllers");
+				
+			} else {
+			
+				// no core-widget
+				$widget_path = "widgets/$name/";
             
+				// set directory to widget (traverse up one level so this library is compatible with CI base files)
+				$this->set_directory("../widgets/$name/controllers");
+				
+            }
+			
             // any controller?
             if ( isset($segments[0]) == false )
             {     
