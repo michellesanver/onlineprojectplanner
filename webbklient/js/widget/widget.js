@@ -1,31 +1,30 @@
-function Widget(id, wnd_options, partialClasses) {
+/* 
+* Name: Widget
+* Desc: Basewidget class used as parent to executable widgets.
+* Last update: 3/2-2011 by Dennis Sangmo
+*/
+function Widget() {
+}
+
+// Constructor-function. Must be executed from the dev-widget constructor.
+Widget.prototype.create = function(id, wnd_options, partialClasses) {
 	
 	// Property assignment
-	
-	// The Id of the instance
-	this.id = id;
-	
-	// The div-id of this instance
-	this.divId = "widget_" + id;
-	
+	this.id = id; // The Id of the instance
+	this.widgetIconId = wnd_options.widgetIconId; // Icon id
+	this.divId = "widget_" + id; // The div-id of this instance
+	this.dialogId = this.divId + "_dialog";
 	this.settingsOpen = false;
 	
 	// An array containing all partial areas in the window for better updating of smaller parts.
-	this.partialClassNames = new Array();
-	if (partialClasses != undefined)
-	{
+	this.partialClassNames = new Array(); 
+	if (partialClasses != undefined) {
 		if($.isArray(partialClasses)) {
 			this.partialClassNames = partialClasses;
 		} else {
 			this.partialClassNames.push(partialClasses);
 		}
 	}
-	
-	// Event that updates the selected window
-	wnd_options.Wid = this.id;
-	wnd_options.onSelect = function (){
-		Desktop.selectedWindowId = this.Wid;
-	};
 	
 	// Starting JQuery-window object
 	if(wnd_options.content == undefined) {
@@ -36,21 +35,8 @@ function Widget(id, wnd_options, partialClasses) {
 	
 	this.wnd = $('#desktop').window(wnd_options);
 	
-	//TODO: SETTINGS IN THE FOOTER
 	if(wnd_options.allowSettings) {
-		this.wnd.setFooterContent("<a href=\"javascript:void(0);\" onclick=\"Desktop.openSettingsWindow()\"><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
-	}
-}
-
-// Will set the content in the widget
-Widget.prototype.setContent = function(data) {
-	$('#' + this.divId).html(data);
-}
-
-// Will set the content in a partal area
-Widget.prototype.setPartialContent = function(partialClass, data) {
-	if($.inArray(partialClass, this.partialClassNames) >= 0) {
-		$('#' + this.divId).find('.'+partialClass).html(data);
+		this.wnd.setFooterContent("<a href=\"javascript:void(0);\" onclick=\"Desktop.openSettingsWindow(" + this.id + ")\"><img src='"+BASE_URL+"images/buttons/small_setting.jpg' alt='Settings' /></a>");
 	}
 }
 
@@ -64,97 +50,51 @@ Widget.prototype.closeWidget = function() {
     this.wnd.close();    
 }
 
-// display a ajax spinner
-Widget.prototype.show_ajax_loader = function()
-{
-     // class frame_loading is from jquery.window 
-     
-     container = $('#' + this.divId);
-     
-     // show white or black version?  
-     /*if ( container.html() == "" )
-     {*/
-     
-         // no content; show white
-         var loadingHTML = "<div class='frame_loading'>Loading...</div>"; 
-         container.html(loadingHTML);
-         var loading = container.children(".frame_loading");
-         loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
-     
-     
-     // NOTE; the black version if content is set with overlay does not work corrently
-     // do NOT delete the code though
-     
-         
-  /*   }
-     else
-     {
-        // has content; show black 
-        parentContainer = container;
-        while (parentContainer.hasClass("window_panel")==false)
-        {
-            parentContainer = parentContainer.parents();    
-        }   
-        
-        
-        // prepare html 
-        var loadingHTML = "<div class='frame_loading-black'>Loading...</div>"; 
-        
-        // prepare options for overlay
-        var overlayOptions = {  
-                                'z-index': 2000,
-                                'background-color': '#333',
-                                'height':parentContainer.css('height'),
-                                'width':parentContainer.css('width'),
-                                'opacity':'0.5',
-                                '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"',
-                                'filter':'alpha(opacity=50)',
-                                'position': 'absolute',
-                                'top': 0,
-                                'left': 0
-                            }; 
-         
-		overlay = "<div id=\""+this.divId+"_Overlay\"></div>";
-		container.append(overlay);
-		$('#'+this.divId+'_Overlay').css(overlayOptions);
-        
-        // append loading html and set position
-        container.append(loadingHTML);
-        var loading = container.children(".frame_loading-black");
-        loading.css({"marginLeft": '-' + (loading.outerWidth() / 2) -20 + 'px', 'z-index': 2001});  
-				
-     }      */
-     
-     
-     // NOTE; the black version if content is set with overlay does not work corrently
-     // do NOT delete the code though
-     
+// Will set the content in the widget
+Widget.prototype.index = function() {
+	this.setContent("<h1>You need to implement an function named \"index\" in your widget-class!</h1>");
 }
 
-// display an error (jquery ui)
-Widget.prototype.show_ajax_error = function(loadURL, errorIcon)
-{
-    // prepare message
-    var errorMessage = "<p class=\"ajaxTemplateWidget_Error\">";
-    
-    // with icon?
-    if (errorIcon != undefined || errorIcon != "" || errorIcon != null)
-    {
-        errorMessage += "<img src=\""+errorIcon+"\" width=\"35\" height=\"35\" />";
-    }
-    
-    // append message
-    errorMessage += "Error: Unable to load the page at<br/><br/><small>"+loadURL+"</small></p>";
-
-    // show in div with ID or Class
-        $('#'+this.divId).html(errorMessage);
+// Will set the content in the widget. Can handle partialareas
+Widget.prototype.setWindowContent = function(args) {
+	if($.isArray(args)){
+		if($.inArray(args[1], this.partialClassNames) >= 0) {
+			$('#' + this.divId).find('.' + args[1]).html(args[0]);
+		}
+	} else {
+		$('#' + this.divId).html(args);
+	}
 }
+
+// Standard statuscatcher
+Widget.prototype.catchStatus = function(data) {
+	var json;
+	if(json = $.parseJSON(data)){
+		// Everything went ok
+		if(json.status == "ok") {
+			Desktop.show_message(json.status_message);
+			// Calling the requested function
+			if(json.load != undefined) {
+				this[json.load](json.loadparams);
+			}
+		} else {
+			Desktop.show_errormessage(json.status_message);
+		}
+	} else {
+		Desktop.show_errormessage("A error has occurred, admins has been informed!");
+	}
+}
+
+/*
+* ---------------------------------------------
+* SETTINGS
+* ---------------------------------------------
+*/
 
 // Opens (creates if needed) the settings window
 Widget.prototype.setSettingsContent = function(data) {
 	if($('#' + this.divId).next('#settings').length == 0) {
 		$('#' + this.divId).after('<div id="settings"></div>');
-		
 	}
 	
 	$('#' + this.divId).next('#settings').html(data);
@@ -174,4 +114,35 @@ Widget.prototype.closeSettings = function() {
 // returns the settingswindow state.
 Widget.prototype.getSettingsState = function() {
 	return this.settingsOpen;
+}
+
+/*
+* ---------------------------------------------
+* AJAX Functions
+* ---------------------------------------------
+*/
+
+// display a ajax spinner
+Widget.prototype.show_ajax_loader = function() {
+    // class frame_loading is from jquery.window 
+    container = $('#' + this.divId);
+    
+	// no content; show white
+	var loadingHTML = "<div class='frame_loading'>Loading...</div>"; 
+	container.html(loadingHTML);
+	var loading = container.children(".frame_loading");
+	loading.css("marginLeft",    '-' + (loading.outerWidth() / 2) -20 + 'px');
+}
+
+// display an error (jquery ui)
+Widget.prototype.show_ajax_error = function(loadURL, errorIcon) {
+    // prepare message
+    var errorMessage = "<p class=\"ajaxTemplateWidget_Error\">";
+	errorMessage += "<img src=\""+Desktop._errorIcon+"\" width=\"35\" height=\"35\" />";
+	
+    // append message
+    errorMessage += "Error: Unable to load the page at<br/><br/><small>"+loadURL+"</small></p>";
+
+    // show in div with ID or Class
+	$('#'+this.divId).html(errorMessage);
 }

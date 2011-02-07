@@ -6,7 +6,7 @@
 	<h1>Settings</h1>
 			<?php
 				if(is_array($settings)) {
-					echo "<form id=\"" . $id . "_settings\" onsubmit=\"return Desktop.saveSettingsForm()\">";
+					echo "<form id=\"" . $id . "_settings\" onsubmit=\"return Desktop.saveSettingsForm(" . $id . ")\">";
 					for($i = 0; $i < count($settings); $i++) {
 						$val = isset($settings[$i]['Value']) ? $settings[$i]['Value'] : "";
 						$wsvi = (!isset($settings[$i]['Widget_settings_value_id']) || $settings[$i]['Widget_settings_value_id'] == "") ? "n".$settings[$i]['Settings_id'] : (int)$settings[$i]['Widget_settings_value_id'];

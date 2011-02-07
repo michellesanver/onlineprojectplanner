@@ -1,0 +1,3 @@
+IP: 91.142.190.36
+FTP: jadesmith / O1z49U8q3p3d
+MySQL (även phpmyadmin): root / cs3C8s48

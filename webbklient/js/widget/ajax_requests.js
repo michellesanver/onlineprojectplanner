@@ -1,38 +1,106 @@
 ajaxRequests = {
 
     // function that will load an url and set resulting data into specified div
-    load: function(loadURL, successFunction, errorFunction, partial)
-        {
-            // empty url?
-            if (loadURL == "")
-            {
-                Desktop.show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
-                return;
-            }
-            
-            // show ajax spinner
-						if(!partial){
-							Desktop.show_ajax_loader_in_widget();
-						}
+	// Used by the widgets
+    load: function(pwID, loadURL, successFunction, partial)
+	{
+		// empty url?
+		if (loadURL == "") {
+			Desktop.show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
+			return;
+		}
+		
+		// show ajax spinner
+		if(partial == false || partial == undefined) {
+			Desktop.show_ajax_loader_in_widget(pwID);
+		}
 
-            $.ajax({
-              type: 'GET',
-              url: loadURL,
-              success: function(data){
-                    // set new content
-					data = escape(data);
-										
-                    eval(successFunction + '("' + data + '")');
-              },
-              error: function(xhr, statusSTR, errorSTR) {
-                    // display an error
-                    eval(errorFunction + "('" + loadURL + "');");
-              }
-           });      
-        },
-    
+		$.ajax({
+		  type: 'GET',
+		  url: loadURL,
+		  success: function(data){
+				if(partial == false || partial == undefined) {
+					Desktop.callWidgetFunction(pwID, successFunction, data);
+				} else {
+					Desktop.callWidgetFunction(pwID, successFunction, data, partial);
+				}
+		  },
+		  error: function(xhr, statusSTR, errorSTR) {
+				Desktop.show_ajax_error_in_widget(loadURL, pwID);
+		  }
+	   });      
+	},
+	
+	
     // post data
-    post: function(postdata, loadURL, successFunction, errorFunction, partial)
+	// User by the widgets
+    post: function(pwID, postdata, loadURL, successFunction, partial)
+    {
+        // empty url?
+        if (loadURL == "")
+        {
+            Desktop.show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
+            return;
+        }
+        // empty postdata?
+        else if (postdata == "")
+        {
+            Desktop.show_errormessage('Hey! :\'( No data found to submit? *confused*');
+            return;
+        }
+		
+		// show ajax spinner
+		if(partial == false || partial == undefined) {
+			Desktop.show_ajax_loader_in_widget(pwID);
+		}
+		
+        // post with ajax
+        $.ajax({
+          type: 'POST',
+          data: postdata,
+          url: loadURL,
+          success: function(data){
+                // set new content
+				if(partial == false || partial == undefined) {
+					Desktop.callWidgetFunction(pwID, successFunction, data);
+				} else {
+					Desktop.callWidgetFunction(pwID, successFunction, data, partial);
+				}
+          },
+          error: function(xhr, statusSTR, errorSTR) {
+                // display an error
+				Desktop.show_ajax_error_in_widget(loadURL, pwID);
+          }
+       });
+       
+       return false;   
+    },
+    
+    // function that will load an url and set resulting data into specified div
+    load_full: function(loadURL, successFunction, errorFunction, args)
+	{
+		// empty url?
+		if (loadURL == "") {
+			Desktop.show_errormessage('Hey! :\'( Load data from which URL!? *confused*');
+			return;
+		}
+		
+		$.ajax({
+		  type: 'GET',
+		  url: loadURL,
+		  success: function(data){
+				var success = successFunction.split(".");
+				window[success[0]][success[1]](data, args);
+		  },
+		  error: function(xhr, statusSTR, errorSTR) {
+				var error = errorFunction.split(".");
+				window[error[0]][error[1]](loadURL, args);
+		  }
+	   });      
+	},
+    // post data
+	// used by other objects
+    post_full: function(postdata, loadURL, successFunction, errorFunction, args)
     {
         // empty url?
         if (loadURL == "")
@@ -47,25 +115,22 @@ ajaxRequests = {
             return;
         }
         
-				// show ajax spinner
-				if(!partial){
-					Desktop.show_ajax_loader_in_widget();
-				}
-				
         // post with ajax
         $.ajax({
           type: 'POST',
           data: postdata,
           url: loadURL,
-          success: function(data){
-                // set new content
-					data = escape(data);
-										
-                    eval(successFunction + '("' + data + '", '+partial+')');
-          },
-          error: function(xhr, statusSTR, errorSTR) {
-                // display an error
-                    eval(errorFunction + "('" + loadURL + "');");
+		  success: function(data){
+				if(successFunction != "" || successFunction != undefined){
+					var success = successFunction.split(".");
+					window[success[0]][success[1]](data, args);
+				}
+		  },
+		  error: function(xhr, statusSTR, errorSTR) {
+				if(errorFunction != "" || errorFunction != undefined){
+					var error = errorFunction.split(".");
+					window[error[0]][error[1]](loadURL, args);
+				}
           }
        });
        
