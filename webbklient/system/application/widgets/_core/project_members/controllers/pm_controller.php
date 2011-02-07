@@ -18,7 +18,7 @@ class pm_controller extends Controller {
 	*
 	* @param int $Pid
 	*/
-	function index($Pid)
+	function index($Pid, $pwID)
 	{
 		// add a tracemessage to log
 		log_message('debug','#### => Controller pm_controller->index');
@@ -69,6 +69,7 @@ class pm_controller extends Controller {
     // proceed and show view
 		$data["projectID"] = $project['Project_id'];
 		$data["title"] = $project['Title'];
+		$data["pwID"] = $pwID;
 		$data["members"] = $projectMembers;
 		$data["roles"] = $projectRoles;
 		$data["isGeneral"] = $isGeneral;
@@ -91,7 +92,7 @@ class pm_controller extends Controller {
 		}
 		
 		if(isset($_POST['projectID'])) {
-			$Pid = $_POST['projectID'];
+			$Pid = $this->input->post('projectID');
 		} else {
 			echo json_encode(array("status" => "error", "status_message" => "An error has occurred with the project."));
 			return;
@@ -241,7 +242,7 @@ class pm_controller extends Controller {
 			$data = array(
 				"status" => "ok",
 				"status_message" => "Member is kicked out!",
-				"reload" => "yes"
+				"load" => "index"
 			);
 		}
 		
@@ -319,7 +320,7 @@ class pm_controller extends Controller {
 			$data = array(
 				"status" => "ok",
 				"status_message" => "You are no longer the general of this project!",
-				"reload" => "yes"
+				"load" => "index"
 			);
 		} else {
 			$data = array(
@@ -373,7 +374,7 @@ class pm_controller extends Controller {
 			$data = array(
 				"status" => "ok",
 				"status_message" => "You have left the project!",
-				"reload" => "yes"
+				"load" => "index"
 			);
 		} else {
 			$data = array(
@@ -429,7 +430,7 @@ class pm_controller extends Controller {
 			$data = array(
 				"status" => "ok",
 				"status_message" => "The user has been promoted to admin!",
-				"reload" => "yes"
+				"load" => "index"
 			);
 		} else {
 			$data = array(
@@ -484,7 +485,7 @@ class pm_controller extends Controller {
 			$data = array(
 				"status" => "ok",
 				"status_message" => "The user has been promoted to admin!",
-				"reload" => "yes"
+				"load" => "index"
 			);
 		} else {
 			$data = array(
