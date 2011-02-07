@@ -562,13 +562,29 @@ class Widgets_model extends Model  {
             
             $data = array(
                 'Is_maximized' => $is_maximized,
-                'Last_x_position' => $last_x,
-                'Last_y_position' => $last_y,
-                'Is_open' => $is_open,
-                'Width' => $width,
-                'Height' => $height
+                'Is_open' => $is_open
             ); 
             
+			// save last_x?
+			if ($last_x != -1) {
+				$data['Last_x_position'] = $last_x;
+			}
+			
+			// save last_y?
+			if ($last_y != -1) {
+				$data['Last_y_position'] = $last_y;
+			}
+			
+			// save width?
+			if ($width != -1) {
+				$data['Width'] = $width;
+			}
+			
+			// save height?
+			if ($height != -1) {
+				$data['Height'] = $height;
+			}
+			
             $this->db->where( array( 'Project_widgets_id' => $project_widget_id, 'User_id' => $uid, 'Project_id' => $project_id ) );
             return $this->db->update($this->_table3, $data);
         
@@ -580,13 +596,41 @@ class Widgets_model extends Model  {
                 'Project_widgets_id' => $project_widget_id,
                 'User_id' => $uid,
                 'Is_maximized' => $is_maximized,
-                'Is_open' => $is_open,
-                'Last_x_position' => $last_x,
-                'Last_y_position' => $last_y,
-                'Width' => $width,
-                'Height' => $height
+                'Is_open' => $is_open
             );
             
+			// save last_x?
+			if ($last_x != -1) {
+				$data['Last_x_position'] = $last_x;
+			} else {
+				// fail-safe; default values
+				$data['Last_x_position'] = 15;
+			}
+			
+			// save last_y?
+			if ($last_y != -1) {
+				$data['Last_y_position'] = $last_y;
+			} else {
+				// fail-safe; default values
+				$data['Last_y_position'] = 15;
+			}
+			
+			// save width?
+			if ($width != -1) {
+				$data['Width'] = $width;
+			} else {
+				// fail-safe; default values
+				$data['Width'] = 300;
+			}
+			
+			// save height?
+			if ($height != -1) {
+				$data['Height'] = $height;
+			} else {
+				// fail-safe; default values
+				$data['Height'] = 250;
+			}
+			
             $this->db->insert($this->_table3, $data);
  
         }
