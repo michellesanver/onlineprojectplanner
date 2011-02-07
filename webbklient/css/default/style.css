@@ -124,7 +124,6 @@ span.sitetitle a:hover {
     color: #000000;
     width: 100%;
     margin: 0px;
-    margin-bottom: 10px;
     padding: 0px;
     z-index: 3;
     overflow: hidden;
@@ -509,10 +508,15 @@ ul {
     z-index: 1;
 }
 
-#desktop, #content {
+#content {
     z-index: 2;
     margin-left:10px;
     margin-right: 10px;
+}
+
+#desktop {
+    z-index: 2;
+    margin: 10px;
 }
 
 #innercontent {
@@ -526,6 +530,8 @@ body, html {
 	font-size: 14px;
 	margin: 0px;
 	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+        margin: 0px;
+        padding: 0px;
 }
 
 	
