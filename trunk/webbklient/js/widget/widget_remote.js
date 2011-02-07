@@ -14,8 +14,8 @@ WidgetRemote = {
         delay: 0,
         opacity: 0.5,
         fade: 0,
-        top: 40,
-        left: -100,
+        top: 30,
+        left: -20,
         showURL: false,
         extraClass: 'widget_bar_tooltip'});
 
