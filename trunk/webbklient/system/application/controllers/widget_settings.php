@@ -57,29 +57,37 @@ class widget_settings extends Controller {
 				$data[] = $tmp;
 			}
 		}
-			
-		$res = true;
+		
+		$return = array();
 		foreach($data as $row){
 			if(substr($row['Widget_settings_value_id'],0,1) == "n"){
 				$s_id = substr($row['Widget_settings_value_id'],1);
-				if($this->settings_model->insertSettingValue(array("Project_widgets_id" => $project_widget_id, "Settings_id" => $s_id, "Value" => $row['Value'])) == false) {
-					echo "Error while inserting: " . $row['Widget_settings_value_id'] . " = " . $row['Value'] . "<br />";
-					$res = false;
+				if($this->settings_model->insertSettingValue(array("Project_widgets_id" => $project_widget_id, "Settings_id" => $s_id, "Value" => $row['Value']))) {
+					$return = array(
+						"status" => "ok",
+						"status_message" => "The settings has been saved. To return please click the settingsbutton!"
+					);
+				} else {
+					$return = array(
+						"status" => "error",
+						"status_message" => "Error while inserting: " . $row['Widget_settings_value_id'] . " = " . $row['Value']
+					);
 				}
 			} else {
-				if($this->settings_model->updateSettingValue($row) == false) {
-					echo "Error while updating: " . $row['Widget_settings_value_id'] . " = " . $row['Value'] . "<br />";
-					$res = false;
+				if($this->settings_model->updateSettingValue($row)) {
+					$return = array(
+						"status" => "ok",
+						"status_message" => "The settings has been saved. To return please click the settingsbutton!"
+					);
+				} else {
+					$return = array(
+						"status" => "error",
+						"status_message" => "Error while updating: " . $row['Widget_settings_value_id'] . " = " . $row['Value']
+					);
 				}
 			}
 		}
-		if($res)
-			echo "true";
-	}
-	
-	function libTester()
-	{
-		var_dump($this->settings_provider->getSettingValue("ajax_template", 1, 9));
+		echo json_encode($return);
 	}
 }
 

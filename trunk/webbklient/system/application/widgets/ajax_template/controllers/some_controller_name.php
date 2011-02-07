@@ -11,16 +11,24 @@ class Some_controller_name extends Controller {
     }
     
     // first function to be called if not specified in URL (Codeigniter)
-    function index()
+    function index($pwID)
     {
-        $widget_name = "ajax_template";
-  
+		// add a tracemessage to log
+		log_message('debug','#### => Controller Some_controller_name->index');
+		
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
+		
         // package some data for the view
         $base_url = $this->config->item('base_url');
         $data = array(
+			'pwID' => $pwID,
             'base_url' => $base_url,
-            'widget_url' => site_url("/widget/$widget_name").'/',
-            'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
+            'widget_url' => site_url("/widget/ajax_template").'/',
+            'widget_base_url' => $base_url."system/application/widgets/ajax_template/",
             
             'userID' => $this->user->getUserID() // used in a link
         );
@@ -56,7 +64,7 @@ class Some_controller_name extends Controller {
         
     }     
     
-  function model_test()
+  function model_test($pwID)
   {
       // load a model inside subfolder 'mdel'
       $this->load->model_widget('testmodel');    
@@ -72,7 +80,7 @@ class Some_controller_name extends Controller {
       // output data from the model
       echo "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
       echo "<h1>AJAX template; Data from model</h1>";
-      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.loadURL('/some_controller_name');\"><< Back to previous page</a></p>   ";
+      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"Desktop.callWidgetFunction(".$pwID.", 'index');\"><< Back to previous page</a></p>   ";
       echo "<table cellpadding=\"3\">";
       echo "<tr>";
       echo "<td><strong>Firstname</strong></td>";
@@ -91,7 +99,7 @@ class Some_controller_name extends Controller {
   }
     
    
-  function library_test()
+  function library_test($pwID)
   {
         // load a library
         $this->load->library_widget('Testlib'); 
@@ -101,11 +109,11 @@ class Some_controller_name extends Controller {
       
       
        // output data from the library
-       echo $this->testlib->randomFunctionName();
+       echo $this->testlib->randomFunctionName($pwID);
       
   }
   
-  function edit_user($userID)
+  function edit_user($pwID, $userID)
   {
       $widget_name = "ajax_template";  
       
@@ -122,6 +130,7 @@ class Some_controller_name extends Controller {
       // package some data for the view
       $base_url = $this->config->item('base_url');
       $data = array(
+			'pwID' => $pwID,
             'base_url' => $base_url,
             'widget_url' => site_url("/widget/$widget_name").'/',
             'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
@@ -137,13 +146,13 @@ class Some_controller_name extends Controller {
       $this->load->view_widget('edit_user', $data); // view is loaded into an iframe (jquery plugin window)
   }
   
-  function save_edit_user()  
+  function save_edit_user($pwID)  
   {
   
       // output data from post
       echo "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
       echo "<h1>AJAX template; Post data</h1>";
-      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.loadURL('/some_controller_name');\"><< Back to previous page</a></p>   ";
+      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"Desktop.callWidgetFunction(".$pwID.", 'index');\"><< Back to previous page</a></p>   ";
     
       echo "<table cellpadding=\"3\">";
       echo "<tr>";
@@ -162,15 +171,15 @@ class Some_controller_name extends Controller {
       
   }
   
-  function partial()
+  function partial($pwID)
   {
       echo "<div id=\"ajax_template_wrapper\" style=\"padding:15px;\">";
       echo "<h1>AJAX template; setPartialContent</h1>";
-      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"ajaxTemplateWidget.loadURL('/some_controller_name');\"><< Back to previous page</a></p>   ";   
+      echo "<p><a href=\"javascript:void(0);\" class=\"small\" onclick=\"Desktop.callWidgetFunction(".$pwID.", 'index');\"><< Back to previous page</a></p>   ";   
 
       echo "<div class=\"ajax_template_partial\" style=\"border:2px solid #777;padding:20px;\">".
             "This area is partial and will be reloaded when clicked.".
-            " <a href=\"javascript:void(0);\" onclick=\"ajaxTemplateWidget.loadURLtoPartialTest('/some_controller_name/partialCall');\">Reload partial area</a>".
+            " <a href=\"javascript:void(0);\" onclick=\"Desktop.callWidgetFunction(".$pwID.", 'getPartialContent');\">Reload partial area</a>".
             "</div>";
             
       echo "<br/><br/>This area will NOT be reloaded.</div>";
