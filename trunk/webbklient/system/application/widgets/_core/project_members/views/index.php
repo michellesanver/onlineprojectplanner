@@ -6,7 +6,7 @@
 ?>
 <div id="projectmember_wrapper">
 	<h3>Invite a new member</h3>
-	<form id="<?php echo "proj_mem_".$projectID; ?>" onsubmit="return projectmembers.save();">
+	<form id="<?php echo "proj_mem_".$projectID; ?>" onsubmit="return Desktop.callWidgetFunction(<?php echo $pwID; ?>, 'save');">
 		<label for="email">E-mail: </label><input type="text" name="email" value="" id="email" class="required email" />*<br/>
 		<label for="projectRoleID">Role in project: </label>
 		<select name="projectRoleID" id="projectRoleID">
@@ -29,15 +29,15 @@
 						<?php 
 							echo "<b>" . $member['Username'] . "</b>, " .$member['Firstname'] . " " . $member['Lastname'] ." (".$member['Role'].")<br /><em>" . $member['Email'] . "</em>";
 							if($member['IsLoggedInUser'] != false && $isGeneral == false) {
-								echo "<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.leave();\">Leave</a>";
+								echo "<br /><a href=\"javascript:void(0);\" onclick=\"Desktop.callWidgetFunction(".$pwID.", 'leave');\">Leave</a>";
 							}
 							if($member['IsLoggedInUser'] == false && $isGeneral != false) { 
 								if($member['Project_role_id'] == "2"){
-									echo"<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.promoteToAdmin(".$member['Project_member_id'].");\">Promote to admin</a>";
+									echo"<br /><a href=\"javascript:void(0);\" onclick=\"Desktop.callWidgetFunction(".$pwID.", 'promote', ".$member['Project_member_id'].");\">Promote to admin</a>";
 								} else if($member['Project_role_id'] == "1") {
-									echo"<br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.demoteToMember(".$member['Project_member_id'].");\">Demote to member</a>";
+									echo"<br /><a href=\"javascript:void(0);\" onclick=\"Desktop.callWidgetFunction(".$pwID.", 'demote', ".$member['Project_member_id'].");\">Demote to member</a>";
 								}
-								echo "&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"javascript:void(0);\" onclick=\"projectmembers.kickout(".$member['User_id'].");\">Kick out</a><br /><a href=\"javascript:void(0);\" onclick=\"projectmembers.switchgeneral(".$member['User_id'].");\">Make general</a>";
+								echo "&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"javascript:void(0);\" onclick=\"Desktop.callWidgetFunction(".$pwID.", 'kick', ".$member['User_id'].");\">Kick out</a><br /><a href=\"javascript:void(0);\" onclick=\"Desktop.callWidgetFunction(".$pwID.", 'switchgeneral', ".$member['User_id'].");\">Make general</a>";
 							} 
 						?>
 				</li>
