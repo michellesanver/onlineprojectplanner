@@ -55,16 +55,18 @@ DesktopRemote = {
         {
             $(DesktopRemote.widgetBar).hide(500);
 
-            $(DesktopRemote.desktop).delay(500).animate({'height': (DesktopRemote.desktopHeight + DesktopRemote.widgetBarHeight) + 10});
+            setTimeout(function() {
+                $(DesktopRemote.desktop).animate({'height': (DesktopRemote.desktopHeight + DesktopRemote.widgetBarHeight) + 10});
 
-            $(DesktopRemote.widgetPanel).each(function(index) {
+                $(DesktopRemote.widgetPanel).each(function(index) {
 
-                var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                var newWidgetPanelTop = (widgetPanelTop - DesktopRemote.widgetBarHeight) + 10;
+                    var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
+                    var newWidgetPanelTop = (widgetPanelTop - DesktopRemote.widgetBarHeight) + 10;
 
-                $(this).delay(500).animate({'top': newWidgetPanelTop});
+                    $(this).animate({'top': newWidgetPanelTop});
 
-            });
+                });
+            }, 500);
 
             setTimeout(function() {
                 $('#single_up').attr('id', 'single_down');
@@ -76,16 +78,18 @@ DesktopRemote = {
         {
             $(DesktopRemote.desktop).animate({'height': (DesktopRemote.desktopHeight - DesktopRemote.widgetBarHeight) - 10});
 
-            $(DesktopRemote.widgetBar).delay(500).show(500);
+            setTimeout(function() {
+                $(DesktopRemote.widgetBar).show(500);
 
-            $(DesktopRemote.widgetPanel).each(function(index) {
+                $(DesktopRemote.widgetPanel).each(function(index) {
 
-                var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                var newWidgetPanelTop = (widgetPanelTop + DesktopRemote.widgetBarHeight) - 10;
+                    var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
+                    var newWidgetPanelTop = (widgetPanelTop + DesktopRemote.widgetBarHeight) - 10;
 
-                $(this).delay(500).animate({'top': newWidgetPanelTop});
+                    $(this).animate({'top': newWidgetPanelTop});
 
-            });
+                });
+            }, 500);
 
             setTimeout(function() {
                 $('#single_down').attr('id', 'single_up');
@@ -105,31 +109,35 @@ DesktopRemote = {
                 $(DesktopRemote.topBar).hide(500);
                 $(DesktopRemote.widgetBar).hide(500);
 
-                $(DesktopRemote.desktop).delay(500).animate({'height': ((DesktopRemote.desktopHeight + DesktopRemote.topBarHeight) + DesktopRemote.widgetBarHeight) + 10});
+                setTimeout(function() {
+                    $(DesktopRemote.desktop).animate({'height': ((DesktopRemote.desktopHeight + DesktopRemote.topBarHeight) + DesktopRemote.widgetBarHeight) + 10});
 
-                $(DesktopRemote.widgetPanel).each(function(index) {
+                    $(DesktopRemote.widgetPanel).each(function(index) {
 
-                    var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                    var newWidgetPanelTop = ((widgetPanelTop - DesktopRemote.topBarHeight) - DesktopRemote.widgetBarHeight) + 10;
+                        var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
+                        var newWidgetPanelTop = ((widgetPanelTop - DesktopRemote.topBarHeight) - DesktopRemote.widgetBarHeight) + 10;
 
-                    $(this).delay(500).animate({'top': newWidgetPanelTop});
+                        $(this).animate({'top': newWidgetPanelTop});
 
-                });
+                    });
+                }, 500);
             }
             else
             {
                 $(DesktopRemote.topBar).hide(500);
 
-                $(DesktopRemote.desktop).delay(500).animate({'height': DesktopRemote.desktopHeight + DesktopRemote.topBarHeight});
+                setTimeout(function() {
+                    $(DesktopRemote.desktop).animate({'height': DesktopRemote.desktopHeight + DesktopRemote.topBarHeight});
 
-                $(DesktopRemote.widgetPanel).each(function(index) {
+                    $(DesktopRemote.widgetPanel).each(function(index) {
 
-                    var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                    var newWidgetPanelTop = widgetPanelTop - DesktopRemote.topBarHeight;
+                        var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
+                        var newWidgetPanelTop = widgetPanelTop - DesktopRemote.topBarHeight;
 
-                    $(this).delay(500).animate({'top': newWidgetPanelTop});
+                        $(this).animate({'top': newWidgetPanelTop});
 
-                });
+                    });
+                }, 500);
             }
 
             setTimeout(function() {
@@ -145,32 +153,36 @@ DesktopRemote = {
             {
                 $(DesktopRemote.desktop).animate({'height': (DesktopRemote.desktopHeight - DesktopRemote.topBarHeight)});
 
-                $(DesktopRemote.topBar).delay(500).show(500);
+                setTimeout(function() {
+                    $(DesktopRemote.topBar).show(500);
 
-                $(DesktopRemote.widgetPanel).each(function(index) {
+                    $(DesktopRemote.widgetPanel).each(function(index) {
 
-                    var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                    var newWidgetPanelTop = widgetPanelTop + DesktopRemote.topBarHeight;
+                        var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
+                        var newWidgetPanelTop = widgetPanelTop + DesktopRemote.topBarHeight;
 
-                    $(this).delay(500).animate({'top': newWidgetPanelTop});
+                        $(this).animate({'top': newWidgetPanelTop});
 
-                });
+                    });
+                }, 500);
             }
             else
             {
                 $(DesktopRemote.desktop).animate({'height': ((DesktopRemote.desktopHeight - DesktopRemote.topBarHeight) - DesktopRemote.widgetBarHeight) - 10});
 
-                $(DesktopRemote.topBar).delay(500).show(500);
-                $(DesktopRemote.widgetBar).delay(500).show(500);
+                setTimeout(function() {
+                    $(DesktopRemote.topBar).show(500);
+                    $(DesktopRemote.widgetBar).show(500);
 
-                $(DesktopRemote.widgetPanel).each(function(index) {
+                    $(DesktopRemote.widgetPanel).each(function(index) {
 
-                    var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
-                    var newWidgetPanelTop = ((widgetPanelTop + DesktopRemote.topBarHeight) + DesktopRemote.widgetBarHeight) - 10;
+                        var widgetPanelTop = parseInt($(this).css('top').replace('px', ''));
+                        var newWidgetPanelTop = ((widgetPanelTop + DesktopRemote.topBarHeight) + DesktopRemote.widgetBarHeight) - 10;
 
-                    $(this).delay(500).animate({'top': newWidgetPanelTop});
+                        $(this).animate({'top': newWidgetPanelTop});
 
-                });
+                    });
+                }, 500);
             }
 
             setTimeout(function() {
