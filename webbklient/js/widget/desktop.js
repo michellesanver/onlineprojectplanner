@@ -61,8 +61,8 @@ Desktop = {
 				
 				// add events for updating status and position
 				afterDrag: function() { Desktop.update_position(project_widget_id); },
-				afterCascade: function() { Desktop.update_position(project_widget_id); },
-				afterMaximize: function() { Desktop.update_position(project_widget_id); }, 
+				afterCascade: function() { Desktop.update_position(project_widget_id, true); },
+				afterMaximize: function() { Desktop.update_position(project_widget_id, true); }, 
 				afterResize: function() { Desktop.update_position(project_widget_id); },
 				
 				// set boundries for window
@@ -336,7 +336,7 @@ Desktop = {
 	*/
 	
     // called on event afterDrag and afterMaximize and afterCascade and afterResize
-    update_position: function(project_widget_id) {   
+    update_position: function(project_widget_id, onlyUpdateMaximize) {   
 		var pos = Desktop.findWidgetById(project_widget_id);
        // get current status
        var window_status = Desktop.get_current_window_status(pos);
@@ -352,10 +352,19 @@ Desktop = {
        
        // prepare url and postdata
        var url = SITE_URL + '/widget_position/update';
-       var postdata = { 'height': window_status.height, 'width': window_status.width, 'is_open': window_status.is_open, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top, 'project_widget_id': project_widget_id };
+	   
+	   var postdata;
+	   if ( onlyUpdateMaximize != undefined && onlyUpdateMaximize == true ) {
+	   
+			// only save for maximized			
+			postdata = { 'is_open': window_status.is_open, 'is_maximized': window_status.is_maximized, 'project_widget_id': project_widget_id };
+		
+	   } else {
+			postdata = { 'height': window_status.height, 'width': window_status.width, 'is_open': window_status.is_open, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top, 'project_widget_id': project_widget_id };
        
-       // save new position to object
-       this._widgetArray[pos].last_position = { 'height': window_status.height, 'width': window_status.width, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top };
+			// save new position to object
+			this._widgetArray[pos].last_position = { 'height': window_status.height, 'width': window_status.width, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top };
+		}
        
        // save to database
        ajaxRequests.post(postdata, url, 'Desktop.update_position_callback_ok', 'Desktop.update_position_callback_error', true); 
