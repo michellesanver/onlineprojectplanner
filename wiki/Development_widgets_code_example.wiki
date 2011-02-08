@@ -3,154 +3,95 @@
 Down below you will find the sourcecode of an widget template. Read it and you will understand it. :)
 
 {{{
-      
-// place widget in a namespace (javascript object simulates a namespace)
-ajaxTemplateWidget = {
-
-    // widget specific settings
-    partialContentDivClass: 'ajax_template_partial', // optional
-    widgetTitle: 'AJAX template',
-    widgetName: 'ajax_template', // also name of folder
+   /* 
+* Name: AJAX Template
+* Desc: A widget created only to be used as an example of how to create a widget.
+* Last update: 3/2-2011 by Dennis Sangmo
+*/
+function ajaxTemplateWidget(id, wnd_options) {
+	this.widgetName = "ajax_template";
+	this.title = "AJAX template";
+	var partialClasses = ['ajax_template_partial'];
 	
-		currentPartial: null,
-    
-    // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(project_widget_id, widgetIconId, last_position) {
-			// set options for window
-			var windowOptions = {
-				// change theese as needed
-				title: ajaxTemplateWidget.widgetTitle,
-				width: 800,
-				height: 450
-			};
-	      
-			// create window
-			Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, ajaxTemplateWidget.partialContentDivClass, last_position);
-			
-			// load the first page upon start
-      var loadFirstPage = SITE_URL+'/widget/' + ajaxTemplateWidget.widgetName + '/some_controller_name/';
-			ajaxRequests.load(loadFirstPage, "ajaxTemplateWidget.setContent", "ajaxTemplateWidget.setAjaxError");
-		},
-		
-		
-		
-		
-		/* 
-		* The following functions are common for att widgets.
-    * --------------------------------------------------------------------------------------- 
-    */
-		
-    // set content in widgets div, called from the ajax request
-    setContent: function(data) {
-			// The success return function, the data must be unescaped befor use.
-			// This is due to ILLEGAL chars in the string.
-			Desktop.setWidgetContent(unescape(data));
-    },
+	// set options for window
+	wnd_options.title = this.title;
+	wnd_options.allowSettings = false;
+	wnd_options.width = 800;
+	wnd_options.height = 450;
+	
+	this.create(id, wnd_options, partialClasses);
+}
 
-    // set partial content in widgets div, called from the ajax request
-    setPartialContent: function(data) {
-			// The success return function, the data must be unescaped befor use.
-			// This is due to ILLEGAL chars in the string.
-			Desktop.setWidgetPartialContent(this.currentPartial, unescape(data));
-			this.currentPartial = null;
-    },
-    
-    // set error-message in widgets div, called from the ajax request
-    setAjaxError: function(loadURL) {
-			Desktop.show_ajax_error_in_widget(loadURL);
-    },
-    
-    // shows a message (example in start.php)
-    example_showMessage: function(message) {
-			Desktop.show_message(message);    
-		},
-    
-    // wrapper-function that easily can be used inside views from serverside    
-    loadURL: function(url) {
-        // prepare url
-        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
-				
-        // send request
-        ajaxRequests.load(url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');
-    },
-		
-		// Loads a ajaxrequest to specific partialclass, in this case "ajax_template_partial"
-		loadURLtoPartialTest: function(url) {
-        // prepare url
-        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
-				
-        // set currentpartial to to the classname
-        this.currentPartial = ajaxTemplateWidget.partialContentDivClass;
-        
-        // send request, last parameter = true if this is a partial call. Will skip the loading image.
-        ajaxRequests.load(url, 'ajaxTemplateWidget.setPartialContent', 'ajaxTemplateWidget.setAjaxError', true);
-    },
-		
-    // wrapper-function that easily can be used inside views from serverside
-    postURL: function(formClass, url) {
-        // prepare url
-        url = SITE_URL+'/widget/'+ajaxTemplateWidget.widgetName+url;
-				
-				// catching the form data
-				var postdata = $('#widget_' + Desktop.selectedWindowId ).find('.' + formClass).serialize();
-				
-        // send request
-        ajaxRequests.post(postdata, url, 'ajaxTemplateWidget.setContent', 'ajaxTemplateWidget.setAjaxError');   
-    }
-    
-};
+ajaxTemplateWidget.Inherits(Widget);
 
-}}}
-   
+/*
+* Here comes all happening function. Executed from html links
+* 
+*/
+// Overwriting the index function!
+ajaxTemplateWidget.prototype.index = function() {
+	// load the first page upon start
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/index/' + this.id;
+	ajaxRequests.load(this.id, url, "setWindowContent");
+}
 
-*Example 2:* here is an example with a a href-link that uses the loadURL-function.
-{{{
-  <a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/show_documentation');">show jquery.window documentation</a>
-}}}
+// Simple function
+ajaxTemplateWidget.prototype.helloWorld = function() {
+	alert("You are now  in the widget " + this.title + " with the id " + this.id);
+}
 
+// Loads a non-existing page
+ajaxTemplateWidget.prototype.loadErrorUrl = function() {
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/this_is_an_url_that_does_not_work';
+	ajaxRequests.load(this.id, url, "setWindowContent");
+}
 
-*Example 3:* here is an example of a form that uses the post-function.
-{{{
-    <form method="post" action="" onsubmit="return false";  id="form1" name="form1">
-        <input type="hidden" id="" name="User_id" value="<?php echo $user['User_id']; ?>" />
-        <p>Username: <?php echo $user['Username']; ?></p>
-        
-        <p>Firstname: <input type="text" id="Firstname" name="Firstname" value="<?php echo $user['Firstname']; ?>" /><br/>
-           Lastname: <input type="text" id="Lastname" name="Lastname" value="<?php echo $user['Lastname']; ?>" /></p>
-        
-        <p>Password: <input type="text" id="Password" name="Password" value="" /></p> 
-           
-        <p>Email: <input type="text" id="Email" name="Email" value="<?php echo $user['Email']; ?>" /></p>
-        
-        <p><input type="button" value="Save" onclick="ajaxTemplateWidget.postURL('form1', '/some_controller_name/save_edit_user');" /> (hit save to view an example of post)</p>
-    </form>
-}}}
+// Tests to init content with a model
+ajaxTemplateWidget.prototype.modelTest = function() {
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/model_test/' + this.id;
+	ajaxRequests.load(this.id, url, "setWindowContent");
+}
 
+// Tests to init content with a library
+ajaxTemplateWidget.prototype.libraryTest = function() {
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/library_test/' + this.id;
+	ajaxRequests.load(this.id, url, "setWindowContent");
+}
 
-*Example 4:* if you want to override the startposition, in the function open just set the variables x and y:
-{{{
+// Parameter test
+ajaxTemplateWidget.prototype.parameterTest = function(args) {
+	// If you send more than 1 parameter from your view, they will clog up to an array in the same order.
+	var theString = args[1]; // the second parameter
+	alert("Here's the string parameter: " + theString);
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/edit_user/' + this.id + '/' + args[0];
+	ajaxRequests.load(this.id, url, "setWindowContent");
+}
 
-			var windowOptions = {
-				// change theese as needed
-				title: ajaxTemplateWidget.widgetTitle,
-				width: 800,
-				height: 450,
-				x: 30, // optional; set to the value that you want
-				y: 15 // optional; set to the value 
-			};
+// Saves the form
+ajaxTemplateWidget.prototype.saveUserForm = function() {
+	// Gathering the data from the form with the selialize function.
+	var postData = $('#' + this.divId).find('.form1').serialize();
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/save_edit_user/' + this.id;
+	
+	// The postcommand. No big change from the load command exept the postData-parameter.
+	ajaxRequests.post(this.id, postData, url, "setWindowContent");
+	
+	// This function is used as an onSubmit event, thats why 'return false;' i very important.
+	return false;
+}
 
-}}}
+// Test html fetcher
+ajaxTemplateWidget.prototype.partialTest = function() {
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/partial/' + this.id;
+	ajaxRequests.load(this.id, url, "setWindowContent");
+}
 
-
-*Example 5:* if you want to override maximize, in the function open just set the variable maximize:
-{{{
-
-			var windowOptions = {
-				// change theese as needed
-				title: ajaxTemplateWidget.widgetTitle,
-				width: 800,
-				height: 450,
-				maximize: false // optional; set to the value that you want (true or false)
-			};
+// Fetched the partial content to be inserted in the partial area
+ajaxTemplateWidget.prototype.getPartialContent = function() {
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/partialCall';
+	
+	// Send the partialname in the last parameter
+	ajaxRequests.load(this.id, url, "setWindowContent", 'ajax_template_partial');
+}
 
 }}}
