@@ -1,14 +1,13 @@
 = Product backlog prioritet = 
 
- * Lägga till dölj/visa funktion på widget-listen i toppen, samt förmiska. 30h T
- * Spara position samt bibehålla fönster öppna. 15h F
- * Promote medlems projektbehörighet. 15h D
- * Demote medlems projektbehörighet. 15h D
- * Projektinställningar som en widget. 20h D
- * Lägga till hinder så vissa widget inte kan läggas till fler gånger. 10h T
+ * Uppdatera wiki för ny struktur
+ * Uppdatera klocka för ny struktur, samt fixa bugg
+ * Uppdatera stopwatch för ny struktur
+ * Uppdatera widget settings för ny struktur
+ * Uppdatera widget handler för ny struktur
+ * Uppdatera sprint planner för ny struktur
+ * Uppdatera group chat för ny struktur
  * Bygga chattserver, fixa klienten. 65h Ma/T
- * Ändra namn på en widget-instans 20h F
- * Burndown chart 50h Mi
 
  * Whiteboard  150h
  * Tidsrapportering 100h
