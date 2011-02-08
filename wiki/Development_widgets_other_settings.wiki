@@ -31,13 +31,13 @@ The easiest way to initialize a specific settings for your widget, is to add a r
 ===Useing the values===
 Now when you know how to initialize the settings, it's time for the explination of how to acually use the value if the setting in the php-code in your widget. 
 
-This is done by useing the library "Settings_provider", wich you can load with the command: "{{{$this->load->library("Settings_provider");}}}". When that is done you will be able to call the functions of this class. In this case the intresting function is named "getSettingValue", and have the mission to provide you with the value of an specific setting of and widget_window instance. There are 3 important parameters for this function, they are:
+This is done by useing the library "Settings_provider", wich you can load with the command: "{{{$this->load->library("settings_provider");}}}". When that is done you will be able to call the functions of this class. In this case the intresting function is named "getSettingValue", and have the mission to provide you with the value of an specific setting of and widget_window instance. There are 3 important parameters for this function, they are:
  # Widget: The name of the ID of the widget.
  # Internal_id: The exact settingspointer.
  # Project_widget_id: The id of the widget instance.
 
 ====Example====
-{{{$this->Settings_provider->getSettingValue("My widget", 2, 154);}}}
+{{{$this->settings_provider->getSettingValue("My widget", 2, 154);}}}
  * "My widget" is the name of my widget.
  * 2 is the settinginternlid (ex 1:name, 2:description, 3:ip) only known by you.
  * 154 is the id of my window instance. Easiest way to get this id, is to provide it from the javascript-code.
