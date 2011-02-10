@@ -15,7 +15,7 @@ function ajaxTemplateWidget(id, wnd_options) {
 	
 	// set options for window
 	wnd_options.title = this.title;
-	wnd_options.allowSettings = false;
+	wnd_options.allowSettings = true;
 	wnd_options.width = 800;
 	wnd_options.height = 450;
 	
