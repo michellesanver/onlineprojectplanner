@@ -52,22 +52,22 @@ Why use this event will be updated in the database ietherway? The answer is simp
 ===Example=== 
 The code downbelow is a copy from the "ajax_template" widget.
 
-*1*
+*1.* 
 This code is placed in the widget constructor.
 {{{
 Desktop.settingsEvent.addSettingsEventListener([id], [functionName]);
 }}}
- * [id] (number): The current project_widget_id (usually has the name "id" in the constructor)
- * [functionName] (string): The name of the function to be called when an settingsave has occurred
+ * id (number): The current project_widget_id (usually has the name "id" in the constructor)
+ * functionName (string): The name of the function to be called when an settingsave has occurred
 
-*2*
+*2.* 
 This function is placed in the widget object.
 {{{
 ajaxTemplateWidget.prototype.[functionName]= function(data) {
 	// DO SOMETHING
 }
 }}}
- * [functionName] is the name of the function you assigned in the addSettingsEventListener call.
+ * functionName is the name of the function you assigned in the addSettingsEventListener call.
 
 The 'data' argument is an array of arrays containing the newly updated data. Each array in the 'data' arguments has thies fields (in this order): 
  * Internal_id: The internal id of this setting
