@@ -94,25 +94,46 @@ Desktop = {
 		
 	},
 
+
 	// Callback for close
 	close_widget: function(pwID) {
 		var pos = Desktop.findWidgetById(pwID);
 		// close widget
-        this._widgetArray[pos].closeWidget();
+		this._widgetArray[pos].closeWidget();
 		// reset icon
 		reset_widget(this._widgetArray[pos].widgetIconId);
 		this._widgetArray.splice(pos, 1);
 	},
 	
-	// This function will execute a function inside a widget object.
-	callWidgetFunction:function(pwID, func) {
-        var pos = Desktop.findWidgetById(pwID);
+	/**
+	 * This function will execute a function inside a widget object.
+	 * @param target The instance id of the widget to call the function or the domelement that is invoking it.
+	 */
+	callWidgetFunction:function(target, func) {
+		
+		//Instance_id
+		var instance_id = 0;
+		
+		// If it's an int we can assume that it's a project widget id
+		if(parseInt(target)) {
+			instance_id = target;
+		} else {
+			// We find the closest parent that begins with "widget_" and assign its id to the variable widgetid.
+			var widgetid = $("#" + target.id).closest('div[id^="widget_"]').attr("id");
+			
+			instance_id = widgetid.split('_')[1]
+		}
+		
+		var pos = Desktop.findWidgetById(instance_id);
 		var args = Array().slice.call( arguments, 2 );
+		
 		if(args.length == 1){
 			return this._widgetArray[pos][func](args[0]);
 		} else {
 			return this._widgetArray[pos][func](args);
 		}
+		
+       
 	},
 	
 	/*
