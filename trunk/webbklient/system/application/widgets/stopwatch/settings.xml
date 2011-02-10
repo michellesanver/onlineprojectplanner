@@ -12,18 +12,20 @@
     <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
 	<icon>timer-icon.png</icon>
     <!-- title of widget; will be placed under icon (can be left empty) -->
-    <icon_title>Stopwatch</icon_title>
+        <icon_title>Stopwatch</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
-    <widget_object>stopwatchWidget</widget_object>
+        <widget_object>stopwatchWidget</widget_object>
+    <!-- allow multiple instances (yes or no) -->
+        <allow_multiple>no</allow_multiple>
     <!--
         list of files to be loaded relative to main folder of widgets
         (theese files will be loaded upon project start)
         
         valid types are; javascript, css
     -->
-	<load>
-		<file type="javascript">js/stopwatch.js</file>
-		<file type="javascript">js/jquery.stopwatch.js</file>
-		<file type="css">css/jquery.stopwatch.css</file>
+    <load>
+        <file type="javascript">js/stopwatch.js</file>
+        <file type="javascript">js/jquery.stopwatch.js</file>
+        <file type="css">css/jquery.stopwatch.css</file>
     </load>
 </settings>
