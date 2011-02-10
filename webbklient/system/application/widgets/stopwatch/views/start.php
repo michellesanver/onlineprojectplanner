@@ -1,2 +1,6 @@
 
-<div id="clock1"></div>
+<div id="stopwatch"></div>
+
+<script type="text/javascript">
+    $('#stopwatch').stopwatch({ });
+</script>

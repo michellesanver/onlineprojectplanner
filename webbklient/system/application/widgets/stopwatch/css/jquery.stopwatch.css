@@ -20,6 +20,7 @@
 
 .stopwatch .start, .stopwatch .stop, .stopwatch .reset {
 	width:150px;
+        display: inline;
 	background:#444;
 	font-family:verdana;
 	font-size:10pt;
