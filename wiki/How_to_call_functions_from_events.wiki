@@ -1,0 +1,24 @@
+#summary How to call functions from events
+
+== Via the id == 
+If you know the id of the widget you can call the correct function by making a call to Desktop.callWidgetFunction like so:
+
+Desktop.callWidgetFunction(324, "helloWorld");
+
+324 is your instance id and helloWorld is the function you want to call. 
+
+== Via this == 
+You can also choose to simply pass along the keyword *this* which points to the DOM-element that has the event. You do that like so:
+
+$('#' + this.divId).find("#hrefonclickid").click(function() {
+    Desktop.callWidgetFunction(this, "helloWorld");
+});
+
+Please bear in mind that you need to use an anonymous function here, this points to the link that is clicked and helloWorld like before points to the function you want to call.
+
+== Creating the eventfunction == 
+To create the eventfunction you add a prototypefunction to the widgets main JavaScript file like so:
+
+ajaxTemplateWidget.prototype.helloWorld = function() {
+	alert("You are now  in the widget " + this.title + " with the id " + this.id);
+}
