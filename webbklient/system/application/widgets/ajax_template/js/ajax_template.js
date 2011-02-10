@@ -10,9 +10,12 @@ function ajaxTemplateWidget(id, wnd_options) {
 	
 	// set options for window
 	wnd_options.title = this.title;
-	wnd_options.allowSettings = false;
+	wnd_options.allowSettings = true;
 	wnd_options.width = 800;
 	wnd_options.height = 450;
+	
+	// Add settings event listener
+	Desktop.settingsEvent.addSettingsEventListener(id, "settingsEventTest");
 	
 	this.create(id, wnd_options, partialClasses);
 }
@@ -87,4 +90,9 @@ ajaxTemplateWidget.prototype.getPartialContent = function() {
 	
 	// Send the partialname in the last parameter
 	ajaxRequests.load(this.id, url, "setWindowContent", 'ajax_template_partial');
+}
+
+// Eventcatcher. Catches the new settingsdata
+ajaxTemplateWidget.prototype.settingsEventTest = function(data) {
+	alert($.dump(data));
 }

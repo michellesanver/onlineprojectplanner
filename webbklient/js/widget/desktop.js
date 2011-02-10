@@ -29,6 +29,13 @@ Desktop = {
 		var state = $('#'+widgetIconId).attr('state');
 		if ( state == "" )
 		{
+			
+			// Id-check
+			var pwID;
+			if((pwID = parseInt(project_widget_id)) == false){
+				return;
+			}
+			
 			var newX = 30, newY = 15, newH = 450, newW = 600;
 			
 			// use last position from database if no override?
@@ -56,14 +63,14 @@ Desktop = {
 				bookmarkable: false,
 				
 				// add events for close
-				onMinimize: function(){ Desktop.close_widget(project_widget_id); },
-				onClose: function(){ Desktop.reset_widget(widgetIconId); Desktop.save_position(project_widget_id); },
+				onMinimize: function(){ Desktop.close_widget(pwID); },
+				onClose: function(){ Desktop.reset_widget(widgetIconId); Desktop.save_position(pwID); },
 				
 				// add events for updating status and position
-				afterDrag: function() { Desktop.update_position(project_widget_id); },
-				afterCascade: function() { Desktop.update_position(project_widget_id, true); },
-				afterMaximize: function() { Desktop.update_position(project_widget_id, true); }, 
-				afterResize: function() { Desktop.update_position(project_widget_id); },
+				afterDrag: function() { Desktop.update_position(pwID); },
+				afterCascade: function() { Desktop.update_position(pwID, true); },
+				afterMaximize: function() { Desktop.update_position(pwID, true); }, 
+				afterResize: function() { Desktop.update_position(pwID); },
 				
 				// set boundries for window
 				checkBoundary: true,
@@ -72,7 +79,7 @@ Desktop = {
 			};
 			
 			// create window
-			this._widgetArray.push(new window[wObject](project_widget_id, options));
+			this._widgetArray.push(new window[wObject](pwID, options));
 			var pos = this._widgetArray.length - 1;
 			this._widgetArray[pos].index();
 			
@@ -82,7 +89,7 @@ Desktop = {
 			}
 			
 			// set status as open for widget
-			Desktop.update_position(project_widget_id);
+			Desktop.update_position(pwID);
 			
 			// set state as open and transparency for icon to 20%
 			$('#'+widgetIconId).attr('state', 'open');
@@ -263,25 +270,88 @@ Desktop = {
 			id['value'] = pwID;
 			formArray.push(id);
 			
-			ajaxRequests.post_full(formArray, SITE_URL+'/widget_settings/SaveProjectWidgetSettings', "Desktop.saveSettingsWindowSuccess", "Desktop.ajaxSettingsWindowError", pwID);
+			// Send if event is active for this widget. To avoid unnecessary database calls.
+			var event = [];
+			event['name'] = 'Event';
+			if(this.settingsEvent.exist(pwID) > -1) {
+				event['value'] = "true";
+			} else {
+				event['value'] = "false";
+			}
+			formArray.push(event);
+			
+			ajaxRequests.post_full(formArray, SITE_URL+'/widget_settings/SaveProjectWidgetSettings', "Desktop.ajaxReturnSuccess", "Desktop.ajaxReturnFail", pwID);
 		}
 		
 		return false;
 	},
 	
 	//called when when the post ajax request are success
-	saveSettingsWindowSuccess: function(data, pwID) {
+	ajaxReturnSuccess: function(data, pwID) {
 		var json;
 		if(json = $.parseJSON(data)){
 			// Everything went ok
 			if(json.status == "ok") {
 				Desktop.show_message(json.status_message);
+				Desktop.settingsEvent.sendData(pwID, json.data);
 				Desktop.openSettingsWindow(pwID);
 			} else {
 				Desktop.show_errormessage(json.status_message);
 			}
 		} else {
 			Desktop.show_errormessage("A error has occurred, admins has been informed!");
+		}
+	},
+	
+	ajaxReturnFail: function(url){
+		Desktop.show_errormessage("Error occurred while loading the url: " + url);
+	},
+	
+	// Settings event that will send the saved setting to assigned function.
+	settingsEvent : {
+		functionArray : new Array(),
+		
+		// Adds a listener 
+		addSettingsEventListener: function(pwID, funcName){
+			if(typeof pwID != "number"){
+			alert(typeof pwID);
+				return false;
+			}
+			if(typeof funcName != "string"){
+			alert(typeof funcName);
+				return false;
+			}
+			
+			var tmp = new Array();
+			tmp['id'] = pwID;
+			tmp['name'] = funcName;
+			var pos = this.exist(pwID);
+			if(pos == -1) {
+				this.functionArray.push(tmp);
+			} else {
+				this.functionArray[pos] = tmp;
+			}
+			return true;
+		},
+		
+		// Checks in the array if the listener exist, return the arrayposition
+		exist: function(pwID){
+			for(var i = 0; i < this.functionArray.length; i++){
+				if(this.functionArray[i]['id'] == pwID){
+					return i;
+				}
+			}
+			return -1;
+		},
+		
+		// Datasender, executed after the settinging are saved
+		sendData: function(pwID, data) {
+			var funcArray = Desktop.settingsEvent.functionArray;
+			for(var i = 0; i < funcArray.length; i++) {
+				if(funcArray[i]['id'] == pwID){
+					Desktop.callWidgetFunction(pwID, funcArray[i]['name'], data);
+				}
+			}
 		}
 	},
 	
