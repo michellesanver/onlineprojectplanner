@@ -12,9 +12,6 @@ function clockWidget(id, wnd_options) {
     wnd_options.width = 150;
     wnd_options.height = 130;
 
-    // Add settings event listener
-    Desktop.settingsEvent.addSettingsEventListener(id, "settingsEventTest");
-
     this.create(id, wnd_options, partialClasses);
 
 }
