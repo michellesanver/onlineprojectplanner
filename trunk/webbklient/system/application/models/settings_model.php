@@ -121,6 +121,30 @@ class Settings_model extends Model
 	}
 	
 	/**
+	* Returns the name of an specific setting
+	* 
+	* @param int $Settings_id
+	* @return string
+	*/
+	function getSettingName($SettingsValue_id){
+		$t1 = $this->_table1;
+		$t3 = $this->_table3;
+		$this->db->select("$t1.Internal_id, $t1.Name");
+		$this->db->from($t3);
+		$this->db->where("Widget_settings_value_id", $SettingsValue_id);
+		$this->db->join($t1, "$t3.Settings_id = $t1.Settings_id");
+		
+		$query = $this->db->get();
+		$row = $query->row();
+		
+		if(empty($row)) {
+			return false;
+		} else {
+			return $row;
+		}
+	}
+	
+	/**
 	* Updates a row in the value table.
 	* 
 	* @param array $update

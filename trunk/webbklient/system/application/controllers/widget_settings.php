@@ -16,6 +16,12 @@ class widget_settings extends Controller {
 	*/
 	function GetProjectWidgetSettings($projectWidgetId)
 	{
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
+		
 		if(($projectWidgetId = (int)$projectWidgetId) == false) {
 			echo "Input is not an int!";
 		}
@@ -39,7 +45,14 @@ class widget_settings extends Controller {
 	*/
 	function SaveProjectWidgetSettings()
 	{
+		// Test if it's not an ajax-request
+		if(IS_AJAX == false) {
+			echo "You cant do this, that way!";
+			return;
+		}
+		
 		$post = $_POST;
+		$event = array_pop($post);
 		$project_widget_id = array_pop($post);
 		$valueCount = count($post); 
 		
@@ -58,34 +71,49 @@ class widget_settings extends Controller {
 			}
 		}
 		
-		$return = array();
-		foreach($data as $row){
-			if(substr($row['Widget_settings_value_id'],0,1) == "n"){
-				$s_id = substr($row['Widget_settings_value_id'],1);
-				if($this->settings_model->insertSettingValue(array("Project_widgets_id" => $project_widget_id, "Settings_id" => $s_id, "Value" => $row['Value']))) {
-					$return = array(
-						"status" => "ok",
-						"status_message" => "The settings has been saved. To return please click the settingsbutton!"
-					);
+		
+		$return = array(
+			"status" => "error",
+			"status_message" => "Error while updating: "
+		);
+		$status = null;
+		for($i = 0; $i < count($data); $i++){
+			if(substr($data[$i]['Widget_settings_value_id'],0,1) == "n"){
+				$data[$i]['Widget_settings_value_id'] = substr($data[$i]['Widget_settings_value_id'],1);
+				if($this->settings_model->insertSettingValue(array("Project_widgets_id" => $project_widget_id, "Settings_id" => $data[$i]['Widget_settings_value_id'], "Value" => $data[$i]['Value'])) == false) {
+					$return["status_message"] .= $data[$i]['Widget_settings_value_id'] . " = " . $data[$i]['Value'] . "<br />";
+					$status = false;
 				} else {
-					$return = array(
-						"status" => "error",
-						"status_message" => "Error while inserting: " . $row['Widget_settings_value_id'] . " = " . $row['Value']
-					);
+					if($status === null || $status != false)
+						$status = true;
 				}
 			} else {
-				if($this->settings_model->updateSettingValue($row)) {
-					$return = array(
-						"status" => "ok",
-						"status_message" => "The settings has been saved. To return please click the settingsbutton!"
-					);
+				if($this->settings_model->updateSettingValue($data[$i]) == false) {
+					$return["status_message"] .= $data[$i]['Widget_settings_value_id'] . " = " . $data[$i]['Value'] . "<br />";
+					$status = false;
 				} else {
-					$return = array(
-						"status" => "error",
-						"status_message" => "Error while updating: " . $row['Widget_settings_value_id'] . " = " . $row['Value']
+					if($status === null || $status !== false)
+						$status = true;
+				}
+			}
+		}
+		if($status){
+			$eventData = array();
+			if($event == "true"){
+				foreach($data as $row){
+					$n = $this->settings_model->getSettingName($row['Widget_settings_value_id']);
+					$eventData[] = array(
+						"Internal_id" => $n->Internal_id,
+						"Name" => $n->Name,
+						"Value" => $row['Value']
 					);
 				}
 			}
+			$return = array(
+				"status" => "ok",
+				"status_message" => "The settings has been saved!",
+				"data" => $eventData
+			);
 		}
 		echo json_encode($return);
 	}
