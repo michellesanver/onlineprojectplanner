@@ -4,7 +4,6 @@
 Often you need to change or specify the DOM on load. To do that you need to override the callback function in the ajaxRequest.load in the indexfunction like so:
 
 ajaxTemplateWidget.prototype.index = function() {
-	// load the first page upon start
 	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/index/' + this.id;
 	ajaxRequests.load(this.id, url, "eventinit");
 }
@@ -12,11 +11,9 @@ ajaxTemplateWidget.prototype.index = function() {
 I choose to call the function "eventinit", but you can call it anything. Then on the prototype of our widget we add our callbackfunction:
 
 ajaxTemplateWidget.prototype.eventinit = function(data) {
-	// Generate the view
 	$('#' + this.divId).html(data);
 	alert(this.divId);
 	
-	// On click event on the testclick
 	$('#' + this.divId).find("#hrefonclickid").click(function() {
 		Desktop.callWidgetFunction(this, "helloWorld");
 	});
