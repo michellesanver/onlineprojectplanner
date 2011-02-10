@@ -19,6 +19,9 @@ function ajaxTemplateWidget(id, wnd_options) {
 	wnd_options.width = 800;
 	wnd_options.height = 450;
 	
+	// Add settings event listener
+	Desktop.settingsEvent.addSettingsEventListener(id, "settingsEventTest");
+
 	this.create(id, wnd_options, partialClasses);
 }
 
@@ -94,4 +97,8 @@ ajaxTemplateWidget.prototype.getPartialContent = function() {
 	ajaxRequests.load(this.id, url, "setWindowContent", 'ajax_template_partial');
 }
 
+// Eventcatcher. Catches the new settingsdata
+ajaxTemplateWidget.prototype.settingsEventTest = function(data) {
+	alert($.dump(data));
+}
 }}}
