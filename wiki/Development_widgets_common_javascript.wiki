@@ -11,15 +11,15 @@ Online Project Planner provides a number of common global functions and variable
 
 Theese scripts are always loaded when a project is opened:
 
- * Jquery
- * Jquery UI (complete)
+ * Jquery @ http://docs.jquery.com
+ * Jquery UI (complete) @ http://docs.jquery.com/Ui
 
 === Plugins ===
 
- * Window
- * Dump
- * Validate
- * Tooltip
+ * Window @ http://fstoke.me/jquery/window/
+ * Dump @ http://plugins.jquery.com/project/Dump
+ * Validate @ http://docs.jquery.com/Plugins/Validation
+ * Tooltip @ http://docs.jquery.com/Plugins/Tooltip
 
 
 <p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
