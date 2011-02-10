@@ -1,0 +1,34 @@
+#summary Handling changing the DOM in your widget
+
+== Changing DOM on load ==
+Often you need to change or specify the DOM on load. To do that you need to override the callback function in the ajaxRequest.load in the indexfunction like so:
+
+ajaxTemplateWidget.prototype.index = function() {
+	// load the first page upon start
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/index/' + this.id;
+	ajaxRequests.load(this.id, url, "eventinit");
+}
+
+I choose to call the function "eventinit", but you can call it anything. Then on the prototype of our widget we add our callbackfunction:
+
+ajaxTemplateWidget.prototype.eventinit = function(data) {
+	// Generate the view
+	$('#' + this.divId).html(data);
+	alert(this.divId);
+	
+	// On click event on the testclick
+	$('#' + this.divId).find("#hrefonclickid").click(function() {
+		Desktop.callWidgetFunction(this, "helloWorld");
+	});
+}
+
+It's important to remember to include the data and then generate the view.
+
+== How to get the correct widget ==
+Our JavaScript already knows the divId with this.divId, so what you need to do is that you make a jQuery selector like so:
+
+$('#' + this.divId).find("#hrefonclickid")
+
+This will find your specific id under the parentid which happens to be a unique div for your widget. 
+
+That's all you need to know, the rest is normal JavaScript! Good luck experimenting with the DOM. 
