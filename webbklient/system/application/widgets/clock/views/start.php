@@ -1,3 +1,6 @@
+<div id="digiclock"></div>
 
-<div class="apechat">test</div>
+<script type="text/javascript">
+    $('#digiclock').jdigiclock({ });
+</script>
 

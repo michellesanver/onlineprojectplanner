@@ -14,9 +14,7 @@
 
 (function($) {
     $.fn.extend({
-
         jdigiclock: function(options) {
-
             var defaults = {
                 clockImagesPath: BASE_URL+ 'system/application/widgets/clock/images/clock/',
                 //weatherImagesPath: BASE_URL+ 'system/application/widgets/clock/images/weather/',
