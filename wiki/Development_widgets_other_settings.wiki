@@ -1,7 +1,7 @@
 = Development Widgets: Other widget-settings =
 There is a way, here in "Online Project Planner, for you to add settings to your widget wich the user will be able to change during the usage. All the user has to do is to click the little settings-icon in the down-left hand side. 
 
-===Different settingtypes===
+==Different settingtypes==
  # Integer
  # Alpha-chars
  # Boolean
@@ -10,11 +10,11 @@ There is a way, here in "Online Project Planner, for you to add settings to your
  # Mixed
  # IP-adress
 
-===How to?===
+==How to?==
 The easiest way to initialize a specific settings for your widget, is to add a row in the table "Widget_Settings" with the information. There is no way in todays version to handle default values.
 
-===The tables===
-====Widget_Settings====
+==The tables==
+===Widget_Settings===
  * *Settings_id:* (int) Identifier.
  * *Widget_id:* (int) Referense to the widget who owns the setting.
  * *Type_id:* (int) Referense to the type of this setting.
@@ -22,13 +22,13 @@ The easiest way to initialize a specific settings for your widget, is to add a r
  * *Name:* (string) The name of the widget.
  * *Order:* (int) The order of the settings when they are shown to the user.
 
-====Widget_Settings_Value====
+===Widget_Settings_Value===
  * *Widget_settings_value_id:* (int) Identifier.
  * *Project_widgets_id:* (int) Referense to the instance of an widget wich this value shall be applied.
  * *Settings_id:* (int) Referense to the setting.
  * *Value:* (string) The actual value.
 
-===Useing the values===
+==Useing the values==
 Now when you know how to initialize the settings, it's time for the explination of how to acually use the value if the setting in the php-code in your widget. 
 
 This is done by useing the library "Settings_provider", wich you can load with the command: "{{{$this->load->library("settings_provider");}}}". When that is done you will be able to call the functions of this class. In this case the intresting function is named "getSettingValue", and have the mission to provide you with the value of an specific setting of and widget_window instance. There are 3 important parameters for this function, they are:
@@ -36,11 +36,43 @@ This is done by useing the library "Settings_provider", wich you can load with t
  # Internal_id: The exact settingspointer.
  # Project_widget_id: The id of the widget instance.
 
-====Example====
+===Example===
 {{{$this->settings_provider->getSettingValue("My widget", 2, 154);}}}
  * "My widget" is the name of my widget.
  * 2 is the settinginternlid (ex 1:name, 2:description, 3:ip) only known by you.
  * 154 is the id of my window instance. Easiest way to get this id, is to provide it from the javascript-code.
+
+==Settings update-event==
+You can add an event listener to you setting, that will be called if new values has been inserted in the database.
+
+Why use this event will be updated in the database ietherway? The answer is simple. If you want to gather the newly updated settingsvalue you have to preform a ajax request. But that is avoidable with this eventListener. The only thing you have to do is:
+ # Init the event listener in the construktor.
+ # Create a eventcatcher function.
+
+===Example=== 
+The code downbelow is a copy from the "ajax_template" widget.
+
+*1*
+This code is placed in the widget constructor.
+{{{
+Desktop.settingsEvent.addSettingsEventListener([id], [functionName]);
+}}}
+ * [id] (number): The current project_widget_id (usually has the name "id" in the constructor)
+ * [functionName] (string): The name of the function to be called when an settingsave has occurred
+
+*2*
+This function is placed in the widget object.
+{{{
+ajaxTemplateWidget.prototype.[functionName]= function(data) {
+	// DO SOMETHING
+}
+}}}
+ * [functionName] is the name of the function you assigned in the addSettingsEventListener call.
+
+The 'data' argument is an array of arrays containing the newly updated data. Each array in the 'data' arguments has thies fields (in this order): 
+ * Internal_id: The internal id of this setting
+ * Name: The name of the setting
+ * Value: The new value
 
 
 <p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
