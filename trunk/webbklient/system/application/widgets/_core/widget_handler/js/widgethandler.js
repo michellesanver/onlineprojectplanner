@@ -66,7 +66,8 @@ widget_handler.prototype.eventinit = function(data) {
 		var renameidnode = $(this).parents('li[id^="widgetslist_"]').attr("id");
 		var renameid = renameidnode.split('_')[1];
 		var form = $(this).parents('form[class^="actionform"]').attr("class");
-		var name = this.id;
+		var nameid = this.id;
+		var name = nameid.split('_')[1];
 		Desktop.callWidgetFunction(this, "renameWidget", form, name, renameid);
 		
 		return false;
