@@ -77,7 +77,7 @@
 	                        />
 	                        
 	                        <input 
-	                        	id="<?php echo($widget["instance_name"]); ?>"
+	                        	id="<?php echo($id . "_" . $widget["instance_name"]); ?>"
 	                        	class="widgets_handler_formbutton widgets_handler_rename_button" 
 	                        	type="button" 
 	                        	value="Rename" 
