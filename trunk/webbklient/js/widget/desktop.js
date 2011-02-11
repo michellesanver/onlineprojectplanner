@@ -121,6 +121,7 @@ Desktop = {
 		//Instance_id
 		var instance_id = 0;
 		
+		
 		// If it's an int we can assume that it's a project widget id
 		if(parseInt(target)) {
 			instance_id = target;
@@ -129,6 +130,11 @@ Desktop = {
 			var widgetid = $("#" + target.id).closest('div[id^="widget_"]').attr("id");
 			
 			instance_id = widgetid.split('_')[1]
+						
+			while(!parseInt(instance_id)) {
+				widgetid = $("#" + widgetid).parents('div[id^="widget_"]').attr("id");
+				instance_id = widgetid.split('_')[1]
+			}
 		}
 		
 		var pos = Desktop.findWidgetById(instance_id);
