@@ -121,7 +121,6 @@ Desktop = {
 		//Instance_id
 		var instance_id = 0;
 		
-		
 		// If it's an int we can assume that it's a project widget id
 		if(parseInt(target)) {
 			instance_id = target;
@@ -129,18 +128,18 @@ Desktop = {
 			// We find the closest parent that begins with "widget_" and assign its id to the variable widgetid.
 			var widgetid = $("#" + target.id).closest('div[id^="widget_"]').attr("id");
 			
-			instance_id = widgetid.split('_')[1]
+			instance_id = widgetid.split('_')[1];
 						
 			while(!parseInt(instance_id)) {
 				widgetid = $("#" + widgetid).parents('div[id^="widget_"]').attr("id");
-				instance_id = widgetid.split('_')[1]
+				instance_id = widgetid.split('_')[1];
 			}
 		}
 		
 		var pos = Desktop.findWidgetById(instance_id);
 		var args = Array().slice.call( arguments, 2 );
 		
-		if(args.length == 1){
+		if(args.length == 1) {
 			return this._widgetArray[pos][func](args[0]);
 		} else {
 			return this._widgetArray[pos][func](args);
