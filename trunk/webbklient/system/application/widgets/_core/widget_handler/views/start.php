@@ -6,7 +6,7 @@
 	    <ul>
 	        <?php foreach($allWidgets as $widget): ?>
 	            <?php $id = $widget['id']; ?>
-	            <a href="#" onclick="widgethandler.loadURL('/widgets_handler/<?php echo($id); ?>');">
+	            <a href="#" id="addwidget" class="<?php echo($id);?>">
 	                <li>
 	                    <img height="50px" src="<?php echo($widget['icon']); ?>" /><br />
 	                    <?php echo($widget['icon_title']); ?><br />
