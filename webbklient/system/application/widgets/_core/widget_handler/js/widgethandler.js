@@ -87,11 +87,10 @@ widget_handler.prototype.renameWidget = function(args) {
 
 	//Copy name to input
 	document.getElementById(input_id).value = current_name;
-	
-// new height of dialog on validation error
+	// new height of dialog on validation error
     var dialog_error_height = 270;
         
-        // show dialog
+    // show dialog
     $( "#"+dialog_id ).dialog({
         resizable: false,
         height: 215,
@@ -109,10 +108,8 @@ widget_handler.prototype.renameWidget = function(args) {
                         }
                         
                         // get value from form
-                        var widgetName = document.getElementById(input_id).value;
-                        
-                        var widgetId = $("." + formClass + " input[name='widgetid']").val();
-                        
+                        var widgetName = document.getElementById("widget_new_name").value;
+						                                                
                         // create regexp for validation
                         var charPattern = /[^a-z0-9()\sедц]/i  // all except allowed chars
                         
@@ -167,23 +164,26 @@ widget_handler.prototype.renameWidget = function(args) {
                         }
                        
                         // all ok; close and save to database
-                        $( this ).dialog( "close" );
-    
+                        $( this ).dialog( "destroy" ).remove();
+    					
                         // prepare data to send
                         var postdata = { 'instanceId':that.id, 'widgetId': widgetid, 'widgetName': widgetName, 'dialogProcessingId': dialog_processing_id, 'dialogMessageId': dialog_message_id };
                                 
                         // send request
                         ajaxRequests.post(that.id, postdata, url, 'eventinit');
                         
+                         
+                        
             },
                 
             // action to cancel
             Cancel: function() {
-                $( this ).dialog( "close" );
+                $( this ).dialog( "destroy" ).remove();
             }
 
         }
 	});
+	
 };    
 
 widget_handler.prototype.deleteWidget = function(remove_id) {
