@@ -45,6 +45,14 @@ widget_handler.prototype.eventinit = function(data) {
         }
     });
     
+    //Add widget
+    $('#' + this.divId).find("#addwidget").click(function() {
+		var widgetid = $(this).attr("class");
+		var url = SITE_URL+'/widget/_core/' + that.widgetName + '/widgets_handler/' + widgetid;
+		ajaxRequests.load(that.id, url, "eventinit");
+		return false;
+	});
+    
 	//Deletebutton on click
 	$('#' + this.divId).find(".widgets_handler_delete_button").click(function() {
 		var removeidnode = $(this).parents('li[id^="widgetslist_"]').attr("id");
@@ -53,6 +61,7 @@ widget_handler.prototype.eventinit = function(data) {
 		return false;
 	});
 	
+	//Renamebutton on click
 	$('#' + this.divId).find(".widgets_handler_rename_button").click(function() {
 		var renameidnode = $(this).parents('li[id^="widgetslist_"]').attr("id");
 		var renameid = renameidnode.split('_')[1];
