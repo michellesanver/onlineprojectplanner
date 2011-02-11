@@ -104,6 +104,7 @@ class Widgets_handler extends Controller {
 
             // get values from post
             $widgetId = $this->input->post('widgetId', true);
+            $instanceId = $this->input->post('instanceId', true);
             $widgetName = $this->input->post('widgetName', true);
             
             // prepare result json
@@ -138,7 +139,7 @@ class Widgets_handler extends Controller {
            
                 // set message to user
                 $jsonResult['result'] = 'error';
-                $jsonResult['message'] = 'Only letters, spaces, numbers, ( and ) is allowed';
+                $jsonResult['message'] = $widgetName;
             
             // else; SAVE!    
             } else {
@@ -158,7 +159,9 @@ class Widgets_handler extends Controller {
                     // all ok
                     $jsonResult['result'] = 'ok';
                     $jsonResult['message'] = 'New name has been saved';
-                    
+                    $jsonResult['instanceid'] = $instanceId;
+                    $this->index();
+					return;                    
                }
                 
             }

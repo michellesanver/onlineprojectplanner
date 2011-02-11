@@ -14,7 +14,7 @@
     <!-- title of widget; will be placed under icon (can be left empty) -->
     <icon_title>Widget Handler</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
-    <widget_object>widgethandler</widget_object>
+    <widget_object>widget_handler</widget_object>
     <!-- allow multiple instances (yes or no) -->
     <allow_multiple>no</allow_multiple>
     <!-- optional setting; Minimum role for this widget. Defaults to NULL (=Member) -->
