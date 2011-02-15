@@ -1,9 +1,3 @@
-<?php
-    if(isset($status)) {
-        echo "<div class='" . $status . " widget_status'><b>" . $status_message . "</b></p>";
-		echo $this->validation->error_string. "</div>";
-    }
-?>
 <div id="projectsettings_wrapper">
 	<?php if(isset($Project_id)) { ?>
 		<p>
@@ -14,7 +8,7 @@
 			</ul>
 		</p>
 		<p>
-			<form id="proj_desc_<?php echo $Project_id; ?>" onsubmit="return projectsettings.saveDescription();">
+			<form id="proj_desc_<?php echo $Project_id; ?>" onsubmit="return Desktop.callWidgetFunction(<?php echo $pwID; ?>, 'save');">
 				<textarea rows="5" cols="45" name="Description" class="required" id="Description"><?php echo $Description; ?></textarea><br />
 				<input type="submit" value="Update" name="update_btn" />
 			</form>
@@ -23,7 +17,7 @@
 			<h2>Delete project</h2>
 			<p>
 				Press the button below to delete this project, it can not be undone!
-				<p><input type="button" value="Delete this project" name="delete_btn" onclick="return projectsettings.deleteProj();" /></p>
+				<p><input type="button" value="Delete this project" name="delete_btn" onclick="return Desktop.callWidgetFunction(<?php echo $pwID; ?>, 'del');" /></p>
 			</p>
 		</p>
 	<?php } else { ?>

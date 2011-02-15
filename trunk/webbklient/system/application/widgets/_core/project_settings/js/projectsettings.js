@@ -4,127 +4,81 @@
 * Static object for the Project Settings widget
 * 
 */
-projectsettings = {
 
-    // widget specific settings
-    partialContentDivClass: '', // optional
-    widgetTitle: 'Project Settings',
-    widgetName: 'project_settings', // also name of folder
+function projectsettings(id, wnd_options) {
+	this.widgetName = "project_settings";
+	var partialClasses = [];
 	
-	currentPartial: null,
-    
-    // function that will be called upon start (REQUIRED - do NOT change the name)
-    open: function(project_widget_id, widgetIconId, last_position) {
-		// set options for window
-		var windowOptions = {
-			// change theese as needed
-			title: projectsettings.widgetTitle,
-			width: 450,
-			height: 500,
-			x: 30,
-			y: 15,
-			allowSettings: false
-		};
-	  
-		// create window
-		Desktop.newWidgetWindow(project_widget_id, windowOptions, widgetIconId, projectsettings.partialContentDivClass, last_position);
+	// set options for window
+	wnd_options.title = "Project Settings";
+	wnd_options.allowSettings = false;
+	
+	this.create(id, wnd_options, partialClasses);
+}
+
+projectsettings.Inherits(Widget);
+
+/*
+* Here comes all happening function. Executed from html links
+* 
+*/
+// Overwriting the index function!
+projectsettings.prototype.index = function() {
+	// load the first page upon start
+	var url = SITE_URL+'/widget/_core/' + this.widgetName + '/ps_controller/index/' + this.id + '/' + Desktop.currentProjectId;
+	ajaxRequests.load(this.id, url, "setWindowContent");
+}
+
+// Submit btn on form
+projectsettings.prototype.save = function(){
+	if($("#"+ this.divId).find('#proj_desc_' + Desktop.currentProjectId).valid()) {
 		
-		projectsettings.index();
-	},
-	
-	// Fist function to be executed
-	index: function() {
-		// load the first page upon start
-		var loadFirstPage = SITE_URL+'/widget/_core/' + projectsettings.widgetName + '/ps_controller/index/' + Desktop.currentProjectId;
-		ajaxRequests.load(loadFirstPage, "projectsettings.setContent", "projectsettings.setAjaxError");
-	},
-	
-	// This function executes when the form is submited
-	saveDescription: function() {
-		if($('#proj_desc_' + Desktop.currentProjectId).valid()) {
-			
-			var desc = $('#proj_desc_' + Desktop.currentProjectId + " #Description").attr('value');
-			
-			var formArray = new Array()
-			var tmp1 = [];
-			tmp1['name'] = 'Project_id';
-			tmp1['value'] = Desktop.currentProjectId;
-			formArray.push(tmp1);
-			var tmp2 = [];
-			tmp2['name'] = 'Description';
-			tmp2['value'] = desc;
-			formArray.push(tmp2);
-			
-			var url = SITE_URL+'/widget/_core/' + projectsettings.widgetName + '/ps_controller/saveDescription/';
-			ajaxRequests.post(formArray, url, "projectsettings.catchStatus", "projectsettings.setAjaxError", true);
-		}
-		return false;
-	},
-	
-	//If the delete button was clicked this function is executed
-	deleteProj: function() {
-		if(confirm("Are you sure you want to delete this project?")) {
-			var loadFirstPage = SITE_URL+'/widget/_core/' + projectsettings.widgetName + '/ps_controller/delete/'+ Desktop.currentProjectId;
-			ajaxRequests.load(loadFirstPage, "projectsettings.catchStatus", "projectsettings.setAjaxError", true);
-			projectsettings.index();
-		}
-	},
-	
-	/* 
-	* The following functions are common for att widgets.
-    * --------------------------------------------------------------------------------------- 
-    */
-	catchRedirectStatus: function(data) {
-		data = unescape(data);
-		var data_obj = $.parseJSON(data);
-		if(data_obj.status == "ok") {
-			projectsettings.index();
-		} else {
-			Desktop.show_errormessage(data_obj.status_message);
-		}
-	},
-	
-	// Catches status requests.
-	catchStatus: function(data){
-		data = unescape(data);
-		var data_obj;
-		if(data_obj = $.parseJSON(data)) {
-			if(data_obj.status == "ok") {
-				// If the project is deleted then force the user to click this link
-				if(data_obj.deleted == "yes") {
-					$('#fullpage_overlay').show();
-					$('#message').html('<p>The project has been deleted!</p>'+'<p><a href="'+SITE_URL+'">Click here to continue!</a></p>');
-					$('#message').css('top', '0px');
-					$('#message').css('display', 'block');
-					var maxWidth = $('#desktop').width();
-					var centerPosition = (maxWidth/2)-(Desktop.message_width/2);
-					$('#message').css('left', centerPosition+'px');
-					$('#message').addClass('ok');
-				} else {
-					Desktop.show_message(data_obj.status_message);
-					if(data_obj.reload == "yes") {
-						projectsettings.index();
-					}
-				}
-			} else {
-				Desktop.show_errormessage(data_obj.status_message);
-			}
-		} else {
-			Desktop.show_errormessage("A error has occurred! Admins has been informed.");
-		}
-	},
+		var desc = $("#"+ this.divId).find('#proj_desc_' + Desktop.currentProjectId + " #Description").attr('value');
 		
-    // set content in widgets div, called from the ajax request
-    setContent: function(data) {
-		data = unescape(data);
-		// The success return function, the data must be unescaped befor use.
-		// This is due to ILLEGAL chars in the string.
-		Desktop.setWidgetContent(data);
-		$('#proj_desc_' + Desktop.currentProjectId).validate();
-    },
-    
-    // set error-message in widgets div, called from the ajax request
-    setAjaxError: function(loadURL) {
-		Desktop.show_ajax_error_in_widget(loadURL);
-    }
-};
+		var formArray = new Array()
+		var tmp1 = [];
+		tmp1['name'] = 'Project_id';
+		tmp1['value'] = Desktop.currentProjectId;
+		formArray.push(tmp1);
+		var tmp2 = [];
+		tmp2['name'] = 'Description';
+		tmp2['value'] = desc;
+		formArray.push(tmp2);
+		
+		var url = SITE_URL+'/widget/_core/' + this.widgetName + '/ps_controller/saveDescription/';
+		ajaxRequests.post(this.id, formArray, url, "catchStatus");
+	}
+	
+	return false;
+}
+
+// Delete project
+projectsettings.prototype.del = function(){
+	if(confirm("Are you sure you want to delete this project?")) {
+		var url = SITE_URL+'/widget/_core/' + this.widgetName + '/ps_controller/delete/'+ Desktop.currentProjectId;
+		ajaxRequests.load(this.id, url, "blockUser");
+	}
+	return false;
+}
+
+// Blocks user from further interactions
+projectsettings.prototype.blockUser = function(data){
+	var json;
+	if(json = $.parseJSON(data)){
+		// Everything went ok
+		if(json.status == "ok") {
+			$('#fullpage_overlay').show();
+			$('#message').html('<p>The project has been deleted!</p>'+'<p><a href="'+SITE_URL+'">Click here to continue!</a></p>');
+			$('#message').css('top', '0px');
+			$('#message').css('display', 'block');
+			var maxWidth = $('#desktop').width();
+			var centerPosition = (maxWidth/2)-(Desktop.message_width/2);
+			$('#message').css('left', centerPosition+'px');
+			$('#message').addClass('ok');
+		} else {
+			Desktop.show_errormessage(json.status_message);
+		}
+	} else {
+		Desktop.show_errormessage("A error has occurred, admins has been informed!");
+	}
+}
