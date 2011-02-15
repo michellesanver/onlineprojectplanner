@@ -119,25 +119,26 @@ Desktop = {
 	callWidgetFunction:function(target, func) {
 		
 		//Instance_id
-		var instance_id = 0;
+		var instance_id, 
+			args = Array().slice.call( arguments, 2 );
 		
 		// If it's an int we can assume that it's a project widget id
 		if(parseInt(target)) {
 			instance_id = target;
 		} else {
+			args.reverse();
+			args.push(target);
+			args.reverse();
 			// We find the closest parent that begins with "widget_" and assign its id to the variable widgetid.
-			var widgetid = $("#" + target.id).closest('div[id^="widget_"]').attr("id");
-			
-			instance_id = widgetid.split('_')[1];
-						
+			var str_id;
 			while(!parseInt(instance_id)) {
-				widgetid = $("#" + widgetid).parents('div[id^="widget_"]').attr("id");
-				instance_id = widgetid.split('_')[1];
+				target = $(target).parents('div[id^="widget_"]');
+				str_id = target.attr("id");
+				instance_id = str_id.split('_')[1];
 			}
 		}
 		
 		var pos = Desktop.findWidgetById(instance_id);
-		var args = Array().slice.call( arguments, 2 );
 		
 		if(args.length == 1) {
 			return this._widgetArray[pos][func](args[0]);
