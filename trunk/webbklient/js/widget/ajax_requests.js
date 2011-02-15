@@ -19,7 +19,7 @@ ajaxRequests = {
 		  type: 'GET',
 		  url: loadURL,
 		  success: function(data){
-				if(partial == false || partial == undefined) {
+				if(partial == false || partial == true || partial == undefined) {
 					Desktop.callWidgetFunction(pwID, successFunction, data);
 				} else {
 					Desktop.callWidgetFunction(pwID, successFunction, data, partial);
@@ -61,7 +61,7 @@ ajaxRequests = {
           url: loadURL,
           success: function(data){
                 // set new content
-				if(partial == false || partial == undefined) {
+				if(partial == false || partial == true || partial == undefined) {
 					Desktop.callWidgetFunction(pwID, successFunction, data);
 				} else {
 					Desktop.callWidgetFunction(pwID, successFunction, data, partial);
