@@ -18,7 +18,7 @@ class ps_controller extends Controller {
 	*
 	* @param int $Pid
 	*/
-	function index($Pid)
+	function index($pwID, $Pid)
 	{
 		
 		// add a tracemessage to log
@@ -52,6 +52,7 @@ class ps_controller extends Controller {
 		}
 		
         $data = $this->project_lib->Select($Pid);
+		$data['pwID'] = $pwID;
 		
 		$this->load->view_widget('index', $data);
 	}
@@ -64,13 +65,13 @@ class ps_controller extends Controller {
 		// add a tracemessage to log
 		log_message('debug','#### => Controller ps_controller->saveDescription');
 		
+		$Pid = (int)$_POST['Project_id'];
+		
 		// Test if it's not an ajax-request
 		if(IS_AJAX == false) {
 			echo "You cant do this, that way!";
 			return;
 		}
-		
-		$Pid = (int)$_POST['Project_id'];
 
 		// If User is not logged in
 		if($this->user->IsLoggedIn()==false)
@@ -112,7 +113,7 @@ class ps_controller extends Controller {
 			if($this->project_lib->Update($update)) {
 				$data["status"] = "ok";
 				$data["status_message"] = "Update was successful!";
-				$data["reload"] = "yes";
+				$data["load"] = "index";
 			} else {
 				$data["status"] = "error";
 				$data["status_message"] = "Update failed!";
@@ -170,7 +171,7 @@ class ps_controller extends Controller {
             $data = array(
 				"status" => "ok",
 				"status_message" => "Delete was successful!",
-				"deleted" => "yes"
+				"load" => "blockUser"
             );
         } else {
             $data = array(

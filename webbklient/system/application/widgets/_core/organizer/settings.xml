@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!-- root -->
+<settings>
+    <!--  short description of the widget -->
+	<about>A collection of functions for projectadministration.</about>
+	
+    <!-- version of widget-->
+	<version>1.0</version>
+	
+    <!-- link to website -->
+	<link>none</link>
+	
+    <!-- name of author -->
+	<author>Dennis Sangmo</author>
+	
+    <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
+	<icon>organizer.png</icon>
+	
+    <!-- title of widget; will be placed under icon (can be left empty) -->
+    <icon_title>Organizer</icon_title>
+	
+    <!-- namespace of widget (namespace = javascript object) -->
+    <widget_object>organizer</widget_object>
+	
+    <!-- allow multiple instances (yes or no) -->
+    <allow_multiple>no</allow_multiple>
+	
+    <!-- optional setting; Minimum role for this widget. Defaults to NULL (=Member) -->
+    <minimum_role>Admin</minimum_role>
+	
+    <!--
+        list of files to be loaded relative to main folder of widgets
+        (theese files will be loaded upon project start)
+        
+        valid types are; javascript, css
+    -->
+	<load>
+        <file type="javascript">js/organizer.js</file>
+        <file type="css">css/style.css</file>
+    </load>
+</settings>
