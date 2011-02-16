@@ -26,7 +26,7 @@
         valid types are; javascript, css
     -->
 	<load>
-        <file type="javascript">js/projectsettings.js</file>
-        <file type="css">css/psstyle.css</file>
+        <!--<file type="javascript">js/projectsettings.js</file>
+        <file type="css">css/psstyle.css</file>-->
     </load>
 </settings>

@@ -28,9 +28,9 @@ Widget.prototype.create = function(id, wnd_options, partialClasses) {
 	
 	// Starting JQuery-window object
 	if(wnd_options.content == undefined) {
-		wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
+		wnd_options.content = "<div class='loading_text'>Loading...</div><div class=\"widget_window\" id=\"" + this.divId + "\"></div>";
 	} else {
-		wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\">" + wnd_options.content + "</div>";
+		wnd_options.content = "<div class='loading_text'>Loading...</div><div class=\"widget_window\" id=\"" + this.divId + "\">" + wnd_options.content + "</div>";
 	}
 	
 	this.wnd = $('#desktop').window(wnd_options);
@@ -65,6 +65,7 @@ Widget.prototype.setWindowContent = function(args) {
 				element = $('#' + this.divId).find('#' + args[1]);
 			}
 			element.html(args[0]);
+			this.hideLoadingText();
 		}
 	} else {
 		$('#' + this.divId).html(args);
@@ -150,4 +151,12 @@ Widget.prototype.show_ajax_error = function(loadURL, errorIcon) {
 
     // show in div with ID or Class
 	$('#'+this.divId).html(errorMessage);
+}
+
+
+Widget.prototype.showLoadingText = function(){
+	$('#'+this.divId).prev().show();
+}
+Widget.prototype.hideLoadingText = function(){
+	$('#'+this.divId).prev().hide();
 }
