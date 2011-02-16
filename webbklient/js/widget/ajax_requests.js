@@ -14,7 +14,7 @@ ajaxRequests = {
 		if(partial == false || partial == undefined) {
 			Desktop.show_ajax_loader_in_widget(pwID);
 		} else if(partial == true) {
-			Desktop.callWidgetFunction(pwID, "showLoadingText");
+			//Desktop.callWidgetFunction(pwID, "showLoadingText");
 		}
 
 		$.ajax({
@@ -55,7 +55,7 @@ ajaxRequests = {
 		if(partial == false || partial == undefined) {
 			Desktop.show_ajax_loader_in_widget(pwID);
 		} else if(partial == true) {
-			Desktop.callWidgetFunction(pwID, "showLoadingText");
+			//Desktop.callWidgetFunction(pwID, "showLoadingText");
 		}
 		
         // post with ajax
