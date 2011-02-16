@@ -28,6 +28,8 @@
     <!-- optional setting; Minimum role for this widget. Defaults to NULL (=Member) -->
     <minimum_role>Admin</minimum_role>
 	
+	<in_development>true</in_development>
+	
     <!--
         list of files to be loaded relative to main folder of widgets
         (theese files will be loaded upon project start)
@@ -36,6 +38,14 @@
     -->
 	<load>
         <file type="javascript">js/organizer.js</file>
+        <file type="javascript">js/widgethandler.js</file>
+        <file type="javascript">js/projectmembers.js</file>
+        <file type="javascript">js/projectsettings.js</file>
+        <file type="javascript">views/organizer_view.js</file>
+		
         <file type="css">css/style.css</file>
+        <file type="css">css/widgethandler.css</file>
+        <file type="css">css/pmstyle.css</file>
+        <file type="css">css/psstyle.css</file>
     </load>
 </settings>

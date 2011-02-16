@@ -47,13 +47,8 @@ class Widgets_handler extends Controller {
             // package some data for the view
             $base_url = $this->config->item('base_url');
             $data = array(
-                'base_url' => $base_url,
-                'testing' => 'testing',
-                'widget_url' => site_url("/widget/_core/$widget_name").'/',
-                'widget_base_url' => $base_url."system/application/widgets/_core/$widget_name/",
                 'allWidgets' => $widgets,
-                'projectWidgets' => $project_widgets,
-                'userID' => $this->user->getUserID() // used in a link
+                'projectWidgets' => $project_widgets
             );
             
             // load a view for the widget
