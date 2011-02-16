@@ -652,9 +652,3 @@ div#message.error {
     }
 
 /* @end */
-
-.loading_text {
-	float:right;
-	margin:10px 20px;
-	display:none;
-}
