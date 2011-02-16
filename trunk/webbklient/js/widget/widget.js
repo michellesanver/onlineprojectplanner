@@ -59,7 +59,12 @@ Widget.prototype.index = function() {
 Widget.prototype.setWindowContent = function(args) {
 	if($.isArray(args)){
 		if($.inArray(args[1], this.partialClassNames) >= 0) {
-			$('#' + this.divId).find('.' + args[1]).html(args[0]);
+			var element;
+			element = $('#' + this.divId).find('.' + args[1]);
+			if(element.length == 0){
+				element = $('#' + this.divId).find('#' + args[1]);
+			}
+			element.html(args[0]);
 		}
 	} else {
 		$('#' + this.divId).html(args);
