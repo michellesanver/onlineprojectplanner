@@ -1,0 +1,16 @@
+#projectsettings_wrapper h3 {
+	margin-top:20px;
+}
+
+#projectsettings_wrapper p {
+	display:block;
+}
+
+#projectsettings_wrapper textarea {
+	float:none;
+}
+
+#projectsettings_wrapper {
+	padding-left: 10px;
+	padding-right: 10px;
+}

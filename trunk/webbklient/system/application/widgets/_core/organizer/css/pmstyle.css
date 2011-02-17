@@ -1,0 +1,28 @@
+#projectmember_wrapper h3 {
+	margin-top:20px;
+}
+
+#projectmember_wrapper label {
+	width:150px;
+	text-align:right;
+}
+
+#projectmember_wrapper {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#projectmember_memberlist a {
+	color: blue;
+}
+
+#projectmember_memberlist li {
+	margin-bottom: 10px;
+}
+
+#projectmember_wrapper input {
+	display:inline;
+}
+#projectmember_wrapper ul {
+	list-style:none;
+}
