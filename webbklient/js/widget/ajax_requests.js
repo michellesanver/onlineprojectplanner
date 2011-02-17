@@ -11,7 +11,7 @@ ajaxRequests = {
 		}
 		
 		// show ajax spinner
-		if(partial == false || partial == undefined) {
+		if (partial == undefined || partial == false) {
 			Desktop.show_ajax_loader_in_widget(pwID);
 		}
 
@@ -19,7 +19,7 @@ ajaxRequests = {
 		  type: 'GET',
 		  url: loadURL,
 		  success: function(data){
-				if(partial == false || partial == true || partial == undefined) {
+				if (partial == undefined || partial == false) {
 					Desktop.callWidgetFunction(pwID, successFunction, data);
 				} else {
 					Desktop.callWidgetFunction(pwID, successFunction, data, partial);
@@ -50,7 +50,7 @@ ajaxRequests = {
         }
 		
 		// show ajax spinner
-		if(partial == false || partial == undefined) {
+		if (partial == undefined || partial == false) {
 			Desktop.show_ajax_loader_in_widget(pwID);
 		}
 		
@@ -61,7 +61,7 @@ ajaxRequests = {
           url: loadURL,
           success: function(data){
                 // set new content
-				if(partial == false || partial == true || partial == undefined) {
+				if (partial == undefined || partial == false) {
 					Desktop.callWidgetFunction(pwID, successFunction, data);
 				} else {
 					Desktop.callWidgetFunction(pwID, successFunction, data, partial);
