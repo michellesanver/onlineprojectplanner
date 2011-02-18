@@ -35,7 +35,7 @@ _Explanation:_ This function is ment for you as an developer to overwrite with e
 <hr>
 
 =====setWindowContent=====
-_Explanation:_ Allows you to change the html in the widget window. This will remove the current content. The second field in the parameter array can be used assigned a string in you want the data content to be inserted in a specific partial area.<br>
+Allows you to change the html in the widget window. This will remove the current content. The second field in the parameter array can be used assigned a string in you want the data content to be inserted in a specific partial area.<br>
 _Parameters:_
  * args (array): '0 = data' This is a string of the html document to be inserted. '1 = partial' This is a string with the name of the id or class attribute of the wanted area.
 _Example: {{{this.setWindowContent(array("<b>Hello World</b>", "insideme"));}}}_
@@ -43,7 +43,7 @@ _Example: {{{this.setWindowContent(array("<b>Hello World</b>", "insideme"));}}}_
 <hr>
 
 =====catchStatus=====
-_Explanation:_ This function is great to use as a ajax-success function, if you dont want to update the widow content but only give the ok or the eroor message of the ajax-request. If you are using this function as a success-function the data from your php-code needs to be as a JSON object, containing up to 3 variables. First we have the "status" field wich cointais "ok" or "error", the "status_message" wich contains the message. Last we have the "load" field wich is opional and can contail a function name, that function will be executed.<br>
+This function is great to use as a ajax-success function, if you dont want to update the widow content but only give the ok or the eroor message of the ajax-request. If you are using this function as a success-function the data from your php-code needs to be as a JSON object, containing up to 3 variables. First we have the "status" field wich cointais "ok" or "error", the "status_message" wich contains the message. Last we have the "load" field wich is opional and can contail a function name, that function will be executed.<br>
 _Parameters:_
  * data (string): A JSON object with 4 differrent fields.
   * 'status': If success this should be "ok" else "error".
@@ -59,7 +59,7 @@ Desktop is a static object that represent the real-life "desktop-area" where all
 
 ====Functions====
 =====callWidgetFunction=====
-_Explanation:_ Will execute the function with the name as the "func" parameter. Its posible to send parameters to the function in "func", all parameters after the "func"-parameter will be passed.<br>
+Will execute the function with the name as the "func" parameter. Its posible to send parameters to the function in "func", all parameters after the "func"-parameter will be passed.<br>
 _Parameters:_
  * pwID (int): The widget project_widget_id.
  * func (string): The name of the function to be executed.
@@ -69,7 +69,7 @@ _Example: {{{Desktop.callWidgetFunction(152, "saveForm", 1, "test");}}}_
 <hr>
 
 =====show_message=====
-_Explanation:_ this function will display an ok-message<br>
+this function will display an ok-message<br>
 _Parameters:_
  * message (String): The message to be displayed
 _Example: {{{Desktop.show_message("Everything went ok!");}}}_
@@ -77,7 +77,7 @@ _Example: {{{Desktop.show_message("Everything went ok!");}}}_
 <hr>
 
 =====show_errormessage(message)=====
-_Explanation:_ this function will display an error-message<br>
+this function will display an error-message<br>
 _Parameters:_
  * message (String): The message to be displayed
 _Example: {{{Desktop.show_errormessage("A error has occurred!");}}}_
@@ -91,7 +91,7 @@ _Example: ajaxRequest.load("http://thisproject.com/index.php/controller/function
 
 ====Functions====
 =====load=====
-_Explanation:_ Makes a ajax request for the specified loadURL and calls the successFunction inside the widget-object.<br>
+Makes a ajax request for the specified loadURL and calls the successFunction inside the widget-object.<br>
 _Parameters:_
  * pwID (int): The widget project_widget_id.
  * loadURL (String): The url to load
@@ -101,7 +101,7 @@ _Parameters:_
 <hr>
 
 =====post=====
-_Explanation:_ Makes a ajax request for the specified loadURL with the postdata and calls the successFunction inside the widget-object.
+Makes a ajax request for the specified loadURL with the postdata and calls the successFunction inside the widget-object.
 _Parameters:_
  * pwID (int): The widget project_widget_id.
  * postdata (object): The postdata of the form. Can be caught with the jquery "serialize()" function.
