@@ -96,7 +96,7 @@ _Parameters:_
  * pwID (int): The widget project_widget_id.
  * loadURL (String): The url to load
  * successFunction (String): The funktion to call when success ("yourFunction"). Must be able to catch 1 parameter (the page), it will be escaped, use function unescape(). 
- * partial (boolean): If this param is true, the loader will skipp to show the loading image, wich otherwise will remove the content.
+ * partial (string) optional: Partialarea-name this parameter will be transfered to the successfunction. See the setWindowContent in the Widgetclass. This will also block the loading-icon, you can also stop this with true.
 
 <hr>
 
@@ -107,7 +107,7 @@ _Parameters:_
  * postdata (object): The postdata of the form. Can be caught with the jquery "serialize()" function.
  * loadURL (String): The url to load
  * successFunction (String): The funktion to call when success ("yourFunction"). 
- * partial (boolean): If this param is true, the loader will skipp to show the loading image, wich otherwise will remove the content.
+ * partial (string) optional: Partialarea-name this parameter will be transfered to the successfunction. See the setWindowContent in the Widgetclass. This will also block the loading-icon, you can also stop this with true.
 
 <hr>
 
