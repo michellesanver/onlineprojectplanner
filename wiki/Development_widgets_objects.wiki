@@ -45,7 +45,11 @@ _Example: {{{this.setWindowContent(array("<b>Hello World</b>", "insideme"));}}}_
 =====catchStatus=====
 _Explanation:_ This function is great to use as a ajax-success function, if you dont want to update the widow content but only give the ok or the eroor message of the ajax-request. If you are using this function as a success-function the data from your php-code needs to be as a JSON object, containing up to 3 variables. First we have the "status" field wich cointais "ok" or "error", the "status_message" wich contains the message. Last we have the "load" field wich is opional and can contail a function name, that function will be executed.<br>
 _Parameters:_
- * data (string): A JSON object with 3 differrent fields.
+ * data (string): A JSON object with 4 differrent fields.
+  * 'status': If success this should be "ok" else "error".
+  * 'status_message': A message
+  * 'load' (opitonal): A funktionname in your widget-class you want to be executed after.
+  * 'loadparams' (optional): This content will be used as an argument to your named funktion in the 'load' parameter.
 _Example: {{{this.catchStatus('{"status":"ok","status_message":"Everything went ok!"});}}}_
 
 <hr>
