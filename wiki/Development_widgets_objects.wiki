@@ -35,19 +35,10 @@ _Explanation:_ This function is ment for you as an developer to overwrite with e
 <hr>
 
 =====setWindowContent=====
-_Explanation:_ Allows you to change the html in the widget window. This will remove the current content.<br>
+_Explanation:_ Allows you to change the html in the widget window. This will remove the current content. The second field in the parameter array can be used assigned a string in you want the data content to be inserted in a specific partial area.<br>
 _Parameters:_
- * data (string): This is the html document to be inserted.
-_Example: {{{this.setWindowContent("<b>Hello World</b>");}}}_
-
-<hr>
-
-=====setPartialContent=====
-_Explanation:_ Almost the same as "setWindowContent". The only difference are the fact that it only inserts the data in a specific area. <br>
-_Parameters:_
- * partialClass (string): The partial id-name.
- * data (string): This is the html document to be inserted in the area.
-_Example: {{{this.setPartialContent("meny_content", "<ul><li>meny1</li><li>meny2</li></ul>");}}}_
+ * args (array): [0 = data] This is a string of the html document to be inserted. [1 = partial] This is a string with the name of the id or class attribute of the wanted area.
+_Example: {{{this.setWindowContent(array("<b>Hello World</b>", "insideme"));}}}_
 
 <hr>
 
