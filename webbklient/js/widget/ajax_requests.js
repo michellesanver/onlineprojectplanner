@@ -61,10 +61,10 @@ ajaxRequests = {
           url: loadURL,
           success: function(data){
                 // set new content
-				if (partial == undefined || partial == false) {
-					Desktop.callWidgetFunction(pwID, successFunction, data);
-				} else {
+				if (typeof partial == "string") {
 					Desktop.callWidgetFunction(pwID, successFunction, data, partial);
+				} else {
+					Desktop.callWidgetFunction(pwID, successFunction, data);
 				}
           },
           error: function(xhr, statusSTR, errorSTR) {
