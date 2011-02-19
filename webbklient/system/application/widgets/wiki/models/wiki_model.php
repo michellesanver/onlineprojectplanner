@@ -55,7 +55,7 @@ Class Wiki_model extends Model
     }
 
     
-    function FetchAllUpdatedPages($projectID)
+    function FetchAllUpdatedPages($projectID, $instance_id)
     {
         
          $table1 = $this->_table_pages;
@@ -72,7 +72,7 @@ Class Wiki_model extends Model
 
         $projectID = $this->db->escape($projectID);
         
-        $sql = "SELECT `$table1`.`Wiki_page_id`, `$table1`.`Title`, `$table1`.`Updated`, `$table2`.`Firstname`, `$table2`.`Lastname` FROM (`$table1`) JOIN `$table2` ON `$table1`.`User_id` = `$table2`.`User_id` WHERE `Project_id` = $projectID AND `$table1`.Updated IS NOT NULL ORDER BY `$table1`.`Updated` DESC LIMIT 3";
+        $sql = "SELECT `$table1`.`Wiki_page_id`, `$table1`.`Title`, `$table1`.`Updated`, `$table2`.`Firstname`, `$table2`.`Lastname` FROM (`$table1`) JOIN $table2 ON $table1.`User_id` = $table2.`User_id` WHERE $table1.`Project_id` = $projectID AND $table1.Updated IS NOT NULL AND $table1.Instance_id = '$instance_id' ORDER BY $table1.`Updated` DESC LIMIT 3";
         $query = $this->db->query($sql);
         
          // any result?

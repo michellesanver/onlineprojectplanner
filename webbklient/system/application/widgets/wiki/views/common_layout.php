@@ -3,9 +3,9 @@
         <div class="wiki_logo"></div>
         <strong>Wiki:</strong>
         <ul id="mainNavigation">
-            <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/index');">Home</a></li> 
-            <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/search', true);">Search</a></li>
-            <li><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/create');">New page</a></li> 
+            <li><a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url':'/pages/index/<?php echo $instance_id; ?>'});">Home</a></li> 
+            <li><a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url':'/pages/search/<?php echo $instance_id; ?>', 'partial':true});">Search</a></li>
+            <li><a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url':'/pages/create/<?php echo $instance_id; ?>'});">New page</a></li> 
         </ul>
         
         <br/>
@@ -16,11 +16,11 @@
                 <ul id="navigation">
                 <?php foreach($wiki_menu as $row): ?>
                     <li>
-                        <a href="javascript:void(0);" onclick="wikiWidget.load('<?php echo '/pages/get/'.$row->Wiki_page_id; ?>', true);"><?php echo $row->Title; ?></a>
+                        <a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url':'<?php echo '/pages/get/'.$row->Wiki_page_id; ?>/<?php echo $instance_id; ?>', 'partial': true});"><?php echo $row->Title; ?></a>
                         <?php if (isset($row->children) && empty($row->children)==false): ?>
                             <ul>
                             <?php foreach($row->children as $row2): ?>
-                                <li><a href="javascript:void(0);" onclick="wikiWidget.load('<?php echo '/pages/get/'.$row2->Wiki_page_id; ?>', true);"><?php echo $row2->Title; ?></a></li>
+                                <li><a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url':'<?php echo '/pages/get/'.$row2->Wiki_page_id; ?>/<?php echo $instance_id; ?>', 'partial': true});"><?php echo $row2->Title; ?></a></li>
                             <?php endforeach; ?>  
                             </ul>
                         <?php endif; ?>
