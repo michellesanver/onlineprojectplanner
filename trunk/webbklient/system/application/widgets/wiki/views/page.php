@@ -1,14 +1,13 @@
 
  <?php if (isset($status) && isset($status_message)): ?>
-    <div class="<?php echo $status; ?>"><b><?php echo $status_message; ?></b></div>
-    <br />
+    <div class="<?php echo $status; ?>" id="wiki-status-message"><b><?php echo $status_message; ?></b><span>[ <a href="javascript:void(0);" onclick="$('#wiki-status-message').remove();return false;">close</a> ]</span><br /></div>
 <?php endif; ?>
     
  <div class="wiki_inner_page">
      <h1>
         <?php echo $page->Title; ?>
         <span class="wiki_admin_links">
-            [ <a href="javascript:void(0);" onclick="wiki_edit_page();">Edit</a> | <a href="javascript:void(0);" onclick="wiki_delete_page();">Delete</a> | <a href="javascript:void(0);" onclick="wiki_show_history();">History</a>]
+            [ <a href="javascript:void(0);" onclick="wiki_edit_page(); return false;">Edit</a> | <a href="javascript:void(0);" onclick="wiki_delete_page(); return false;">Delete</a> | <a href="javascript:void(0);" onclick="wiki_show_history(); return false;">History</a>]
         </span>
     </h1>
 
@@ -120,7 +119,7 @@
             <td><?php echo $row->Created; ?></td>
             <td><?php echo (empty($row->Updated)==false ? $row->Updated : 'n/a'); ?></td>
             <td><?php echo $row->Firstname.' '.$row->Lastname; ?></td>
-            <td><?php if (empty($row->Wiki_page_history_id)==false): ?> &nbsp; <a href="javascript:void(0);" onclick="wikiWidget.load('/pages/get_history/<?php echo $row->Wiki_page_history_id; ?>', true);">view</a><?php endif; ?></td>
+            <td><?php if (empty($row->Wiki_page_history_id)==false): ?> &nbsp; <a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url':'/pages/get_history/<?php echo $row->Wiki_page_history_id.'/'.$instance_id; ?>', 'partial':true});">view</a><?php endif; ?></td>
         </tr>
         <?php endforeach; ?>
     </table>
@@ -128,10 +127,6 @@
     <br/>
     <p><a href="javascript:void(0);" onclick="wiki_close_history();"><< Back to page</a></p>
     
-</div>
-
-<div id="wiki-dialog-confirm" title="Delete this page?" style="display:none;">
-    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you absolutely sure you want to delete this page and all history? Action is permanent.</p>
 </div>
 
 <div id="wiki-dialog-insertimage" title="Insert image" style="display:none;">
@@ -184,18 +179,9 @@
     <iframe id="wiki_image_tab3" style="display:none;width:425px;height:225px;border:0;" src="<?php echo site_url().'/widget/wiki/pages/upload/'.$instance_id ;?>"></iframe>
 </div>
 
-<div id="wiki-dialog-confirm2" title="Delete this image?" style="display:none;">
-    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Are you absolutely sure you want to delete the image '<span id="wiki_delete_image_filename"></span>'? Action is permanent.</p>
-</div>
-
-<div id="wiki-dialog-processing" title="Please wait" style="display:none;">
-    <p>Please wait while removing image...</p>
-</div>
-
-<div id="wiki-dialog-processing-message" title="Remove image" style="display:none;"><p>Image was removed.</p></div><div id="wiki-dialog-processing-message2" title="Error: remove image" style="display:none;"><p>Unable to remove image.</p></div>
-
 <script type="text/javascript">
 
+        // create wywisyg
       $('#wiki_edit_text').wysiwyg({
           controls: {
             justifyFull: { visible : false },
@@ -203,7 +189,7 @@
             insertImage: { visible : false },
             customImageDialog: {
                 visible: true,
-                exec: wiki_do_image_dialog,
+                exec: function() { wiki_do_image_dialog(); return false; },
                 className: 'insertImage'
             }
           },
@@ -211,6 +197,7 @@
       });          
        
      <?php if (isset($show_edit) && $show_edit == true): ?>
+        // set edit to active
         wiki_edit_page();
      <?php endif; ?>
     
@@ -223,8 +210,6 @@
             zIndex: 3999,
             buttons: {
                 "Ok": function() {
-                    $( this ).dialog( "close" );
-                    
                     var upload_path = '<?php echo $wysiwyg_upload_path; ?>/';
                     var selected_image = document.getElementById('wiki_wysiwyg_images').value;
                     if (selected_image != "") {
@@ -242,22 +227,26 @@
                         } else if (f != "") {
                             attributes = { style: 'float: '+f };    
                         }
-                        
+                       
                         $('#wiki_edit_text').wysiwyg('insertImage', upload_path+selected_image, attributes);
                         
                         document.getElementById('wiki_wysiwyg_width').value = "";
                         document.getElementById('wiki_wysiwyg_height').value = "";
                         document.getElementById('wiki_wysiwyg_float').value = "";
                         document.getElementById('wiki_wysiwyg_images').value = "";
+                        
+                        $(this).dialog("destroy");
+                        return false;
                     }
                 },
                 Cancel: function() {
-                    $( this ).dialog( "close" );
+                    $(this).dialog("destroy");
+                    return false;
                 }
             }
         });
         
-        return false;
+         return false;
     }
      
     function wiki_show_history() {
@@ -283,47 +272,58 @@
     }
    
     function wiki_search_tag(tag) {
-        var resultDivClass = wikiWidget.pageContentDivClass;
-        wikiWidget.search('', tag, resultDivClass, true); 
+        Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'search', {'word':'', 'tag':tag}); 
     }
     
     function wiki_delete_page(){
-        $( "#wiki-dialog-confirm" ).dialog({
-            resizable: false,
-            height: 200,
-            width: 500,
-            modal: true,
-            zIndex: 3999,
-            buttons: {
-                "Continue": function() {
-                    $( this ).dialog( "close" );
-                    wikiWidget.load('/pages/delete/<?php echo $page->Wiki_page_id; ?>/<?php echo $delete_token; ?>/<?php echo $instance_id; ?>');
-                },
-                Cancel: function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
+        
+        // use plugin jConfirm to create a common confirm dialog with jquery ui
+        var options = {
+            'question': 'Are you absolutely sure you want to delete this page? Action is permanent.',
+            'title': 'Confirm delete',
+            'callback_function': 'wiki_delete_ok_callback',
+            'callback_is_global': true
+        };
+        
+        // create dialog
+        $.jconfirm(options);
+    }
+    
+    function wiki_delete_ok_callback() {
+        
+        // delete page in database
+        Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url': '/pages/delete/<?php echo $page->Wiki_page_id; ?>/<?php echo $delete_token; ?>/<?php echo $instance_id; ?>'});
     }
     
     function wiki_submit_changes() {
         document.getElementById('wiki_edit_text').value = $('#wiki_edit_text').wysiwyg('getContent');   
-        wikiWidget.post('wiki_edit_form','/pages/update/<?php echo $page->Wiki_page_id; ?>', true);
+        Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'post', {'form_class':'wiki_edit_form', 'url':'/pages/update/<?php echo $page->Wiki_page_id; ?>', 'partial':true});
     }
     
     function wiki_set_image_tab(num) {
         if (num==undefined || num=="") return;
-        num = parseInt(num);
-        $('#wiki_image_tab1').hide();
-        $('#wiki_image_tab2').hide();
-        $('#wiki_image_tab3').hide();
-        $('#wiki_image_tab'+num).show();
         
+        num = parseInt(num);
+    
+        if (num!=1) {
+            $('#wiki_image_tab1').css({'display':'none'});
+        }
+        if (num!=2) {
+            $('#wiki_image_tab2').css({'display':'none'});
+        }
+        if (num!=3) {
+            $('#wiki_image_tab3').css({'display':'none'});
+        }
+    
+        $('#wiki_image_tab'+num).css({'display':'block'});
+      
         return false;
     }
     
+    // called from iframe on success
     function wiki_add_uploaded_image(filename) {
         if (filename != undefined && filename != "") {
+           
             var imageHTML = "<p><image src=\"<?php echo $wysiwyg_upload_path.'/'; ?>" + filename + "\" /><br/><small>" + filename + "</small></p>";    
             $('#wiki_new_uploaded_images').append(imageHTML);
             
@@ -336,71 +336,34 @@
         }
     }
     
-    delete_image_hide = "";
-    delete_image_filename = "";
-    
     function wiki_delete_image(filename, viewId, token) {
-        delete_image_hide = viewId;
-        delete_image_filename = filename;
         
-        $('#wiki_delete_image_filename').text(filename);
-        $("#wiki-dialog-confirm2").dialog({
-            resizable: false,
-            height: 200,
-            width: 500,
-            modal: true,
-            zIndex: 3999, 
-            buttons: {
-                "Continue": function() {
-                    $( this ).dialog( "close" );
-                    
-                    $('#wiki-dialog-processing').dialog({
-                        resizable: false,     
-                        height: 175,
-                        width: 350,
-                        modal: true,
-                        zIndex: 3999, 
-                        buttons: { }
-                    });
-                    
-                    var url = SITE_URL + '/widget/wiki/pages/delete_image';
-					var postdata = {'filename': filename, 'token': token, 'instance_id': '<?php echo $instance_id; ?>'};
-					
-                    ajaxRequests.post(postdata, url,'delete_ok_callback', 'delete_error_callback', true);
-                },
-                Cancel: function() {
-                    $( this ).dialog( "close" );
-                }
+        // setup parameters for call to widget function
+        var delete_parameters = {
+            // parameters for post-request on confirmed
+            'filename': filename,
+            'token': token,
+            
+            // callback on sucess
+            'callback_sucess': 'wiki_delete_image_finished',
+            'callback_parameters': { 'remove_id': viewId, 'filename': filename  }
+        };
+        
+        // call widget function
+        Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'postDeleteImage', delete_parameters);
+
+        return false;
+    }
+    
+    function wiki_delete_image_finished(parameters) {
+        // cleanup on delete success
+        $('#'+parameters.remove_id).remove();
+        var mySelect = document.getElementById("wiki_wysiwyg_images");
+        for(var n=0; n<mySelect.options.length; n++) {
+            if (mySelect.options[n].value == parameters.filename) {
+                mySelect.options[n] = null;
+                break;
             }
-        });
-    }
-    
-    function delete_error_callback(data) {
-        $('#wiki-dialog-processing').dialog( "close" );    
-       Desktop.show_errormessage( unescape(data) );
-    }
-    
-    function delete_ok_callback(data) {
-        $('#wiki-dialog-processing').dialog( "close" );        
-        
-        var msgId = "wiki-dialog-processing-message";
-        if (data.indexOf('Error') != -1) {
-            msgId = 'wiki-dialog-processing-message2';    
-        } else {
-            $('#'+delete_image_hide).hide();
         }
-        
-        $('#'+msgId).dialog({
-            resizable: false,     
-            height: 175,
-            width: 350,
-            modal: true,
-            zIndex: 3999, 
-            buttons: {
-                "Ok": function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        });
     }
 </script>

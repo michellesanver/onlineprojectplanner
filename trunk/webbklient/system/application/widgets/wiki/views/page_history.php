@@ -20,7 +20,7 @@
    </small></p>
     
     
-    <p><a href="javascript:void(0);" onclick="wikiWidget.load('/pages/get/<?php echo $page->Wiki_page_id; ?>', true);"><< Back to current version</a></p> 
+    <p><a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url':'/pages/get/<?php echo $page->Wiki_page_id.'/'.$instance_id; ?>', 'partial':true});"><< Back to current version</a></p> 
     
     <div class="wiki_page_footer">
             <span class="wiki_page_footer_left">

@@ -20,7 +20,7 @@ class Pages extends Controller
     // (if used internally then $ok_message or $error_message can be set)
     //
     function index($instance_id, $ok_message='', $error_message='')
-    {
+    {            
         // is user logged in?
         if ($this->user->IsLoggedIn() == false)
         {
@@ -33,6 +33,8 @@ class Pages extends Controller
         $widget_name = $this->_widget_name;
         $base_url = $this->config->item('base_url');
         $data = array(
+			'instance_id' => $instance_id,
+			
             'base_url' => $base_url,
             'widget_url' => site_url("/widget/$widget_name").'/',
             'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
@@ -111,44 +113,43 @@ class Pages extends Controller
        // get page
        $data['page'] = $this->Wiki->GetPage($wiki_page_id, $instance_id );
     
-       // no page found? 
-       if ( $data['page'] === false )
-       {
-            // fake content so javascript will display an error
-            $data['content'] = '<script type="text/javascript">wikiWidget.show_page_not_found();</script>';
-       }
-       else
-       {    
-            // add current version in history
-            $currentVersion = new stdClass();
-            $currentVersion->Wiki_page_history_id = null; // do NOT view this in history
-            $currentVersion->Title = $data['page']->Title;
-            $currentVersion->Version = $data['page']->Version;
-            $currentVersion->Created = $data['page']->Created;
-            $currentVersion->Updated = $data['page']->Updated;
-            $currentVersion->Firstname = $data['page']->Firstname;
-            $currentVersion->Lastname = $data['page']->Lastname;
-            
-            // get more data
-            $data['history'] = $this->Wiki->GetHistory($wiki_page_id, $instance_id );
-            array_push($data['history'], $currentVersion);
-            
-            $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren($instance_id );
-            $data['delete_token'] = $this->_GenerateDeleteCode($wiki_page_id); 
-          
-            // add instance id for delete-link
-            $data['instance_id'] = $instance_id;
+  
+        // add current version in history
+        $currentVersion = new stdClass();
+        $currentVersion->Wiki_page_history_id = null; // do NOT view this in history
+        $currentVersion->Title = $data['page']->Title;
+        $currentVersion->Version = $data['page']->Version;
+        $currentVersion->Created = $data['page']->Created;
+        $currentVersion->Updated = $data['page']->Updated;
+        $currentVersion->Firstname = $data['page']->Firstname;
+        $currentVersion->Lastname = $data['page']->Lastname;
         
-            // get images for wysiwyg
-            $data['wysiwyg_images'] = $this->Wiki->getUploadedImages($instance_id);
-       
-            // create path for uploaded images
-            $data['wysiwyg_upload_path'] = $this->Wiki->getUploadedPath($instance_id);
-          
-            // load content
-            $data['content'] = $this->load->view_widget('page', $data, true);
-       }
-       
+        // get more data
+        $data['history'] = $this->Wiki->GetHistory($wiki_page_id, $instance_id );
+        array_push($data['history'], $currentVersion);
+        
+        $data['select_parents'] = $this->Wiki->GetTitlesWithoutChildren($instance_id );
+        $data['delete_token'] = $this->_GenerateDeleteCode($wiki_page_id); 
+      
+        // add instance id for delete-link
+        $data['instance_id'] = $instance_id;
+    
+        // get images for wysiwyg
+        $data['wysiwyg_images'] = $this->Wiki->getUploadedImages($instance_id);
+   
+        // create path for uploaded images
+        $data['wysiwyg_upload_path'] = $this->Wiki->getUploadedPath($instance_id);
+      
+        // populate variables for editform (so the view will work with edit)
+        $data['form_title'] = $data['page']->Title;
+        $data['form_text'] = $data['page']->Text;
+        $data['form_order'] = $data['page']->Order; 
+        $data['form_tags'] = $data['page']->Tags_string; 
+        $data['form_parent'] = $data['page']->Parent_wiki_page_id;
+      
+        // load content
+        $data['content'] = $this->load->view_widget('page', $data, true);
+        
         
        // load complete view for the widget
        $this->load->view_widget('common_layout', $data);
@@ -158,7 +159,7 @@ class Pages extends Controller
     // get a new page (also edit and history)
     //
     function get($Wiki_page_id, $instance_id)
-    {     
+    {      
         // is user logged in?
         if ($this->user->IsLoggedIn() == false)
         {
@@ -244,7 +245,7 @@ class Pages extends Controller
             // string will be matched in javascript
             die("PAGE NOT FOUND");
         }
-        
+       
         // add current version in history
         $currentVersion = new stdClass();
         $currentVersion->Wiki_page_history_id = null; // do NOT view this in history
@@ -326,7 +327,7 @@ class Pages extends Controller
         }
         
         // show view
-        $this->load->view_widget('page_history', array('page'=>$page));
+        $this->load->view_widget('page_history', array('page'=>$page, 'instance_id'=>$instance_id));
     }
     
     //
@@ -523,7 +524,7 @@ class Pages extends Controller
         if ($word == '' && $tag == '')
         {
             // show form
-            $this->load->view_widget('search');
+            $this->load->view_widget('search', array('instance_id'=>$instance_id));
         }
         else
         {
@@ -543,7 +544,7 @@ class Pages extends Controller
             
 
             //  present results
-            $this->load->view_widget('search_results', array('results'=>$results,'term'=>$term));
+            $this->load->view_widget('search_results', array('results'=>$results,'term'=>$term, 'instance_id'=>$instance_id));
 
         }    
     }
@@ -571,7 +572,17 @@ class Pages extends Controller
     * Show an upload-form
     */
     function upload($instance_id) {
-        $this->load->view_widget('upload_form',array('instance_id' => $instance_id));    
+        
+        $base_url = $this->config->item('base_url');
+        $widget_name = $this->_widget_name;
+        
+        $viewData = array(
+            'instance_id' => $instance_id,
+            'widget_base_url' => $base_url."system/application/widgets/$widget_name/",
+            'base_url' => $base_url
+        );
+        
+        $this->load->view_widget('upload_form',$viewData);    
     }
     
     /**

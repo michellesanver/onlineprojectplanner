@@ -95,3 +95,17 @@
     margin-bottom:15px;
     font-weight:bold;
 }
+
+
+.wiki_main_content .ok, .wiki_main_content .error {
+    width: 350px;
+    margin: 10px auto;
+}
+
+.wiki_main_content .ok span, .wiki_main_content .error span {
+  float:right;
+  margin:5px;
+  margin-top:-5px;
+  padding:0px;
+  font-size:10pt;
+}

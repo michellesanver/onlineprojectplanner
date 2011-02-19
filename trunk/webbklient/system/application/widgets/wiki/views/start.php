@@ -1,7 +1,6 @@
 
      <?php if (isset($status) && isset($status_message)): ?>
-        <div class="<?php echo $status; ?>"><b><?php echo $status_message; ?></b></div>
-        <br />
+        <div class="<?php echo $status; ?>" id="wiki-status-message"><b><?php echo $status_message; ?></b><span>[ <a href="javascript:void(0);" onclick="$('#wiki-status-message').remove();return false;">close</a> ]</span><br /></div>
     <?php endif; ?>
     
         <h1>Wiki</h1>
@@ -11,7 +10,7 @@
             <?php if (empty($new_pages)==false): ?>
             
                 <?php foreach($new_pages as $row): ?>
-                    <a href="javascript:void(0);" onclick="wikiWidget.load('<?php echo '/pages/get/'.$row->Wiki_page_id; ?>', true);"><?php echo $row->Title; ?></a> <small> by <?php echo $row->Firstname.' '. $row->Lastname; ?> at <?php echo $row->Created; ?></small><br/>
+                    <a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url':'<?php echo '/pages/get/'.$row->Wiki_page_id.'/'.$instance_id; ?>', 'partial':true});"><?php echo $row->Title; ?></a> <small> by <?php echo $row->Firstname.' '. $row->Lastname; ?> at <?php echo $row->Created; ?></small><br/>
                 <?php endforeach; ?>
                 
             <?php else: ?>
@@ -27,7 +26,7 @@
             <?php if (empty($last_updated_pages)==false): ?>
             
                 <?php foreach($last_updated_pages as $row): ?>
-                    <a href="javascript:void(0);" onclick="wikiWidget.load('<?php echo '/pages/get/'.$row->Wiki_page_id; ?>', true);"><?php echo $row->Title; ?></a> <small> by <?php echo $row->Firstname.' '. $row->Lastname; ?> at <?php echo $row->Updated; ?></small><br/>
+                    <a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $instance_id; ?>, 'loadURL', {'url':'<?php echo '/pages/get/'.$row->Wiki_page_id.'/'.$instance_id; ?>', 'partial':true});"><?php echo $row->Title; ?></a> <small> by <?php echo $row->Firstname.' '. $row->Lastname; ?> at <?php echo $row->Updated; ?></small><br/>
                 <?php endforeach; ?>
                 
             <?php else: ?>
