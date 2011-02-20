@@ -51,6 +51,39 @@ class Widgets_handler extends Controller {
                 'projectWidgets' => $project_widgets
             );
             
+            // any added widgets?
+            if (isset($addid)) {
+                // send to view that will trigger widgetbar to add new widget
+                $data['addid'] = $addid;
+               
+                // get all project icons (returns a json-object)
+                $project_widgets_json = json_decode( $this->widgetlib->getProjectIcons_JSON() );  
+                
+                // scan which widget that was added
+                $new_project_id = 0;
+                foreach ($project_widgets as $id => $widget) {
+                    
+                    if ( (int)$widget['widgetid'] == $addid) {
+                        $new_project_id = $id; 
+                        break;
+                    }
+                    
+                }
+                
+                // get json-data
+                $new_widget_json = "{}";
+                foreach ($project_widgets_json as $row) {
+                    
+                    if ($row->project_widgets_id == $new_project_id) {
+                        $new_widget_json = json_encode($row);
+                        break;    
+                    }
+                }
+                
+                // save to view
+                $data['new_widget_json'] = $new_widget_json;
+            }
+            
             // load a view for the widget
             // file is located in subfolder 'views'
             // for the widget
@@ -70,12 +103,15 @@ class Widgets_handler extends Controller {
     {
         $this->load->library_widget('Widgetlib');
         
-        $positionarray = array();
-        
         foreach($_POST['widgetslist'] as $position => $widget) {
            $this->widgetlib->setSort($widget, $position); 
         }
-                
+        
+        
+        // create a json-object as response with the new positions to
+        // update widgetbar
+        
+        echo json_encode($_POST['widgetslist']);
     }
     
   

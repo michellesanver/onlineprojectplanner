@@ -22,20 +22,27 @@ widgethandler.prototype.index = function() {
 };
 
 widgethandler.prototype.eventinit = function() {
+	
+	// close dialog processing (if any active)
+    $.jprocessing( "close" );
+	
+	// setup widget
 	var that = this;
+	
+	// move widget
 	$('#' + this.divId).find("#your_widgets").sortable({
         opacity: 0.6,
         cursor: 'move',
         update: function () {  
            var order = $('#'+that.divId).find('#your_widgets').sortable('serialize');
-           $.post(that.widgetUrl + 'widgets_handler/sort/', order);
+		   that.moveWidget(order);
         }
     });
     
     //Add widget
     $('#' + this.divId).find("#addwidget").click(function() {
-		var widgetid = $(this).attr("class");
-		ajaxRequests.load(that.id, that.widgetUrl + 'widgets_handler/' + widgetid, "WH_eventinit", true);
+		var widgetid = $(this).attr("class")
+		that.addWidget(widgetid);
 		return false;
 	});
     
@@ -58,6 +65,22 @@ widgethandler.prototype.eventinit = function() {
 		
 		return false;
 	});
+	
+	// any new widgets added?
+	var new_widget = $('#new_widget_added');
+	if ( new_widget[0] != undefined ) {
+		var new_json_data = widgethandler_new_widget_json; // global variable from view
+		var order = $('#'+that.divId).find('#your_widgets').sortable('toArray'); // get order of widgets
+		
+		// cut "widgetslist_" from all elements in array
+		for (var n=0; n<order.length; n++) {
+			order[n] = order[n].replace('widgetslist_','');
+			order[n] = parseInt(order[n]);
+		}
+		
+		// uppdate widgetbar
+		WidgetBar.addWidget(new_json_data, order);
+	}
 	
 };
 
@@ -90,7 +113,7 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
     $( "#"+dialog_id ).dialog({
         resizable: false,
         height: 215,
-        width: 350,
+        width: 375,
         modal: true,
         zIndex: 3999,
         buttons: {
@@ -162,6 +185,9 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
                         // all ok; close and save to database
                         $( this ).dialog( "destroy" ).remove();
     					
+						// show dialog processing
+						$.jprocessing( { 'message':'Setting new name for widget...' } );
+						
                         // prepare data to send
                         var postdata = { 'instanceId':that.id, 'widgetId': widgetid, 'widgetName': widgetName, 'dialogProcessingId': dialog_processing_id, 'dialogMessageId': dialog_message_id };
                                 
@@ -169,7 +195,8 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
                         ajaxRequests.post(that.id, postdata, url, 'WH_eventinit', true);
                         
                          
-                        
+                        // change name in widgetbar
+						WidgetBar.updateWidgetName(widgetid, widgetName);
             },
                 
             // action to cancel
@@ -183,14 +210,14 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
 };    
 
 widgethandler.prototype.deleteWidget = function(remove_id) {
-	var that = this;
-	var dialog_id = "widgets-handler-dialog-confirm";
-	var removeId = remove_id;
-	var url = this.widgetUrl + 'widgets_handler/index/'; 
 	
-	// Gathering the data from the form with the selialize function.
-	var postData = {'widgetid': removeId}
-	// The postcommand. No big change from the load command exept the postData-parameter.
+	var dialog_id = 'widgets-handler-dialog-confirm';
+	
+	// save data for ajax-call
+	var that = this;
+	var removeId = remove_id;
+	var postData = { 'widgetid': removeId };
+	var url = this.widgetUrl + 'widgets_handler/index/';
 	
 	// show dialog to confirm or cancel       
 	$( "#"+dialog_id ).dialog({
@@ -203,18 +230,54 @@ widgethandler.prototype.deleteWidget = function(remove_id) {
 	            
 	        // action to continue and delete
 	        "Continue": function() {
-	            $( this ).dialog( "close" );
+				
+				// delete dialog
+	            $( this ).dialog( "destroy" );
+				
+				// show dialog processing
+				$.jprocessing( { 'message':'Removeing selected widget...' } );
+				
+				// send ajax-call
 	            ajaxRequests.post(that.id, postData, url, "WH_eventinit", true);
+				
+				// delete widget in widgetbar
+				WidgetBar.deleteWidgetIcon(removeId);
 	        },
 	        
 	        // action to cancel
 	        Cancel: function() {
-	            $( this ).dialog( "close" );
+	            $( this ).dialog( "destroy" );
 	        }
 	            
 	    }
-	});   
+	});  
+};
+
+widgethandler.prototype.addWidget = function(widgetid) {
+	
+		// show dialog processing
+		$.jprocessing( { 'message':'Adding widget to project...' } );
+		
+		// send ajax-call
+		ajaxRequests.load(this.id, this.widgetUrl + 'widgets_handler/' + widgetid, "WH_eventinit", true);	
+	
 };
 
 
-
+widgethandler.prototype.moveWidget = function(order) {
+	
+		// show dialog processing
+		$.jprocessing( { 'message':'Setting new position of widget...' } );
+	
+		// send ajax-call and update position
+		$.post(this.widgetUrl + 'widgets_handler/sort/', order, function(data){
+		
+			// update positions in widgetbar with data from reponse
+			var new_positions = $.parseJSON(data);
+			
+			// run function in widgetbar to do the update
+			WidgetBar.sortWidgets(new_positions);
+		
+		});
+		
+};

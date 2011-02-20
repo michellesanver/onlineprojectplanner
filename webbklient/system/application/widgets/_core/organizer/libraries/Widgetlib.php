@@ -69,6 +69,11 @@ class Widgetlib
         return $this->_CI->Widgets->GetProjectIconsAsArray($this->_current_project_id);
     }
     
+    public function getProjectIcons_JSON()
+    {
+        return $this->_CI->Widgets->GetProjectIcons($this->_current_project_id);    
+    }
+    
     public function addTest($array)
     {
        $this->_CI->Widget_model->testSort($array);
