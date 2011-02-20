@@ -734,125 +734,116 @@ class Widgets
     */
     function GetProjectIcons($projectID)
     {
-        // add a tracemessage to log
-        log_message('debug','#### => Library Widgets->GetProjectIcons');
-        
-        // fetch all for project 
-        $project_widgets = $this->_GetProjectWidgets($projectID);
-        
-        // any widgets for current project?
-        if ( empty($project_widgets) ) return ""; // return just empty then
-       
-        // get all settings for last position
-        // (all widgets for this project and the current user)
-        $uid = $this->_CI->user->getUserID();
-        $positions = $this->_CI->Widgets_model->GetWidgetPositions($uid, $projectID);
-       
-        // prepare data
-        $returnSTR = "";
-        $divSTR = '<div class="icon" id="widget_icon%s" state=""><a href="javascript:void(0);" onclick="%s" title="%s"><img src="%s" alt="" /></a><p>%s</p></div>'."\n";
-        $base_url = $this->_CI->config->item('base_url')."system/";
-     
-        $openScriptSTR = ""; // restore desktop
-   
-        // loop trough all widgets for the project
-        $found_count = 0;
+		// add a tracemessage to log
+		log_message('debug','#### => Library Widgets->GetProjectIcons');
+		
+		// fetch all for project 
+		$project_widgets = $this->_GetProjectWidgets($projectID);
+		
+		// any widgets for current project?
+		if ( empty($project_widgets) ) return ""; // return just empty then
+		
+		// get all settings for last position
+		// (all widgets for this project and the current user)
+		$uid = $this->_CI->user->getUserID();
+		$positions = $this->_CI->Widgets_model->GetWidgetPositions($uid, $projectID);
+		
+		// loop trough all widgets for the project
+		$returnData = array();
         foreach ($project_widgets as $row)
-        {   
-        
+        {
             // match current widget for project with a row in all widgets
             foreach ($this->_widgets as $row2)      
-            {   
+            {
+				// correct name?
                 if ( (string)$row2->name == (string)$row->Widget_name )    
                 {
-                    // get saved position
-                    $last_x = 30; //default value
-                    $last_y = 15; //default value
-                    $is_maximized = 'false'; //default value
-                    $width = 0; //default value 
-                    $height = 0; //default value 
-                    
-                    $is_open = false; //default value
-                    
-                    if (empty($positions)==false) {
-                        foreach($positions as $row3) {
-                            // any match?
-                            if ($row3->Project_widgets_id == $row->Project_widgets_id) {
-                                $last_x = (int)$row3->Last_x_position;    
-                                $last_y = (int)$row3->Last_y_position;
-                                $is_maximized = ((int)$row3->Is_maximized == 1 ? 'true' : 'false');
-                                $is_open = ((int)$row3->Is_open == 1 ? true : false);
-                                $width = (int)$row3->Width;
-                                $height = (int)$row3->Height;
-                            }
-                        }
-                    }
-                    
-                    // create a javascript-object for last position
-                    $last_position = "{ 'last_x': $last_x, 'last_y': $last_y, 'is_maximized': $is_maximized, 'width': $width, 'height': $height }";
-                   
-				    // get path for widget
-				    $path = $base_url.$this->_widget_dir.'/';
-				   
-					// is it a core-widget?
-					if ( (int)$row->Is_core == 1 ) {
-						// use another path
-						$path = $base_url.$this->_core_widget_dir.'/';
+					$add_widget = false;
+					
+					// does widget have any specific role?
+					if( is_null($row->Minimum_role) ) {
+						
+						// no role; just add widget
+						$add_widget  = true;
+						
+					} else if($this->_CI->project_member->HaveRoleInCurrentProject($row->Minimum_role)) {
+					
+						// role is ok; add widget
+						$add_widget  = true;
 					}
- 
-                    // prepare data
-                    $widget_object = $row2->widget_object;
-                    $about = $row2->about;
-                    $icon_div = "widget_icon".($found_count+1);
-                    $function = "Desktop.open_widget('".$row2->widget_startfunction."', '$icon_div', '".$widget_object."', '".$row->Project_widgets_id."', $last_position)"; // open_widget is a global function in common.js
-                    $title = $row->Widget_instance_name;
-                    $icon = ($row2->icon != "" ? $path.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
+					
+					// add widget or not?
+					if ( $add_widget === true ) {
+						
+						//
+						// process widget data to be used in output
+						//
+						
+						// create new object and add data for widget
+						$wObj = new stdClass();
+						$wObj->project_widgets_id = (int)$row->Project_widgets_id;
+						$wObj->widget_startfunction = $row2->widget_startfunction;
+						$wObj->widget_object_name = $row2->widget_object;
+						$wObj->widget_instance_name = $row->Widget_instance_name;
+						$wObj->widget_about = $row2->about;
+						
+						// get saved position
+						$last_x = 30; //default value
+						$last_y = 15; //default value
+						$is_maximized = 'false'; //default value
+						$width = 0; //default value 
+						$height = 0; //default value 
+						
+						$is_open = false; //default value
+						
+						// search for last saved position?
+						if (empty($positions)==false) {
+							foreach($positions as $row3) {
+								// any match?
+								if ($row3->Project_widgets_id == $row->Project_widgets_id) {
+									$last_x = (int)$row3->Last_x_position;    
+									$last_y = (int)$row3->Last_y_position;
+									$is_maximized = ((int)$row3->Is_maximized == 1 ? true : false);
+									$is_open = ((int)$row3->Is_open == 1 ? true : false);
+									$width = (int)$row3->Width;
+									$height = (int)$row3->Height;
+								}
+							}
+						}
                     
-                    // replace %s with the real value
-                    if(is_null($row->Minimum_role)) {
-                        
-                        // parse string for open
-                        $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
-                        
-                        // open upon start?
-                        if ($is_open==true) {
-                            // save call
-                            $openScriptSTR .= $function.'; ';     
-                        }
-                        
-                    } else {
-                        // check role
-                        if($this->_CI->project_member->HaveRoleInCurrentProject($row->Minimum_role)) {
-                            
-                            // parse string for open
-                            $returnSTR .= sprintf($divSTR, ($found_count+1), $function, $about, $icon, $title);
-                            
-                            // open upon start?
-                            if ($is_open==true) {
-                                // save call
-                                $openScriptSTR .= $function.'; '; 
-                            }
-                        }
-                    }
-                    
-
-                    // add one widget found
-                    $found_count++;
-                    break;
-                }
-            }
-        }
-
-        // any mismatch with added widgets and widgets in project (=error in data, problably widget name)
-        if ( count($project_widgets) != $found_count) return "ERROR IN WIDGET DATA; all was not added";
-        
-        // add script for restore desktop?
-        if ( empty($openScriptSTR)==false ){
-            $returnSTR .= '<script type="text/javascript">$(document).ready(function(){ '.$openScriptSTR.' });</script>';    
-        }
-             
-        // return the result
-        return $returnSTR; 
+	                    // add data for last position (will be encoded to json-object later)
+						$wObj->last_position = array(
+														'last_x' => $last_x,
+														'last_y' => $last_y,
+														'is_maximized' => $is_maximized,
+														'is_open' => $is_open,
+														'width' => $width,
+														'height' => $height
+													);
+						
+						// get path for widget
+						$base_url = $this->_CI->config->item('base_url')."system/";
+					    $path = $base_url.$this->_widget_dir.'/';
+						
+						// is it a core-widget?
+						if ( (int)$row->Is_core == 1 ) {
+							// use another path
+							$path = $base_url.$this->_core_widget_dir.'/';
+						}
+						
+						// create and add icon path to object
+						$wObj->icon = ($row2->icon != "" ? $path.$row2->name.'/'.$row2->icon : $base_url."../".$this->_generic_icon_image);
+						
+						// add widget to result array
+						array_push($returnData, $wObj);
+					}
+					
+				}
+			}
+		} // end foreach ($project_widgets...
+	   
+	    // return data to render with javascript
+	    return json_encode($returnData);
     }
    
    private function _ClearWidgetCache()

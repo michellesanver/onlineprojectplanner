@@ -178,23 +178,7 @@ wikiWidget.prototype.delete_image_callback = function(args) {
          */
         
         // inject processing html-element into document and display
-        var processing_id = "wiki-dialog-processing";
-        this.postDeleteImage.saved_params.processing_id = processing_id; // save for result
-        var dialogHTML = '<div id="wiki-dialog-processing" title="Please wait" style="display:none;">'+
-                         '<p>Please wait while removing image...</p>'+
-                         '</div>';
-        
-        $(document.body).append(dialogHTML);
-        
-        $('#'+processing_id).dialog({
-          resizable: false,     
-          height: 175,
-          width: 350,
-          modal: true,
-          zIndex: 3999, 
-          buttons: { }
-        });
-        
+        $.jprocessing( { 'title':'Processing', 'message': 'Please wait while removing image...', 'dialog_id': 'wiki-delete-image-processing' } ); 
         
         // prepare ajax call to delete image
         var parameters = this.postDeleteImage.saved_params;
@@ -222,8 +206,8 @@ wikiWidget.prototype.delete_image_finished_callback = function(args) {
         
         var parameters = this.postDeleteImage.saved_params;
         
-        // destroy dialog processing
-        $('#'+parameters.processing_id).dialog("destroy");
+        // close dialog processing
+        $.jprocessing( "close" );
         
         // get response       
         var response;
@@ -252,27 +236,7 @@ wikiWidget.prototype.delete_image_finished_callback = function(args) {
         }
         
         // inject result html-element into document and display
-        var result_id = "wiki-dialog-result";
-        var dialogHTML = '<div id="' + result_id + '" title="' + title + '" style="display:none;">'+
-                         '<p>' + message + '</p></div>';
-        
-        $(document.body).append(dialogHTML);
-        
-        // show result
-        $('#'+result_id).dialog({
-            resizable: false,     
-            height: 175,
-            width: 350,
-            modal: true,
-            zIndex: 3999, 
-            buttons: {
-                "Ok": function() {
-                    // destroy and remove html
-                    $( this ).dialog( "destroy" );
-                    $('#'+result_id).remove();
-                }
-            }
-        });
+        $.jresult( { 'title': title, 'message': message } );
         
 };
 

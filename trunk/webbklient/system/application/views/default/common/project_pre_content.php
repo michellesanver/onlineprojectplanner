@@ -21,7 +21,7 @@
   <link href="<?php echo $base_url; ?>js/window/css/jquery.window-opp.css" rel="Stylesheet" type="text/css" />
   <script type="text/javascript" src="<?php echo $base_url; ?>js/common.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.tooltip.js"></script>
-  <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.confirm.js"></script>
+  <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.dialog-wrappers.js"></script>
   
   <!-- online project planner scripts -->
   <script type="text/javascript" src="<?php echo site_url('project/common_variables'); ?>"></script>
@@ -31,6 +31,7 @@
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/widget.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/widget_remote.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/ajax_requests.js"></script>
+  <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/widgetbar.js"></script>
   
   <!-- widget scripts -->
   <?php echo $widget_javascript; ?>
@@ -97,8 +98,8 @@
         <?php endif; ?>
 
     </div>
-    
-    <div id="widget_bar"><div class="icon_container"><div class="icon_wrapper"><?php echo($widget_bar); ?></div><br style="clear: left;" /></div></div>
+	
+    <div id="widget_bar"><div class="icon_container"><div class="icon_wrapper"></div><br style="clear: left;" /></div></div>
 
     <div id="desktop" pid="<?php echo $current_project_id; ?>">
 

@@ -2,6 +2,22 @@
 
     </div>
 
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+              // run function to init and render widgetbar; send first data with
+              // widgets and jquery path to where widgetbar should be rendered
+              WidgetBar.init( <?php echo($widget_bar); ?>, '.icon_wrapper' ); // note; icon_wrapper is set in pre_content
+              
+              // init scroller for widgetbar (MUST BE CALLED AFTER WidgetBar.init!)
+              WidgetRemote.init();
+              
+              // init minimize desktop etc
+              DesktopRemote.init();
+        });
+
+    </script>
+
     <!-- Desktop Remote Start -->
 
     <div id="desktop_remote_wrapper">
@@ -12,13 +28,6 @@
         </div>
 
     </div>
-
-    <script type="text/javascript">
-
-        WidgetRemote.init();
-        DesktopRemote.init();
-
-    </script>
 
     <!-- Desktop Remote End -->
 

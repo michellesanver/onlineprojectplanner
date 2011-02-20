@@ -90,19 +90,14 @@ class Theme
            $preContentData['widget_css']  = $this->_CI->widgets->GetProjectStylesheets($current_project_id);
            
            // Should we load a custom widget bar or the default one?
-           if(isset($vars['custom_bar'])) {
+           if( isset($vars['custom_bar']) ) {
+			
            		$preContentData['widget_bar'] = $vars['custom_bar'];
-           } else {           		
-           		$widget_data = array(
-					"delete_icons" => $this->_CI->widgets->GetProjectIconsAsArray($current_project_id),
-					"projectID" => $current_project_id
-				);
+           } else {
 				
-				$preContentData['widget_bar'] = $this->_CI->widgets->GetProjectIcons($current_project_id);
-                
-           		 
+				// get data for icons; view will be rendered with javascript though
+				$preContentData['widget_bar'] = $this->_CI->widgets->GetProjectIcons($current_project_id);                
            }
-           
          
            // use project pre_content
            $this->_CI->load->view($this->_theme.'/common/project_pre_content', $preContentData); 
@@ -115,13 +110,6 @@ class Theme
         
         // check if theme-folder is applied (shouldn't be)
         if ( preg_match('/'.$this->_theme.'/', $view) == false) $view = $this->_theme.'/'.$view;
-        
-        // add any data for project to main content?
-        if ( $current_project_id != false )
-        {
-
-            
-        }
         
         // content
         $this->_CI->load->view($view, $vars);

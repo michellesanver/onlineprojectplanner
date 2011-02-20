@@ -1,3 +1,8 @@
+<?php if (isset($addid)): /* create a div with the added widget id */ ?>
+	<div id="new_widget_added" style="display:none;"><?php echo $addid; ?></div>
+	<script type="text/javascript">widgethandler_new_widget_json = <?php echo $new_widget_json; ?>;</script>
+<?php endif; ?>
+
 <!-- LOOK OUT! If you change any ID's or classes in this file, also look for them in the corresponding widgethandler.js -->
 <div id="widget_handler_content_wrapper">
 	<div id="available_widgets_box">
