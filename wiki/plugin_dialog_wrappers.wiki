@@ -6,7 +6,8 @@ This is a collections of jQuery UI dialog wrappers so they can be used easier an
  * jProcessing (a dialog with a processing message)
  * jResult (a dialog that displays a result message and a ok-button)
 
----- 
+<br><br>
+----
 == jConfirm ==
 
 A JQuery wrapper plugin for UI Dialog. When executed
@@ -88,6 +89,16 @@ the specified function in options.
 == Minimum required options ==
     question<br>
     callback_function ( with widget_project_id OR callback_is_global )
+
+
+<br><br>
+----
+== jProcessing ==
+
+A simple wrapper for displaying a message with "processing". Note that it has to be manually closed.
+
+
+
 
 
 
