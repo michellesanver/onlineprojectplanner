@@ -36,6 +36,19 @@ WidgetRemote = {
 
         });
 
+    },
+
+    update:function() {
+
+        $(WidgetRemote.icons).each(function(index) {
+
+            WidgetRemote.iconsWidth += $(this).width() + 30;
+
+        });
+
+        $(WidgetRemote.widgetContainer).css('width', WidgetRemote.iconsWidth);
+        WidgetRemote.widgetWrapperWidth = $(WidgetRemote.widgetWrapper).width();
+
     }
 
 }
