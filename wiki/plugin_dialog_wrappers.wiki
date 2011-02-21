@@ -6,7 +6,7 @@ This is a collections of jQuery UI dialog wrappers so they can be used easier an
  * jProcessing (a dialog with a processing message)
  * jResult (a dialog that displays a result message and a ok-button)
 
-
+---- 
 == jConfirm ==
 
 A JQuery wrapper plugin for UI Dialog. When executed
