@@ -248,7 +248,7 @@ WidgetBar = {
         WidgetBar.renderAllWidgets();
         
         // recalculate scroller
-        WidgetRemote.update();
+        WidgetRemote.update('remove');
     },
     
     /**
@@ -327,7 +327,7 @@ WidgetBar = {
         WidgetBar.renderAllWidgets(true);
         
         // recalculate scroller
-        WidgetRemote.update();
+        WidgetRemote.update('add');
     }
     
     
