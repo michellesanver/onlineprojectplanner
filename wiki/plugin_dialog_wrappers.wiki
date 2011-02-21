@@ -1,0 +1,94 @@
+= Dialog-wrappers =
+
+This is a collections of jQuery UI dialog wrappers so they can be used easier and also saves some code. Contents
+
+ * jConfirm (a confirm dialog with two buttons; ok or cancel)
+ * jProcessing (a dialog with a processing message)
+ * jResult (a dialog that displays a result message and a ok-button)
+
+
+== jConfirm ==
+
+A JQuery wrapper plugin for UI Dialog. When executed
+the plugin injects a div into the DOM and uses it to
+display an UI Dialog. When Ok or Cancel is pressed
+the dialog is destroyed and the div-element is removed.
+If the Ok-button is pressed a callback also occurs to
+the specified function in options.
+ 
+
+=== Example 1 - using a global callback ===
+
+{{{
+     function show_confirm_delete() {
+            // set options
+             var options = {
+                'question': 'Are you absolutely sure you want to delete this page? Action is permanent.',
+                'title': 'Confirm delete',
+                'callback_function': 'delete_ok_callback',
+                'callback_is_global': true
+            };
+       
+            // create dialog
+            $.jconfirm(options);
+        }
+   
+        function delete_ok_callback() {
+       
+            // process delete after ok was pressed
+       
+        }
+}}}
+
+=== Example 2 - using a callback in widget ===
+ 
+{{{
+      function show_confirm_delete() {
+            // set options
+             var options = {
+                'question': 'Are you absolutely sure you want to delete this page? Action is permanent.',
+                'title': 'Confirm delete',
+                'callback_function': 'delete_ok_callback',
+                'widget_project_id': 174
+            };
+       
+            // create dialog
+            $.jconfirm(options);
+        }
+
+      wikiWidget.prototype.delete_ok_callback = function() {
+
+             // process delete after ok was pressed
+   
+       }
+}}} 
+
+=== Options ===
+    title - title of dialog (default empty)
+    question - question in main dialog
+    
+    width  - width of dialog (default: 500)
+    height - height of dialog (default: 200)
+    z_index - z-index of dialog (default: 3999)
+    resizable - boolean value, set to true if dialog should be resizable (default: false)
+
+    callback_is_global - boolean value, set to true if callback is in the global namespace
+    callback_function - a string with the name of the callback (global or in a widget)
+    widget_project_id - id to the current widget (widget_projects_id)
+
+    dialog_id - a custom string value with id to the dialog that will be inserted (default: dialog-confirm)
+
+    dialog_content - a custom string with the html-code that will be inserted for the dialog. default value is:
+{{{    
+                     <div id="' + dialog_id + '" title="' + title + '" style="display:none;">
+                     <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>' + message + '</p>
+                     </div>
+}}}
+
+== Minimum required options ==
+    question<br>
+    callback_function ( with widget_project_id OR callback_is_global )
+
+
+
+<p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
