@@ -464,15 +464,7 @@ Desktop = {
 		}
        
        // save to database
-       ajaxRequests.post(postdata, url, 'Desktop.update_position_callback_ok', 'Desktop.update_position_callback_error', true); 
-    },
-    
-    update_position_callback_ok: function(data) { 
-        // not used but a requirement for ajaxRequests
-    },
-    
-    update_position_callback_error: function(data) { 
-        // not used but a requirement for ajaxRequests
+	   $.post(url, postdata);
     },
     
     // on close window; save last position to database
@@ -499,14 +491,14 @@ Desktop = {
        this._widgetArray[pos].last_position = { 'height': window_status.height, 'width': window_status.width, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top };
        
        // save to database
-       ajaxRequests.post_full(postdata, url);  
+	   $.post(url, postdata);
         
     },
     
     // get status of current window (position etc)
     get_current_window_status: function(arrayPos) {
         
-       if (arrayPos == undefined || arrayPos == "" || arrayPos == null) {
+       if (typeof arrayPos != "number" || arrayPos == undefined) {
              // just return and do not update.. nothing selected
              return null;
        }
