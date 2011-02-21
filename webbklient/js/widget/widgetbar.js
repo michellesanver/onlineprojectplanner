@@ -245,7 +245,10 @@ WidgetBar = {
         }
         
         // render all widgets
-        WidgetBar.renderAllWidgets();  
+        WidgetBar.renderAllWidgets();
+        
+        // recalculate scroller
+        WidgetRemote.update();
     },
     
     /**
@@ -324,7 +327,7 @@ WidgetBar = {
         WidgetBar.renderAllWidgets(true);
         
         // recalculate scroller
-        WidgetRemote.init();
+        WidgetRemote.update();
     }
     
     
