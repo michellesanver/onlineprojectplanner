@@ -38,16 +38,20 @@ WidgetRemote = {
 
     },
 
-    update:function() {
+    update:function(action) {
 
-        $(WidgetRemote.icons).each(function(index) {
-
-            WidgetRemote.iconsWidth += $(this).width() + 30;
-
-        });
-
-        $(WidgetRemote.widgetContainer).css('width', WidgetRemote.iconsWidth);
-        WidgetRemote.widgetWrapperWidth = $(WidgetRemote.widgetWrapper).width();
+        if(action == 'add')
+        {
+            $(WidgetRemote.widgetContainer).css('width', $(WidgetRemote.widgetContainer).outerWidth(true) + 130);
+            WidgetRemote.widgetWrapperWidth += 130;
+            WidgetRemote.iconsWidth += 130;
+        }
+        else if(action == 'remove')
+        {
+            $(WidgetRemote.widgetContainer).css('width', $(WidgetRemote.widgetContainer).width() - 130);
+            WidgetRemote.widgetWrapperWidth -= 130;
+            WidgetRemote.iconsWidth -= 130;
+        }
 
     }
 
