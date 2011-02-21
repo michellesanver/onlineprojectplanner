@@ -20,7 +20,7 @@ Theese scripts are always loaded when a project is opened:
  * Dump @ http://plugins.jquery.com/project/Dump
  * Validate @ http://docs.jquery.com/Plugins/Validation
  * Tooltip @ http://docs.jquery.com/Plugins/Tooltip
- * jConfirm @ https://code.google.com/p/onlineprojectplanner/wiki/plugin_jconfirm
+ * dialog wrappers @ https://code.google.com/p/onlineprojectplanner/wiki/plugin_dialog_wrappers
 
 
 <p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
