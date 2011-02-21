@@ -245,7 +245,7 @@ WidgetBar = {
         }
         
         // render all widgets
-        WidgetBar.renderAllWidgets();
+        WidgetBar.renderAllWidgets(true);
         
         // recalculate scroller
         WidgetRemote.update('remove');
