@@ -235,7 +235,7 @@ widgethandler.prototype.deleteWidget = function(remove_id) {
 	            $( this ).dialog( "destroy" );
 				
 				// show dialog processing
-				$.jprocessing( { 'message':'Removeing selected widget...' } );
+				$.jprocessing( { 'message':'Removing selected widget...' } );
 				
 				// send ajax-call
 	            ajaxRequests.post(that.id, postData, url, "WH_eventinit", true);
