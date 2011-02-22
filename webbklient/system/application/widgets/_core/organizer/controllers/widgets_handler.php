@@ -71,11 +71,14 @@ class Widgets_handler extends Controller {
                 }
                 
                 // get json-data
+                $widget_name = "";
                 $new_widget_json = "{}";
                 foreach ($project_widgets_json as $row) {
                     
                     if ($row->project_widgets_id == $new_project_id) {
+                        // save json data and name of widget
                         $new_widget_json = json_encode($row);
+                        $widget_name = $row->widget_name;
                         break;    
                     }
                 }

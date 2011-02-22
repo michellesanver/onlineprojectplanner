@@ -782,10 +782,11 @@ class Widgets
 						// create new object and add data for widget
 						$wObj = new stdClass();
 						$wObj->project_widgets_id = (int)$row->Project_widgets_id;
-						$wObj->widget_startfunction = $row2->widget_startfunction;
-						$wObj->widget_object_name = $row2->widget_object;
-						$wObj->widget_instance_name = $row->Widget_instance_name;
-						$wObj->widget_about = $row2->about;
+						$wObj->widget_startfunction = (string)$row2->widget_startfunction;
+						$wObj->widget_object_name = (string)$row2->widget_object;
+						$wObj->widget_instance_name = (string)$row->Widget_instance_name;
+						$wObj->widget_about = (string)$row2->about;
+						$wObj->widget_name = (string)$row->Widget_name;
 						
 						// get saved position
 						$last_x = 30; //default value
@@ -845,6 +846,7 @@ class Widgets
 	    // return data to render with javascript
 	    return json_encode($returnData);
     }
+
    
    private function _ClearWidgetCache()
    {
