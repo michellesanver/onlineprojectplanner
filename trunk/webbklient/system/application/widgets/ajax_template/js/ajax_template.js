@@ -44,6 +44,12 @@ ajaxTemplateWidget.prototype.loadErrorUrl = function() {
 	ajaxRequests.load(this.id, url, "setWindowContent");
 }
 
+// Loads a non-existing page
+ajaxTemplateWidget.prototype.show_documentation = function() {
+	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/show_documentation/' + this.id;
+	ajaxRequests.load(this.id, url, "setWindowContent");
+}
+
 // Tests to init content with a model
 ajaxTemplateWidget.prototype.modelTest = function() {
 	var url = SITE_URL+'/widget/' + this.widgetName + '/some_controller_name/model_test/' + this.id;

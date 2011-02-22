@@ -44,13 +44,14 @@ class Some_controller_name extends Controller {
         
     }
     
-    function show_documentation()
+    function show_documentation($pwID)
     {
         $widget_name = "ajax_template";
   
         // package some data for the view
         $base_url = $this->config->item('base_url');
         $data = array(
+        	'pwID' => $pwID,
             'base_url' => $base_url,
             'widget_url' => site_url("/widget/$widget_name").'/',
             'widget_base_url' => $base_url."system/application/widgets/$widget_name/"
