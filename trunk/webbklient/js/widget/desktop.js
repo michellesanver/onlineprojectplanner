@@ -5,6 +5,9 @@
 */
 
 Desktop = {
+	// set this variable to the id of the main desktop in the view
+	_desktop_div_id: 'desktop',
+
 	// The main widget array
 	_widgetArray : new Array(),
 	_errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
@@ -74,8 +77,8 @@ Desktop = {
 				
 				// set boundries for window
 				checkBoundary: true,
-				maxWidth: $('#desktop').width(),
-				maxHeight: $('#desktop').height()
+				maxWidth: $('#'+this._desktop_div_id).width(),
+				maxHeight: $('#'+this._desktop_div_id).height()
 			};
 			
 			// create window
@@ -181,7 +184,7 @@ Desktop = {
 
 	// common function to set timer and start animate
 	start_message_animate: function() {
-		var maxWidth = $('#desktop').width();
+		var maxWidth = $('#'+this._desktop_div_id).width();
 		var centerPosition = (maxWidth/2)-(Desktop.message_width/2);
 		$('#message').css('left',centerPosition+'px');
 		$('#message').css('top',Desktop.message_start_position+'px');
@@ -389,7 +392,7 @@ Desktop = {
                     content: '<div id="debug_widget_messages"></div>'
             };
          
-            Desktop.debug_win = $('#desktop').window(options);
+            Desktop.debug_win = $('#'+this._desktop_div_id).window(options);
         }        
             
         // get date + time for message        
@@ -515,7 +518,7 @@ Desktop = {
        var container = this._widgetArray[arrayPos].wnd.getContainer();
        
        // get desktop position (offset from window) 
-       var desktop_offset = container.parent().offset();
+	   var desktop_offset = $('#'+this._desktop_div_id).offset();
         
         // get current window status 
        returnData.is_maximized = this._widgetArray[arrayPos].wnd.isMaximized(); 
@@ -555,7 +558,7 @@ Desktop = {
             contentHeight = ((docHeight - topBarHeight) - wBarHeight) - 10; // 10 is for margins
         }
 
-        $('#desktop').css('height',contentHeight+'px');
+        $('#'+this._desktop_div_id).css('height',contentHeight+'px');
     },
     
 	/*
@@ -586,7 +589,7 @@ Desktop = {
 
 // fetches the current project_id
 $(document).ready(function() {
-    Desktop.currentProjectId = $("#desktop").attr("pid");
+    Desktop.currentProjectId = $("#"+Desktop._desktop_div_id).attr("pid");
 });
 
 // ----------------------------------------------------------------
