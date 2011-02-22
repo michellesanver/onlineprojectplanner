@@ -5,7 +5,7 @@
 <h1>AJAX template</h1>
 <p>This AJAX template uses the style <strong>AJAX</strong> in jquery window.</p>
 <p>This view is loaded from the subfolder 'views' inside the folder for the widget.</p>
-<p><a href="javascript:void(0);" onclick="ajaxTemplateWidget.loadURL('/some_controller_name/show_documentation');">show jquery.window documentation</a></p>
+<p><a href="javascript:void(0);" onclick="Desktop.callWidgetFunction(<?php echo $pwID; ?>, 'show_documentation');">show jquery.window documentation</a></p>
 
 
 <h2>Data sent to view</h2>

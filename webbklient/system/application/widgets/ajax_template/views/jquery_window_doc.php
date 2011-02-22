@@ -48,7 +48,7 @@
 
 <p>URL: <a href="http://fstoke.me/jquery/window/">http://fstoke.me/jquery/window/</a></p>
 
-<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.loadURL('/some_controller_name');"><< Back to previous page</a></p>
+<p><a href="javascript:void(0);" class="small" onclick="Desktop.callWidgetFunction(<?php echo $pwID; ?>, 'index');"><< Back to previous page</a></p>
 
             <h3>Static Attributes</h3>
             <table class="attributes_list">
@@ -77,7 +77,7 @@
             </tbody></table>
             <br>
  
-<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.loadURL('/some_controller_name');"><< Back to previous page</a></p>  
+<p><a href="javascript:void(0);" class="small" onclick="Desktop.callWidgetFunction(<?php echo $pwID; ?>, 'index');"><< Back to previous page</a></p>  
             
             <h3>Instance Attributes</h3>
             <table class="attributes_list">
@@ -251,7 +251,7 @@
                 </tr>
             </tbody></table>
 
-<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.loadURL('/some_controller_name');"><< Back to previous page</a></p>  
+<p><a href="javascript:void(0);" class="small" onclick="Desktop.callWidgetFunction(<?php echo $pwID; ?>, 'index');"><< Back to previous page</a></p>  
 
             <h3>Static Methods ( $.window.[method name] )</h3>
             <table class="methods_list">
@@ -293,7 +293,7 @@
             </tbody></table>
             <br>
             
-<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.loadURL('/some_controller_name');"><< Back to previous page</a></p>  
+<p><a href="javascript:void(0);" class="small" onclick="Desktop.callWidgetFunction(<?php echo $pwID; ?>, 'index');"><< Back to previous page</a></p>  
 
             <h3>Instance Methods</h3>
             <table class="methods_list">
@@ -432,6 +432,6 @@
                 </tr>
             </tbody></table>
 
-<p><a href="javascript:void(0);" class="small" onclick="ajaxTemplateWidget.loadURL('/some_controller_name');"><< Back to previous page</a></p>  
+<p><a href="javascript:void(0);" class="small" onclick="Desktop.callWidgetFunction(<?php echo $pwID; ?>, 'index');"><< Back to previous page</a></p>  
 
 </div>
