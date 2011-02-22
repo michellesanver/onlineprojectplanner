@@ -78,6 +78,51 @@ widgethandler.prototype.eventinit = function() {
 			order[n] = parseInt(order[n]);
 		}
 		
+		// does widget exist? (if multiple instances; don't load again)
+		try {
+			
+			var obj = eval(new_json_data.widget_object_name);
+			
+		} catch(err) {
+			
+			// more scripts/css are required; force user to reload page
+			var dialog_id = 'dialog-refresh-page';
+			var dialogHTML = dialogHTML = '<div id="' + dialog_id + '" title="Message" style="display:none;">'+
+							   '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The new widget needs more resources to be loaded. Press Ok (or Cancel) to refresh current page.</p>'+
+							   '</div>';
+
+			// inject a div into body to use for dialog
+			$(document.body).append(dialogHTML);
+			
+			// create dialog
+			 $("#" + dialog_id).dialog({
+				resizable: false,
+				height: 200,
+				width: 500,
+				modal: true,
+				zIndex: 3999,
+				buttons: {
+					'Ok': function() {
+						// destroy and remove dialog
+						$(this).dialog("destroy");
+						$('#'+dialog_id).remove();
+						
+						// force refresh
+						document.location = document.location;
+					},
+					Cancel: function() {
+						// destroy and remove dialog
+						$(this).dialog("destroy");
+						$('#'+dialog_id).remove();
+						
+						// force refresh
+						document.location = document.location;
+					}
+				}
+			});
+			
+		}
+		
 		// uppdate widgetbar
 		WidgetBar.addWidget(new_json_data, order);
 	}

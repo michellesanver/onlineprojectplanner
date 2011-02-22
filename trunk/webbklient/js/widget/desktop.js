@@ -81,6 +81,14 @@ Desktop = {
 				maxHeight: $('#'+this._desktop_div_id).height()
 			};
 			
+			// fail-safe; check if object exists
+			try {
+				var obj = eval(wObject);
+			} catch(err) {
+				this.show_errormessage("Crital error! Widget can't be opened because is does not exist!? :'(");
+				return;
+			}
+			
 			// create window
 			this._widgetArray.push(new window[wObject](pwID, options));
 			var pos = this._widgetArray.length - 1;
