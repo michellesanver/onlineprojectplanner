@@ -8,6 +8,10 @@ Desktop = {
 	// set this variable to the id of the main desktop in the view
 	_desktop_div_id: 'desktop',
 
+	// save positions and name of widget (=rename) here to be used when opening
+	// widgets (the app is running and active - no refresh)
+	_widgetDataArray: new Array(), // contains an object that has project_widget_id
+
 	// The main widget array
 	_widgetArray : new Array(),
 	_errorIcon: BASE_URL+'images/backgrounds/erroricon.png',
@@ -27,7 +31,7 @@ Desktop = {
 	*/
 	
 	// Opens a widget and creates its widget-object
-	open_widget: function(widgetCallback, widgetIconId, wObject, project_widget_id, last_position) {
+	open_widget: function(widgetCallback, widgetIconId, wObject, project_widget_id, last_position, last_name) {
 		// which state?
 		var state = $('#'+widgetIconId).attr('state');
 		if ( state == "" )
@@ -39,7 +43,37 @@ Desktop = {
 				return;
 			}
 			
+			// default position and size
 			var newX = 30, newY = 15, newH = 450, newW = 600;
+			
+			// get saved widget data
+			var saved_widget_data = this.getWidgetData(pwID);
+			
+			// any saved data (internal)?
+			if (saved_widget_data != false && typeof saved_widget_data == 'object')
+			{
+				// use this data instead
+				
+				if ( saved_widget_data.last_position != undefined && saved_widget_data.last_position != null) {
+				    last_position = saved_widget_data.last_position;
+				}
+				
+			// save incoming name from database?
+			} else if ( saved_widget_data == false && last_name != undefined && last_name != "") {
+				
+				// save name and last_position?
+				if (last_position != undefined)
+				{
+				    // this is a buxfix! position is not set correctly otherwise
+				    this.saveWidgetData(pwID, {'last_name': last_name, 'last_position': last_position});
+				    
+				} else {
+				
+				    // save name (will be catched in Widget.js -> create)
+				    this.saveWidgetData(pwID, {'last_name': last_name});
+				}
+				
+			}
 			
 			// use last position from database if no override?
 			if (last_position != undefined) {
@@ -52,6 +86,7 @@ Desktop = {
 				newW = last_position.width;      
 				newH = last_position.height;
 			}
+			
 			
 			// Setting up default widgetoptions
 			var options = {
@@ -445,7 +480,7 @@ Desktop = {
 	
     // called on event afterDrag and afterMaximize and afterCascade and afterResize
     update_position: function(project_widget_id, onlyUpdateMaximize) {   
-		var pos = Desktop.findWidgetById(project_widget_id);
+	var pos = Desktop.findWidgetById(project_widget_id);
        // get current status
        var window_status = Desktop.get_current_window_status(pos);
       
@@ -471,11 +506,12 @@ Desktop = {
 			postdata = { 'height': window_status.height, 'width': window_status.width, 'is_open': window_status.is_open, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top, 'project_widget_id': project_widget_id };
        
 			// save new position to object
-			this._widgetArray[pos].last_position = { 'height': window_status.height, 'width': window_status.width, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top };
+			var save_data = { 'height': window_status.height, 'width': window_status.width, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top };
+			this.saveWidgetData(project_widget_id, {'last_position': save_data});
 		}
        
-       // save to database
-	   $.post(url, postdata);
+        // save to database
+	$.post(url, postdata);
     },
     
     // on close window; save last position to database
@@ -498,11 +534,12 @@ Desktop = {
        var url = SITE_URL + '/widget_position/save';
        var postdata = { 'height': window_status.height, 'width': window_status.width, 'is_open': window_status.is_open, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top, 'project_widget_id': project_widget_id };
        
-       // save new position to object
-       this._widgetArray[pos].last_position = { 'height': window_status.height, 'width': window_status.width, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top };
+       // save new position (internal)
+       var save_data = { 'height': window_status.height, 'width': window_status.width, 'is_maximized': window_status.is_maximized, 'last_x': window_status.offset.left, 'last_y': window_status.offset.top };
+       this.saveWidgetData(project_widget_id, {'last_position': save_data});
        
-       // save to database
-	   $.post(url, postdata);
+        // save to database
+	$.post(url, postdata);
         
     },
     
@@ -533,40 +570,97 @@ Desktop = {
        returnData.offset = container.offset();
        
        // calcuate new offset for top
-       returnData.offset.top = returnData.offset.top - desktop_offset.top;   
+       var top_offset = returnData.offset.top - desktop_offset.top;   
+       
+       // negative offset? (calculation error/offset values are incorrect)
+       if ( top_offset < 0 ) {
+	    // set new
+	    returnData.offset.top = 0;
+       } else {
+	    returnData.offset.top = top_offset;
+       }
        
        // get width and height
        returnData.width = container.width();
-       returnData.height = container.height(); 
-              
+       returnData.height = container.height();
+       
+        //log_message('position to save is y: '+returnData.offset.top+' x: '+returnData.offset.left);
+	//log_message('size to save is width: '+returnData.width+' height: '+returnData.height);
+	    
        // return the data we got
        return returnData; 
     },
 
-    updateContentSize: function() {
-        var docHeight = $(document).height();
-        var topBarHeight = $('#topbar').height();
-        var wBarHeight = $('#widget_bar').height();
-        var contentHeight;
 
-        if($('#topbar').is(':visible') == false && $('#widget_bar').is(':visible') == false)
-        {
-            contentHeight = docHeight - 10; // 10 is for margins
-        }
-        else if($('#topbar').is(':visible') == false && $('#widget_bar').is(':visible') != false)
-        {
-            contentHeight = (docHeight - wBarHeight) - 10; // 10 is for margins
-        }
-        else if($('#widget_bar').is(':visible') == false)
-        {
-            contentHeight = (docHeight - topBarHeight) - 10; // 10 is for margins
-        }
-        else
-        {
-            contentHeight = ((docHeight - topBarHeight) - wBarHeight) - 10; // 10 is for margins
-        }
+    // save data about widget when running (position and name)
+    // project_widget_id is required, data is an object that can contain 'last_name' and/or 'last_position'
+    saveWidgetData: function(project_widget_id, data) {
+	
+	var WDlen = this._widgetDataArray.length;
+	var currentPosition = -1; // -1 if no data is saved
+	for (var n=0; n<WDlen; n++) {
+	    if (this._widgetDataArray[n].project_widget_id == project_widget_id) {
+		// save and break out of the loop
+		currentPosition = n;
+		break;
+	    }
+	}
+	
+	// save last_position?
+	var last_position = null;
+	if ( data.last_position != undefined ) {
+	    last_position = data.last_position;
+	}
+	
+	// save name?
+	var last_name = "";
+	if ( data.last_name != undefined ) {
+	    last_name = data.last_name;
+	}
+	
+	// save which data?
+	var save_object = { 'project_widget_id': project_widget_id, 'last_name': last_name, 'last_position': last_position };
 
-        $('#'+this._desktop_div_id).css('height',contentHeight+'px');
+	
+	// save new or update?
+	if ( currentPosition != -1 ) {
+	    // update
+	    
+	    // no name but name already saved?
+	    if ( save_object.last_name == "" && this._widgetDataArray[currentPosition].last_name != undefined && this._widgetDataArray[currentPosition].last_name != ""){
+		// copy
+		save_object.last_name = this._widgetDataArray[currentPosition].last_name;
+	    }
+	    
+	    // no last_position but last_position already saved?
+	    if ( save_object.last_position == null && this._widgetDataArray[currentPosition].last_position != undefined && this._widgetDataArray[currentPosition].last_position != ""&& this._widgetDataArray[currentPosition].last_position != null){
+		// copy
+		save_object.last_position = this._widgetDataArray[currentPosition].last_position;
+	    }
+	    
+	    this._widgetDataArray[currentPosition] = save_object;
+		
+	} else {
+	    // save new
+	    this._widgetDataArray.push(save_object);
+		
+	}
+    },
+
+
+    // search for widget data by instance id and return a object or false
+    getWidgetData: function(project_widget_id) {
+	
+	var WDlen = this._widgetDataArray.length;
+	for (var n=0; n<WDlen; n++) {
+	    if (this._widgetDataArray[n].project_widget_id == project_widget_id) {
+		// return data that we found
+		return this._widgetDataArray[n];
+	    }
+	}
+	
+	// nothing found
+	return false;
     },
     
 	/*
@@ -575,6 +669,32 @@ Desktop = {
 	* --------------------------------------------------------------------------------------------------
 	*/
 	
+	updateContentSize: function() {
+	    var docHeight = $(document).height();
+	    var topBarHeight = $('#topbar').height();
+	    var wBarHeight = $('#widget_bar').height();
+	    var contentHeight;
+    
+	    if($('#topbar').is(':visible') == false && $('#widget_bar').is(':visible') == false)
+	    {
+		contentHeight = docHeight - 10; // 10 is for margins
+	    }
+	    else if($('#topbar').is(':visible') == false && $('#widget_bar').is(':visible') != false)
+	    {
+		contentHeight = (docHeight - wBarHeight) - 10; // 10 is for margins
+	    }
+	    else if($('#widget_bar').is(':visible') == false)
+	    {
+		contentHeight = (docHeight - topBarHeight) - 10; // 10 is for margins
+	    }
+	    else
+	    {
+		contentHeight = ((docHeight - topBarHeight) - wBarHeight) - 10; // 10 is for margins
+	    }
+    
+	    $('#'+this._desktop_div_id).css('height',contentHeight+'px');
+	},
+	
 	// Resets the widget icon in the widgetbar.
 	reset_widget: function(widgetIconId) {
 		// set state to none and set transparency to 100%
@@ -582,13 +702,16 @@ Desktop = {
 		$('#'+widgetIconId).css({ 'opacity':'1.0', '-ms-filter':'"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"', 'filter':'alpha(opacity=100)' });
 	},
 	
-	// Loop that will locat the arrayposition on a widget
+	// Loop that will locate the arrayposition on a widget
 	findWidgetById: function(id) {
 		for(var i = 0; i < this._widgetArray.length; i++) {
 			if(Desktop._widgetArray[i].id == id){
 				return i;
 			}
 		}
+		
+		// if not found; return false
+		return false;
 	}
 }
 

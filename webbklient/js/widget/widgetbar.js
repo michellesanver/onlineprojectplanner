@@ -64,6 +64,7 @@ WidgetBar = {
                 func = func.replace('{WIDGET_STARTFUNCTION}', widget.widget_startfunction);
                 func = func.replace('{WIDGET_OBJECT_NAME}', widget.widget_object_name);
                 func = func.replace('{PROJECTS_WIDGETS_ID}', widget.project_widgets_id);
+                func = func.replace('{LAST_NAME}', widget.widget_instance_name);
                
                 // create a new object for params to last_position and insert
                 var last_position = "";
@@ -162,6 +163,7 @@ WidgetBar = {
              * {WIDGET_OBJECT_NAME} - name of widget class
              * {PROJECTS_WIDGETS_ID} - projects_widgets_id
              * {LAST_POSITION} - object with data for last position
+             * {LAST_NAME} - instance name of widget
              */
             
             return "Desktop.open_widget("+
@@ -169,7 +171,8 @@ WidgetBar = {
                      " '"+ WidgetBar.widget_icon_id +"',"+
                      " '{WIDGET_OBJECT_NAME}',"+
                      " {PROJECTS_WIDGETS_ID},"+
-                     " {LAST_POSITION}"+
+                     " {LAST_POSITION},"+
+                     " '{LAST_NAME}'"+
                    "); return false;";
         }
     },
@@ -218,7 +221,14 @@ WidgetBar = {
         }
         
         // render all widgets
-        WidgetBar.renderAllWidgets();
+        WidgetBar.renderAllWidgets(true);  // first parameter is onlyRender; do not open widgets again.
+        
+        // is window open?
+        var pos = Desktop.findWidgetById(instance_id);
+        if ( !pos === false || typeof pos == 'number' ) {
+            // window found; set new title
+            Desktop._widgetArray[pos].wnd.setTitle(new_name);
+        }
     },
     
     /**
@@ -245,7 +255,7 @@ WidgetBar = {
         }
         
         // render all widgets
-        WidgetBar.renderAllWidgets(true);
+        WidgetBar.renderAllWidgets(true); // first parameter is onlyRender; do not open widgets again.
         
         // recalculate scroller
         WidgetRemote.update('remove');

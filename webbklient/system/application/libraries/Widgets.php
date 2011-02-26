@@ -997,5 +997,32 @@ class Widgets
 
         return $widgetArray;
     }
+    
+    
+    /**
+     * Get name for icon (used for getting instance name)
+     *
+    * @param int $widgetId
+    * @return string
+     */
+    function GetWidgetIconName($widgetId) {
+	
+	// get name of widget in database by id
+	$widget_name = $this->_CI->Widgets_model->GetWidgetName($widgetId);
+	
+	// loop through saved settings.xml for all widgets and match name
+	$instance_name = "";
+	foreach ($this->_widgets as $row) {
+	
+	    if ( $row->name == $widget_name) {
+		$instance_name = $row->icon_title;
+		break;
+	    }
+	
+	}
+	
+	// return name to set
+	return $instance_name;
+    }
    
 }
