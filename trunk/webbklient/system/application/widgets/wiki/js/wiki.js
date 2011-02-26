@@ -7,13 +7,13 @@
 */
 function wikiWidget(id, wnd_options) {
 
-		var partialClasses = ['wiki_main_content'];
+	var partialClasses = ['wiki_main_content'];
 
-		// set parameters for instance
+	// set parameters for instance
         this.widgetName = "wiki";
         this.title = "Wiki 1.1";
-		this.partialContentDivClass = partialClasses[0]; // used in prototype function loadUrl and showAjaxLoader
-		this.errorIcon = BASE_URL+'images/backgrounds/erroricon.png'; // used in prototype function getContent_PageNotFound and getContent_NotAuthorized   
+	this.partialContentDivClass = partialClasses[0]; // used in prototype function loadUrl and showAjaxLoader
+	this.errorIcon = BASE_URL+'images/backgrounds/erroricon.png'; // used in prototype function getContent_PageNotFound and getContent_NotAuthorized   
 		
         // set options for window
         wnd_options.title = this.title;
@@ -21,7 +21,7 @@ function wikiWidget(id, wnd_options) {
         wnd_options.width = 650;
         wnd_options.height = 425;
 
-		// create window and load first content
+	// create window and load first content
         this.create(id, wnd_options, partialClasses);
 }
 

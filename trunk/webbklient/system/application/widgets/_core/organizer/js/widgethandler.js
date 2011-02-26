@@ -241,7 +241,10 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
                         
                          
                         // change name in widgetbar
-						WidgetBar.updateWidgetName(widgetid, widgetName);
+			WidgetBar.updateWidgetName(widgetid, widgetName);
+			
+			// change name in internal data
+			Desktop.saveWidgetData(widgetid, { 'last_name': widgetName });
             },
                 
             // action to cancel
