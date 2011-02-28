@@ -88,7 +88,7 @@ widgethandler.prototype.eventinit = function() {
 			// more scripts/css are required; force user to reload page
 			var dialog_id = 'dialog-refresh-page';
 			var dialogHTML = dialogHTML = '<div id="' + dialog_id + '" title="Message" style="display:none;">'+
-							   '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The new widget needs more resources to be loaded. Press Ok (or Cancel) to refresh current page.</p>'+
+							   '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The new widget is added. Click OK or Cancel to see the changes and refresh the page.</p>'+
 							   '</div>';
 
 			// inject a div into body to use for dialog
