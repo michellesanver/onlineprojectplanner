@@ -33,8 +33,10 @@ Widget.prototype.create = function(id, wnd_options, partialClasses) {
 		wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\">" + wnd_options.content + "</div>";
 	}
 	
+	// THIS CODE IS BROKEN; DO NOT USE
+	// --------------------------------------------------------------------------------------
 	// any saved data (internal)
-	var saved_widget_data = Desktop.getWidgetData(id);
+	/*var saved_widget_data = Desktop.getWidgetData(id);
 	if (saved_widget_data != false && typeof saved_widget_data == 'object')
 	{
 		// use this title if not empty
@@ -49,16 +51,15 @@ Widget.prototype.create = function(id, wnd_options, partialClasses) {
 			wnd_options.width = saved_widget_data.last_position.width;
 			wnd_options.height = saved_widget_data.last_position.height;
 		}
-	}
+	}*/
 
 	//log_message('widget will be placed at x: '+wnd_options.x+' y: '+wnd_options.y);
 	//log_message('widget will have size width: '+wnd_options.width+' height: '+wnd_options.height);
+	// --------------------------------------------------------------------------------------
+
 
 	// create window and save result
 	this.wnd = $('#desktop').window(wnd_options);
-	
-	// set correct window position; is it a bug?
-	//this.wnd.move(wnd_options.x, wnd_options.y);
 	
 	// add settings?
 	if(wnd_options.allowSettings) {

@@ -3,7 +3,7 @@
         <div class="<?php echo $status; ?>" id="wiki-status-message"><b><?php echo $status_message; ?></b><span>[ <a href="javascript:void(0);" onclick="$('#wiki-status-message').remove();return false;">close</a> ]</span><br /></div>
     <?php endif; ?>
     
-        <h1>Wiki</h1>
+        <h1>Wiki</h1> <!-- NOTE: SprintPlanner checks for this tag and content -->
 
         <p>
             <span class="wiki_subtitle">New pages:</span>
