@@ -46,8 +46,11 @@ Desktop = {
 			// default position and size
 			var newX = 30, newY = 15, newH = 450, newW = 600;
 			
+			
+			// THIS CODE IS BROKEN; DO NOT USE
+			// --------------------------------------------------------------------------------------
 			// get saved widget data
-			var saved_widget_data = this.getWidgetData(pwID);
+			/*var saved_widget_data = this.getWidgetData(pwID);
 			
 			// any saved data (internal)?
 			if (saved_widget_data != false && typeof saved_widget_data == 'object')
@@ -85,7 +88,8 @@ Desktop = {
 			if ( last_position != undefined && (last_position.width != 0 && last_position.height != 0) ) {
 				newW = last_position.width;      
 				newH = last_position.height;
-			}
+			}*/
+			// --------------------------------------------------------------------------------------
 			
 			
 			// Setting up default widgetoptions
@@ -100,15 +104,22 @@ Desktop = {
 				allowSettings: true,
 				bookmarkable: false,
 				
+				
+				onClose: function(){ Desktop.reset_widget(widgetIconId);  },
+				
+				// THIS CODE IS BROKEN; DO NOT USE
+				// --------------------------------------------------------------------------------------
 				// add events for close
-				onMinimize: function(){ Desktop.close_widget(pwID); },
+				/*onMinimize: function(){ Desktop.close_widget(pwID); },
 				onClose: function(){ Desktop.reset_widget(widgetIconId); Desktop.save_position(pwID); },
 				
 				// add events for updating status and position
 				afterDrag: function() { Desktop.update_position(pwID); },
 				afterCascade: function() { Desktop.update_position(pwID, true); },
 				afterMaximize: function() { Desktop.update_position(pwID, true); }, 
-				afterResize: function() { Desktop.update_position(pwID); },
+				afterResize: function() { Desktop.update_position(pwID); },*/
+				// --------------------------------------------------------------------------------------
+				
 				
 				// set boundries for window
 				checkBoundary: true,
@@ -129,13 +140,18 @@ Desktop = {
 			var pos = this._widgetArray.length - 1;
 			this._widgetArray[pos].index();
 			
+			
+			// THIS CODE IS BROKEN; DO NOT USE
+			// --------------------------------------------------------------------------------------
 			// use last position (maximized) from database if no override?
 			if ( last_position != undefined && last_position.is_maximized) {
 				this._widgetArray[pos].wnd.maximize();    
 			}
 			
 			// set status as open for widget
-			Desktop.update_position(pwID);
+			//Desktop.update_position(pwID);
+			// --------------------------------------------------------------------------------------
+			
 			
 			// set state as open and transparency for icon to 20%
 			$('#'+widgetIconId).attr('state', 'open');
@@ -480,7 +496,10 @@ Desktop = {
 	
     // called on event afterDrag and afterMaximize and afterCascade and afterResize
     update_position: function(project_widget_id, onlyUpdateMaximize) {   
-	var pos = Desktop.findWidgetById(project_widget_id);
+	
+		// THIS CODE IS BROKEN; DO NOT USE
+		// --------------------------------------------------------------------------------------
+		/*var pos = Desktop.findWidgetById(project_widget_id);
        // get current status
        var window_status = Desktop.get_current_window_status(pos);
       
@@ -511,12 +530,17 @@ Desktop = {
 		}
        
         // save to database
-	$.post(url, postdata);
+		$.post(url, postdata);*/
+		// --------------------------------------------------------------------------------------
+		
     },
     
     // on close window; save last position to database
     save_position: function(project_widget_id) {
-        var pos = Desktop.findWidgetById(project_widget_id);
+	
+		// THIS CODE IS BROKEN; DO NOT USE
+		// --------------------------------------------------------------------------------------
+        /*var pos = Desktop.findWidgetById(project_widget_id);
        
        // get current status
        var window_status = Desktop.get_current_window_status(pos);
@@ -539,14 +563,17 @@ Desktop = {
        this.saveWidgetData(project_widget_id, {'last_position': save_data});
        
         // save to database
-	$.post(url, postdata);
+		$.post(url, postdata);*/
+		// --------------------------------------------------------------------------------------
         
     },
     
     // get status of current window (position etc)
     get_current_window_status: function(arrayPos) {
         
-       if (typeof arrayPos != "number" || arrayPos == undefined) {
+		// THIS CODE IS BROKEN; DO NOT USE
+		// --------------------------------------------------------------------------------------
+       /*if (typeof arrayPos != "number" || arrayPos == undefined) {
              // just return and do not update.. nothing selected
              return null;
        }
@@ -588,7 +615,8 @@ Desktop = {
 	//log_message('size to save is width: '+returnData.width+' height: '+returnData.height);
 	    
        // return the data we got
-       return returnData; 
+       return returnData; */
+	   // --------------------------------------------------------------------------------------
     },
 
 
@@ -596,7 +624,9 @@ Desktop = {
     // project_widget_id is required, data is an object that can contain 'last_name' and/or 'last_position'
     saveWidgetData: function(project_widget_id, data) {
 	
-	var WDlen = this._widgetDataArray.length;
+	// THIS CODE IS BROKEN; DO NOT USE
+	// --------------------------------------------------------------------------------------
+	/*var WDlen = this._widgetDataArray.length;
 	var currentPosition = -1; // -1 if no data is saved
 	for (var n=0; n<WDlen; n++) {
 	    if (this._widgetDataArray[n].project_widget_id == project_widget_id) {
@@ -644,14 +674,17 @@ Desktop = {
 	    // save new
 	    this._widgetDataArray.push(save_object);
 		
-	}
+	}*/
+	// --------------------------------------------------------------------------------------
     },
 
 
     // search for widget data by instance id and return a object or false
     getWidgetData: function(project_widget_id) {
 	
-	var WDlen = this._widgetDataArray.length;
+	// THIS CODE IS BROKEN; DO NOT USE
+	// --------------------------------------------------------------------------------------
+	/*var WDlen = this._widgetDataArray.length;
 	for (var n=0; n<WDlen; n++) {
 	    if (this._widgetDataArray[n].project_widget_id == project_widget_id) {
 		// return data that we found
@@ -660,7 +693,8 @@ Desktop = {
 	}
 	
 	// nothing found
-	return false;
+	return false;*/
+	// --------------------------------------------------------------------------------------
     },
     
 	/*
