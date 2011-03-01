@@ -43,8 +43,9 @@ ajaxRequests = {
             return;
         }
         // empty postdata?
-        else if (postdata == "")
+        else if (postdata == undefined)
         {
+			alert(postdata[0]['value']);
             Desktop.show_errormessage('Hey! :\'( No data found to submit? *confused*');
             return;
         }

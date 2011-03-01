@@ -12,6 +12,7 @@
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery-ui-1.8.6.complete.min.js"></script>
   <link href="<?php echo $base_url; ?>css/smoothness/jquery.tooltip.css" rel="Stylesheet" type="text/css" />
   <link href="<?php echo $base_url; ?>css/smoothness/jquery-ui-1.8.6.custom.css" rel="Stylesheet" type="text/css" />
+  <script type="text/javascript" src="http://www.pppp.nu:4001/socket.io/socket.io.js"></script>
   
   <!-- plugins -->
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.validate.min.js"></script>

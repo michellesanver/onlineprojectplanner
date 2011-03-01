@@ -1,0 +1,37 @@
+#notepad-wrapper {
+	height:75%;	
+	padding:10px;
+}
+
+#notepad-wrapper textarea {
+	width:95%;
+	height:70%;
+}
+
+#notepad-wrapper #pad-list-area{
+	float:left;
+	height:100%;
+	width:30%;
+}
+
+#notepad-wrapper #pad-list-area ul {
+	list-style-image:url('../images/document.png');
+}
+
+#notepad-wrapper #pad-list-area .delete {
+	background: no-repeat url(../images/delete.png);
+	height:15px;
+	width:15px;
+	display:inline-block;
+	margin-right:10px;
+}
+
+#notepad-wrapper #pad-area {
+	float:right;
+	width:70%;
+	height:100%;
+}
+
+#notepad-wrapper #log{
+	clear:both;
+} 
