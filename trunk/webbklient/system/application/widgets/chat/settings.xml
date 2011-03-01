@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!-- root -->
+<settings>
+    <!--  short description of the widget -->
+	<about>non</about>
+	
+    <!-- version of widget-->
+	<version>1</version>
+	
+    <!-- link to website -->
+	<link>none</link>
+	
+    <!-- name of author -->
+	<author>me</author>
+	
+    <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
+	<icon>chat-icon.png</icon>
+	
+    <!-- title of widget; will be placed under icon (can be left empty) -->
+    <icon_title>Chat</icon_title>
+	
+    <!-- namespace of widget (namespace = javascript object) -->
+    <widget_object>chatWidget</widget_object>
+	<in_development>true</in_development>
+    <!--
+        list of files to be loaded relative to main folder of widgets
+        (theese files will be loaded upon project start)
+        
+        valid types are; javascript, css
+    -->
+	<load>
+        <file type="javascript">js/chatwidget.js</file>
+    </load>
+</settings>
