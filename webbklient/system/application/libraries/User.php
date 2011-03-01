@@ -101,8 +101,8 @@ class User
         }
         
         // fetch values for email
-        $uid = $result->UserID;
-        $name = $result->First_name." ".$result->Last_name;
+		$uid = $result->User_id;
+        $name = $result->Firstname." ".$result->Lastname;
         $email = $result->Email;
         
         // Send an email with confirmation code
