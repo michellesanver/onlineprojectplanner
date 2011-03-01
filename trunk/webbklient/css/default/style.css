@@ -180,7 +180,9 @@ span.sitetitle a:hover {
     padding: 0px;
     padding-top: 2px;
     }
-
+.widget_window {
+	height:100%;
+}
 /* @end */
 
 /* @group Project */
