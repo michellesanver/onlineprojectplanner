@@ -9,6 +9,8 @@ class Chat extends Controller
     {
         parent::Controller();
 		$this->load->library(array('User', 'project_member'));
+		$this->_CI = & get_instance();
+		$this->_CI->load->library('Project_lib', null, 'Project');
     }
 
     function index()
@@ -25,7 +27,7 @@ class Chat extends Controller
 		$projid = $this->project_member->SelectByUserId();
 		
 		$usrname = $user['Firstname'] . '_' . $user['Lastname'];
-		$channel = $projid[0]['Project_id'];
+		$channel = $this->_CI->Project->checkCurrentProject();
 		
 		
     
@@ -38,10 +40,10 @@ class Chat extends Controller
         	'widget_base_url' => $base_url."system/application/widgets/$widget_name/");
 
 	 
-		$this->curl->create('http://www.pppp.nu:4000/?name='. $usrname .'&channel='. $channel );
+		$this->curl->create('http://app.pppp.nu:4000/?name='. $usrname .'&channel='. $channel );
 		
 		$data['site'] = $this->curl->execute();
-	
+		
     	$this->load->view_widget('start', $data);
     }
 
