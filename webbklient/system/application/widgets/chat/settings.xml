@@ -30,5 +30,6 @@
     -->
 	<load>
         <file type="javascript">js/chatwidget.js</file>
+		<file type="javascript" external="true">http://www.pppp.nu:4001/socket.io/socket.io.js</file>
     </load>
 </settings>
