@@ -29,18 +29,26 @@ class Widgets_handler extends Controller {
             $widget_name = "widget_handler";
             $this->load->library_widget('Widgetlib');
             
+            //
+            // add widget?
+            //
+            $new_project_id = null; // used later for creating json (add)
             if(isset($addid)) {
                 if($this->widgetlib->allowedToInstanceProjectWidget($addid) != false)
                 {
-                    $this->widgetlib->addWidgetToProject($addid);
+                    $new_project_id = $this->widgetlib->addWidgetToProject($addid);
+          
                 }
-            }
-            
-            if(isset($_POST["widgetid"])) {
+              
+            //    
+            // delete widget?
+            //
+            } else if(isset($_POST["widgetid"])) {
                 $widget_id = $this->input->post('widgetid', true);
                 $this->widgetlib->removeWidgetFromProject($widget_id);
             }
             
+            // get data
             $widgets = $this->widgetlib->getAvailableWidgets();
             $project_widgets = $this->widgetlib->getProjectIcons();
             
@@ -58,17 +66,6 @@ class Widgets_handler extends Controller {
                
                 // get all project icons (returns a json-object)
                 $project_widgets_json = json_decode( $this->widgetlib->getProjectIcons_JSON() );  
-                
-                // scan which widget that was added
-                $new_project_id = 0;
-                foreach ($project_widgets as $id => $widget) {
-                    
-                    if ( (int)$widget['widgetid'] == $addid) {
-                        $new_project_id = $id; 
-                        break;
-                    }
-                    
-                }
                 
                 // get json-data
                 $widget_name = "";

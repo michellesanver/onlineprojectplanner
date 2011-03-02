@@ -381,10 +381,22 @@ class Widgets_model extends Model  {
             $this->db->trans_rollback();
             return false;
         }
-        
-        // else; all ok! commit transaction and return true
-        $this->db->trans_commit(); 
-        return true;
+
+        // else; all ok! commit transaction
+        $this->db->trans_commit();
+	
+	// get new id
+	$new_inserted_id = null;
+	$sql = "SELECT Project_widgets_id FROM ".$this->_table." ORDER BY Project_widgets_id DESC LIMIT 1;";
+	$query = $this->db->query($sql);
+	if ($query && $query->num_rows() == 1) {
+	  $result = $query->result();
+	  $new_inserted_id = $result[0]->Project_widgets_id;
+	}
+	  
+	
+        // return id
+        return $new_inserted_id;
     }
     
     function isDefault($widgetid)
