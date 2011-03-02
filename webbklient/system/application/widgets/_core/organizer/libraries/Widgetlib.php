@@ -39,7 +39,7 @@ class Widgetlib
     public function addWidgetToProject($widget_id)
     {
         $instance_name = $this->_CI->Widgets->GetWidgetIconName($widget_id);
-        $this->_CI->Widgets_model->AddProjectWidget($this->_current_project_id, $widget_id, $instance_name);
+        return $this->_CI->Widgets_model->AddProjectWidget($this->_current_project_id, $widget_id, $instance_name);
     }
     
     public function removeWidgetFromProject($project_widget_id)
