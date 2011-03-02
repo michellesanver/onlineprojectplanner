@@ -30,10 +30,13 @@ Each widget is required to have the file settings.xml inside the root-folder of 
         (theese files will be loaded upon project start)
         
         valid types are; javascript, css
+
+        note; if a file/resource is external then use the attribute external="true" with a full path
     -->
 	<load>
 		<file type="javascript">js/iframe-template.js</file>
 		<file type="css">css/iframe-styles.css</file>
+		<file type="javascript" external="true">https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js</file>
 	</load>
 </settings>
 }}}
