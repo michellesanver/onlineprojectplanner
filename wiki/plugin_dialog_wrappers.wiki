@@ -97,9 +97,59 @@ the specified function in options.
 
 A simple wrapper for displaying a message with "processing". Note that it has to be manually closed.
 
+=== Example 1 ===
+
+{{{
+function do_something() {
+
+   // open a processing dialog
+   $.jprocessing( { 'title':'Processing', 'message': 'Please wait while removing image...'} ;)
+
+   // do something like an ajax-call 
+}
+    
+function callback_something() {
+  
+    // this function is called from previous upon completion
+   
+    // close processing-dialog
+    $.jprocessing( "close" );
+}
+}}}
+
+=== Options ===
+
+ * title - title of dialog (default: 'Please wait')
+ * message - message in main dialog (default: 'Please wait while processing request')  
+ * width  - width of dialog (default: 350)
+ * height - height of dialog (default: 175)
+ * z_index - z-index of dialog (default: 3999)
+ * dialog_id - a custom string value with id to the dialog that will be inserted (default: dialog-processing)
 
 
+----
+== jResult==
 
+a simple wrapper to display a result dialog (message)
 
+=== Example 1 ===
+
+{{{
+function do_something() {
+
+     // open a message dialog
+    $.jresult( { 'message': 'A white rabbit ran through the room'} ;)
+
+}
+}}}
+
+=== Options ===
+
+ * title - title of dialog (default: 'Result')
+ * message - message in main dialog (default: 'Some result happend by a random action')  
+ * width  - width of dialog (default: 350)
+ * height - height of dialog (default: 175)
+ * z_index - z-index of dialog (default: 3999)
+ * dialog_id - a custom string value with id to the dialog that will be inserted (default: dialog-result)
 
 <p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
