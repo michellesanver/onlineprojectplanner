@@ -116,6 +116,8 @@ class Widgets
 			$ws->type = (string)$row->attributes()->type;
 			$ws->filename = (string)$row;
 			
+			$ws->external = (bool)$row->attributes()->external;
+			
 			array_push($w->files, $ws);
 		}
 		
@@ -506,7 +508,6 @@ class Widgets
 	
 		// clear array for scanned widgets
 		$this->_folder_widget_names = array();
-	
     }
     
     /**
@@ -595,20 +596,30 @@ class Widgets
 					foreach ($row2->files as $row3)
 					{
 						
-						// is the type javascript?
+						// is the type correct?
 						if (strtolower($row3->type) == $type)
 						{
+						    $path = "";
+						    
+						    // add path to widget or external?
+						    if ($row3->external == false) {
 							$path = $base_url.$this->_widget_dir.'/';
-						
+					    
 							// is it a core-widget?
 							if ( (int)$row->Is_core == 1 ) {
-								// use another path
-								$path = $base_url.$this->_core_widget_dir.'/';
+							    // use another path
+							    $path = $base_url.$this->_core_widget_dir.'/';
 							}
-						
-							// print and replace %s with the real value
-							$returnSTR .= sprintf($loadSTR, $path.$row2->name.'/'.$row3->filename);       
 							
+							// print and replace %s with the real value
+							$returnSTR .= sprintf($loadSTR, $path.$row2->name.'/'.$row3->filename);
+							
+						    } else {
+							// external; assume full path
+							$returnSTR .= sprintf($loadSTR, $row3->filename);  
+							
+						    }
+
 						}
 					}
 					
