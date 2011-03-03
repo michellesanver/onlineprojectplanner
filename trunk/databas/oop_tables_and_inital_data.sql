@@ -76,7 +76,7 @@ CREATE  TABLE IF NOT EXISTS `Project_Role` (
   INDEX `FK_ProjectInvitation_ProjectRole` (`Project_role_id` ASC) ,
   CONSTRAINT `FK_ProjectRole_ProjectRole`
     FOREIGN KEY (`Project_role_id_u` )
-    REFERENCES `Project_Role ` (`Project_role_id` )
+    REFERENCES `Project_Role` (`Project_role_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
@@ -150,6 +150,17 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 -- 
+-- table `Widgets`
+-- 
+ CREATE TABLE IF NOT EXISTS `Widgets` (
+    `Widget_id` INT NOT NULL AUTO_INCREMENT,
+    `Widget_name` VARCHAR( 50 ) NOT NULL ,
+    `In_development` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
+    `Is_core` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
+    PRIMARY KEY ( `Widget_id` )
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+-- 
 -- table `Project_Widgets`
 -- 
  CREATE TABLE IF NOT EXISTS `Project_Widgets` (
@@ -172,16 +183,6 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
--- 
--- table `Widgets`
--- 
- CREATE TABLE IF NOT EXISTS `Widgets` (
-    `Widget_id` INT NOT NULL AUTO_INCREMENT,
-    `Widget_name` VARCHAR( 50 ) NOT NULL ,
-    `In_development` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'set to 1 if widget is in development; will not be deleted when syncing'
-	`Is_core` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'if widget is core-widget (another folder)',
-    PRIMARY KEY ( `Widget_id` )
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 -- 
 -- table `Widget_Positions`
@@ -226,4 +227,18 @@ CREATE TABLE `Default_Widgets` (
   KEY `Widgets_id_key` (`Widgets_id`),
   CONSTRAINT `Widgets_id_key` FOREIGN KEY (`Widgets_id`) REFERENCES `Widgets` (`Widget_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- 
+-- insert data into `Project_Role`
+-- 
+INSERT INTO `Project_Role` (`Project_role_id`, `Role`, `Project_role_id_u`) VALUES (1, 'General', 1);
+INSERT INTO `Project_Role` (`Project_role_id`, `Role`, `Project_role_id_u`) VALUES (2, 'Admin', 1);
+INSERT INTO `Project_Role` (`Project_role_id`, `Role`, `Project_role_id_u`) VALUES (3, 'Member', 2);
+
+-- 
+-- insert data into `Default_Widgets` and `Widgets` (for Organizer)
+-- 
+INSERT INTO `Widgets` (`Widget_id`, `Widget_name`, `Is_core`) VALUES (1, 'Organizer', 1);
+INSERT INTO `Default_Widgets` (`Default_widgets_id`, `Widgets_id`, `Is_core`) VALUES (1, 1, 1);
+
 
