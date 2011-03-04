@@ -215,7 +215,8 @@ class Widgets_model extends Model  {
 	       // escape and process values for db
 	       $widget_name = $this->db->escape($row->name); 
 	       $in_development = ($row->in_development==true ? "'1'" : "'0'" ); // saved as tinyint in database
-		   $is_core = ($row->is_core===true ? "'1'" : "'0'" ); // saved as tinyint in database
+	       $is_core = ($row->is_core===true ? "'1'" : "'0'" ); // saved as tinyint in database
+	       $have_db = ($row->have_db===true ? "'1'" : "'0'" ); // saved as tinyint in database
 	       $minimum_role = $row->minimum_role;
 	       
 	       // is minimum_role NOT null?
@@ -224,7 +225,7 @@ class Widgets_model extends Model  {
 	       }
 	       
 	       // create sql-query (active db will fail beause of 'Minimum_role' has a default value of null)
-	       $sql = "INSERT INTO `".$this->_table2."` (`Widget_name`, `In_development`, `Minimum_role`, `Is_core`) VALUES ($widget_name, $in_development, $minimum_role, $is_core)";
+	       $sql = "INSERT INTO `".$this->_table2."` (`Widget_name`, `In_development`, `Minimum_role`, `Is_core`, `Have_DB`) VALUES ($widget_name, $in_development, $minimum_role, $is_core, $have_db)";
 	  
 	       // run query
 	       $this->db->query($sql);
@@ -310,6 +311,7 @@ class Widgets_model extends Model  {
 			   $widget_id = $this->db->escape($row->widget_id); 
 			   $in_development = ($row->in_development==true ? "'1'" : "'0'" ); // saved as tinyint in database
 			   $is_core = ($row->is_core=true ? "'1'" : "'0'" ); // saved as tinyint in database
+			   $have_db = ($row->have_db===true ? "'1'" : "'0'" ); // saved as tinyint in database
 			   $minimum_role = $row->minimum_role;
 			   
 			   // is minimum_role NOT null?
@@ -318,7 +320,7 @@ class Widgets_model extends Model  {
 			   }
 		  
 			   // create sql
-			   $sql = "UPDATE `".$this->_table2."` SET  `Is_core` = $is_core, `In_development` = $in_development, `Minimum_role` = $minimum_role WHERE `Widget_id` = $widget_id";
+			   $sql = "UPDATE `".$this->_table2."` SET  `Have_DB` = $have_db, `Is_core` = $is_core, `In_development` = $in_development, `Minimum_role` = $minimum_role WHERE `Widget_id` = $widget_id";
 		  
 			   // run query
 			   $this->db->query($sql);
@@ -399,6 +401,124 @@ class Widgets_model extends Model  {
         return $new_inserted_id;
     }
     
+    
+    /*
+     * checks if widget has a database that should be installed
+     * - will also check if database is installed or not. if database
+     * is installed then false is returned
+     * 
+     * @param int $widgetid
+     * @return bool
+     */ 
+    function installWidgetDatabase($widgetid) {
+	  // run query
+	  $this->db->select('Have_DB, DB_installed');
+	  $this->db->limit(1);
+	  $query = $this->db->get_where('Widgets', array('Widget_id' => $widgetid));
+     
+	  if ($query && $query->num_rows() == 1) {
+	       
+	       $result = $query->result();
+	       if ( $result[0]->Have_DB == '1' && $result[0]->DB_installed == '0' ) {
+		    return true; // yes, install database
+	       } else {
+		    return false; // no database
+	       }
+	       
+	  } else {
+	       return false;
+	  }
+    }
+    
+    /*
+     * checks if widget has a database that should be uninstalled
+     * 
+     * @param int $widgetid
+     * @return bool
+     */ 
+    function uninstallWidgetDatabase($widgetid) {
+	  // run query
+	  $this->db->select('Have_DB, DB_installed');
+	  $this->db->limit(1);
+	  $query = $this->db->get_where('Widgets', array('Widget_id' => $widgetid));
+     
+	  if ($query && $query->num_rows() == 1) {
+	       
+	       $result = $query->result();
+	       if ( $result[0]->Have_DB == '1' && $result[0]->DB_installed == '1' ) {
+		    return true; // yes, uninstall database
+	       } else {
+		    return false; // no database
+	       }
+	       
+	  } else {
+	       return false;
+	  }
+    }
+    
+    /*
+     * run sql statements to install tables for a widget
+     *
+     * @param array $sql_satements
+     * @param int $widget_id
+     * @return bool
+     */ 
+    function InstallWidget($sql_statements, $widget_id) {
+     
+	  $this->db->trans_begin();
+	  
+	  foreach ($sql_statements as $row) {
+	       
+	       $result = $this->db->simple_query($row);
+	       if ( $result === false )
+	       {
+		    // failed!
+		    $this->db->trans_rollback();
+		    return false;
+	       }
+	  }
+	  
+	  // else; all ok set flag in database and return true
+	  $this->db->where(array('Widget_id' => $widget_id));
+	  $this->db->update('Widgets', array('DB_installed' => '1'));
+	  $this->db->trans_commit(); 
+	  return true;
+    }
+    
+    /*
+     * run sql statements to uninstall tables for a widget
+     *
+     * @param array $sql_satements
+     * @param int $widget_id
+     * @return bool
+     */ 
+    function UninstallWidget($sql_statements, $widget_id) {
+     
+	  $this->db->trans_begin();
+	  
+	  foreach ($sql_statements as $row) {
+	       
+	       log_message('debug', 'Model::UninstallWidget has sql: '.$row);
+	       
+	       $result = $this->db->simple_query($row);
+	       if ( $result === false )
+	       {
+		    // failed!
+		    $this->db->trans_rollback();
+		    return false;
+	       }
+	  }
+	  
+	  // else; all ok
+	  $this->db->where(array('Widget_id' => $widget_id));
+	  $this->db->update('Widgets', array('DB_installed' => '0'));
+	  $this->db->trans_commit(); 
+	  return true;
+    }
+    
+    /**
+     *Checks if widget is a default widget
+     */
     function isDefault($widgetid)
     {
         // run query
@@ -603,13 +723,13 @@ class Widgets_model extends Model  {
         } else {
             // save new
             
-            $data = array(
-                'Project_id' => $project_id,
-                'Project_widgets_id' => $project_widget_id,
-                'User_id' => $uid,
-                'Is_maximized' => $is_maximized,
-                'Is_open' => $is_open
-            );
+	       $data = array(
+		   'Project_id' => $project_id,
+		   'Project_widgets_id' => $project_widget_id,
+		   'User_id' => $uid,
+		   'Is_maximized' => $is_maximized,
+		   'Is_open' => $is_open
+	       );
             
 			// save last_x?
 			if ($last_x != -1) {
@@ -647,5 +767,23 @@ class Widgets_model extends Model  {
  
         }
         
+    }
+    
+    /**
+    * check if a widget is used in any other project
+    *
+    * @param int @widget_id
+    * @return bool
+    */ 
+    function checkIfWidgetIsUsed($widget_id) {
+     
+	  $this->db->select('Widget_id');
+	  $query = $this->db->get_where($this->_table, array('Widget_id'=>$widget_id));
+     
+	  if ($query && $query->num_rows() > 0) {
+	       return true;
+	  } else {
+	       return false;
+	  }
     }
 }

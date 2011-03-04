@@ -126,9 +126,9 @@ class Widgets
 			
 			// is it true or false?
 			if ((string)$settings->in_development=='true') {
-			$w->in_development = true;
+			    $w->in_development = true;
 			} else {
-			$w->in_development = false;
+			    $w->in_development = false;
 			}
 			
 		} else {
@@ -151,6 +151,18 @@ class Widgets
 			
 		}
    
+		// does setting install and uninstall exist? (widget has a database)
+		if ($settings->install && empty($settings->install)==false && $settings->uninstall && empty($settings->uninstall)==false) {
+		    $w->have_db = true;
+		    $w->install_sql_file = (string)$settings->install;
+		    $w->uninstall_sql_file = (string)$settings->uninstall;
+		    
+		} else {
+		    $w->have_db = false; // default; false
+		    $w->install_sql_file = "";
+		    $w->uninstall_sql_file = "";
+		    
+		}
 		
 		// core-widget?
 		if ( preg_match('/_core/i', $dir) ) {
@@ -166,6 +178,7 @@ class Widgets
 		$obj = new stdClass();
 		$obj->name = $w->name;
 		$obj->is_core = $w->is_core;
+		$obj->have_db = $w->have_db;
 		$obj->in_development = $w->in_development;
 		$obj->minimum_role = $w->minimum_role;
 		array_push($this->_folder_widget_names, $obj );
@@ -308,16 +321,16 @@ class Widgets
                     // loop thru folder results (scan for folders to add)
                     foreach ($this->_folder_widget_names as $row)
                     {
-						$current_row = null;
-						foreach($stored_widgets as $row2) {
-							if ($row->name == $row2->Widget_name) {
-								$current_row = $row2;
-								break;
-							}
-						}
+			$current_row = null;
+			foreach($stored_widgets as $row2) {
+				if ($row->name == $row2->Widget_name) {
+					$current_row = $row2;
+					break;
+				}
+			}
 		    
                         // does the name from database exist in folders?
-						if ( is_null($current_row) ) { // is_null returns true or mixed
+			if ( is_null($current_row) ) { // is_null returns true or mixed
                         
                             // push to array for add to db
                             array_push($widget_add, $row);
@@ -340,37 +353,45 @@ class Widgets
                 if ( empty($widget_delete) == false)
                 {
 
-                    if ($this->_CI->Widgets_model->DeleteStoredWidgets($widget_delete) == false )
-                    {
-                        // development mode?
-                        if ( $this->_CI->Widgets_model->CheckDeleteQuery() == false)
-                        {
-                            // nope, continue to log error
-                       
-                            log_message('Error','#### => Panic! Failed to delete old widget-names from database.');
-                            
-                            // logout user if logged in
-                            if ( $this->_CI->user->IsLoggedIn() )
-                            {
-                                $this->_CI->user->logout();
-                                
-                                // create a new session since it is destroyed in logout
-                                @session_start();    
-                            }
-                            
-                            // set error
-                            $this->_CI->session->set_userdata('widget_save_error', true); // skip next call to readwidgets
-                            $this->_CI->session->set_userdata('errormessage','Panic! Unable to update widgets in database.');   
-                      
-                            // redirect and exit
-                            redirect('account/login');
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        log_message('debug','Class Widgets deleted '.count($widget_delete).' widgets from database.');
-                    } 
+		    // only one widget and that name is "Organizer"? = fresh install
+		    if (count($stored_widgets) == 1 && $widget_delete[0] == 'Organizer') {
+			// dummy ie not used
+			
+		    } else {
+
+			if ($this->_CI->Widgets_model->DeleteStoredWidgets($widget_delete) == false )
+			{
+			    // development mode?
+			    if ( $this->_CI->Widgets_model->CheckDeleteQuery() == false)
+			    {
+				// nope, continue to log error
+			   
+				log_message('Error','#### => Panic! Failed to delete old widget-names from database.');
+				
+				// logout user if logged in
+				if ( $this->_CI->user->IsLoggedIn() )
+				{
+				    $this->_CI->user->logout();
+				    
+				    // create a new session since it is destroyed in logout
+				    @session_start();    
+				}
+				
+				// set error
+				$this->_CI->session->set_userdata('widget_save_error', true); // skip next call to readwidgets
+				$this->_CI->session->set_userdata('errormessage','Panic! Unable to update widgets in database.');   
+			  
+				// redirect and exit
+				redirect('account/login');
+				return;
+			    }
+			}
+			else
+			{
+			    log_message('debug','Class Widgets deleted '.count($widget_delete).' widgets from database.');
+			}
+			
+		    }
                 }
  
                 //---------------------------------------
@@ -405,8 +426,10 @@ class Widgets
                     } 
                 }
   
-			//--------------------------------------------------------------
-			log_message('debug', 'Widgets syncronization completed');
+		//log_message('debug', '##### => $widget_add has '.var_export($widget_add,true));
+  
+		//--------------------------------------------------------------
+		log_message('debug', 'Widgets syncronization completed');
 	
 	    // count matched, check if db is empty; then check for updates
 	    } else if ($stored_widgets!=false) {
@@ -455,11 +478,22 @@ class Widgets
 					}
 					
 					// update core-flag?
-					if ($row->Is_core == '1' && $current_row->is_core != true) {
+					$is_core = ($row->Is_core == '1' || $row->Is_core == 1 ? true : false);
+					//if (($row->Is_core == '1' && $current_row->is_core != true) || ($row->Is_core == '0' && $current_row->is_core != false)) {
+					if ($is_core != $current_row->is_core) {
 					
 						// set flag
 						$row_update = true;
 						
+					}
+					
+					// update install-flag (install database)?
+					$have_db = ($row->Have_DB == '1' || $row->Have_DB == 1 ? true : false);
+					//if (($row->Have_DB == '1' && $current_row->have_db != true) || ($row->Have_DB == '0' && $current_row->have_db != false) ) {
+					if ($have_db != $current_row->have_db) {
+					    
+						// set flag
+						$row_update = true;
 					}
 					
 					// any update?
@@ -506,8 +540,8 @@ class Widgets
         } // end if ($dh = opendir($dir)) ..      
     
 	
-		// clear array for scanned widgets
-		$this->_folder_widget_names = array();
+	// clear array for scanned widgets
+	$this->_folder_widget_names = array();
     }
     
     /**
@@ -1035,5 +1069,162 @@ class Widgets
 	// return name to set
 	return $instance_name;
     }
+   
+   
+    /*
+     * Query settings.xml in widget for sql-file to install
+     * - returns false or an array with sql statements
+     * 
+     * @param string $instance_name (default name from function GetWidgetIconName)
+     * @return mixed
+     */ 
+    function InstallWidget($instance_name, $widget_id) {
+	
+	foreach ($this->_widgets as $row) {
+	
+	    // match name
+	    if ( $row->icon_title == $instance_name) {
+		
+		// does it have an install-file from settings?
+		if ($row->install_sql_file != "") {
+
+		    // get path for widget
+		    $path = BASEPATH.$this->_widget_dir.'/';
+			
+		    // is it a core-widget?
+		    if ( $row->is_core == true ) {
+			// use another path
+			$path = BASEPATH.$this->_core_widget_dir.'/';
+		    }
+		    
+		    // does file exist?
+		    if (file_exists($path.$row->name.'/'.$row->install_sql_file)==false) {
+			// noooo! get out of here
+			return false;
+		    }
+
+		    // parse sql statements from a file into an array
+		    $sql_statements = $this->_parseSQL($path.$row->name.'/'.$row->install_sql_file);
+		    
+		    // run statements in model
+		    return $this->_CI->Widgets_model->InstallWidget($sql_statements, $widget_id);
+		    
+		} else {
+		    // widget found but no database?
+		    return false;
+		}
+	    }
+	
+	}
+	
+	// nothing found
+	return false;
+    }
+   
+   
+   /*
+    * Uninstall database tables for a widget
+    * - will check if any other project is using the widget
+    *   and if so returns true as if uninstall was ok.
+    * 
+    * @param int $widget_id
+    * @return true
+    */ 
+   function UninstallWidget($widget_id) {
+  
+	// check if any other project is using the widget
+	$is_used = $this->_CI->Widgets_model->checkIfWidgetIsUsed($widget_id);
+	if ( $is_used === true) {
+	    
+	    // return true as if uninstall was ok; table(s) are used by another project
+	    return true;
+	
+	}
+    
+	// else run uninstall
+	
+	// get name
+	$instance_name = $this->GetWidgetIconName($widget_id);
+	
+	// search for widget
+	foreach ($this->_widgets as $row) {
+	
+	    // match name
+	    if ( $row->icon_title == $instance_name) {
+		
+		// does it have an install-file from settings?
+		if ($row->uninstall_sql_file != "") {
+		    
+		    // get path for widget
+		    $path = BASEPATH.$this->_widget_dir.'/';
+			
+		    // is it a core-widget?
+		    if ( $row->is_core == true ) {
+			// use another path
+			$path = BASEPATH.$this->_core_widget_dir.'/';
+		    }
+
+		    // does file exist?
+		    if (file_exists($path.$row->name.'/'.$row->uninstall_sql_file)==false) {
+			// noooo! get out of here
+			return false;
+		    }
+
+		    // parse sql statements from a file into an array
+		    $sql_statements = $this->_parseSQL($path.$row->name.'/'.$row->uninstall_sql_file);  
+		    
+		    // run statements in model
+		    return $this->_CI->Widgets_model->UninstallWidget($sql_statements, $widget_id);
+		    
+		} else {
+		    // widget found but no uninstall
+		    return false;
+		}
+	    }
+	}
+    
+    
+	// fallback; failed
+	return false;
+   }
+   
+   /**
+    * Parse an sql-file with statements. Can be divided on several lines
+    * but must always end with a ;
+    *
+    * @param string $filename
+    * @return array
+    */ 
+   private function _parseSQL($filename) {
+    
+	// load file
+	$sql_data = file($filename);
+
+	// save parsed statements here
+	$sql_statements = array();
+    
+	// parse lines into a new array with statemants to execute
+	$templine = "";
+	foreach ($sql_data as $line_num => $line) {
+    
+	    // a comment?
+	    if (substr($line, 0, 2) != '--' && $line != '') {
+		$templine .= $line;
+	    
+		// end of line with ; ?    
+		if (substr(trim($line), -1, 1) == ';') {
+		    $templine = preg_replace('/(\r|\r\n|\n)/','',$templine);
+	
+		    // add sql statement
+		    array_push($sql_statements, $templine);
+		    
+		    // clear templine
+		    $templine = "";
+		}
+	    }
+	}
+
+	return $sql_statements;
+   }
    
 }

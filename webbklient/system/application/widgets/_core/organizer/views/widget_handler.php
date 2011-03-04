@@ -3,6 +3,10 @@
 	<script type="text/javascript">widgethandler_new_widget_json = <?php echo $new_widget_json; ?>;</script>
 <?php endif; ?>
 
+<?php if (isset($error_message) && empty($error_message)==false): ?>
+	<script type="text/javascript">$.jprocessing( "close" ); Desktop.show_errormessage('<?php echo $error_message; ?>');</script>
+<?php endif; ?>
+
 <!-- LOOK OUT! If you change any ID's or classes in this file, also look for them in the corresponding widgethandler.js -->
 <div id="widget_handler_content_wrapper">
 	<div id="available_widgets_box">
