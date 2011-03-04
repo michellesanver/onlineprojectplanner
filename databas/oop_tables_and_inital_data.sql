@@ -6,7 +6,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- updated to our standards!
 -- 
 
-CREATE TABLE IF NOT EXISTS `User` (
+CREATE TABLE `User` (
   `User_id` int NOT NULL AUTO_INCREMENT,
   `Firstname` varchar(100) NOT NULL,
   `Lastname` varchar(100) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `User` (
 -- updated to our standards!
 --
 
-CREATE TABLE IF NOT EXISTS `User_Activation` (
+CREATE TABLE `User_Activation` (
   `Activation_id` int NOT NULL,
   `Code` varchar(32) NOT NULL,
   `Created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP(),
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `User_Activation` (
 -- updated to our standards!
 --
 
-CREATE TABLE IF NOT EXISTS `User_ResetPassword` (
+CREATE TABLE `User_ResetPassword` (
   `User_id` int NOT NULL AUTO_INCREMENT,
   `Firstname` varchar(100) NOT NULL,
   `Lastname` varchar(100) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `User_ResetPassword` (
 -- table `Project_Role`
 -- updated to our standards!
 -- 
-CREATE  TABLE IF NOT EXISTS `Project_Role` (
+CREATE TABLE `Project_Role` (
   `Project_role_id` INT NOT NULL AUTO_INCREMENT ,
   `Role` VARCHAR(25) NOT NULL ,
   `Project_role_id_u` INT NOT NULL ,
@@ -86,7 +86,7 @@ CREATE  TABLE IF NOT EXISTS `Project_Role` (
 -- table `Project`
 -- updated to our standards!
 -- 
-CREATE  TABLE IF NOT EXISTS `Project` (
+CREATE TABLE `Project` (
   `Project_id` INT NOT NULL AUTO_INCREMENT ,
   `Title` VARCHAR(100) NOT NULL ,
   `Description` VARCHAR(300) NOT NULL ,
@@ -99,7 +99,7 @@ CREATE  TABLE IF NOT EXISTS `Project` (
 -- table `Project_Invitation`
 -- updated to our standards!
 -- 
-CREATE  TABLE IF NOT EXISTS `Project_Invitation` (
+CREATE  TABLE `Project_Invitation` (
   `Project_invitation_id` INT NOT NULL AUTO_INCREMENT ,
   `Code` CHAR(32) NOT NULL ,
   `Project_id` INT NOT NULL ,
@@ -123,7 +123,7 @@ CREATE  TABLE IF NOT EXISTS `Project_Invitation` (
 -- 
 -- table `Project_Member`
 -- 
-CREATE  TABLE IF NOT EXISTS `Project_Member` (
+CREATE  TABLE `Project_Member` (
   `Project_member_id` INT NOT NULL AUTO_INCREMENT ,
   `User_id` INT NOT NULL ,
   `Project_id` INT NOT NULL ,
@@ -152,18 +152,19 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
 -- 
 -- table `Widgets`
 -- 
- CREATE TABLE IF NOT EXISTS `Widgets` (
+ CREATE TABLE `Widgets` (
     `Widget_id` INT NOT NULL AUTO_INCREMENT,
     `Widget_name` VARCHAR( 50 ) NOT NULL ,
     `In_development` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
     `Is_core` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
+    `Minimum_role` VARCHAR(25) NULL,
     PRIMARY KEY ( `Widget_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 -- 
 -- table `Project_Widgets`
 -- 
- CREATE TABLE IF NOT EXISTS `Project_Widgets` (
+ CREATE TABLE `Project_Widgets` (
 	`Project_widgets_id` INT NOT NULL AUTO_INCREMENT,
 	`Project_id` INT NOT NULL ,
     `Widget_id` INT NOT NULL,
@@ -187,7 +188,7 @@ CREATE  TABLE IF NOT EXISTS `Project_Member` (
 -- 
 -- table `Widget_Positions`
 -- 
-CREATE TABLE IF NOT EXISTS `Widget_Positions` (
+CREATE TABLE `Widget_Positions` (
     `Widget_postions_id` INT NOT NULL AUTO_INCREMENT,
     `Project_widgets_id` INT NOT NULL COMMENT 'also used with name instance_id',
     `Project_id` INT NOT NULL COMMENT 'used in select-query',
@@ -229,6 +230,63 @@ CREATE TABLE `Default_Widgets` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- 
+-- table `Widget_Settings`
+--
+CREATE TABLE `Widget_Settings` (
+  `Settings_id` int NOT NULL AUTO_INCREMENT,
+  `Widget_id` int NOT NULL,
+  `Type_id` int NOT NULL,
+  `Internal_id` int NOT NULL COMMENT 'The widgethandler must have a standard id for comunication with its settings individually.',
+  `Name` varchar(128) DEFAULT NULL,
+  `Order` int NOT NULL,
+  PRIMARY KEY (`Settings_id`),
+  KEY `Widget_id` (`Widget_id`),
+  KEY `Type_id` (`Type_id`),
+  CONSTRAINT `Widget_Settings_ibfk_1` FOREIGN KEY (`Widget_id`) REFERENCES `Widgets` (`Widget_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- 
+-- table `Widget_Settings_Type`
+--
+CREATE TABLE `Widget_Settings_Type` (
+  `Type_id` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(64) NOT NULL,
+  `CI_rule` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`Type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- 
+-- table `Widget_Settings_Value`
+--
+CREATE TABLE `Widget_Settings_Value` (
+  `Widget_settings_value_id` int NOT NULL AUTO_INCREMENT,
+  `Project_widgets_id` int DEFAULT '0',
+  `Settings_id` int DEFAULT '0',
+  `Value` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`Widget_settings_value_id`),
+  KEY `Project_widgets_id` (`Project_widgets_id`),
+  KEY `Settings_id` (`Settings_id`),
+  CONSTRAINT `Widget_Settings_Value_ibfk_1` FOREIGN KEY (`Project_widgets_id`) REFERENCES `Project_Widgets` (`Project_widgets_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Widget_Settings_Value_ibfk_2` FOREIGN KEY (`Settings_id`) REFERENCES `Widget_Settings` (`Settings_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+-- 
+-- table `Error_Log`
+--
+CREATE TABLE `Error_Log` (
+  `Error_id` int NOT NULL AUTO_INCREMENT,
+  `Ip_adress` varchar(15) NOT NULL,
+  `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Function` varchar(56) NOT NULL,
+  `Calling` varchar(56) NOT NULL,
+  `Variables` varchar(300) NOT NULL,
+  `Message` varchar(300) NOT NULL,
+  PRIMARY KEY (`Error_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+
+-- 
 -- insert data into `Project_Role`
 -- 
 INSERT INTO `Project_Role` (`Project_role_id`, `Role`, `Project_role_id_u`) VALUES (1, 'General', 1);
@@ -238,7 +296,7 @@ INSERT INTO `Project_Role` (`Project_role_id`, `Role`, `Project_role_id_u`) VALU
 -- 
 -- insert data into `Default_Widgets` and `Widgets` (for Organizer)
 -- 
-INSERT INTO `Widgets` (`Widget_id`, `Widget_name`, `Is_core`) VALUES (1, 'Organizer', 1);
+INSERT INTO `Widgets` (`Widget_id`, `Widget_name`, `Is_core`, `Minimum_role`) VALUES (1, 'organizer', 1, 'Admin');
 INSERT INTO `Default_Widgets` (`Default_widgets_id`, `Widgets_id`, `Is_core`) VALUES (1, 1, 1);
 
 
