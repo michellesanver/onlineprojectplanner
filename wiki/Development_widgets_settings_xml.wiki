@@ -48,4 +48,7 @@ Each widget is required to have the file settings.xml inside the root-folder of 
 === About install/uninstall ===
 Both the tag install and uninstall is required and must have a valid sql-file or it will fail. If you want to place it in a sub-directory then enter the path relative to the widget-folder. You can for example place all sql-files in a sub-directory and then protect that directory with a htaccess-file.
 
+=== About loading files ===
+In the tag 'load' it is possible to use these types: 'css' and/or 'javascript'. If the file is external and not in the widget-folder then add the attribute "external" together with a full path.
+
 <p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
