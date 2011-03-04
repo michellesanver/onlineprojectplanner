@@ -29,23 +29,40 @@ class Widgets_handler extends Controller {
             $widget_name = "widget_handler";
             $this->load->library_widget('Widgetlib');
             
+            $error_message = "";
+            
             //
             // add widget?
             //
             $new_project_id = null; // used later for creating json (add)
-            if(isset($addid)) {
+            if(isset($addid) && empty($addid)==false) {
+                
                 if($this->widgetlib->allowedToInstanceProjectWidget($addid) != false)
                 {
+                    // add and install widget if required
                     $new_project_id = $this->widgetlib->addWidgetToProject($addid);
           
+                    // check result
+                    if ($new_project_id === false) {
+                        // failed to install
+                        $addid = ""; // do NOT add
+                        $error_message = "Widget could not be added or installed.";
+                    }
                 }
               
             //    
             // delete widget?
             //
             } else if(isset($_POST["widgetid"])) {
+                
                 $widget_id = $this->input->post('widgetid', true);
-                $this->widgetlib->removeWidgetFromProject($widget_id);
+                $result = $this->widgetlib->removeWidgetFromProject($widget_id);
+                
+                // check result
+                if ($result === false) {
+                    // failed to uninstall
+                    $error_message = "Widget could not be removed or uninstalled.";
+                }
             }
             
             // get data
@@ -60,7 +77,7 @@ class Widgets_handler extends Controller {
             );
             
             // any added widgets?
-            if (isset($addid)) {
+            if (isset($addid) && empty($addid)==false) {
                 // send to view that will trigger widgetbar to add new widget
                 $data['addid'] = $addid;
                
@@ -84,11 +101,17 @@ class Widgets_handler extends Controller {
                 $data['new_widget_json'] = $new_widget_json;
             }
             
+            // any error?
+            if (empty($error_message)==false) {
+                $data['error_message'] = $error_message;
+            }
+            
+            
             // load a view for the widget
             // file is located in subfolder 'views'
             // for the widget
-           $this->load->view_widget('widget_handler', $data); // view is loaded into an iframe (jquery plugin window)
-                    
+            $this->load->view_widget('widget_handler', $data); // view is loaded into an iframe (jquery plugin window)
+
            
            // note; the function view_widget
            // is an extended function in Codeigniter

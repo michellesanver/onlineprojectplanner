@@ -2,15 +2,15 @@
 <!-- root -->
 <settings>
     <!--  short description of the widget -->
-	<about>Wiki; from Wiki Wiki Shuttle in Honolulu aka quick-web</about>
+    <about>Wiki; from Wiki Wiki Shuttle in Honolulu aka quick-web</about>
     <!-- version of widget-->
-	<version>1.0</version>
+    <version>1.0</version>
     <!-- link to website -->
-	<link>none</link>
+    <link>none</link>
     <!-- name of author -->
-	<author>Fredrik Johansson</author>
+    <author>Fredrik Johansson</author>
     <!-- icon to widget relative to main widget folder (can be left empty and a generic icon will be loaded) -->
-	<icon>wiki-icon.png</icon>
+    <icon>wiki-icon.png</icon>
     <!-- title of widget; will be placed under icon (can be left empty) -->
     <icon_title>Wiki</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
@@ -21,7 +21,7 @@
         
         valid types are; javascript, css
     -->
-	<load>
+    <load>
         <file type="javascript">js/wiki.js</file>
         <file type="css">css/wiki.css</file>
         <file type="javascript">js/jquery.treeview.js</file>
@@ -29,4 +29,8 @@
         <file type="css">css/jquery.wysiwyg.css</file>
         <file type="javascript">js/jquery.wysiwyg.js</file>
     </load>
+    <!-- sql-file for installation -->
+    <install>wiki_install.sql</install>
+    <!-- file for uninstallation when removing widget(s)-->
+    <uninstall>wiki_uninstall.sql</uninstall>
 </settings>

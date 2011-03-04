@@ -1,0 +1,1 @@
+<?php header('Location: opp_install.php'); ?>

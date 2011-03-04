@@ -13,7 +13,6 @@
   <link href="<?php echo $base_url; ?>css/smoothness/jquery.tooltip.css" rel="Stylesheet" type="text/css" />
   <link href="<?php echo $base_url; ?>css/smoothness/jquery-ui-1.8.6.custom.css" rel="Stylesheet" type="text/css" />
   
-  
   <!-- plugins -->
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.validate.min.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/window/jquery.window.js"></script>

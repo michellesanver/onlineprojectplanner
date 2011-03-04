@@ -9,16 +9,31 @@
 class User
 { 
 	private $_CI = null;
-    private $_last_error = "";
-    private $_min_password_length = 8; // minimun length when generating a new password from scratch
+	private $_last_error = "";
+	private $_min_password_length = 8; // minimun length when generating a new password from scratch
+	private $_passwordSalt = "";
     
 	function __construct()
 	{
-		// get CI instance
-		$this->_CI = & get_instance();
+		// from CI or external from install?
+		if (function_exists('get_instance')) {
 		
-		// load model for library
-		$this->_CI->load->model(array('User_model', 'Activation_model', 'Reset_model'));
+			// get CI instance
+			$this->_CI = & get_instance();
+			
+			// load model for library
+			$this->_CI->load->model(array('User_model', 'Activation_model', 'Reset_model'));
+			
+			// get salt for when creating password
+			$this->_passwordSalt = $this->_CI->config->item('password_salt', 'webclient');
+			
+		} else {
+			// manually load config to get password salt
+			
+			require_once dirname(__FILE__).'/../config/webclient.php';
+			$this->_passwordSalt = $config['webclient']['password_salt'];
+			
+		}
 	}
 	
    /**
@@ -210,8 +225,7 @@ class User
         }
         
         // encrypt (hash) password
-        $salt = $this->_CI->config->item('password_salt', 'webclient');
-        $encrypted = md5($password.$salt);
+        $encrypted = md5($password.$this->_passwordSalt);
         
         // return result
         return array($password, $encrypted);
@@ -222,7 +236,7 @@ class User
 	 * @param $pass
 	 * @return string
 	 */
-    function TransformPassword($pass)
+	function TransformPassword($pass)
 	{
 		$ret = $this->_createPassword($pass);
 		return $ret[1];
