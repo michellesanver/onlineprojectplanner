@@ -45,6 +45,14 @@ Each widget is required to have the file settings.xml inside the root-folder of 
 </settings>
 }}}
 
+=== Database syncronization ===
+Some settings/tags will be syncronized with the database - you only have to change in the settings.xml file and the database will be updated when the application is refreshed the next time.
+
+Settings/tags that will be syncronized:
+ * in_development (if none; default false)
+ * minimum_role (if none; default null)
+ * install / uninstall (if none or one tag is missing; no database)
+
 === About install/uninstall ===
 Both the tag install and uninstall is required and must have a valid sql-file or it will fail. If you want to place it in a sub-directory then enter the path relative to the widget-folder. You can for example place all sql-files in a sub-directory and then protect that directory with a htaccess-file.
 
