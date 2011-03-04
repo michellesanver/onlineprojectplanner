@@ -38,7 +38,14 @@ Each widget is required to have the file settings.xml inside the root-folder of 
 		<file type="css">css/iframe-styles.css</file>
 		<file type="javascript" external="true">https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js</file>
 	</load>
+    <!-- sql-file for installation -->
+    <install>wiki_install.sql</install>
+    <!-- file for uninstallation when removing widget(s)-->
+    <uninstall>wiki_uninstall.sql</uninstall>
 </settings>
 }}}
+
+=== About install/uninstall ===
+Both the tag install and uninstall is required and must have a valid sql-file or it will fail. If you want to place it in a sub-directory then enter the path relative to the widget-folder. You can for example place all sql-files in a sub-directory and then protect that directory with a htaccess-file.
 
 <p><br /><a href="https://code.google.com/p/onlineprojectplanner/wiki/Development_widgets"><< back to Development Widgets</a></p>
