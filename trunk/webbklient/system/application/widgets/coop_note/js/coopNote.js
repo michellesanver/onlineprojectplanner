@@ -1,7 +1,7 @@
 /* 
 * Name: coopNote
 * Desc: A cooperative notepad
-* Last update: 28/2-2011 by Dennis Sangmo
+* Last update: 7/3-2011 by Dennis Sangmo
 */
 function coopNote(id, wnd_options) {
 	this.widgetName = "coop_note";
@@ -46,18 +46,14 @@ coopNote.prototype.reloadBoth = function(padId){
 	this.reloadPad(padId);
 }
 
-coopNote.prototype.reloadList = function(noSend){
-	/*if(noSend == undefined){
-		this.socket.send("/rlw "+this.padId);
-	}*/
+coopNote.prototype.reloadList = function(){
 	var url = SITE_URL+'/widget/' + this.widgetName + '/notepad_contr/reloadList/' + Desktop.currentProjectId;
 	ajaxRequests.load(this.id, url, "initListEvents", true);
 }
 
 coopNote.prototype.reloadPad = function(padId){
 	if(padId != "new"){
-		this.padId = padId;
-		this.subChannel(this.padId);
+		this.subChannel(padId);
 	}
 	
 	var url = SITE_URL + '/widget/' + this.widgetName + '/notepad_contr/select/' + Desktop.currentProjectId + '/' + padId;
@@ -84,9 +80,7 @@ coopNote.prototype.startListEvents = function(){
 	var that = this;
 	
 	$('#' + this.divId + ' #pad-list-area').find('a').click(function(e){
-		that.padId = $(this).attr("padId");
-		
-		that.reloadPad(that.padId);
+		that.reloadPad($(this).attr("padId"));
 		
 		return false;
 	});
@@ -116,7 +110,7 @@ coopNote.prototype.startListEvents = function(){
 		});*/
 		
 		var url = SITE_URL + '/widget/' + that.widgetName + '/notepad_contr/delete/' + delpadId;
-		ajaxRequests.load(that.id, url, "catchStatus", true);
+		ajaxRequests.load(that.id, url, "catchCoopnoteStatus", true);
 		
 		if(that.padId == delpadId){
 			that.reloadPad("new");
@@ -150,7 +144,7 @@ coopNote.prototype.startPadEvents = function(){
 			data.push(text);
 			
 			var url = SITE_URL + '/widget/' + that.widgetName + '/notepad_contr/save/' + Desktop.currentProjectId;
-			ajaxRequests.post(that.id, data, url, "catchStatus", true);
+			ajaxRequests.post(that.id, data, url, "catchCoopnoteStatus", true);
 			
 			return false;
 		});
@@ -175,10 +169,48 @@ coopNote.prototype.startPadEvents = function(){
 		
 		// Sends data to node
 		$("#" + this.divId).find("#pad").keyup(function(e){
-			var str = $("#" + that.divId).find("#pad").val();
-			that.socket.send("/c "+that.padId+"/t " + str);
+			var mess = "";
+			var div = $("#" + that.divId).find("#pad");
+			var selection = $(div).getSelection();
+			var areaValue = div.val();
+			
+			// test to see if keypress is a char. (space, a-ö, 0-9, special chars)
+			if (e.which == 32 || (e.which >= 48 && e.which <= 90) || e.which == 221 || e.which == 222 || e.which == 192 || (e.which >= 96 && e.which <= 111) || (e.which >= 186 && e.which <= 222)) {
+				var char = areaValue.toString().slice(selection.start-1, selection.start);
+				
+				mess = "{type:\"char\", pos:" + (selection.start-1) + ", char:\"" + char + "\", channel:" + that.padId + "}";
+			} else if (e.which == 13) {
+				mess = "{type:\"enter\", pos:" + (selection.start-1) + ", channel:" + that.padId + "}";
+			} else if (e.which == 8) {
+				mess = "{type:\"backspace\", pos:" + (selection.start + 1) + ", channel:" + that.padId + "}";
+			} else if (e.which == 46) {
+				mess = "{type:\"delete\", pos:" + (selection.start) + ", channel:" + that.padId + "}";
+			}
+			
+			if(mess !== "")
+				that.socket.send(mess);
 		});
 		
+	}
+}
+
+//altered status catcher to reload documentlist
+coopNote.prototype.catchCoopnoteStatus = function(data) {
+	var json;
+	if(json = $.parseJSON(data)){
+		// Everything went ok
+		if(json.status == "ok") {
+			Desktop.show_message(json.status_message);
+			this.socket.send("{type:\"reloadList\", projectId:"+Desktop.currentProjectId+"}");
+			// Calling the requested function
+			if(json.load != undefined) {
+				this[json.load](json.loadparams);
+			}
+		} else {
+			Desktop.show_errormessage(json.status_message);
+		}
+	} else {
+		Desktop.show_errormessage("A error has occurred, admins has been informed!");
 	}
 }
 
@@ -193,15 +225,64 @@ coopNote.prototype.onNodeConnection = function(){
 	this.socket.connect();
 	
 	this.socket.on('connect', function(){
+		that.socket.send("{type:\"firstconnect\", projectId:"+Desktop.currentProjectId+"}");
 	}); 
 	
 	this.socket.on('message', function(message){
-		/*var mess = message.toString();
-		if ((mess.indexOf("/rlw ")) > -1) {
-			that.reloadList(true);
-			return;
-		}*/
-		$("#" + that.divId).find("#pad").val(message);
+		var div = $("#" + that.divId).find("#pad");
+		var jsonMess = eval("("+message+")");
+		var selection = $(div).getSelection();
+		var val = div.val();
+		
+		switch(jsonMess.type){
+			case "char":
+				var newVal = val.substring(0, jsonMess.pos) + jsonMess.char + val.substring(jsonMess.pos);
+				if (selection.start >= jsonMess.pos) {
+					selection.start += jsonMess.char.length;
+					selection.end += jsonMess.char.length;
+				}
+				div.val(newVal);
+				if (selection != undefined) {
+					$(div).setSelection(selection.start, selection.end);
+				}
+				break;
+			case "reloadList":
+				that.reloadList();
+				break;
+			case "enter":
+				var newVal = val.substring(0, jsonMess.pos) + "\n" + val.substring(jsonMess.pos);
+				if (selection.start >= jsonMess.pos) {
+					selection.start += 1;
+					selection.end += 1;
+				}
+				div.val(newVal);
+				if (selection != undefined) {
+					$(div).setSelection(selection.start, selection.end);
+				}
+				break;
+			case "backspace":
+				var newVal = val.substring(0, jsonMess.pos - 1) + val.substring(jsonMess.pos);
+				if (selection.start >= jsonMess.pos) {
+					selection.start -= 1;
+					selection.end -= 1;
+				}
+				div.val(newVal);
+				if (selection != undefined) {
+					$(div).setSelection(selection.start, selection.end);
+				}
+				break;
+			case "delete":
+				var newVal = val.substring(0, jsonMess.pos) + val.substring(jsonMess.pos+1);
+				if (selection.start > jsonMess.pos) {
+					selection.start -= 1;
+					selection.end -= 1;
+				}
+				div.val(newVal);
+				if (selection != undefined) {
+					$(div).setSelection(selection.start, selection.end);
+				}
+				break;
+		}
 	});
 }
 
@@ -209,11 +290,6 @@ coopNote.prototype.subChannel = function(padId){
 	if (this.socket == undefined) {
 		this.onNodeConnection();
 	}
-	this.socket.send("/sc "+padId)
+	this.padId = padId;
+	this.socket.send("{type:\"subscribe\", channel:"+padId+"}")
 }
-/*
-// Eventcatcher. Catches the new settingsdata
-ajaxTemplateWidget.prototype.settingsEventTest = function(data) {
-	alert($.dump(data));
-}
-*/

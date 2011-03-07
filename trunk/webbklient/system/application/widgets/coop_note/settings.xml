@@ -32,6 +32,7 @@
 	<load>
         <file type="javascript">js/coopNote.js</file>
 		<file type="javascript">views/coop_note_view.js</file>
+		<file type="javascript">js/field_selection.js</file>
         <file type="css">css/style.css</file>
     </load>
 </settings>
