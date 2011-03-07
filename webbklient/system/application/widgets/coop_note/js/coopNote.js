@@ -168,26 +168,28 @@ coopNote.prototype.startPadEvents = function(){
 		});
 		
 		// Sends data to node
-		$("#" + this.divId).find("#pad").keyup(function(e){
-			var mess = "";
+		$("#" + this.divId).find("#pad").keypress(function(e){
 			var div = $("#" + that.divId).find("#pad");
 			var selection = $(div).getSelection();
 			var areaValue = div.val();
 			
-			// test to see if keypress is a char. (space, a-ö, 0-9, special chars)
-			if (e.which == 32 || (e.which >= 48 && e.which <= 90) || e.which == 221 || e.which == 222 || e.which == 192 || (e.which >= 96 && e.which <= 111) || (e.which >= 186 && e.which <= 222)) {
-				var char = areaValue.toString().slice(selection.start-1, selection.start);
-				
-				mess = "{type:\"char\", pos:" + (selection.start-1) + ", char:\"" + char + "\", channel:" + that.padId + "}";
-			} else if (e.which == 13) {
-				mess = "{type:\"enter\", pos:" + (selection.start-1) + ", channel:" + that.padId + "}";
-			} else if (e.which == 8) {
-				mess = "{type:\"backspace\", pos:" + (selection.start + 1) + ", channel:" + that.padId + "}";
-			} else if (e.which == 46) {
-				mess = "{type:\"delete\", pos:" + (selection.start) + ", channel:" + that.padId + "}";
+			// test to see if keypress is a char.
+			// if backspace hit
+			if (e.which == 8) {
+				var mess = "{type:\"backspace\", pos:" + (selection.start + 1) + ", channel:" + that.padId + "}";
+			} 
+			
+			// if delete key hit
+			else if (e.which == 46) {
+				var mess = "{type:\"delete\", pos:" + (selection.start) + ", channel:" + that.padId + "}";
+			} 
+			
+			else {
+				var mess = "{type:\"char\", pos:" + (selection.start) + ", char:\"" + e.which + "\", channel:" + that.padId + "}";
 			}
 			
-			if(mess !== "")
+			// Send message to socket
+			if(mess !== undefined)
 				that.socket.send(mess);
 		});
 		
@@ -236,7 +238,7 @@ coopNote.prototype.onNodeConnection = function(){
 		
 		switch(jsonMess.type){
 			case "char":
-				var newVal = val.substring(0, jsonMess.pos) + jsonMess.char + val.substring(jsonMess.pos);
+				var newVal = val.substring(0, jsonMess.pos) + String.fromCharCode(jsonMess.char) + val.substring(jsonMess.pos);
 				if (selection.start >= jsonMess.pos) {
 					selection.start += jsonMess.char.length;
 					selection.end += jsonMess.char.length;
