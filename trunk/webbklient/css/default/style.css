@@ -1,123 +1,212 @@
-body, html {
+html {
     height: 100%;
     width: 100%;
-	font-size: 14px;
-	margin: 0px;
-	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
-        margin: 0px;
-        padding: 0px;
-}
+    margin: 0px;
+    padding: 0px;
+    }
+
+body {
+    height: 100%;
+    width: 100%;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.0em;
+    margin: 0px;
+    padding: 0px;
+    }
 
 /* @group Topbar */
 
 #topbar {
-    background-color: #000;
+    background: #333333;
     width: 100%;
     min-width: 900px;
-    height: 50px;
     margin: 0px;
     padding: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     z-index: 3;
     }
 
-span.sitetitle {
-    color:#fafafa;
+#topbar h1 {
+    background: transparent;
+    color: #FFFFFF;
     width: auto;
-    float:left;
-    font-size:18pt;
-    font-weight:bold;
-    padding: 7px;
+    float: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.4em;
+    margin: 0px;
+    margin-left: 15px;
+    padding: 0px;
+    padding-top: 5px;
+    padding-left: 5px;
     }
 
-span.sitetitle a {
-    color:#fafafa;
-    text-decoration:none;
+#topbar h1 a {
+    background: transparent;
+    color: #FFFFFF;
+    text-decoration: none;
     }
 
-span.sitetitle a:visited, span.sitetitle a:active {
-    text-decoration:none;
-    color:#fafafa;
-    }
-
-span.sitetitle a:hover {
-    text-decoration:underline;
+#topbar h1 span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.4em;
+    padding-left: 5px;
+    vertical-align: super;
     }
 
 #topbarbuttonwrapper {
-    color: #efefef;
-    width:auto;
+    background: transparent;
+    color: #FFFFFF;
+    width: auto;
     float: right;
-    font-weight: bold;
-    padding-top: 5px;
-    }
-
-#topbarbuttonwrapper a {
-    margin: 0px;
-    margin-left: 10px;
-    padding: 0px;
-    }
-
-#topbarbuttonwrapper a img {
     margin: 0px;
     padding: 0px;
     }
 
-#topbarimages {
+#topbarmenu {
+    background: transparent;
+    color: #FFFFFF;
+    width: auto;
     float: left;
-    margin-top:6px;
+    margin: 0px;
+    padding: 0px;
+    }
+
+#topbarmenu ul {
+    background: transparent;
+    color: #FFFFFF;
+    width: auto;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    }
+
+#topbarmenu ul li {
+    background: transparent;
+    color: #FFFFFF;
+    width: auto;
+    float: left;
+    margin: 0px;
+    margin-left: 15px;
+    padding: 0px;
+    }
+
+#topbarmenu ul li a {
+    background: #008E29;
+    color: #FFFFFF;
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7em;
+    margin: 0px;
+    padding: 10px;
+    -moz-border-radius: 0.4em;
+    border-radius: 0.4em;
+    -webkit-border-radius : 0.4em;
+    text-decoration: none;
+    }
+
+#topbarmenu ul li a.home {
+    background: #008E29 url(../../images/backgrounds/home_icon_16.png) 10px 9px no-repeat;
+    padding-left: 36px;
+    }
+
+#topbarmenu ul li a.home:hover {
+    background: #666666 url(../../images/backgrounds/home_icon_16.png) 10px 9px no-repeat;
+    }
+
+#topbarmenu ul li a.profile {
+    background: #008E29 url(../../images/backgrounds/profile_icon_16.png) 10px 9px no-repeat;
+    padding-left: 36px;
+    }
+
+#topbarmenu ul li a.profile:hover {
+    background: #666666 url(../../images/backgrounds/profile_icon_16.png) 10px 9px no-repeat;
+    }
+
+#topbarmenu ul li a.logout {
+    background: #008E29 url(../../images/backgrounds/logout_icon_16.png) 10px 9px no-repeat;
+    padding-left: 36px;
+    }
+
+#topbarmenu ul li a.logout:hover {
+    background: #666666 url(../../images/backgrounds/logout_icon_16.png) 10px 9px no-repeat;
+    }
+
+#topbarmenu ul li a:hover {
+    background: #666666;
+    color: #FFFFFF;
+    text-decoration: none;
     }
 
 #projectdropdown {
+    background: transparent;
+    color: #FFFFFF;
     width: 220px;
     float: right;
-    text-align: left;
     margin: 0px;
+    margin-right: 15px;
     padding: 0px;
     padding-left: 15px;
-    padding-right: 20px;
     }
 
 #projectdropdown ul {
-    background: #5e5e5e url(../../images/buttons/dropdown.png) no-repeat;
+    background: transparent;
+    color: #FFFFFF;
+    width: 220px;
     position: absolute;
-    width: 210px;
-    height: 20px;
-    list-style: none;
-    font-size: 11.5px;
-    padding: 0px;
-    padding-top: 6px;
-    padding-left: 10px;
     margin: 0px;
-    margin-top: 7px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    padding: 0px;
+    list-style: none;
     }
 
-#projectdropdown ul:hover {
-    height: auto;
-    padding-bottom: 10px;
+#projectdropdown ul li {
+    background: transparent;
+    color: #FFFFFF;
+    width: 220px;
+    margin: 0px;
+    padding: 0px;
     }
 
-#projectdropdown ul .item {
+#projectdropdown ul li p {
+    background: #666666 url(../../images/backgrounds/inject_icon_16.png) 194px 9px no-repeat;
+    color: #FFFFFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7em;
+    margin: 0px;
+    padding: 10px;
+    -moz-border-radius-topleft: 0.4em;
+    -moz-border-radius-topright: 0.4em;
+    border-top-left-radius: 0.4em;
+    border-top-right-radius: 0.4em;
+    -webkit-border-radius-topleft : 0.4em;
+    -webkit-border-radius-topright : 0.4em;
+    }
+
+#projectdropdown ul li a {
+    background: #666666;
+    color: #FFFFFF;
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7em;
+    margin: 0px;
+    padding: 10px;
+    text-decoration: none;
+    border-top: #333333 solid 1px;
+    }
+
+#projectdropdown ul li a:hover {
+    background: #666666;
+    color: #FFFFFF;
+    text-decoration: underline;
+    }
+
+#projectdropdown ul li.item {
     display:none;
     }
 
-#projectdropdown ul:hover .item {
+#projectdropdown ul:hover li.item {
     display: block;
-    padding: 0px;
-    padding-top: 10px;
-    }
-
-#projectdropdown ul:hover .item a {
-    color:#fff;
-    text-decoration:none;
-    margin: 0px;
-    padding: 0px;
-    }
-
-#projectdropdown ul:hover .item a:hover {
-    color: #929292;
     }
 
 /* @end */
@@ -125,13 +214,14 @@ span.sitetitle a:hover {
 /* @group Widgets */
 
 #widget_bar {
-    background: #EEEEEE;
-    color: #000000;
+    background: #FFFFFF url(../../images/backgrounds/widget-bar-background.png) top center repeat-x;
+    color: #333333;
     width: 100%;
     margin: 0px;
     padding: 0px;
     z-index: 3;
     overflow: hidden;
+    border-bottom: #EEEEEE solid 1px;
     }
 
 #widget_bar .icon_container {
