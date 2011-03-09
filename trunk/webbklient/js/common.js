@@ -2,7 +2,7 @@
 // -----------------------------------------------------------------------------------------------------------
 // set height of #content on load so maximize will work properly
 
-$(document).ready(function() {
+$(document).load(function() {
     // set size on load
     setContentSize();
     
@@ -15,8 +15,8 @@ $(document).ready(function() {
 function setContentSize()
 {
     var docHeight = $(document).height();
-    var topBarHeight = $('#topbar').height();
-    var wBarHeight = $('#widget_bar').height();
+    var topBarHeight = $('#topbar').outerHeight(true);
+    var wBarHeight = $('#widget_bar').outerHeight(true);
     var contentHeight;
 
     if($('#topbar').is(':visible') == false && $('#widget_bar').is(':visible') == false)
