@@ -46,56 +46,51 @@
 
     <div id="topbar">
 
-        <span class="sitetitle"><?php echo "<a href=\"$base_url\" class=\"home_link\">$site_title</a>"; ?></span>
+        <h1><?php echo "<a href=\"$base_url\" class=\"home_link\">$site_title</a>"; ?> <span>BETA</span></h1>
 
         <?php if($is_logged_in): ?>
-                
-            <div id="topbarbuttonwrapper">
 
-                <div id="topbarimages">
-                    <a href="<?php echo(site_url('project/index')); ?>">
-                       <img src="<?php echo("{$base_url}images/buttons/home.png"); ?>"/>
-                    </a>
+        <div id="topbarbuttonwrapper">
 
-                    <a href="<?php echo(site_url('account/edit')); ?>">
-                       <img src="<?php echo("{$base_url}images/buttons/profile.png"); ?>"/>
-                    </a>
+            <div id="topbarmenu">
 
-                    <a href="<?php echo(site_url('account/logout')); ?>">
-                       <img src="<?php echo("{$base_url}images/buttons/logout.png"); ?>"/>
-                    </a>
+                <ul>
+                    <li><a href="<?php echo(site_url('project/index')); ?>" class="home">Home</a></li>
+                    <li><a href="<?php echo(site_url('account/edit')); ?>" class="profile">Profile</a></li>
+                    <li><a href="<?php echo(site_url('account/logout')); ?>" class="logout">Logout</a></li>
+                </ul>
 
-                </div>
-
-                <div id="projectdropdown">
-                    <ul>
-                        <?php if(!is_null($current_project_name)): ?>
-                            <li class="top"><?php echo($current_project_name); ?></li>
-                        <?php else: ?>
-                            <li class="top">Choose project</li>
-                        <?php endif; ?>
-
-                        <?php foreach($project_list as $id => $name): ?>
-
-                            <?php if($current_project_id != $id): ?>
-                                <li class="item">
-                                    <a href="<?php echo site_url('project/'.$id); ?>">
-                                        <?php echo($name); ?>
-                                    </a>
-                                </li>
-                            <?php endif; ?>
-
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-
-                <br style="clear:both;" />
+                <br style="clear:left;" />
 
             </div>
-                
+
+            <div id="projectdropdown">
+
+                <ul>
+                    <?php if(!is_null($current_project_name)): ?>
+                        <li class="top"><p><?php echo($current_project_name); ?></p></li>
+                    <?php else: ?>
+                        <li class="top"><p>Choose project</p></li>
+                    <?php endif; ?>
+
+                    <?php foreach($project_list as $id => $name): ?>
+
+                        <?php if($current_project_id != $id): ?>
+                            <li class="item"><a href="<?php echo site_url('project/'.$id); ?>"><?php echo($name); ?></a></li>
+                        <?php endif; ?>
+
+                    <?php endforeach; ?>
+                </ul>
+
+            </div>
+
             <br style="clear:both;" />
 
+        </div>
+
         <?php endif; ?>
+
+        <br style="clear:both;" />
 
     </div>
 	
