@@ -12,13 +12,13 @@
         <?php if (isset($hideForm) == false || $hideForm == false) { ?>
             <form action="<?php echo site_url('account/resetpassword'); ?>" method="POST">
 
-                <p><label for="email">Email: </label><input type="text" name="email" value="<?php echo (isset($email)) ? $email : ""; ?>" /></p>
+                <div class="inputwrapper inputwrapper410"><label for="email">Email:</label><input type="text" name="email" value="<?php echo (isset($email)) ? $email : ""; ?>" /><br style="clear:both;" /></div>
                 
-                <p><b>OR</b></p>
+                <p><strong>OR</strong></p>
                 
-                <p><label for="username">Username: </label><input type="text" name="username" value="<?php echo (isset($username)) ? $username : ""; ?>" /></p>
+                <div class="inputwrapper inputwrapper410"><label for="username">Username:</label><input type="text" name="username" value="<?php echo (isset($username)) ? $username : ""; ?>" /><br style="clear:both;" /></div>
                 
-                <p><label>&nbsp;</label><input type="submit" value="Reset" name="reset_btn" /></p>
+                <div class="inputwrapper inputwrapper410"><input type="submit" value="Reset" name="reset_btn" /><br style="clear:both;" /></div>
             </form>
         <?php } ?>
 	</div>
