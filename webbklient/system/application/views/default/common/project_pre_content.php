@@ -55,9 +55,10 @@
             <div id="topbarmenu">
 
                 <ul>
-                    <li><a href="<?php echo(site_url('project/index')); ?>" class="home">Home</a></li>
-                    <li><a href="<?php echo(site_url('account/edit')); ?>" class="profile">Profile</a></li>
-                    <li><a href="<?php echo(site_url('account/logout')); ?>" class="logout">Logout</a></li>
+                    <li><p><a href="http://www.pppp.nu">Back to pppp.nu!</a></p></li>
+                    <li><a href="<?php echo(site_url('project/index')); ?>" class="button home">Home</a></li>
+                    <li><a href="<?php echo(site_url('account/edit')); ?>" class="button profile">Profile</a></li>
+                    <li><a href="<?php echo(site_url('account/logout')); ?>" class="button logout">Logout</a></li>
                 </ul>
 
                 <br style="clear:left;" />
@@ -94,6 +95,24 @@
             </div>
 
             <br style="clear:both;" />
+
+        </div>
+
+        <?php else: ?>
+
+        <div id="topbarbuttonwrapper">
+
+            <div id="topbarmenu">
+
+                <ul>
+                    <li><p><a href="http://www.pppp.nu">Back to pppp.nu!</a></p></li>
+                    <li><a href="<?php echo($base_url); ?>" class="button home">Login</a></li>
+                    <li><a href="<?php echo(site_url('account/register')); ?>" class="button register">Register</a></li>
+                </ul>
+
+                <br style="clear:left;" />
+
+            </div>
 
         </div>
 
