@@ -8,8 +8,8 @@
 <div id="contentboxwrapper">
 	<div id="leftbox">
 		<form action="<?php echo site_url('project/accept'); ?>" method="POST">
-			<label for="code">Invite Code: </label><input type="text" name="code" value="<?php echo (isset($code)) ? $code : ""; ?>" />*<br/>
-			<label>&nbsp;</label><input type="submit" value="Accept" name="accept_btn" /><br/>
+			<div class="inputwrapper inputwrapper410"><label for="code">Invite Code: *</label><input type="text" name="code" value="<?php echo (isset($code)) ? $code : ""; ?>" /><br style="clear:both;" /></div>
+			<div class="inputwrapper inputwrapper410"><label>&nbsp;</label><input type="submit" value="Accept" name="accept_btn" /><br style="clear:both;" /></div>
 		</form>
 
 	</div>
