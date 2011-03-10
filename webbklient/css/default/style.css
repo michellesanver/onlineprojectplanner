@@ -29,7 +29,7 @@ h1 {
     }
 
 h1.contentheader {
-    margin-top: 30px;
+    margin-top: 10px;
     padding-bottom: 10px;
     border-bottom: #DDDDDD solid 1px;
     }
@@ -39,9 +39,22 @@ h2, h3 {
     color: #333333;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.0em;
-    font-weight: normal;
     margin: 0px;
     padding: 0px;
+    }
+
+/* @end */
+
+/* @group Paragraphs */
+
+#content p {
+    background: transparent;
+    color: #333333;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.75em;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 20px;
     }
 
 /* @end */
@@ -49,39 +62,25 @@ h2, h3 {
 /* @group Links */
 
 a img {
-	border: 0;
-}
+    background: transparent;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    }
 
 a {
-	color: #008e29;
-}
+    background: transparent;
+    color: #008E29;
+    text-decoration: none;
+    }
 
 a:hover {
-	text-decoration: none;
-}
+    text-decoration: underline;
+    }
 
 .small_links {
-	font-size: 13px;
-}
-
-a.register {
-	margin-left: 20px;
-	color: #eaeaea;
-	text-decoration: none;
-	background-color: #008e29;
-	font-weight: bold;
-	font-size: 12px;
-	padding: 5px;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;
-	border: 1px solid #797979;
-}
-
-a.register:hover {
-	background-color: #eaeaea;
-	color: #008d29;
-}
+    font-size: 0.8em;
+    }
 
 /* @end */
 
@@ -90,7 +89,7 @@ a.register:hover {
 #topbar {
     background: #333333;
     width: 100%;
-    min-width: 900px;
+    min-width: 940px;
     margin: 0px;
     padding: 0px;
     padding-top: 15px;
@@ -164,7 +163,31 @@ a.register:hover {
     padding: 0px;
     }
 
-#topbarmenu ul li a {
+#topbarmenu ul li p {
+    background: transparent;
+    color: #FFFFFF;
+    font-family: 'Times New Roman', Times,  sans-serif;
+    font-size: 0.7em;
+    font-style: italic;
+    letter-spacing: 0.1em;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+    }
+
+#topbarmenu ul li p a {
+    background: transparent;
+    color: #FFFFFF;
+    text-decoration: none;
+    }
+
+#topbarmenu ul li p a:hover {
+    background: transparent;
+    color: #FFFFFF;
+    text-decoration: underline;
+    }
+
+#topbarmenu ul li a.button {
     background: #008E29;
     color: #FFFFFF;
     display: block;
@@ -176,6 +199,10 @@ a.register:hover {
     border-radius: 0.4em;
     -webkit-border-radius : 0.4em;
     text-decoration: none;
+    }
+
+#topbarmenu ul li a.register {
+    margin-right: 15px;
     }
 
 #topbarmenu ul li a.home {
@@ -364,7 +391,9 @@ a.register:hover {
     background: transparent;
     width: 940px;
     margin: auto;
+    margin-top: 50px;
     padding: 0px;
+    padding-bottom: 20px;
     z-index: 2;
     }
 
@@ -411,11 +440,48 @@ a.register:hover {
     padding: 0px;
     }
 
+#centerbox {
+    background: transparent;
+    width: 400px;
+    margin: auto;
+    padding: 0px;
+    }
+
+#centerbox.authenticate {
+    padding: 40px;
+    -moz-border-radius: 0.4em;
+    border-radius: 0.4em;
+    -webkit-border-radius : 0.4em;
+    border: #EEEEEE solid 0.2em;
+    }
+
+/* @end */
+
+/* @group Lists */
+
+#content ul {
+    background: transparent;
+    color: #333333;
+    margin: 0px;
+    margin-top: 20px;
+    padding: 0px;
+    list-style-position: inside;
+    }
+
+#content ul li {
+    background: transparent;
+    color: #333333;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.75em;
+    margin: 0px;
+    padding: 5px;
+    }
+
 /* @end */
 
 /* @group Project */
 
-.newprojectbox, .acceptinvitationbox, .projectbox {
+a.newprojectbox, a.acceptinvitationbox, a.projectbox {
     background: #FFFFFF;
     color: #333333;
     width: 163px;
@@ -431,34 +497,34 @@ a.register:hover {
     -moz-border-radius: 0.4em;
     border-radius: 0.4em;
     -webkit-border-radius : 0.4em;
-    text-decoration: none;
     border: #DDDDDD solid 1px;
+    text-decoration: none;
     }
 
-.newprojectbox, .acceptinvitationbox {
+a.newprojectbox, a.acceptinvitationbox {
     background: #FFFFFF url(../../images/backgrounds/new-project-listing.png) top center repeat-x;
     color: #008E29;
     font-size: 0.75em;
     font-weight: bold;
     }
 
-.projectbox {
+a.projectbox {
     background: #FFFFFF url(../../images/backgrounds/project-listing.png) top center repeat-x;
-    font-size: 0.8em;
+    font-size: 0.65em;
     }
 
-.newprojectbox:hover, .acceptinvitationbox:hover {
+a.newprojectbox:hover, a.acceptinvitationbox:hover {
     background-position: 0px -150px;
     color: #333333;
     text-decoration: none;
     }
-.projectbox:hover {
+a.projectbox:hover {
     background-position: 0px -150px;
     color: #333333;
     text-decoration: none;
     }
 
-.projectbox:hover span {
+a.projectbox:hover span {
     text-decoration: underline;
     }
 
@@ -531,71 +597,123 @@ label.error {
 
 /* @group Forms */
 
+form {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    }
+
+form .inputwrapper {
+    width: auto;
+    margin: 0px;
+    margin-top: 20px;
+    padding: 0px;
+    }
+
+label {
+    background: transparent;
+    color: #333333;
+    display: block;
+    float: left;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.75em;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    }
+
+.inputwrapper400 label, .inputwrapper410 label, .inputwrapper510 label  {
+    width: 138px;
+    }
+
 input[type=text], input[type=password] {
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;
-	height: 20px;
-	margin-bottom:10px;
-	border: 1px solid #797979;
-	color: #424242;
-	font-weight: bold;
-	padding-left: 5px;
-}
+    background: transparent;
+    color: #333333;
+    float: right;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.75em;
+    margin: 0px;
+    padding: 10px;
+    -moz-border-radius: 0.4em;
+    border-radius: 0.4em;
+    -webkit-border-radius : 0.4em;
+    border: #DDDDDD solid 1px;
+    }
 
-p.textarea {
-	vertical-align: top;
-}
+.inputwrapper400 input[type=text], .inputwrapper400 input[type=password] {
+    width: 220px;
+    }
 
-input[type=submit], input[type=button] {
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;
-	border: 1px solid #797979;
-	padding: 5px;
-	background-color: #d5d5d5;
-	font-weight: bold;
-}
+.inputwrapper410 input[type=text], .inputwrapper410 input[type=password] {
+    width: 230px;
+    }
 
-textarea {
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;
-	margin-bottom:10px;
-	border: 1px solid #797979;
-	color: #424242;
-	font-weight: bold;
-	padding-left: 5px;
-	margin-right: 5px;
-	float: left;
-}
+
+.inputwrapper410 span {
+    background: transparent;
+    color: #333333;
+    width: 232px;
+    float: right;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.75em;
+    margin: 0px;
+    padding: 10px;
+    }
+
+.inputwrapper510 input[type=text], .inputwrapper510 input[type=password] {
+    width: 330px;
+    }
 
 input:hover, input:focus, textarea:hover, textarea:focus {
-	background-color: #eaeaea;
-}
+    background: #EEEEEE;
+    color: #333333;
+    }
 
-#registerform label {
-    width: 120px;
-}
-
-form label {
-    display: block;
-    width: 100px;
-    float: left;
-    margin: 2px 4px 6px 0px;
+input[type=submit], input[type=button] {
+    background: #333333;
+    color: #FFFFFF;
+    width: auto;
+    float: right;
     text-align: left;
-}
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7em;
+    margin: 0px;
+    padding: 10px;
+    -moz-border-radius: 0.4em;
+    border-radius: 0.4em;
+    -webkit-border-radius : 0.4em;
+    border: none;
+    cursor: pointer;
+    }
 
-p.forgotpassword {
-	margin-top: 10px;
-	margin-left: 0px;
-}
+input[type=submit]:hover, input[type=button]:hover {
+    background: #008E29;
+    color: #FFFFFF;
+    }
 
-#contentboxwrapper {
-	margin-left:auto;
-	margin-right:auto;
-	width: 920px;
-}
+textarea {
+    background: transparent;
+    color: #333333;
+    float: right;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7em;
+    margin: 0px;
+    padding: 10px;
+    -moz-border-radius: 0.4em;
+    border-radius: 0.4em;
+    -webkit-border-radius : 0.4em;
+    border: #DDDDDD solid 1px;
+    }
+
+p.textarea {
+    vertical-align: top;
+    }
 
 /* @end */
 
