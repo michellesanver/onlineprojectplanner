@@ -597,20 +597,20 @@ label.error {
 
 /* @group Forms */
 
-form {
+#content form {
     margin: 0px;
     padding: 0px;
     border: none;
     }
 
-form .inputwrapper {
+#content form .inputwrapper {
     width: auto;
     margin: 0px;
     margin-top: 20px;
     padding: 0px;
     }
 
-label {
+#content label {
     background: transparent;
     color: #333333;
     display: block;
@@ -625,11 +625,11 @@ label {
     padding-bottom: 11px;
     }
 
-.inputwrapper400 label, .inputwrapper410 label, .inputwrapper510 label  {
+#content .inputwrapper400 label, #content .inputwrapper410 label, #content .inputwrapper510 label  {
     width: 138px;
     }
 
-input[type=text], input[type=password] {
+#content input[type=text], #content input[type=password] {
     background: transparent;
     color: #333333;
     float: right;
@@ -644,16 +644,16 @@ input[type=text], input[type=password] {
     border: #DDDDDD solid 1px;
     }
 
-.inputwrapper400 input[type=text], .inputwrapper400 input[type=password] {
+#content .inputwrapper400 input[type=text], #content .inputwrapper400 input[type=password] {
     width: 220px;
     }
 
-.inputwrapper410 input[type=text], .inputwrapper410 input[type=password] {
+#content .inputwrapper410 input[type=text], #content .inputwrapper410 input[type=password] {
     width: 230px;
     }
 
 
-.inputwrapper410 span {
+#content .inputwrapper410 span {
     background: transparent;
     color: #333333;
     width: 232px;
@@ -665,16 +665,16 @@ input[type=text], input[type=password] {
     padding: 10px;
     }
 
-.inputwrapper510 input[type=text], .inputwrapper510 input[type=password] {
+#content .inputwrapper510 input[type=text], #content .inputwrapper510 input[type=password] {
     width: 330px;
     }
 
-input:hover, input:focus, textarea:hover, textarea:focus {
+#content input:hover, #content input:focus, #content textarea:hover, #content textarea:focus {
     background: #EEEEEE;
     color: #333333;
     }
 
-input[type=submit], input[type=button] {
+#content input[type=submit], #content input[type=button] {
     background: #333333;
     color: #FFFFFF;
     width: auto;
@@ -691,12 +691,12 @@ input[type=submit], input[type=button] {
     cursor: pointer;
     }
 
-input[type=submit]:hover, input[type=button]:hover {
+#content input[type=submit]:hover, #content input[type=button]:hover {
     background: #008E29;
     color: #FFFFFF;
     }
 
-textarea {
+#content textarea {
     background: transparent;
     color: #333333;
     float: right;
@@ -711,7 +711,11 @@ textarea {
     border: #DDDDDD solid 1px;
     }
 
-p.textarea {
+#content .inputwrapper410 textarea {
+    width: 230px;
+    }
+
+#content p.textarea {
     vertical-align: top;
     }
 
