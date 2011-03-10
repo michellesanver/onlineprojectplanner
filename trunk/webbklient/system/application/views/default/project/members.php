@@ -5,10 +5,10 @@
     }
 ?>
                 
-<h1 class="blackheader">Project members in "<?php echo (isset($title)) ? $title : ""; ?>"</h1>
+<h1 class="contentheader">Project members in "<?php echo (isset($title)) ? $title : ""; ?>"</h1>
 
 <div id="contentboxwrapper">
-	<div id="leftboxwide">
+	<div id="leftbox">
 	
 	        <h3>Invite a new member</h3>
 	
@@ -55,6 +55,8 @@
 	    	<?php endforeach; ?>
 	
 	    </div>
+
+            <br style="clear:both;" />
 
 	</div>
 </div>

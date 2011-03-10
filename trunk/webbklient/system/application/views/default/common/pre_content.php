@@ -4,10 +4,13 @@
   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <title><?php echo $site_title; ?><?php echo (isset($page_title) ? "- $page_title" : ''); ?></title>
   <link href="<?php echo $base_url . "css/" . $theme_folder . "/style.css"; ?>" rel="Stylesheet" type="text/css" />
+  <link href="<?php echo $base_url; ?>css/smoothness/jquery.tooltip.css" rel="Stylesheet" type="text/css" />
   
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery-1.5.min.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.validate.min.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery-ui-1.8.6.complete.min.js"></script>
+  <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.tooltip.js"></script>
+  <script type="text/javascript" src="<?php echo $base_url; ?>js/index_tooltip.js"></script>
  
 </head>
 
@@ -38,7 +41,16 @@
 
                 <ul>
                     <?php if(!is_null($current_project_name)): ?>
+                        <?php if(strlen($current_project_name) <= 25): ?>
                         <li class="top"><p><?php echo($current_project_name); ?></p></li>
+                        <?php else:
+                            $string = $current_project_name;
+                            $string = substr($string,0,25);
+                            $string = substr($string,0,strrpos($string," "));
+                            $string .= '...'
+                        ?>
+                        <li class="top"><p><?php echo($string); ?></p></li>
+                        <?php endif; ?>
                     <?php else: ?>
                         <li class="top"><p>Choose project</p></li>
                     <?php endif; ?>
