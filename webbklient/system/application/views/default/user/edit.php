@@ -5,10 +5,10 @@
     }
 ?>
                 
-<h1 class="blackheader">Account information</h1>
+<h1 class="contentheader">Account information</h1>
 
 <div id="contentboxwrapper">
-	<div id="leftboxwide">
+	<div id="leftbox">
 	
 	        <h3>Edit your account</h3>
 	
@@ -34,6 +34,8 @@
 						<p><input type="submit" value="Update" name="edit_pass_btn" /></p>
 	        </form>
 	    </div>
+
+            <br style="clear:both;" />
 
 	</div>
 </div>

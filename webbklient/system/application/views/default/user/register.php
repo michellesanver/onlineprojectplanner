@@ -3,9 +3,9 @@
 			echo "<div class='" . $status . "'><b>" . $status_message . "</b>" . $this->validation->error_string . "<p>" . validation_errors() . "</p></div>";
 		}
 	?>
-    <h1 class="blackheader">Register</h1>
+    <h1 class="contentheader">Register</h1>
     <div id="contentboxwrapper">
-	    <div id="leftboxwide">
+	    <div id="leftbox">
 			<form id="registerform" action="<?php echo site_url('account/register'); ?>" method="POST">
 				<p><label for="firstname">Firstname: </label><input type="text" name="firstname" value="<?php echo (isset($firstname)) ? $firstname : ""; ?>" />*</p>
 				<p><label for="lastname">Lastname: </label><input type="text" name="lastname" value="<?php echo (isset($lastname)) ? $lastname : ""; ?>" />*</p>
@@ -28,6 +28,8 @@
 			</ul>
 			<p><i>This site will best work in Safari, Chrome and Firefox. Internet explorer is not supported.</i></p>
 		</div>
+        
+                <br style="clear:both;" />
 	</div>
 
 

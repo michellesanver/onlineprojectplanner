@@ -3,7 +3,7 @@
 			echo "<div class='" . $status . "'><b>" . $status_message . "</b>" . $this->validation->error_string . "<p>" . validation_errors() . "</p></div>";
 		}
 	?>
-	<h1 class="blackheader">Authenticate</h1>
+	<h1 class="contentheader">Authenticate</h1>
 	<div id="contentboxwrapper">
 		<div id="leftbox">
 			<h2>Login</h2>
@@ -25,4 +25,6 @@
 			</ul>
 			<p><a class="register" href="<?php echo site_url('account/register'); ?>">Click here to register</a></p>
 		</div>
+
+                <br style="clear:both;" />
 	</div>

@@ -4,10 +4,10 @@
             }
         ?>
 
-<h1 class="blackheader">Project preferences for "<?php echo (isset($title)) ? $title : ""; ?>"</h1>
+<h1 class="contentheader">Project preferences for "<?php echo (isset($title)) ? $title : ""; ?>"</h1>
 
 <div id="contentboxwrapper">
-	<div id="leftboxwide">
+	<div id="leftbox">
      
 
         <?php if(isset($title)) { ?>
@@ -60,4 +60,6 @@
 		<?php endforeach; ?>
 	</table>
 	</div>
+
+        <br style="clear:both;" />
 </div>

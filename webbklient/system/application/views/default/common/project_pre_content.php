@@ -68,7 +68,16 @@
 
                 <ul>
                     <?php if(!is_null($current_project_name)): ?>
+                        <?php if(strlen($current_project_name) <= 25): ?>
                         <li class="top"><p><?php echo($current_project_name); ?></p></li>
+                        <?php else:
+                            $string = $current_project_name;
+                            $string = substr($string,0,25);
+                            $string = substr($string,0,strrpos($string," "));
+                            $string .= '...'
+                        ?>
+                        <li class="top"><p><?php echo($string); ?></p></li>
+                        <?php endif; ?>
                     <?php else: ?>
                         <li class="top"><p>Choose project</p></li>
                     <?php endif; ?>
