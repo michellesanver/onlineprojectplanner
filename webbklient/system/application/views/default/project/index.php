@@ -1,7 +1,7 @@
 
 <?php
     if(isset($status)) {
-            echo "<div class='" . $status . "'><b>" . $status_message . "</b></div>";
+            echo "<div class='" . $status . "'><h3>" . $status_message . "</h3></div>";
     }
 ?>
                 

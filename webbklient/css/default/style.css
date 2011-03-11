@@ -29,7 +29,7 @@ h1 {
     }
 
 h1.contentheader {
-    margin-top: 10px;
+    margin-top: 20px;
     padding-bottom: 10px;
     border-bottom: #DDDDDD solid 1px;
     }
@@ -391,7 +391,7 @@ a:hover {
     background: transparent;
     width: 940px;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 40px;
     padding: 0px;
     padding-bottom: 20px;
     z-index: 2;
@@ -401,7 +401,7 @@ a:hover {
     background: transparent;
     width: 940px;
     margin: 0px;
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 0px;
     }
 
@@ -560,38 +560,40 @@ span.project_title  {
 /* @group Messages */
 
 div.error, div.ok  { 
-    padding-left: 40px;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    padding-top: 10px;
     width: 700px;
-    margin-left:auto;
-    margin-right:auto;
-    min-height:32px;    
-}
+    min-height:32px;
+    margin: auto;
+    padding: 10px;
+    padding-left: 40px;
+    -moz-border-radius: 0.4em;
+    border-radius: 0.4em;
+    -webkit-border-radius : 0.4em;
+    }
 
 div.error {
-	background: #f8fdda url(../../images/backgrounds/erroricon.png) no-repeat;
-    border: 2px solid #e61913;
-}
+    background: #FEFEFE url(../../images/backgrounds/erroricon.png) top left no-repeat;
+    border: #E61913 solid 0.2em;
+    }
 
 div.ok {
-    background: #f8fdda url(../../images/backgrounds/okicon.png) no-repeat;
-    border: 2px solid #1ca10e;
-}
+    background: #FEFEFE url(../../images/backgrounds/okicon.png) top left no-repeat;
+    border: #1CA10E solid 0.2em;
+    }
+
+#content div.error p, #content div.ok p  {
+    padding-top: 10px;
+    }
 
 div.widget_status {
-	width: 300px;
-	margin-left: auto;
-	margin-right: auto;
-}
+    width: 300px;
+    margin: auto;
+    }
 
 label.error {
-	float:none;
-	display:inline;
-	color:red;
-}
+    float:none;
+    display:inline;
+    color: #E61913;
+    }
 
 /* @end */
 
@@ -721,19 +723,17 @@ label.error {
 
 /* @end */
 
-ul {
-	list-style-type: square;
-	margin-top: 0px;
-	padding-top: 0px;
-}
+/* @group Unchanged */
+
+/* @group Random */
 
 #useredit {
-	color: #fffeff;
-	font-weight: bold;
-	float: right;
-	margin-top: 10px;
-	padding-right: 15px;
-}
+    color: #fffeff;
+    font-weight: bold;
+    float: right;
+    margin-top: 10px;
+    padding-right: 15px;
+    }
 
 
 div#fullpage_overlay {
@@ -748,48 +748,49 @@ div#fullpage_overlay {
     opacity: .5;
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
     filter: alpha(opacity=50);
-    
-}
+    }
 
 /* @group javascript popup messages */
 div#message {
     position:absolute;
     left:0;
-   	margin-top: 20px;
+    margin-top: 20px;
     width: 500px;
     height: 100px;
     display: none;
     z-index: 3999;
     border:2px solid #b9b9b9;
-	opacity: 0.9;
-	filter: alpha(opacity=90);
-}
+    opacity: 0.9;
+    filter: alpha(opacity=90);
+    }
 
 div#message.ok {
-    background-color:#22d922;     
-}
+    background: #1CA10E;
+    }
 
 div#message.error {
-    background-color:#d92222;     
-}
+    background:#E61913;
+    }
+
 /* @end */ 
 
-
-/* @group desktop debug messages */
+/* @group Desktop debug messages */
 
 #debug_widget_messages {
     padding: 5px;    
-}
+    }
 
 #debug_widget_messages p {
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
     margin-bottom: 3px;
-}
+    }
 
 #debug_widget_messages .debug_timestamp {
-    font-size:10pt;    
-}
+    font-size: 10pt;
+    }
+
+/* @end */
 
 /* @end */
 

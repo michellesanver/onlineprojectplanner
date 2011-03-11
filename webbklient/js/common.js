@@ -2,7 +2,7 @@
 // -----------------------------------------------------------------------------------------------------------
 // set height of #content on load so maximize will work properly
 
-$(document).load(function() {
+$(window).load(function() {
     // set size on load
     setContentSize();
     
