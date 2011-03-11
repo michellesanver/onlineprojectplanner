@@ -2,9 +2,9 @@
     if(isset($status)) {
         echo("<div class='" . 
         	$status . 
-        	"'><b>" . 
+        	"'><h3>" .
         	$status_message . 
-        	"</b>" . 
+        	"</h3>" .
         	$this->validation->error_string . 
         	"<p>" . 
         	validation_errors() . 

@@ -39,9 +39,9 @@ DesktopRemote = {
 
         $('.dektop_remote_object').bind('click', function() {
 
-            DesktopRemote.topBarHeight = $(DesktopRemote.topBar).height();
-            DesktopRemote.widgetBarHeight = $(DesktopRemote.widgetBar).height();
-            DesktopRemote.desktopHeight = $(DesktopRemote.desktop).height();
+            DesktopRemote.topBarHeight = $(DesktopRemote.topBar).outerHeight(true);
+            DesktopRemote.widgetBarHeight = $(DesktopRemote.widgetBar).outerHeight(true);
+            DesktopRemote.desktopHeight = $(DesktopRemote.desktop).outerHeight(true);
 
             // Get order
 
@@ -82,7 +82,7 @@ DesktopRemote = {
 
                 // Set new dektop height
 
-                $(DesktopRemote.desktop).animate({'height': (DesktopRemote.desktopHeight + DesktopRemote.widgetBarHeight)});
+                $(DesktopRemote.desktop).animate({'height': (DesktopRemote.desktopHeight + DesktopRemote.widgetBarHeight) - 20});
 
                 // Animate widgets
 
@@ -191,7 +191,7 @@ DesktopRemote = {
 
                     // Set new dektop height
 
-                    $(DesktopRemote.desktop).animate({'height': ((DesktopRemote.desktopHeight + DesktopRemote.topBarHeight) + DesktopRemote.widgetBarHeight)});
+                    $(DesktopRemote.desktop).animate({'height': ((DesktopRemote.desktopHeight + DesktopRemote.topBarHeight) + DesktopRemote.widgetBarHeight) - 20});
 
                     // Animate widgets
 
@@ -216,7 +216,7 @@ DesktopRemote = {
 
                     // Set new dektop height
 
-                    $(DesktopRemote.desktop).animate({'height': DesktopRemote.desktopHeight + DesktopRemote.topBarHeight});
+                    $(DesktopRemote.desktop).animate({'height': DesktopRemote.desktopHeight + DesktopRemote.topBarHeight} - 10);
 
                     // Animate widgets
 
