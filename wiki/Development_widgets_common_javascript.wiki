@@ -2,10 +2,15 @@
     
 Online Project Planner provides a number of common global functions and variables that can be used:
     
-== Variables ==
+== Variables (global, set runtime) ==
  * _*BASE_URL*_ base_url from CI (no index.php)
  * _*SITE_URL*_ site_url from CI (WITH index.php)
  * _*CURRENT_PROJECT_ID*_ ID to current project
+ * _*WIDGET_DEFAULT_HEIGHT*_ Default height of a widget (from backend config)
+ * _*WIDGET_DEFAULT_WIDTH*_ Default width of a widget (from backend config)
+ * _*WIDGET_DEFAULT_X*_ Default start x-position of a widget (from backend config)
+ * _*WIDGET_DEFAULT_Y*_ Default start x-position of a widget (from backend config)y
+ * _*WIDGET_SAVE_POSITIONS*_ A boolean values - enable or disable save position of a widget - also restore desktop (from backend config)
 
 == Scripts ==
 
