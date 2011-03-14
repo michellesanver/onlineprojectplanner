@@ -34,7 +34,7 @@ projectsettings.prototype.eventinit = function(){
 		$('#' + that.divId).find( "#project-settings-dialog-delete" ).dialog({
 			resizable: false,
 			height: 185 ,
-			width: 400,
+			width: 450,
 			modal: true,
 			zIndex: 3999,
 			buttons: {
@@ -78,9 +78,40 @@ projectsettings.prototype.save = function(){
 projectsettings.prototype.blockUser = function(data){
 	var json;
 	if(json = $.parseJSON(data)){
+		
 		// Everything went ok
 		if(json.status == "ok") {
-			$('#fullpage_overlay').show();
+			
+			var message = 'The project has been deleted! Press OK to go back.';
+			
+	        var dialog_id = 'delete-project-result';
+            var dialogHTML = '<div id="' + dialog_id + '" title="Result" style="display:none;">'+
+                           '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>' + message + '</p>'+
+                           '</div>';
+			
+	        // inject a div into body to use for dialog
+	        $(document.body).append(dialogHTML);
+	        
+	        // create dialog
+	         $("#" + dialog_id).dialog({
+	            resizable: false,
+	            height: 190,
+	            width: 400,
+	            modal: true,
+	            zIndex: 9999,
+	            buttons: {
+	                'Ok': function() {
+	                    // destroy and remove dialog
+	                    $(this).dialog("destroy");
+	                    $('#'+dialog_id).remove();
+	                    
+	                    // redirect
+						document.location = SITE_URL;
+	                }
+	            }
+	         });
+
+			/* $('#fullpage_overlay').show();
 			$('#fullpage_overlay').click(function(){});
 			$('#message').html('<p>The project has been deleted!</p>'+'<p><a href="'+SITE_URL+'">Click here to continue!</a></p>');
 			$('#message').css('top', '0px');
@@ -89,7 +120,8 @@ projectsettings.prototype.blockUser = function(data){
 			var maxWidth = $('#desktop').width();
 			var centerPosition = (maxWidth/2)-(Desktop.message_width/2);
 			$('#message').css('left', centerPosition+'px');
-			$('#message').addClass('ok');
+			$('#message').addClass('ok');*/			
+			
 		} else {
 			Desktop.show_errormessage(json.status_message);
 		}

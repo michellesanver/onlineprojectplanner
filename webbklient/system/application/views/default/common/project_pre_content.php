@@ -4,14 +4,14 @@
   <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <title><?php echo $site_title; ?><?php echo (isset($page_title) ? "- $page_title" : ''); ?></title>
   
-  <!-- site theme -->
-  <link href="<?php echo $base_url . "css/" . $theme_folder . "/style.css"; ?>" rel="Stylesheet" type="text/css" />
-  
   <!-- common scripts -->
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery-1.5.min.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery-ui-1.8.6.complete.min.js"></script>
   <link href="<?php echo $base_url; ?>css/smoothness/jquery.tooltip.css" rel="Stylesheet" type="text/css" />
   <link href="<?php echo $base_url; ?>css/smoothness/jquery-ui-1.8.6.custom.css" rel="Stylesheet" type="text/css" />
+  
+  <!-- site theme -->
+  <link href="<?php echo $base_url . "css/" . $theme_folder . "/style.css"; ?>" rel="Stylesheet" type="text/css" />
   
   <!-- plugins -->
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.validate.min.js"></script>
@@ -24,7 +24,17 @@
   <script type="text/javascript" src="<?php echo $base_url; ?>js/jquery.dialog-wrappers.js"></script>
   
   <!-- online project planner scripts -->
-  <script type="text/javascript" src="<?php echo site_url('project/common_variables'); ?>"></script>
+  <script type="text/javascript">
+		 // Global common variables to be used in widgets
+		BASE_URL = "<?php echo $base_url; ?>";
+		SITE_URL = "<?php echo $site_url; ?>";
+		CURRENT_PROJECT_ID = <?php echo $current_project_id; ?>;
+		WIDGET_DEFAULT_HEIGHT = <?php echo $widget_default_height; ?>;
+		WIDGET_DEFAULT_WIDTH = <?php echo $widget_default_width; ?>;
+		WIDGET_DEFAULT_X = <?php echo $widget_default_x; ?>;
+		WIDGET_DEFAULT_Y = <?php echo $widget_default_y; ?>;
+		WIDGET_SAVE_POSITIONS = <?php echo ($widget_save_positions == true ? 'true' : 'false'); ?>;
+  </script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/common.js"></script> 
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/desktop.js"></script>
   <script type="text/javascript" src="<?php echo $base_url; ?>js/widget/desktop_remote.js"></script>

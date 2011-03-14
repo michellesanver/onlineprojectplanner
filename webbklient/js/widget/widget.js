@@ -33,29 +33,26 @@ Widget.prototype.create = function(id, wnd_options, partialClasses) {
 		wnd_options.content = "<div class=\"widget_window\" id=\"" + this.divId + "\">" + wnd_options.content + "</div>";
 	}
 	
-	// THIS CODE IS BROKEN; DO NOT USE
-	// --------------------------------------------------------------------------------------
 	// any saved data (internal)
-	/*var saved_widget_data = Desktop.getWidgetData(id);
+	var saved_widget_data = Desktop.getWidgetData(id);
 	if (saved_widget_data != false && typeof saved_widget_data == 'object')
 	{
-		// use this title if not empty
 		
 		// new name?
 		if ( saved_widget_data.last_name != undefined && saved_widget_data.last_name != "") {
 		    wnd_options.title = saved_widget_data.last_name;
 		}
 		
-		// new width/height? (is this a bug? it will not be set correctly)
-		if ( saved_widget_data.last_position != undefined && saved_widget_data.last_position != null) {
-			wnd_options.width = saved_widget_data.last_position.width;
-			wnd_options.height = saved_widget_data.last_position.height;
+		// override width and height if resizable is not false?
+		if (wnd_options.resizable != false) {
+			
+			// override width and height from widget constructor and use values from database
+			if ( saved_widget_data.last_position != undefined && saved_widget_data.last_position.width != 0 && saved_widget_data.last_position.height != 0) {
+				wnd_options.width = saved_widget_data.last_position.width;
+				wnd_options.height = saved_widget_data.last_position.height;
+			}
 		}
-	}*/
-
-	//log_message('widget will be placed at x: '+wnd_options.x+' y: '+wnd_options.y);
-	//log_message('widget will have size width: '+wnd_options.width+' height: '+wnd_options.height);
-	// --------------------------------------------------------------------------------------
+	}
 
 
 	// create window and save result
@@ -100,21 +97,31 @@ Widget.prototype.setWindowContent = function(args) {
 
 // Standard statuscatcher
 Widget.prototype.catchStatus = function(data) {
+	
 	var json;
-	if(json = $.parseJSON(data)){
-		// Everything went ok
-		if(json.status == "ok") {
-			Desktop.show_message(json.status_message);
-			// Calling the requested function
-			if(json.load != undefined) {
-				this[json.load](json.loadparams);
-			}
-		} else {
-			Desktop.show_errormessage(json.status_message);
+	try {
+		
+		// try to parse as json
+		json = $.parseJSON(data);	
+		
+	} catch (err) {
+		
+		// json failed to parse; catch error
+		Desktop.show_errormessage('Unkown error occured: '+err);
+		return;
+	}
+
+	// check result
+	if(json.status == "ok") {
+		Desktop.show_message(json.status_message);
+		// Calling the requested function
+		if(json.load != undefined) {
+			this[json.load](json.loadparams);
 		}
 	} else {
-		Desktop.show_errormessage("A error has occurred, admins has been informed!");
+		Desktop.show_errormessage(json.status_message);
 	}
+
 }
 
 /*

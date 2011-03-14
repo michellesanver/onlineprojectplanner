@@ -15,12 +15,13 @@ class Widgets
 
 	private $_core_widget_dir = "application/widgets/_core";
     private $_widget_dir = "application/widgets";
-    private $_generic_icon_image = "images/buttons/generic_plugin_icon.png";
-    private $_icon_height = 48;
-    private $_icon_width = 48;
+    private $_generic_icon_image = '';
+    private $_icon_height = 0;
+    private $_icon_width = 0;
+    private $_use_widget_save_positions = false;
     
-    private $_delay_widgets_sync = false; // default value
-    private $_delay_widgets_sync_minutes = 15; // default value
+    private $_delay_widgets_sync = false; 
+    private $_delay_widgets_sync_minutes = 0; 
     
     function __construct() {
         // get CI instance
@@ -34,9 +35,13 @@ class Widgets
        $widget_error = $this->_CI->session->userdata('widget_save_error');
        if ($widget_error == false) 
        {
-	    // get settings from config about widgets sync
+	    // get settings from config
 	    $this->_delay_widgets_sync = (bool)$this->_CI->config->item('delay_widgets_sync', 'webclient');
 	    $this->_delay_widgets_sync_minutes = (int)$this->_CI->config->item('delay_widgets_sync_minutes', 'webclient');
+		$this->_generic_icon_image = $this->_CI->config->item('widget_generic_icon_image', 'webclient');
+		$this->_icon_height = $this->_CI->config->item('widget_icon_height', 'webclient');
+		$this->_icon_width  = $this->_CI->config->item('widget_icon_width', 'webclient');
+		$this->_use_widget_save_positions = $this->_CI->config->item('widget_save_positions', 'webclient');
 
 	    // is it a ajax_call from the user?
 	    if ( defined('IS_AJAX') && IS_AJAX == true ) {
@@ -701,14 +706,6 @@ class Widgets
             // add one position
             $pos++;
             
-            // prepare data
-            /*$function = ($row->icon_startfunction != "" ? $row->icon_startfunction.'();' : "");
-            $title = ($row->icon_title != "" ? $row->icon_title : "");
-            $icon = ($row->icon != "" ? $base_url.$this->_widget_dir.'/'.$row->name.'/'.$row->icon : $base_url."../".$this->_generic_icon_image);
-            
-             // print and replace %s with the real value
-            $returnSTR .= sprintf($divSTR, $function, $icon, $title);   */
-            
         }
 
         // return the result
@@ -788,11 +785,15 @@ class Widgets
 		// any widgets for current project?
 		if ( empty($project_widgets) ) return ""; // return just empty then
 		
-		// get all settings for last position
-		// (all widgets for this project and the current user)
-		$uid = $this->_CI->user->getUserID();
-		$positions = $this->_CI->Widgets_model->GetWidgetPositions($uid, $projectID);
-		
+		// use saved positions?
+		$positions = array();
+		if ($this->_use_widget_save_positions == true) {
+			// get all settings for last position
+			// (all widgets for this project and the current user)
+			$uid = $this->_CI->user->getUserID();
+			$positions = $this->_CI->Widgets_model->GetWidgetPositions($uid, $projectID);
+		}
+			
 		// loop trough all widgets for the project
 		$returnData = array();
         foreach ($project_widgets as $row)
@@ -833,12 +834,12 @@ class Widgets
 						$wObj->widget_about = (string)$row2->about;
 						$wObj->widget_name = (string)$row->Widget_name;
 						
-						// get saved position
-						$last_x = 30; //default value
-						$last_y = 15; //default value
+						// set default values 
+						$last_x = $this->_CI->config->item('widget_default_x', 'webclient'); 
+						$last_y = $this->_CI->config->item('widget_default_y', 'webclient');
 						$is_maximized = 'false'; //default value
-						$width = 0; //default value 
-						$height = 0; //default value 
+						$width = $this->_CI->config->item('widget_default_width', 'webclient'); 
+						$height = $this->_CI->config->item('widget_default_height', 'webclient'); 
 						
 						$is_open = false; //default value
 						
@@ -847,12 +848,12 @@ class Widgets
 							foreach($positions as $row3) {
 								// any match?
 								if ($row3->Project_widgets_id == $row->Project_widgets_id) {
-									$last_x = (int)$row3->Last_x_position;    
-									$last_y = (int)$row3->Last_y_position;
+									$last_x = ((int)$row3->Last_x_position != 0 ? (int)$row3->Last_x_position : $last_x);    
+									$last_y = ((int)$row3->Last_y_position != 0 ? (int)$row3->Last_y_position : $last_y);
 									$is_maximized = ((int)$row3->Is_maximized == 1 ? true : false);
 									$is_open = ((int)$row3->Is_open == 1 ? true : false);
-									$width = (int)$row3->Width;
-									$height = (int)$row3->Height;
+									$width = ((int)$row3->Width != 0 ? (int)$row3->Width : $width);
+									$height = ((int)$row3->Height != 0 ? (int)$row3->Height : $height);
 								}
 							}
 						}
