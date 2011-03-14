@@ -88,7 +88,7 @@ widgethandler.prototype.eventinit = function() {
 			// more scripts/css are required; force user to reload page
 			var dialog_id = 'dialog-refresh-page';
 			var dialogHTML = dialogHTML = '<div id="' + dialog_id + '" title="Message" style="display:none;">'+
-							   '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The new widget is added. Click OK or Cancel to see the changes and refresh the page.</p>'+
+							   '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The new widget is added. Click OK to see the changes and refresh the page.</p>'+
 							   '</div>';
 
 			// inject a div into body to use for dialog
@@ -103,14 +103,6 @@ widgethandler.prototype.eventinit = function() {
 				zIndex: 3999,
 				buttons: {
 					'Ok': function() {
-						// destroy and remove dialog
-						$(this).dialog("destroy");
-						$('#'+dialog_id).remove();
-						
-						// force refresh
-						document.location = document.location;
-					},
-					Cancel: function() {
 						// destroy and remove dialog
 						$(this).dialog("destroy");
 						$('#'+dialog_id).remove();
@@ -228,7 +220,7 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
                         }
                        
                         // all ok; close and save to database
-                        $( this ).dialog( "destroy" ).remove();
+                        $( this ).dialog( "destroy" );
     					
 						// show dialog processing
 						$.jprocessing( { 'message':'Setting new name for widget...' } );
@@ -249,7 +241,7 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
                 
             // action to cancel
             Cancel: function() {
-                $( this ).dialog( "destroy" ).remove();
+                $( this ).dialog( "destroy" );
             }
 
         }

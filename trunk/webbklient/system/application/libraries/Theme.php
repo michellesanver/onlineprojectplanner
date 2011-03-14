@@ -99,6 +99,16 @@ class Theme
 				$preContentData['widget_bar'] = $this->_CI->widgets->GetProjectIcons($current_project_id);                
            }
          
+         	// add data for common javascript variables
+         	$preContentData['base_url'] = $this->_CI->config->item('base_url');
+            $preContentData['site_url'] = site_url();
+            $preContentData['current_project_id'] = $current_project_id;
+	        $preContentData['widget_default_height'] = $this->_CI->config->item('widget_default_height', 'webclient');
+	        $preContentData['widget_default_width'] = $this->_CI->config->item('widget_default_width', 'webclient');
+	        $preContentData['widget_default_x'] = $this->_CI->config->item('widget_default_x', 'webclient');
+	        $preContentData['widget_default_y'] = $this->_CI->config->item('widget_default_y', 'webclient');
+         	$preContentData['widget_save_positions'] = $this->_CI->config->item('widget_save_positions', 'webclient');
+         
            // use project pre_content
            $this->_CI->load->view($this->_theme.'/common/project_pre_content', $preContentData); 
         }

@@ -20,6 +20,8 @@ projectmembers.prototype.index = function() {
 projectmembers.prototype.eventinit = function() {
 	var that = this;
 	
+
+	
 	// Formevents
 	$('#' + this.divId).find('#proj_mem_' + Desktop.currentProjectId).validate();
 	$('#' + this.divId).find('#proj_mem_' + Desktop.currentProjectId).submit(function(){
@@ -38,6 +40,7 @@ projectmembers.prototype.eventinit = function() {
 			buttons: {
 				"Continue": function() {
 					$( this ).dialog( "close" );
+				
 					ajaxRequests.load(that.id, that.widgetUrl + 'pm_controller/leave/' + Desktop.currentProjectId, "catchStatus", true);
 				},
 				Cancel: function() {
@@ -50,12 +53,14 @@ projectmembers.prototype.eventinit = function() {
 	
 	// Promoteevent
 	$('#' + this.divId).find('.promote_btn').click(function(){
+	
 		ajaxRequests.load(this.id, this.widgetUrl + '/pm_controller/promoteToAdmin/' + $(this).attr("pmID") + '/' + Desktop.currentProjectId, "catchStatus", true);
 		return false;
 	});
 	
 	// Demoteevent
 	$('#' + this.divId).find('.demote_btn').click(function(){
+	
 		ajaxRequests.load(this.id, this.widgetUrl + 'pm_controller/demoteToMember/' + $(this).attr("pmID") + '/' + Desktop.currentProjectId, "catchStatus", true);
 		return false;
 	});
@@ -72,6 +77,7 @@ projectmembers.prototype.eventinit = function() {
 			buttons: {
 				"Continue": function() {
 					$( this ).dialog( "close" );
+					
 					ajaxRequests.load(that.id, that.widgetUrl + 'pm_controller/kickOut/'+ uid + '/' + Desktop.currentProjectId, "catchStatus", true);
 				},
 				Cancel: function() {
@@ -94,6 +100,7 @@ projectmembers.prototype.eventinit = function() {
 			buttons: {
 				"Continue": function() {
 					$( this ).dialog( "close" );
+			
 					ajaxRequests.load(that.id, that.widgetUrl + 'pm_controller/switchGeneral/'+ uid + '/' + Desktop.currentProjectId, "catchStatus", true);
 				},
 				Cancel: function() {
@@ -113,7 +120,7 @@ projectmembers.prototype.eventinit = function() {
 
 projectmembers.prototype.save = function() {
 	if($('#' + this.divId).find('#proj_mem_' + Desktop.currentProjectId).valid()) {
-		
+
 		var email = $('#' + this.divId).find('#proj_mem_' + Desktop.currentProjectId + " #email").attr('value');
 		var role = $('#' + this.divId).find('#proj_mem_' + Desktop.currentProjectId + " #projectRoleID").attr('value');
 		
