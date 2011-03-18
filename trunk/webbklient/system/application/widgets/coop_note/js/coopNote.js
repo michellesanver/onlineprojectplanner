@@ -184,6 +184,11 @@ coopNote.prototype.startPadEvents = function(){
 				var mess = "{type:\"delete\", pos:" + (selection.start) + ", channel:" + that.padId + "}";
 			} 
 			
+			// stop som keypressed
+			else if ($.inArray(e.which, coopNote_config.blockChars) != -1) {
+				//do nothing
+			}
+			
 			else {
 				var mess = "{type:\"char\", pos:" + (selection.start) + ", char:\"" + e.which + "\", channel:" + that.padId + "}";
 			}
