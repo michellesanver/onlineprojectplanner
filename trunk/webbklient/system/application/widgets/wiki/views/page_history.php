@@ -34,7 +34,7 @@
                     Created: <span class="text"><?php echo $page->Created; ?></span>
                 <?php endif; ?>
                 <br/>
-                Author: <span class="text"><? echo $page->Firstname.' '.$page->Lastname; ?></span>
+                Author: <span class="text"><?php echo $page->Firstname.' '.$page->Lastname; ?></span>
             </span>
     </div>
 </div>

@@ -232,6 +232,34 @@ WidgetBar = {
     },
     
     /**
+     * Gets current name of a widget
+     */ 
+    getCurrentName: function(instance_id)  {
+       
+        var current_name = "";
+       
+        // loop through all widgets
+        var widget_length = WidgetBar.widgets.length;
+        for(var n=0; n<widget_length; n++) {
+           
+           if ( WidgetBar.widgets[n] != null) {
+                var widget = WidgetBar.widgets[n];
+            
+                // does id match?
+                if ( widget.project_widgets_id == instance_id  )
+                {
+                    // set new name and exit loop
+                    current_name = WidgetBar.widgets[n].widget_instance_name;
+                    break;
+                }
+           }
+            
+        }
+        
+        return current_name;
+    },
+    
+    /**
      * Delete a widget icon in the widgetbar
      * @param int instance_id (also called project_widgets_id)
      */
@@ -326,7 +354,7 @@ WidgetBar = {
         if ( typeof json != 'object') {
             json = $.parseJSON(json);
         }
-        
+    
         // add new data
         WidgetBar.widgets.push(json);
         

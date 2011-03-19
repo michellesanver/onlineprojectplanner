@@ -42,6 +42,7 @@ widgethandler.prototype.eventinit = function() {
     //Add widget
     $('#' + this.divId).find("#addwidget").click(function() {
 		var widgetid = $(this).attr("class")
+
 		that.addWidget(widgetid);
 		return false;
 	});
@@ -138,12 +139,18 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
 	var id_invalid_chars = "widget_new_name_error";
 	var id_invalid_length = "widget_new_name_error2";
 	var id_invalid_empty = "widget_new_name_error3";
-	var current_name = name;
 	var widgetid = renameid;
+    var current_name = Desktop.getWidgetData(widgetid);
+    if (current_name === false || current_name.last_name == undefined) {
+        current_name = name;
+    } else {
+        current_name = current_name.last_name;
+    }
 
 	//Copy name to input
 	document.getElementById(input_id).value = current_name;
-	// new height of dialog on validation error
+
+    // new height of dialog on validation error
     var dialog_error_height = 270;
         
     // show dialog
@@ -164,8 +171,8 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
                         }
                         
                         // get value from form
-                        var widgetName = document.getElementById("widget_new_name").value;
-						                                                
+                        var widgetName = $(this).find('input').val();
+  
                         // create regexp for validation
                         var charPattern = /[^a-z0-9()\sедц]/i  // all except allowed chars
                         
@@ -231,12 +238,11 @@ widgethandler.prototype.renameWidget = function(form, name, renameid) {
                         // send request
                         ajaxRequests.post(that.id, postdata, url, 'WH_eventinit', true);
                         
+                        // change name in internal data
+                        Desktop.saveWidgetData(widgetid, { 'last_name': widgetName });
                          
                         // change name in widgetbar
-			WidgetBar.updateWidgetName(widgetid, widgetName);
-			
-			// change name in internal data
-			Desktop.saveWidgetData(widgetid, { 'last_name': widgetName });
+                        WidgetBar.updateWidgetName(widgetid, widgetName);
             },
                 
             // action to cancel
