@@ -45,7 +45,7 @@ $db['default']['password'] = '';*/
 $db['default']['hostname'] = "91.142.190.25";
 $db['default']['database'] = "c2superwiki";
 $db['default']['username'] = "c2opp";
-$db['default']['password'] = "deb-yap-yip";
+$db['default']['password'] = "password";
 
 $db['default']['dbdriver'] = "mysqli";
 $db['default']['dbprefix'] = "";
