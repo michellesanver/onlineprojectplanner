@@ -694,7 +694,7 @@ sprint_planner.prototype.generatePointsForm_callback = function(data) {
 			var story_id = points[index].Story_id;
 			var fortext = document.createTextNode('Day ' + index);
 			var labelx = document.createElement("label");
-			labelx.setAttribute('for', 'day'+i);
+			labelx.setAttribute('for', 'day'+index);
 			labelx.appendChild(fortext);
 			
 			var inputx = document.createElement("input");
