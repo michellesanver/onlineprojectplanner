@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Chat</title>
+		
+		<style type="text/css">
+		#nodechat{
+			width:auto;
+			height:450px;
+			padding-bottom:5px;
+			padding-left:3px;
+		}
+		
+		#log{
+			width:auto;
+			height:440px;
+			overflow: auto;
+			
+		}
+		#usr{
+			width:100%;
+			height:60px;
+			padding:0px;
+			margin:0px;
+		}
+		#entry{
+			text-decoration: none;
+			width: 98%;  
+			height: 18px;  
+			margin-top:5px;
+			outline: none;
+			background-color: #ffffff;
+			border: solid 1px #d3d3d3;
+			font-size: 12px;
+			display: block;
+		}
+		
+		#usr ul{
+			font-size: 12px;
+		    font-family: Arial,Helvetica, sans-serif;
+			list-style-type: none;
+			margin:0px;
+			padding:0px;
+		
+		}
+		#log li{
+			
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			margin-left:0px;
+			margin-bottom:5px;
+			
+		}
+		.node_right{
+			float:right;
+			margin-right:5px;
+			
+		}
+		.node_top{
+			background-color:#d2e8fd;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			margin:0px;
+			padding:2px;
+			padding-left:8px;
+		}
+		.ur{
+			font-size: 10px;
+			width: auto;
+			padding:2px;
+			margin:2px;
+			float:left;
+		}
+		
+		.node_mess{
+			margin-left:10px;
+			padding:5px;
+		}
+		.color1{
+			background-color:#ffd1d1;
+		}
+		.color2{
+			background-color:#ffd1ef;
+		}
+		.color3{
+			background-color:#e1d1ff;
+		}
+		.color4{
+			background-color:#c1cbff;
+		}
+		.color5{
+			background-color:#c1fbff;
+		}
+		.color6{
+			background-color:#c1ffde;
+		}
+		.color7{
+			background-color:#ceffc1;
+		}
+		.color8{
+			background-color:#faffc1;
+		}
+		.color9{
+			background-color:#ffe0c1;
+		}
+		.color10{
+			background-color:#ffc1c1;
+		}		
+		
+	
+		</style>
+
+		<script type="text/javascript" src="http://pppp.nu:4000/socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var socket = new io.Socket('pppp.nu', {port: 4000});
+				socket.connect();
+				
+				socket.on('connect', function(){
+			
+				}); 
+				
+				socket.on('message', function(message){
+					
+			
+					if((message.indexOf("/name")) >-1)
+					{
+						var posUsr = message.indexOf("/name");
+						username = message.slice(posUsr+5);
+						
+						var usr = $('#usr ul');
+						usr.replaceWith('<ul>' + username + '</ul>');
+						return;
+					}
+					
+					else{	
+					var oldscrollHeight = $("#log").attr("scrollHeight") - 20;
+					var data = message;
+					var menu = $('#log ul');
+					menu.append('<li>' + data + '</li>');
+					//window.scrollBy(0,10000000000000);
+					//menu.focus();
+					var newscrollHeight = $("#log").attr("scrollHeight") - 20;
+					if(newscrollHeight > oldscrollHeight){  
+						$("#log").animate({ scrollTop: newscrollHeight }, 'slow');
+					}
+					}
+				});
+				
+				var entry_el = $('#entry');
+				entry_el.keypress(function(event){
+					if(event.keyCode != 13) 
+						return;
+					var msg = entry_el.attr('value');
+					if(msg){
+						socket.send(msg);
+						entry_el.attr('value', '');
+					}
+				});
+			});
+			
+			
+		</script>
+	</head>
+	<body>
+		<div id=nodechat>
+		<div id="usr"><ul><li></li></ul></div>
+		<div id="log"><ul></ul></div>
+		<div id="console">
+			<input type="text" id="entry" />
+		</div>
+		</div>
+	</body>
+</html>
