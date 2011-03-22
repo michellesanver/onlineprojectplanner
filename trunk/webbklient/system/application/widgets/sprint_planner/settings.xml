@@ -15,7 +15,7 @@
     <icon_title>Sprint Planner</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
     <widget_object>sprint_planner</widget_object>
-    <in_development>true</in_development>
+    <allow_multiple>no</allow_multiple>
     <!--
         list of files to be loaded relative to main folder of widgets
         (theese files will be loaded upon project start)
