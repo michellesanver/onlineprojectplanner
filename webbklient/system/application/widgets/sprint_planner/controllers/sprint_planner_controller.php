@@ -197,14 +197,53 @@ class Sprint_planner_controller extends Controller {
 	function get_stories_in_sprint($sprint_id, $project_widget_id)
 	{
 		$this->load->model_widget('storymodel');
-		$stories = $this->storymodel->getStoriesInSprint($sprint_id);
+		$storiesdata = $this->storymodel->getStoriesInSprint($sprint_id);
 		$allstories = $this->storymodel->getStories($project_widget_id);
+		$stories = array();
+		
+		foreach($storiesdata as $key => $story) {
+			$storyid = $storiesdata[$key]->Stories_id;
+			$instanceid = $storiesdata[$key]->Instance_id;
+			$assignee = $storiesdata[$key]->Assignee;
+			$name = $storiesdata[$key]->Name;
+			$description = $storiesdata[$key]->Description;
+			$total_points = $storiesdata[$key]->Total_points;
+			$sprintid = $storiesdata[$key]->Sprint_id;
+			$done = $storiesdata[$key]->Is_done;
+			$days = $storiesdata[$key]->Days;
+			$sprintname = $storiesdata[$key]->Sprint_name;
+			$totalpoints = $this->storymodel->getTotalPoints($storyid);
+			
+			$stories[$key]['Stories_id'] = $storyid;
+			$stories[$key]['Instance_id'] = $instanceid;
+			$stories[$key]['Assignee'] = $assignee;
+			$stories[$key]['Name'] = $name;
+			$stories[$key]['Description'] = $description;
+			$stories[$key]['Total_points'] = $total_points;
+			$stories[$key]['Sprint_id'] = $sprintid;
+			$stories[$key]['Is_done'] = $done;
+			$stories[$key]['Days'] = $days;
+			$stories[$key]['Sprint_name'] = $sprintname;
+			$stories[$key]['Points_done'] = $totalpoints;
+		}
+		
+		//Stories_id":"69",
+		//"Instance_id":"742",
+		//"Assignee":"Michelle",
+		//"Name":"En story",
+		//"Description":"Enbeskrivning",
+		//"Total_points":"12",
+		//"Page_id":null,
+		//"Sprint_id":"16",
+		//"Is_done":"true",
+		//"Days":"15",
+		//"Sprint_name":"Sprint1"}
 		
 		$array = array();
 		$array['stories'] = $stories;
 		$array['allstories'] = $allstories;
 		
-		die(json_encode($array));  	
+		die(json_encode($array));
 	}
 	
 	function get_days($project_widget_id)
@@ -292,5 +331,6 @@ class Sprint_planner_controller extends Controller {
 		die(json_encode($days));
 		
 	}
+	
   
 }

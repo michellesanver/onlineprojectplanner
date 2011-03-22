@@ -322,7 +322,6 @@ sprint_planner.prototype.init = function(data) {
         zIndex: 3999,
         buttons: {
             "Edit story": function() {
-            	//alert(edit_story_id.val());
                 var bValid = true;
                 allFields.removeClass("ui-state-error");
                 bValid = bValid && checkLength(edit_story_name, "story", 3, 16);
@@ -738,7 +737,7 @@ sprint_planner.prototype.generateSprintTable_callback = function(data) {
 	var that = this;
 	var storydata = jQuery.parseJSON(data);
 	var stories = storydata['stories'];
-	var allstories = storydata['allstories'] 
+	var allstories = storydata['allstories'];
 	var table;
 	
 	if(allstories != null) {
@@ -840,9 +839,6 @@ sprint_planner.prototype.generateSprintTable_callback = function(data) {
 			}
 			
 			doneNode.onchange = function() {
-				alert(this.id);
-				alert(this.checked);
-				
 				var postdata = {'story_id': this.id, 'checked': this.checked};
 				
             	var url = SITE_URL + '/widget/sprint_planner/sprint_planner_controller/story_change_done';
@@ -864,7 +860,7 @@ sprint_planner.prototype.generateSprintTable_callback = function(data) {
 			assigneeTdNode.appendChild(assigneeNode);
 			
 			var pointsTdNode = document.createElement("td");
-			var pointsNode = document.createTextNode(stories[index].Total_points);
+			var pointsNode = document.createTextNode(stories[index].Points_done + ' / ' + stories[index].Total_points);
 			pointsTdNode.appendChild(pointsNode);
 			
 			// Points
