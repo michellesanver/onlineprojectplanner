@@ -4,7 +4,7 @@
     <!--  short description of the widget -->
 	<about>A sprintplanner tool</about>
     <!-- version of widget-->
-	<version>1.0</version>
+	<version>2.0</version>
     <!-- link to website -->
 	<link>none</link>
     <!-- name of author -->
@@ -15,6 +15,7 @@
     <icon_title>Sprint Planner</icon_title>
     <!-- namespace of widget (namespace = javascript object) -->
     <widget_object>sprint_planner</widget_object>
+    <in_development>true</in_development>
     <allow_multiple>no</allow_multiple>
     <!--
         list of files to be loaded relative to main folder of widgets
