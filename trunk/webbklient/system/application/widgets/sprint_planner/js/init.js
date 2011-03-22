@@ -1,3 +1,4 @@
+/*
 $(document).ready(function() {
 
 	$("#tabs").tabs();
@@ -185,3 +186,4 @@ $(document).ready(function() {
 	sprint_planner.renderStories();
 
 });
+*/

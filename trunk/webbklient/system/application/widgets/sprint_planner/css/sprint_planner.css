@@ -1,7 +1,20 @@
-/* @override http://127.0.0.1/~Geekie/OPP/webbklient/system/application/widgets/sprint_planner/css/sprint_planner.css */
+/* @override 
+	http://127.0.0.1/~Geekie/OPP/webbklient/system/application/widgets/sprint_planner/css/sprint_planner.css
+	http://localhost/~geekie/OPP/webbklient/system/application/widgets/sprint_planner/css/sprint_planner.css
+*/
 
 #stories_table {
 	border-collapse: collapse;
+}
+
+#add-sprint-button span.ui-button-text {
+	background-color: #008e29;
+	color: #fffeff;
+}
+
+#add-story-to-sprint-button span.ui-button-text {
+	background-color: #008e29;
+	color: #fffeff;
 }
 
 #stories_table tbody.ui-widget-content tr td {
@@ -23,9 +36,38 @@
 	vertical-align: middle;
 }
 
-#stories_table thead.ui-widget-header tr th.add{
-
+.sprint_table {
+	border-collapse: collapse;
+	width: 684px;
 }
+
+td.buttonstd {
+	text-align:right;
+}
+
+canvas.jqplot-event-canvas {
+	margin-top: 30px;
+}
+
+.sprint_table tbody.ui-widget-content tr td {
+	padding: 10px;
+}
+
+.sprint_table thead.ui-widget-header tr th {
+	padding: 10px;
+	
+}
+
+.sprint_table tbody.ui-widget-content tr:hover {
+	padding: 10px;
+	background-color: #eaeaea;
+}
+
+.sprint_table thead.ui-widget-header tr th.add {
+	text-align: center;
+	vertical-align: middle;
+}
+
 
 div#tabs.ui-tabs.ui-widget.ui-widget-content.ui-corner-all {
 	border-style: none;
@@ -208,6 +250,10 @@ button.points:hover {
 
 .jqplot-target {
   font-size: 18px;
+  margin-top:20px;
+  background-color: #eaeaea;
+  border-bottom-style: solid;
+  border: 1px solid #aaa;
 }
 
 body > table {
