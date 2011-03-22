@@ -172,6 +172,19 @@ class Storymodel extends Model {
         
     }
     
+    function getTotalPoints($storyid) {
+    	$this->db->select_sum('Points_done');
+    	$this->db->where('Story_id', $storyid);
+		$query = $this->db->get('WI_Sprintplanner_Points');
+		
+		if($query && $query->num_rows() > 0 ) {
+        	$result = $query->result();
+        	return $result[0]->Points_done;
+        } else {
+        	return null;
+        }
+    }
+    
     function getStory($storyid)
     {
     	$query = $this->db->get_where("WI_Sprintplanner_Stories", array('Stories_id' => $storyid) );
