@@ -735,6 +735,7 @@ sprint_planner.prototype.generateSprintTable = function(sprintid, instance_id) {
 
 sprint_planner.prototype.generateSprintTable_callback = function(data) {	
 	//var table = document.getElementById("sprint_table_" + );
+	var that = this;
 	var storydata = jQuery.parseJSON(data);
 	var stories = storydata['stories'];
 	var allstories = storydata['allstories'] 
@@ -785,6 +786,9 @@ sprint_planner.prototype.generateSprintTable_callback = function(data) {
 		headerHeadNode.className = "ui-widget-header";
 		
 		var headerNode = document.createElement("tr");
+		
+		var headerDoneNode = document.createElement("th");
+		
 		var headerNameNode = document.createElement("th");
 		var headerName = document.createTextNode("Name");
 		headerNameNode.appendChild(headerName);
@@ -804,6 +808,7 @@ sprint_planner.prototype.generateSprintTable_callback = function(data) {
 		var headerButtonsNode = document.createElement("th");
 		
 		// Append to table
+		headerNode.appendChild(headerDoneNode);
 		headerNode.appendChild(headerNameNode);
 		headerNode.appendChild(headerDescriptionNode);
 		headerNode.appendChild(headerAssigneeNode);
@@ -824,6 +829,28 @@ sprint_planner.prototype.generateSprintTable_callback = function(data) {
 			var storyName = stories[index].Name;
 			
 			var trNode = document.createElement("tr");
+			
+			var doneTdNode = document.createElement("td");
+			var doneNode = document.createElement("input");
+			doneNode.type = "checkbox";
+			doneNode.id = storyId;
+			
+			if(stories[index].Is_done == 'true') {
+				doneNode.checked = 'checked';
+			}
+			
+			doneNode.onchange = function() {
+				alert(this.id);
+				alert(this.checked);
+				
+				var postdata = {'story_id': this.id, 'checked': this.checked};
+				
+            	var url = SITE_URL + '/widget/sprint_planner/sprint_planner_controller/story_change_done';
+            	ajaxRequests.post(that.id, postdata, url, "loadSprints", true);
+			}
+			
+			doneTdNode.appendChild(doneNode);
+			
 			var nameTdNode = document.createElement("td");
 			var nameNode = document.createTextNode(stories[index].Name);
 			nameTdNode.appendChild(nameNode);
@@ -905,7 +932,8 @@ sprint_planner.prototype.generateSprintTable_callback = function(data) {
 			}
 			
 			buttonTdNode.appendChild(deletebuttonNode);
-
+			
+			trNode.appendChild(doneTdNode);
 			trNode.appendChild(nameTdNode);
 			trNode.appendChild(descriptionTdNode);
 			trNode.appendChild(assigneeTdNode);
