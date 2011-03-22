@@ -79,11 +79,18 @@ class Storymodel extends Model {
         } else {
         	$result = array(
         		'Day' => $day,
-        		'Points_done' => 0
+        		'Points_done' => 0,
+        		'Story_id' => $storyid
         	);
         	return $result;
         }
 
+    }
+    
+    function addSprintToStory($storyid, $sprintid)
+    {
+    	$this->db->where(array('Stories_id' => $storyid) );
+        $this->db->update('WI_Sprintplanner_Stories', array('Sprint_id' => $sprintid));   
     }
     
     function deleteStory($storyid)
@@ -110,8 +117,12 @@ class Storymodel extends Model {
     
     function getStories($project_widgets_id)
     {
-    	$query = $this->db->get_where("WI_Sprintplanner_Stories", array('Instance_id' => $project_widgets_id) );
-        
+    
+    	$this->db->select('*');
+    	$this->db->from('WI_Sprintplanner_Stories');
+    	$this->db->where('WI_Sprintplanner_Stories.Instance_id', $project_widgets_id);
+    	$query = $this->db->get();
+    	        
         if($query && $query->num_rows() > 0 ) {
         	return $query->result();
         } else {
@@ -119,6 +130,41 @@ class Storymodel extends Model {
         }
     }  
    
+    function getStoriesInSprint($sprint_id)
+    {
+        
+        $this->db->select('*');
+    	$this->db->from('WI_Sprintplanner_Stories');
+    	$this->db->where('WI_Sprintplanner_Stories.Sprint_id', $sprint_id);
+    	$this->db->join('WI_Sprintplanner_Sprints', 'WI_Sprintplanner_Stories.Sprint_id = WI_Sprintplanner_Sprints.Sprint_id');
+          
+        $query = $this->db->get();
+        
+        if($query && $query->num_rows() > 0 ) {
+        	return $query->result();
+        } else {
+        	return null;
+        }
+    }
+    
+    function getPointsInSprint($sprint_id)
+    {
+        
+        $this->db->select('*');
+    	$this->db->from('WI_Sprintplanner_Stories');
+    	$this->db->where('WI_Sprintplanner_Stories.Sprint_id', $sprint_id);
+    	$this->db->join('WI_Sprintplanner_Sprints', 'WI_Sprintplanner_Stories.Sprint_id = WI_Sprintplanner_Sprints.Sprint_id');
+    	$this->db->join('WI_Sprintplanner_Points', 'WI_Sprintplanner_Stories.Stories_id = WI_Sprintplanner_Points.Story_id');
+          
+        $query = $this->db->get();
+      
+        if($query && $query->num_rows() > 0 ) {
+        	return $query->result();
+        } else {
+        	return null;
+        }
+        
+    }
     
     function getStory($storyid)
     {

@@ -15,8 +15,10 @@ class Sprintplanner {
 		$this->_hasPoints = true;
 		$this->_hasStories = true;
 		$this->_instance_id = $params['project_widget_id'];
+		$this->_project_id = $params;
 		$this->_CI = & get_instance();
 		$this->_CI->load->model_widget('storymodel');
+		$this->_CI->load->library('project_member');
 		
 		$this->_stories = $this->_CI->storymodel->getStories($this->_instance_id);
 		$this->_init();
@@ -54,6 +56,11 @@ class Sprintplanner {
     	return $this->_totalPoints;
     }
     
+    function getProjectMembers()
+    {
+    	return $this->_CI->project_member->GetMembersByProjectId($this->_project_id);
+    }
+    
     function getAllPoints() 
     {
     	$allpoints = $this->_CI->storymodel->getAllPoints($this->_storyIds);
@@ -64,10 +71,15 @@ class Sprintplanner {
     	return $allpoints;
     }
     
-    function getPointsPerDay($totaldays)
+    function getPointsPerDay($totaldays, $allpoints, $chartname)
     {
+    
+    	if(is_null($allpoints)) {
+    		$this->_hasPoints = false;
+    	}
+    	
     	$days = array();
-    	$allpoints = $this->getAllPoints();
+    	$pointsarray = array();
 		
 		if($this->_hasPoints == false || $this->_hasStories == false) {
     		$days[0] = 0;
@@ -90,7 +102,21 @@ class Sprintplanner {
     		}
     	}
     	
-    	$totalcounter = $this->_totalPoints;
+    	
+    	$totalpoints = 0;
+	    $storiesarray = array();
+	    
+    	foreach($allpoints as $point) {
+    		if(!in_array($point->Stories_id, $storiesarray)) {
+    			$storiesarray[] = $point->Stories_id;
+    			$totalpoints += $point->Total_points;
+    		}
+    		
+    	}
+    	
+    	$this->_totalPoints = $totalpoints;
+    	
+    	$totalcounter = $totalpoints;
     	
     	for($day = 1; $day <= $totaldays; $day++) {
     		$points = $days[$day];
@@ -101,7 +127,11 @@ class Sprintplanner {
     	
 		$days[0] = $this->_totalPoints;
     	ksort($days);
-    	return $days;    	
+    	
+    	$pointsarray['points'] = $days;
+		$pointsarray['days'] = $totaldays+1;
+		$pointsarray['chartid'] = $chartname;
+    	return $pointsarray;    	
     }
 	
 }
