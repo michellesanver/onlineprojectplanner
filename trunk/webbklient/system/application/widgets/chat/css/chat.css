@@ -1,0 +1,37 @@
+/* @override http://app.pppp.nu/system/application/widgets/chat/css/chat.css */
+
+#log {
+	min-height: 90%;
+	height: 90% !important;
+	height: 90%;
+}
+
+#usr {
+	min-height: 5%;
+	height: 5% !important;
+	height: 5%;
+	border-bottom: 1px solid #eaeaea;
+}
+
+#nodechat {
+	min-height: 100%;
+	height: 100% !important;
+	height: 100%;
+}
+
+#console {
+	min-height: 5%;
+	height: 5% !important;
+	height: 5%;
+}
+
+#entry {
+	height: 20px;
+}
+
+#mychat {
+	min-height: 100%;
+	height: 100% !important;
+	height: 100%;
+	overflow: hidden;
+}
