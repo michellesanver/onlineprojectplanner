@@ -23,6 +23,16 @@ class Sprint_planner_controller extends Controller {
     	 return $project_members;
     }
     
+    function story_change_done() 
+    {
+    	$this->load->model_widget('storymodel');
+		
+		$storyid = $this->input->post('story_id', true);
+		$done = $this->input->post('checked', true);
+		
+		$this->storymodel->changeDone($storyid, $done);	
+    }
+    
     // first function to be called if not specified in URL (Codeigniter)
     function index($project_widgets_id)
     {

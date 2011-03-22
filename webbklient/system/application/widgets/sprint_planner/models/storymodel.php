@@ -29,6 +29,12 @@ class Storymodel extends Model {
        
     }
     
+    function changeDone($storyid, $done)
+    {
+    	$this->db->where(array('Stories_id' => $storyid) );
+        $this->db->update('WI_Sprintplanner_Stories', array('Is_done' => $done));  
+    }
+    
     function getAllPoints($storyids) 
     {
     	$this->db->where_in('Story_id', $storyids);
